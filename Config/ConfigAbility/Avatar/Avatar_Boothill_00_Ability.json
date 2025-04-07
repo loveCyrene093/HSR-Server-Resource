@@ -2275,36 +2275,6 @@
         "M_Boothill_00_Skill02_ContinuousCheck": {
           "_CallbackList": [
             {
-              "Event": "OnDestroy",
-              "CallbackConfig": [
-                {
-                  "$type": "RPG.GameCore.SetResilience",
-                  "DoReset": true
-                }
-              ]
-            },
-            {
-              "Event": "OnStack",
-              "CallbackConfig": [
-                {
-                  "$type": "RPG.GameCore.SetDynamicValue",
-                  "ContextScope": "ContextCaster",
-                  "Value": {
-                    "FixedValue": {
-                      "Value": 1
-                    }
-                  },
-                  "DynamicKey": {
-                    "Value": "Skill02_IsContinuous"
-                  }
-                },
-                {
-                  "$type": "RPG.GameCore.SetResilience",
-                  "Resilience": "A"
-                }
-              ]
-            },
-            {
               "Event": "OnListenBeforeSkillUse",
               "CallbackConfig": [
                 {
@@ -2356,26 +2326,23 @@
                     "CompareType": {
                       "$type": "RPG.GameCore.TargetAlias",
                       "Alias": "Caster"
-                    },
-                    "Inverse": true
+                    }
                   },
                   "SuccessTaskList": [
                     {
-                      "$type": "RPG.GameCore.SetDynamicValue",
-                      "ContextScope": "ContextCaster",
-                      "Value": {
-                        "FixedValue": {
-                          "Value": 0
-                        }
-                      },
-                      "DynamicKey": {
-                        "Value": "Skill02_IsContinuous"
-                      }
+                      "$type": "RPG.GameCore.RemoveSelfModifier"
                     }
                   ],
                   "FailedTaskList": [
                     {
-                      "$type": "RPG.GameCore.RemoveSelfModifier"
+                      "$type": "RPG.GameCore.TriggerAnimState",
+                      "AnimLogicState": "Idle",
+                      "AnimStateName": "StandBy",
+                      "NormalizedTransitionDuration": {
+                        "FixedValue": {
+                          "Value": 0.05
+                        }
+                      }
                     }
                   ]
                 }
@@ -2687,6 +2654,8 @@
           "$type": "RPG.GameCore.TurnInsertAction",
           "PrepareAbilityName": "Avatar_Boothill_00_Bonus",
           "PlayReadyAnim": false,
+          "CancelPrepareAbilityIfDelayed": true,
+          "PlayReadyAnimIfPrepareAbilityCancel": true,
           "CanInsertUltraSkill": true
         },
         {
@@ -2701,102 +2670,49 @@
       },
       "OnStart": [
         {
-          "$type": "RPG.GameCore.PredicateTaskList",
-          "Predicate": {
-            "$type": "RPG.GameCore.ByCompareDynamicValue",
-            "DynamicKey": {
-              "Value": "Skill02_IsContinuous"
-            },
-            "ContextScope": "ContextCaster",
-            "CompareType": "GreaterEqual",
-            "CompareValue": {
-              "FixedValue": {
-                "Value": 1
-              }
+          "$type": "RPG.GameCore.VCameraNoiseChange",
+          "FrequencyGain": 0.01
+        },
+        {
+          "$type": "RPG.GameCore.WaitSecond",
+          "WaitTime": {
+            "FixedValue": {
+              "Value": 0.1
             }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
           },
-          "SuccessTaskList": [
-            {
-              "$type": "RPG.GameCore.VCameraNoiseChange",
-              "FrequencyGain": 0.01
-            },
-            {
-              "$type": "RPG.GameCore.WaitSecond",
-              "WaitTime": {
-                "FixedValue": {
-                  "Value": 0.1
+          "AbilityInherentTargetType": {
+            "$type": "RPG.GameCore.TargetSequence",
+            "Sequence": [
+              {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllEnemy"
+              },
+              {
+                "$type": "RPG.GameCore.TargetFilter",
+                "Predicate": {
+                  "$type": "RPG.GameCore.ByIsContainModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MAvatar_Boothill_00_DuelTarget"
+                  }
                 }
               }
-            },
-            {
-              "$type": "RPG.GameCore.TriggerAbility",
-              "TargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "Caster"
-              },
-              "AbilityInherentTargetType": {
-                "$type": "RPG.GameCore.TargetSequence",
-                "Sequence": [
-                  {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "AllEnemy"
-                  },
-                  {
-                    "$type": "RPG.GameCore.TargetFilter",
-                    "Predicate": {
-                      "$type": "RPG.GameCore.ByIsContainModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ParamEntity"
-                      },
-                      "ModifierName": {
-                        "Value": "MAvatar_Boothill_00_DuelTarget"
-                      }
-                    }
-                  }
-                ]
-              },
-              "AbilityName": {
-                "Value": "Avatar_Boothill_00_Bonus_Camera"
-              },
-              "IsSkillPerform": true
-            }
-          ],
-          "FailedTaskList": [
-            {
-              "$type": "RPG.GameCore.TriggerAbility",
-              "TargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "Caster"
-              },
-              "AbilityInherentTargetType": {
-                "$type": "RPG.GameCore.TargetSequence",
-                "Sequence": [
-                  {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "AllEnemy"
-                  },
-                  {
-                    "$type": "RPG.GameCore.TargetFilter",
-                    "Predicate": {
-                      "$type": "RPG.GameCore.ByIsContainModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ParamEntity"
-                      },
-                      "ModifierName": {
-                        "Value": "MAvatar_Boothill_00_DuelTarget"
-                      }
-                    }
-                  }
-                ]
-              },
-              "AbilityName": {
-                "Value": "Avatar_Boothill_00_Bonus_Camera_Cut"
-              },
-              "IsSkillPerform": true
-            }
-          ]
+            ]
+          },
+          "AbilityName": {
+            "Value": "Avatar_Boothill_00_Bonus_Camera"
+          },
+          "IsSkillPerform": true
         },
         {
           "$type": "RPG.GameCore.PredicateTaskList",
@@ -4824,6 +4740,9 @@
     "MAvatar_Boothill_00_DuelState": {
       "LifeTime": 2,
       "LifeStepMoment": "ModifierPhase1End",
+      "BehaviorFlagList": [
+        "ListenBattleEventSkill"
+      ],
       "UIConfig": {
         "UIEffectPath": "UI/Battle/Widget/TeamInfoStatusEff/TeamInfoStatus_Taunted.prefab",
         "ModifierUIPriority": "SoftControl"

@@ -4,6 +4,16 @@
     {
       "TaskList": [
         {
+          "$type": "RPG.GameCore.CollectDataConditions",
+          "TaskIDList": [],
+          "MainMissionIDList": [],
+          "PerformanceIDList": [
+            414030303
+          ],
+          "PerformanceIDDsList": [],
+          "CustomValueMainMissionIDList": []
+        },
+        {
           "$type": "RPG.GameCore.LevelPerformanceInitialize",
           "PerformanceType": "E",
           "CreateCharacterList": [],
@@ -15,7 +25,8 @@
           "UseNewStreamingSourceType": false,
           "StreamingSourcesInBlackMask": [],
           "StreamingSourcesAfterBlackMask": [],
-          "MarkStreamingItems": []
+          "MarkStreamingItems": [],
+          "AudioStateList": []
         },
         {
           "$type": "RPG.GameCore.AdvNpcFaceToPlayer",
@@ -144,16 +155,6 @@
     },
     {
       "TaskList": [
-        {
-          "$type": "RPG.GameCore.CollectDataConditions",
-          "TaskIDList": [],
-          "MainMissionIDList": [],
-          "PerformanceIDList": [
-            414030303
-          ],
-          "PerformanceIDDsList": [],
-          "CustomValueMainMissionIDList": []
-        },
         {
           "$type": "RPG.GameCore.WaitCustomString",
           "CustomString": {
@@ -432,22 +433,51 @@
               ]
             },
             {
-              "$type": "RPG.GameCore.QuestGetReward",
-              "QuestIDList": [
-                {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareQuestGetReward",
+                "QuestID": {
                   "FixedValue": {
                     "Value": 2200111
                   }
                 },
+                "Inverse": true
+              },
+              "SuccessTaskList": [
                 {
-                  "FixedValue": {
-                    "Value": 2200112
-                  }
+                  "$type": "RPG.GameCore.QuestGetReward",
+                  "QuestIDList": [
+                    {
+                      "FixedValue": {
+                        "Value": 2200111
+                      }
+                    },
+                    {
+                      "FixedValue": {
+                        "Value": 2200112
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.EndPerformance"
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.QuestGetReward",
+                  "QuestIDList": [
+                    {
+                      "FixedValue": {
+                        "Value": 2200112
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.EndPerformance"
                 }
               ]
-            },
-            {
-              "$type": "RPG.GameCore.EndPerformance"
             }
           ],
           "FailedTaskList": [
@@ -599,5 +629,6 @@
         }
       ]
     }
-  ]
+  ],
+  "EntityEventList": []
 }

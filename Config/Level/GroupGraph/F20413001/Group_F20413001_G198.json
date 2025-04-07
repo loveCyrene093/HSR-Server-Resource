@@ -4,14 +4,93 @@
     {
       "TaskList": [
         {
-          "$type": "RPG.GameCore.PredicateTaskList",
-          "Predicate": {
-            "$type": "RPG.GameCore.ByCompareGroupState",
-            "EquationType": "Equal"
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "OraclePuzzleEndLinePerform"
           },
-          "SuccessTaskList": [
+          "OnEvent": [
             {
-              "$type": "RPG.GameCore.AdvCreateGroupEntity",
+              "$type": "RPG.GameCore.ToastPage",
+              "MessageOne_DS": {
+                "Custom": true,
+                "Key": "Toast1"
+              },
+              "MessageTwo": {
+                "Hash": 2012001348524219443
+              }
+            },
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "FixedValue": {
+                  "Value": 0.4
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.SetFloorCustomFloat",
+              "Name": {
+                "Custom": true,
+                "Key": "FCV"
+              },
+              "Value": {
+                "FixedValue": {
+                  "Value": 1
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "FixedValue": {
+                  "Value": 0.5
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.UnBindPropsCablelines",
+              "LinePropInstanceID": 300004
+            },
+            {
+              "$type": "RPG.GameCore.TriggerSound",
+              "SoundName": {
+                "Value": "Ev_sfx_amphoreus_oraclepuzzle_idle_stop"
+              },
+              "EmitterType": "TargetEvaluator",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300001
+                ]
+              }
+            },
+            {
+              "$type": "RPG.GameCore.RemoveEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300002
+                ]
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Scene/InteractiveProp/Eff_Chap04_Prop_OracleMachine_01_Hint_Lod0.prefab",
+              "Flags": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "Create"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.AdvCreateGroupEntityV2",
               "InstanceIDList": [
                 300001,
                 300002,
@@ -24,11 +103,26 @@
               "EndPropInstanceID": 300002,
               "LinePropInstanceID": 300004,
               "LineEffectPath": {
-                "Value": "Gameplays/OraclePuzzle/Lines/OracleLine_20413001_G198.prefab"
+                "Custom": true,
+                "Key": "LineEffect"
               },
               "MoveEffectPath": {
                 "Value": "Effects/Eff_Prefab/Eff_Scene/InteractiveProp/Eff_Chap04_Prop_OracleMachine_01_Ball_Lod0.prefab"
+              },
+              "MoveEffectSpeedOverride": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    584429333
+                  ]
+                }
               }
+            },
+            {
+              "$type": "RPG.GameCore.SetPropCablelineVisible",
+              "LinePropInstanceID": 300004
             },
             {
               "$type": "RPG.GameCore.TriggerEffect",
@@ -43,21 +137,143 @@
               "EffectPath": "Effects/Eff_Prefab/Eff_Scene/InteractiveProp/Eff_Chap04_Prop_OracleMachine_01_Hint_Lod0.prefab",
               "AttachPoint": "Root",
               "Scale": {
-                "X": 0.5,
-                "Y": 0.2,
-                "Z": 0.5
+                "X": 1,
+                "Y": 1,
+                "Z": 1
               },
               "SubObjectModifyDataList": []
-            }
-          ],
-          "FailedTaskList": [
+            },
             {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByCompareGroupState",
-                "EquationType": "Equal",
-                "Value": 1
-              }
+              "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300005
+                ]
+              },
+              "TriggerName": "EnterTrigger",
+              "OnEnter": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareTarget",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetFetchAdvLocalPlayer"
+                    },
+                    "CompareType": {
+                      "$type": "RPG.GameCore.TargetFetchTaskActionTarget"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetPropCablelineVisible",
+                      "LinePropInstanceID": 300004,
+                      "IsVisible": true
+                    },
+                    {
+                      "$type": "RPG.GameCore.TriggerSound",
+                      "SoundName": {
+                        "Value": "Ev_sfx_amphoreus_oraclepuzzle_idle"
+                      },
+                      "EmitterType": "TargetEvaluator",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                        "TargetType": "Prop",
+                        "Targets": [
+                          300001
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ],
+              "OnExit": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareTarget",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetFetchAdvLocalPlayer"
+                    },
+                    "CompareType": {
+                      "$type": "RPG.GameCore.TargetFetchTaskActionTarget"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetPropCablelineVisible",
+                      "LinePropInstanceID": 300004
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300001
+                ]
+              },
+              "TriggerName": "EnterTrigger",
+              "OnEnter": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareTarget",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetFetchAdvLocalPlayer"
+                    },
+                    "CompareType": {
+                      "$type": "RPG.GameCore.TargetFetchTaskActionTarget"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetPropCablelineVisible",
+                      "LinePropInstanceID": 300004,
+                      "IsVisible": true
+                    },
+                    {
+                      "$type": "RPG.GameCore.TriggerSound",
+                      "SoundName": {
+                        "Value": "Ev_sfx_amphoreus_oraclepuzzle_idle"
+                      },
+                      "EmitterType": "TargetEvaluator",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                        "TargetType": "Prop",
+                        "Targets": [
+                          300001
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ],
+              "OnExit": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareTarget",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetFetchAdvLocalPlayer"
+                    },
+                    "CompareType": {
+                      "$type": "RPG.GameCore.TargetFetchTaskActionTarget"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetPropCablelineVisible",
+                      "LinePropInstanceID": 300004
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -68,28 +284,26 @@
         {
           "$type": "RPG.GameCore.WaitGroupEvent",
           "EventName": {
-            "Value": "OraclePuzzleEndLinePerform"
+            "Value": "OraclePuzzleStartLinePerform"
           },
           "OnEvent": [
             {
-              "$type": "RPG.GameCore.SetFloorCustomFloat",
-              "Name": {
-                "Value": "FCV_OracleMachine_Ball_1"
-              },
-              "Value": {
-                "FixedValue": {
-                  "Value": 1
-                }
-              },
-              "ExtraInfo": {
-                "Lock": true,
-                "Source": "Performance",
-                "RecoverWhenUnLock": true
+              "$type": "RPG.GameCore.PropEnableCollider",
+              "SpecifiedRelativePaths": [],
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300005
+                ]
               }
             },
             {
-              "$type": "RPG.GameCore.RequestGroupStateChange",
-              "TargetState": 1
+              "$type": "RPG.GameCore.RequestSetServerGroupProperty",
+              "DynamicName": {
+                "Value": "SGP_PuzzleState"
+              },
+              "Value": 1
             }
           ]
         }
@@ -98,27 +312,91 @@
     {
       "TaskList": [
         {
-          "$type": "RPG.GameCore.WaitServerGroupStateChange"
+          "$type": "RPG.GameCore.WaitServerGroupPropertyChange"
         }
       ]
     },
     {
       "TaskList": [
         {
-          "$type": "RPG.GameCore.TriggerEntityEventV2",
-          "EventName": {
-            "Value": "OraclePuzzleShowHintPattern"
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareGroupProperty",
+            "DynamicName": {
+              "Value": "SGP_PuzzleState"
+            },
+            "CompareType": "Equal"
           },
-          "TargetType": {
-            "$type": "RPG.GameCore.GroupFetchLocalTarget",
-            "TargetType": "Prop",
-            "Targets": [
-              300001
-            ]
-          }
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "Create"
+              }
+            }
+          ],
+          "FailedTaskList": []
         }
       ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareGroupProperty",
+            "DynamicName": {
+              "Value": "SGP_PuzzleState"
+            },
+            "CompareType": "Equal",
+            "CompareValue": 2
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "Create"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": []
+    },
+    {
+      "TaskList": []
+    },
+    {
+      "TaskList": []
     }
   ],
-  "Type": "Group"
+  "ValueSource": {
+    "Values": [
+      {
+        "$type": "RPG.GameCore.SharedString",
+        "Key": "LineEffect"
+      },
+      {
+        "$type": "RPG.GameCore.SharedString",
+        "Key": "FCV"
+      },
+      {
+        "$type": "RPG.GameCore.SharedString",
+        "Key": "FSV"
+      },
+      {
+        "$type": "RPG.GameCore.SharedFloat",
+        "Value": -1,
+        "Key": "BallMoveSpeed"
+      },
+      {
+        "$type": "RPG.GameCore.SharedString",
+        "Key": "Toast1"
+      }
+    ]
+  },
+  "Type": "Group",
+  "EntityEventList": []
 }

@@ -397,7 +397,9 @@
             }
           },
           "Floor": {
-            "Value": 1
+            "FixedValue": {
+              "Value": 1
+            }
           }
         },
         {
@@ -1340,6 +1342,50 @@
                       ]
                     }
                   ]
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "Flag": "STAT_CTRL",
+                        "Inverse": true
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "Flag": "DisableAction",
+                        "Inverse": true
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByHaveEnemyAlive",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "Caster"
+                        },
+                        "IncludeUnselectable": true
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                      "Name": "Avatar_Mydeimos_00_PassiveSkill_Transfer"
+                    },
+                    {
+                      "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                      "Name": "Avatar_Mydeimos_00_Skill22_Predicate"
+                    }
+                  ]
                 }
               ]
             },
@@ -1648,34 +1694,6 @@
                         "Inverse": true
                       },
                       {
-                        "$type": "RPG.GameCore.ByCompareDynamicValue",
-                        "DynamicKey": {
-                          "Value": "_EnergyBar_CurrentValue"
-                        },
-                        "CompareType": "GreaterEqual",
-                        "CompareValue": {
-                          "IsDynamic": true,
-                          "PostfixExpr": {
-                            "OpCodes": "AQAR",
-                            "FixedValues": [],
-                            "DynamicHashes": [
-                              1179583071
-                            ]
-                          }
-                        }
-                      },
-                      {
-                        "$type": "RPG.GameCore.ByIsContainModifier",
-                        "TargetType": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "Caster"
-                        },
-                        "ModifierName": {
-                          "Value": "MAvatar_Mydeimos_00_Transfer"
-                        },
-                        "Inverse": true
-                      },
-                      {
                         "$type": "RPG.GameCore.ByHaveEnemyAlive",
                         "TargetType": {
                           "$type": "RPG.GameCore.TargetAlias",
@@ -1687,33 +1705,104 @@
                   },
                   "SuccessTaskList": [
                     {
-                      "$type": "RPG.GameCore.TurnInsertAbility",
-                      "AbilityName": {
-                        "Value": "Avatar_Mydeimos_00_PassiveSkill01_Insert"
-                      },
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "Caster"
-                      },
-                      "AbilityTarget": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "Caster"
-                      },
-                      "AbortBehaviorFlags": [
-                        "STAT_CTRL",
-                        "DisableAction"
-                      ],
-                      "InsertAbilityPriority": "AvatarBuffSelf",
-                      "ShowInActionBar": true,
-                      "PreCheck": {
-                        "$type": "RPG.GameCore.TurnInsertAbilityCondition",
-                        "Type": "AbilityOwnerInsertUnusedCount",
-                        "Count": {
-                          "FixedValue": {
-                            "Value": 1
-                          }
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByIsContainModifier",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "Caster"
+                        },
+                        "ModifierName": {
+                          "Value": "MAvatar_Mydeimos_00_Transfer"
                         }
-                      }
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                          "Name": "Avatar_Mydeimos_00_Skill22_Predicate"
+                        }
+                      ],
+                      "FailedTaskList": [
+                        {
+                          "$type": "RPG.GameCore.PredicateTaskList",
+                          "Predicate": {
+                            "$type": "RPG.GameCore.ByAnd",
+                            "PredicateList": [
+                              {
+                                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                                "DynamicKey": {
+                                  "Value": "_EnergyBar_CurrentValue"
+                                },
+                                "CompareType": "GreaterEqual",
+                                "CompareValue": {
+                                  "IsDynamic": true,
+                                  "PostfixExpr": {
+                                    "OpCodes": "AQAR",
+                                    "FixedValues": [],
+                                    "DynamicHashes": [
+                                      1179583071
+                                    ]
+                                  }
+                                }
+                              },
+                              {
+                                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                                "DynamicKey": {
+                                  "Value": "DV_CanTransfer"
+                                },
+                                "CompareType": "Equal",
+                                "CompareValue": {
+                                  "FixedValue": {
+                                    "Value": 0
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "SuccessTaskList": [
+                            {
+                              "$type": "RPG.GameCore.SetDynamicValue",
+                              "Value": {
+                                "FixedValue": {
+                                  "Value": 1
+                                }
+                              },
+                              "DynamicKey": {
+                                "Value": "DV_CanTransfer"
+                              }
+                            },
+                            {
+                              "$type": "RPG.GameCore.TurnInsertAbility",
+                              "AbilityName": {
+                                "Value": "Avatar_Mydeimos_00_PassiveSkill01_Insert"
+                              },
+                              "TargetType": {
+                                "$type": "RPG.GameCore.TargetAlias",
+                                "Alias": "Caster"
+                              },
+                              "AbilityTarget": {
+                                "$type": "RPG.GameCore.TargetAlias",
+                                "Alias": "Caster"
+                              },
+                              "AbortBehaviorFlags": [
+                                "STAT_CTRL",
+                                "DisableAction"
+                              ],
+                              "InsertAbilityPriority": "AvatarBuffSelf",
+                              "ShowInActionBar": true,
+                              "PreCheck": {
+                                "$type": "RPG.GameCore.TurnInsertAbilityCondition",
+                                "Type": "AbilityOwnerInsertUnusedCount",
+                                "Count": {
+                                  "FixedValue": {
+                                    "Value": 1
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 }
@@ -2419,6 +2508,28 @@
               }
             },
             {
+              "$type": "RPG.GameCore.SetEnergyBarState",
+              "Active": "True",
+              "BarType": 4,
+              "CurrentState": "Normal",
+              "IconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1404Passive.png",
+              "MaxCount": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    1179583071
+                  ]
+                }
+              },
+              "CurrentCount": {
+                "FixedValue": {
+                  "Value": 0
+                }
+              }
+            },
+            {
               "$type": "RPG.GameCore.TriggerAnimState",
               "TargetType": {
                 "$type": "RPG.GameCore.TargetAlias",
@@ -2726,7 +2837,9 @@
             }
           },
           "Floor": {
-            "Value": 1
+            "FixedValue": {
+              "Value": 1
+            }
           }
         },
         {
@@ -3288,7 +3401,7 @@
                 "Alias": "AllEnemy"
               },
               "AbilityName": {
-                "Value": "Avatar_Mydeimos_00_Skill22_Camera02"
+                "Value": "Avatar_Mydeimos_00_Skill22_Camera"
               },
               "IsSkillPerform": true
             }
@@ -4155,6 +4268,9 @@
                 "$type": "RPG.GameCore.TargetAlias",
                 "Alias": "ModifierOwnerEntity"
               },
+              "MultiActionIndexes": [
+                1
+              ],
               "EffectPrefabs": [
                 {
                   "Status": "Normal",
@@ -4186,6 +4302,17 @@
                 "Alias": "Caster"
               },
               "SkillTriggerKey": "Skill01"
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "Value": {
+                "FixedValue": {
+                  "Value": 0
+                }
+              },
+              "DynamicKey": {
+                "Value": "_EnergyBar_CurrentValue"
+              }
             },
             {
               "$type": "RPG.GameCore.SetEnergyBarState",
@@ -4252,6 +4379,9 @@
                 "$type": "RPG.GameCore.TargetAlias",
                 "Alias": "ModifierOwnerEntity"
               },
+              "MultiActionIndexes": [
+                1
+              ],
               "IsShow": true,
               "EffectPrefabs": [
                 {
@@ -5498,13 +5628,28 @@
                           }
                         },
                         {
-                          "$type": "RPG.GameCore.SetControlSkillMapping",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "Caster"
+                          "$type": "RPG.GameCore.PredicateTaskList",
+                          "Predicate": {
+                            "$type": "RPG.GameCore.ByIsContainModifier",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "Caster"
+                            },
+                            "ModifierName": {
+                              "Value": "MAvatar_Mydeimos_00_Transfer"
+                            }
                           },
-                          "ControlSkillType": "ControlSkill02",
-                          "SkillTriggerKey": "Skill21"
+                          "SuccessTaskList": [
+                            {
+                              "$type": "RPG.GameCore.SetControlSkillMapping",
+                              "TargetType": {
+                                "$type": "RPG.GameCore.TargetAlias",
+                                "Alias": "Caster"
+                              },
+                              "ControlSkillType": "ControlSkill02",
+                              "SkillTriggerKey": "Skill21"
+                            }
+                          ]
                         }
                       ],
                       "CustomTag": "Mydeimos_InsertAction"
@@ -5550,6 +5695,129 @@
                       ]
                     }
                   },
+                  "CurrentCount": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        1565488085
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "_EnergyBar_CurrentValue"
+                    },
+                    "CompareType": "GreaterEqual",
+                    "CompareValue": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQAR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          1179583071
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByCompareHP",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Caster"
+                    },
+                    "CompareType": "Greater",
+                    "CompareValue": {
+                      "FixedValue": {
+                        "Value": 0
+                      }
+                    }
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "DV_CanTransfer"
+                    },
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "FixedValue": {
+                        "Value": 0
+                      }
+                    }
+                  }
+                ]
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetEnergyBarState",
+                  "CurrentState": "Active",
+                  "CurrentCount": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        1565488085
+                      ]
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "DV_CanTransfer"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.TurnInsertAbility",
+                  "AbilityName": {
+                    "Value": "Avatar_Mydeimos_00_PassiveSkill01_Insert"
+                  },
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "AbilityTarget": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "AbortBehaviorFlags": [
+                    "STAT_CTRL",
+                    "DisableAction"
+                  ],
+                  "InsertAbilityPriority": "AvatarBuffSelf",
+                  "ShowInActionBar": true,
+                  "PreCheck": {
+                    "$type": "RPG.GameCore.TurnInsertAbilityCondition",
+                    "Type": "AbilityOwnerInsertUnusedCount",
+                    "Count": {
+                      "FixedValue": {
+                        "Value": 1
+                      }
+                    }
+                  }
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetEnergyBarState",
                   "CurrentCount": {
                     "IsDynamic": true,
                     "PostfixExpr": {

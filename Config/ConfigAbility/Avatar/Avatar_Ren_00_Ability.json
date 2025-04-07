@@ -529,7 +529,9 @@
             }
           },
           "Floor": {
-            "Value": 1
+            "FixedValue": {
+              "Value": 1
+            }
           }
         },
         {
@@ -911,7 +913,9 @@
             }
           },
           "Floor": {
-            "Value": 1
+            "FixedValue": {
+              "Value": 1
+            }
           },
           "DisplayData": {
             "UIMessageHeight": 1.5
@@ -2142,17 +2146,43 @@
             },
             {
               "Event": "OnBeforeBeingHeal",
+              "Priority": 200,
               "CallbackConfig": [
                 {
-                  "$type": "RPG.GameCore.SetDynamicValue",
-                  "Value": {
-                    "FixedValue": {
-                      "Value": 1
+                  "$type": "RPG.GameCore.SetDynamicValueByHealDataProperty",
+                  "DynamicKey": "MDF_HealValue",
+                  "ReadTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "MDF_HealValue"
+                    },
+                    "CompareType": "Greater",
+                    "CompareValue": {
+                      "FixedValue": {
+                        "Value": 0
+                      }
                     }
                   },
-                  "DynamicKey": {
-                    "Value": "MwRen_isHeal"
-                  }
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "MwRen_isHeal"
+                      }
+                    }
+                  ]
                 }
               ]
             },
@@ -2363,41 +2393,15 @@
                                   }
                                 },
                                 {
-                                  "$type": "RPG.GameCore.PredicateTaskList",
-                                  "Predicate": {
-                                    "$type": "RPG.GameCore.ByContainBehaviorFlag",
-                                    "TargetType": {
-                                      "$type": "RPG.GameCore.TargetAlias",
-                                      "Alias": "Caster"
-                                    },
-                                    "Flag": "STAT_CTRL"
+                                  "$type": "RPG.GameCore.SetDynamicValue",
+                                  "Value": {
+                                    "FixedValue": {
+                                      "Value": 1
+                                    }
                                   },
-                                  "SuccessTaskList": [
-                                    {
-                                      "$type": "RPG.GameCore.SetDynamicValue",
-                                      "Value": {
-                                        "FixedValue": {
-                                          "Value": 1
-                                        }
-                                      },
-                                      "DynamicKey": {
-                                        "Value": "Is_CTRL"
-                                      }
-                                    }
-                                  ],
-                                  "FailedTaskList": [
-                                    {
-                                      "$type": "RPG.GameCore.SetDynamicValue",
-                                      "Value": {
-                                        "FixedValue": {
-                                          "Value": 1
-                                        }
-                                      },
-                                      "DynamicKey": {
-                                        "Value": "MwRen_isAttack"
-                                      }
-                                    }
-                                  ]
+                                  "DynamicKey": {
+                                    "Value": "MwRen_isAttack"
+                                  }
                                 }
                               ]
                             }
@@ -2737,35 +2741,6 @@
               ]
             },
             {
-              "Event": "OnModifierAdd",
-              "CallbackConfig": [
-                {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByContainBehaviorFlag",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "Caster"
-                    },
-                    "Flag": "STAT_CTRL"
-                  },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.SetDynamicValue",
-                      "Value": {
-                        "FixedValue": {
-                          "Value": 1
-                        }
-                      },
-                      "DynamicKey": {
-                        "Value": "Is_CTRL"
-                      }
-                    }
-                  ]
-                }
-              ]
-            },
-            {
               "Event": "OnModifierRemove",
               "CallbackConfig": [
                 {
@@ -2790,15 +2765,14 @@
                         }
                       },
                       {
-                        "$type": "RPG.GameCore.ByCompareDynamicValue",
-                        "DynamicKey": {
-                          "Value": "Is_CTRL"
-                        },
-                        "CompareType": "Equal",
-                        "CompareValue": {
-                          "FixedValue": {
-                            "Value": 1
-                          }
+                        "$type": "RPG.GameCore.ByNot",
+                        "Predicate": {
+                          "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "Caster"
+                          },
+                          "Flag": "STAT_CTRL"
                         }
                       },
                       {
@@ -2809,23 +2783,33 @@
                             "$type": "RPG.GameCore.TargetAlias",
                             "Alias": "Caster"
                           },
-                          "Flag": "STAT_CTRL"
+                          "Flag": "DisableAction"
                         }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByAny",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByCheckModifierCallBackBehaviorFlag",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "Caster"
+                            },
+                            "Flag": "STAT_CTRL"
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByCheckModifierCallBackBehaviorFlag",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "Caster"
+                            },
+                            "Flag": "DisableAction"
+                          }
+                        ]
                       }
                     ]
                   },
                   "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.SetDynamicValue",
-                      "Value": {
-                        "FixedValue": {
-                          "Value": 0
-                        }
-                      },
-                      "DynamicKey": {
-                        "Value": "Is_CTRL"
-                      }
-                    },
                     {
                       "$type": "RPG.GameCore.TurnInsertAbility",
                       "AbilityName": {
@@ -2854,35 +2838,6 @@
                           }
                         }
                       }
-                    }
-                  ],
-                  "FailedTaskList": [
-                    {
-                      "$type": "RPG.GameCore.PredicateTaskList",
-                      "Predicate": {
-                        "$type": "RPG.GameCore.ByNot",
-                        "Predicate": {
-                          "$type": "RPG.GameCore.ByContainBehaviorFlag",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "Caster"
-                          },
-                          "Flag": "STAT_CTRL"
-                        }
-                      },
-                      "SuccessTaskList": [
-                        {
-                          "$type": "RPG.GameCore.SetDynamicValue",
-                          "Value": {
-                            "FixedValue": {
-                              "Value": 0
-                            }
-                          },
-                          "DynamicKey": {
-                            "Value": "Is_CTRL"
-                          }
-                        }
-                      ]
                     }
                   ]
                 }
@@ -2967,6 +2922,11 @@
               ]
             }
           ],
+          "DynamicValues": {
+            "Floats": {
+              "1276127143": {}
+            }
+          },
           "TaskListTemplate": [
             {
               "Name": "Ren_CheckHPChange",
@@ -3146,17 +3106,6 @@
           },
           "DynamicKey": {
             "Value": "MwRen_isHeal"
-          }
-        },
-        {
-          "$type": "RPG.GameCore.SetDynamicValue",
-          "Value": {
-            "FixedValue": {
-              "Value": 0
-            }
-          },
-          "DynamicKey": {
-            "Value": "Is_CTRL"
           }
         },
         {
@@ -3904,7 +3853,9 @@
                         }
                       },
                       "Floor": {
-                        "Value": 1
+                        "FixedValue": {
+                          "Value": 1
+                        }
                       }
                     },
                     {

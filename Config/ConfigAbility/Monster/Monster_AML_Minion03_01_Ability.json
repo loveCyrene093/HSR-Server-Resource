@@ -258,12 +258,24 @@
                     {
                       "$type": "RPG.GameCore.PredicateTaskList",
                       "Predicate": {
-                        "$type": "RPG.GameCore.ByTargetAliveState",
-                        "TargetType": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "ModifierOwnerEntity"
-                        },
-                        "AliveStateMask": "Mask_AliveOnly"
+                        "$type": "RPG.GameCore.ByAnd",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByTargetAliveState",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ModifierOwnerEntity"
+                            },
+                            "AliveStateMask": "Mask_AliveOnly"
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByCurrentTurnState",
+                            "TurnStates": [
+                              "InsertAbilityActionPhase"
+                            ],
+                            "Inverse": true
+                          }
+                        ]
                       },
                       "SuccessTaskList": [
                         {
@@ -691,6 +703,9 @@
             "$type": "RPG.GameCore.TargetAlias",
             "Alias": "Caster"
           },
+          "Flags": [
+            "Resident"
+          ],
           "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_AML_Minion03_01/Eff_Monster_AML_Minion03_01_Buff_HaloCaster.prefab",
           "MinMutexType": "Entity"
         },
@@ -894,6 +909,9 @@
             "$type": "RPG.GameCore.TargetAlias",
             "Alias": "Caster"
           },
+          "Flags": [
+            "Resident"
+          ],
           "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_AML_Minion03_01/Eff_Monster_AML_Minion03_01_Buff_HaloCaster.prefab",
           "MinMutexType": "Entity"
         },
@@ -1458,38 +1476,6 @@
               "SuccessTaskList": [
                 {
                   "$type": "RPG.GameCore.RemoveSelfModifier"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "Event": "OnModifierAdd",
-          "CallbackConfig": [
-            {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByCheckModifierCallBackBehaviorFlag",
-                "Flag": "STAT_CTRL_Frozen"
-              },
-              "SuccessTaskList": [
-                {
-                  "$type": "RPG.GameCore.RemoveEffect",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "ModifierOwnerEntity"
-                  },
-                  "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_AML_Minion03_01/Eff_Monster_AML_Minion03_01_Buff_HaloCaster.prefab",
-                  "IsNeedFadeOut": false
-                },
-                {
-                  "$type": "RPG.GameCore.TriggerEffect",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "ModifierOwnerEntity"
-                  },
-                  "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_AML_Minion03_01/Eff_Monster_AML_Minion03_01_Buff_HaloCaster.prefab",
-                  "IsNeedFadeIn": false
                 }
               ]
             }

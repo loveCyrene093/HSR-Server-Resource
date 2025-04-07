@@ -154,7 +154,7 @@
     "Y": 1.5
   },
   "BuffPanelOffset": {
-    "Y": 1.2
+    "Y": 0.4
   },
   "HitBoxWidth": 0.3,
   "HitBoxHeight": 0.8,
@@ -261,7 +261,20 @@
       "SkillType": "Servant",
       "UseType": "SelectEntity",
       "AlwaysDoAutoLock": true,
-      "LockType": "HighWP_DamageCarry",
+      "LockType": "ScoreOfSource",
+      "AutoLockBySource": {
+        "Groups": [
+          {
+            "GroupName": "AutoLock_Default"
+          },
+          {
+            "GroupName": "Base_PlayerBoyServant_CompareDPTWithDamageCarry"
+          },
+          {
+            "GroupName": "Mul_PlayerBoyServant_CastoricePriority"
+          }
+        ]
+      },
       "TargetInfo": {
         "TargetType": "FriendSelect"
       },
@@ -288,6 +301,9 @@
           },
           {
             "GroupName": "Base_Common_CompareDPTWithDamageCarry"
+          },
+          {
+            "GroupName": "Mul_PlayerBoyServant_CastoricePriority"
           }
         ]
       }
@@ -329,10 +345,20 @@
       "TargetInfo": {
         "TargetType": "Caster"
       },
+      "EntryAbility": "Avatar_Common_PassiveSkill"
+    },
+    {
+      "Name": "PassiveSkill02",
+      "SkillType": "Passive",
+      "UseType": "Passive",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
       "EntryAbility": "Servant_Common_PassiveSkill"
     }
   ],
   "AbilityList": [
+    "Avatar_Common_PassiveSkill",
     "Servant_Common_PassiveSkill"
   ],
   "SkillAbilityList": [
@@ -503,6 +529,161 @@
       "-2136914891": {},
       "-1649595214": {},
       "-1599294167": {}
+    }
+  },
+  "GlobalAIFactorGroups": {
+    "Mul_PlayerBoyServant_CastoricePriority": {
+      "CombineOperator": "Mul",
+      "Factors": [
+        {
+          "Source": {
+            "$type": "RPG.GameCore.ComplexSkillAIContainModifier",
+            "ModifilerName": "MAvatar_Castorice_00_Passive"
+          },
+          "Mapper": {
+            "$type": "RPG.GameCore.ComplexSkillAIMapperMultiRange",
+            "Ranges": [
+              {
+                "ymin": {
+                  "Value": 0.01
+                },
+                "xmax": {
+                  "Value": 0.5
+                },
+                "ymax": {
+                  "Value": 0.01
+                }
+              },
+              {
+                "xmin": {
+                  "Value": 0.5
+                },
+                "ymin": {
+                  "Value": 100
+                },
+                "xmax": {
+                  "Value": 1
+                },
+                "ymax": {
+                  "Value": 100
+                }
+              }
+            ]
+          }
+        },
+        {
+          "CombineOperator": "Mul",
+          "Source": {
+            "$type": "RPG.GameCore.ComplexSkillAIContainModifier",
+            "IsTarget": false,
+            "ModifilerName": "MServant_PlayerBoyServant_30_Rank01"
+          },
+          "Mapper": {
+            "$type": "RPG.GameCore.ComplexSkillAIMapperMultiRange",
+            "Ranges": [
+              {
+                "xmax": {
+                  "Value": 0.5
+                }
+              },
+              {
+                "xmin": {
+                  "Value": 0.5
+                },
+                "ymin": {
+                  "Value": 1
+                },
+                "xmax": {
+                  "Value": 1
+                },
+                "ymax": {
+                  "Value": 1
+                }
+              }
+            ]
+          }
+        },
+        {
+          "Source": {
+            "$type": "RPG.GameCore.ComplexSkillAIContainModifier",
+            "IsTarget": false,
+            "ModifilerName": "MServant_PlayerBoyServant_30_Rank01"
+          },
+          "Mapper": {
+            "$type": "RPG.GameCore.ComplexSkillAIMapperMultiRange",
+            "Ranges": [
+              {
+                "ymin": {
+                  "Value": 1
+                },
+                "xmax": {
+                  "Value": 0.5
+                },
+                "ymax": {
+                  "Value": 1
+                }
+              },
+              {
+                "xmin": {
+                  "Value": 0.5
+                },
+                "xmax": {
+                  "Value": 1
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "Base_PlayerBoyServant_CompareDPTWithDamageCarry": {
+      "Factors": [
+        {
+          "Source": {
+            "$type": "RPG.GameCore.ComplexSkillAISourceValueInTeamRatio",
+            "ValueType": "WeightedTotalPower"
+          },
+          "Mapper": {
+            "$type": "RPG.GameCore.ComplexSkillAIMapperMultiRange",
+            "Ranges": [
+              {
+                "ymin": {
+                  "Value": 60
+                },
+                "xmax": {
+                  "Value": 100
+                },
+                "ymax": {
+                  "Value": 100
+                }
+              }
+            ]
+          }
+        },
+        {
+          "CombineOperator": "Mul",
+          "Source": {
+            "$type": "RPG.GameCore.ComplexSkillAISourceAITag",
+            "DynamicValueKey": "DamageCarry"
+          },
+          "Mapper": {
+            "$type": "RPG.GameCore.ComplexSkillAIMapperMultiRange",
+            "Ranges": [
+              {
+                "ymin": {
+                  "Value": 0.01
+                },
+                "xmax": {
+                  "Value": 10
+                },
+                "ymax": {
+                  "Value": 10
+                }
+              }
+            ]
+          }
+        }
+      ]
     }
   }
 }

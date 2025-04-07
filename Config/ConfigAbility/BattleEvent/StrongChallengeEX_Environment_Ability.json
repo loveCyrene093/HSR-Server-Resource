@@ -1231,6 +1231,189 @@
     },
     {
       "Modifiers": {
+        "MStrongChallengeEX_Environment_StageAbility_LE_008": {
+          "_CallbackList": [
+            {
+              "Event": "OnStack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "LevelEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MStrongChallengeEX_BEMark_HP"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "LevelEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MStrongChallengeEX_BEMark_ActionDelay"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "LevelEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MStrongChallengeEX_BEMark_DispelCTRL"
+                  }
+                }
+              ]
+            },
+            {
+              "Event": "OnListenCharacterCreate",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByTargetTeam",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "Team": "TeamDark"
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MStrongChallengeEX_Environment_StageAbility_BOSS_008"
+                      },
+                      "DynamicValues": {
+                        "MDF_PropertyValue": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AQAR",
+                            "FixedValues": [],
+                            "DynamicHashes": [
+                              462955996
+                            ]
+                          }
+                        },
+                        "MDF_PropertyValue2": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AQAR",
+                            "FixedValues": [],
+                            "DynamicHashes": [
+                              59671469
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "MStrongChallengeEX_Environment_StageAbility_BOSS_008": {
+          "_CallbackList": [
+            {
+              "Event": "OnBeforeBeingHitAll",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAttackType",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "AttackTypes": [
+                      "Servant"
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.ModifyDamageData",
+                      "Defender_AllDamageTypeTakenRatio": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            2128130574
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAttackType",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "AttackTypes": [
+                      "BPSkill"
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.ModifyDamageData",
+                      "Defender_AllDamageTypeTakenRatio": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            -2125946860
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Stacking": "ReplaceByCaster",
+          "DynamicValues": {
+            "Floats": {
+              "2128130574": {},
+              "-2125946860": {}
+            }
+          }
+        }
+      },
+      "Name": "StrongChallengeEX_Environment_StageAbility_008",
+      "OnAdd": [
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MStrongChallengeEX_Environment_StageAbility_LE_008"
+          }
+        }
+      ]
+    },
+    {
+      "Modifiers": {
         "StrongChallengeEX_Test_StageAbility_LE_001": {
           "_CallbackList": [
             {
@@ -5111,24 +5294,6 @@
                   },
                   "SuccessTaskList": [
                     {
-                      "$type": "RPG.GameCore.RemoveEffect",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_SuperArmor_Behit_Small.prefab",
-                      "IsNeedFadeOut": false
-                    },
-                    {
-                      "$type": "RPG.GameCore.RemoveEffect",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_SuperArmor_Behit1.prefab",
-                      "IsNeedFadeOut": false
-                    },
-                    {
                       "$type": "RPG.GameCore.TriggerEffect",
                       "TargetType": {
                         "$type": "RPG.GameCore.TargetAlias",
@@ -5160,24 +5325,6 @@
                   },
                   "SuccessTaskList": [
                     {
-                      "$type": "RPG.GameCore.RemoveEffect",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_SuperArmor_Behit.prefab",
-                      "IsNeedFadeOut": false
-                    },
-                    {
-                      "$type": "RPG.GameCore.RemoveEffect",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_SuperArmor_Behit1.prefab",
-                      "IsNeedFadeOut": false
-                    },
-                    {
                       "$type": "RPG.GameCore.TriggerEffect",
                       "TargetType": {
                         "$type": "RPG.GameCore.TargetAlias",
@@ -5208,24 +5355,6 @@
                     }
                   },
                   "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.RemoveEffect",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_SuperArmor_Behit_Big.prefab",
-                      "IsNeedFadeOut": false
-                    },
-                    {
-                      "$type": "RPG.GameCore.RemoveEffect",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_SuperArmor_Behit1.prefab",
-                      "IsNeedFadeOut": false
-                    },
                     {
                       "$type": "RPG.GameCore.TriggerEffect",
                       "TargetType": {
@@ -5284,24 +5413,6 @@
                     ]
                   },
                   "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.RemoveEffect",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_SuperArmor_Behit_Small.prefab",
-                      "IsNeedFadeOut": false
-                    },
-                    {
-                      "$type": "RPG.GameCore.RemoveEffect",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_SuperArmor_Behit1.prefab",
-                      "IsNeedFadeOut": false
-                    },
                     {
                       "$type": "RPG.GameCore.TriggerEffect",
                       "TargetType": {
@@ -5386,24 +5497,6 @@
                   },
                   "SuccessTaskList": [
                     {
-                      "$type": "RPG.GameCore.RemoveEffect",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_SuperArmor_Behit.prefab",
-                      "IsNeedFadeOut": false
-                    },
-                    {
-                      "$type": "RPG.GameCore.RemoveEffect",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_SuperArmor_Behit1.prefab",
-                      "IsNeedFadeOut": false
-                    },
-                    {
                       "$type": "RPG.GameCore.TriggerEffect",
                       "TargetType": {
                         "$type": "RPG.GameCore.TargetAlias",
@@ -5438,24 +5531,6 @@
                     ]
                   },
                   "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.RemoveEffect",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_SuperArmor_Behit_Big.prefab",
-                      "IsNeedFadeOut": false
-                    },
-                    {
-                      "$type": "RPG.GameCore.RemoveEffect",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_SuperArmor_Behit1.prefab",
-                      "IsNeedFadeOut": false
-                    },
                     {
                       "$type": "RPG.GameCore.TriggerEffect",
                       "TargetType": {

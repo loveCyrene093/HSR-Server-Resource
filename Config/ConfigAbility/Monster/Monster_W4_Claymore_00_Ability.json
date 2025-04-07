@@ -1,6 +1,24 @@
 {
   "AbilityList": [
     {
+      "Name": "Monster_W4_Claymore_00_314070",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MMonster_W4_Claymore_00_314070"
+          }
+        }
+      ]
+    },
+    {
       "Name": "Monster_W4_Claymore_00_Skill01_Phase01",
       "TargetInfo": {
         "TargetType": "SkillTargetEntityList",
@@ -2595,12 +2613,24 @@
                     {
                       "$type": "RPG.GameCore.PredicateTaskList",
                       "Predicate": {
-                        "$type": "RPG.GameCore.ByTargetAliveState",
-                        "TargetType": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "ModifierOwnerEntity"
-                        },
-                        "AliveStateMask": "Mask_AliveOnly"
+                        "$type": "RPG.GameCore.ByAnd",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByTargetAliveState",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ModifierOwnerEntity"
+                            },
+                            "AliveStateMask": "Mask_AliveOnly"
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByCurrentTurnState",
+                            "TurnStates": [
+                              "InsertAbilityActionPhase"
+                            ],
+                            "Inverse": true
+                          }
+                        ]
                       },
                       "SuccessTaskList": [
                         {
@@ -3496,12 +3526,24 @@
                     {
                       "$type": "RPG.GameCore.PredicateTaskList",
                       "Predicate": {
-                        "$type": "RPG.GameCore.ByTargetAliveState",
-                        "TargetType": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "ModifierOwnerEntity"
-                        },
-                        "AliveStateMask": "Mask_AliveOnly"
+                        "$type": "RPG.GameCore.ByAnd",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByTargetAliveState",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ModifierOwnerEntity"
+                            },
+                            "AliveStateMask": "Mask_AliveOnly"
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByCurrentTurnState",
+                            "TurnStates": [
+                              "InsertAbilityActionPhase"
+                            ],
+                            "Inverse": true
+                          }
+                        ]
                       },
                       "SuccessTaskList": [
                         {
@@ -4268,6 +4310,14 @@
                     },
                     "Flag": "Stealth",
                     "Inverse": true
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByIsTargetUnselectable",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "Inverse": true
                   }
                 ]
               },
@@ -4381,6 +4431,63 @@
                     },
                     "Flag": "Stealth",
                     "Inverse": true
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByIsTargetUnselectable",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "Inverse": true
+                  }
+                ]
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MModifier_Monster_W4_Claymore_00_Skill03_Target_UI"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Event": "OnUnselectableEnd",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByIsContainModifier",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "ModifierName": {
+                      "Value": "MModifier_Monster_W4_Claymore_00_Skill03_Target_UI"
+                    },
+                    "CasterFilter": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Caster"
+                    },
+                    "Inverse": true
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "Flag": "Stealth",
+                    "Inverse": true
                   }
                 ]
               },
@@ -4404,7 +4511,8 @@
     },
     "MModifier_Monster_W4_Claymore_00_Skill03_Target_UI": {
       "BehaviorFlagList": [
-        "RemoveWhenCasterDead"
+        "RemoveWhenCasterDead",
+        "RemoveWhenOwnerUnselectable"
       ],
       "UIConfig": {
         "UIEffectPath": "UI/Battle/Widget/TeamInfoStatusEff/TeamInfoStatus_AimedChain.prefab",
@@ -5160,51 +5268,64 @@
                     {
                       "$type": "RPG.GameCore.PredicateTaskList",
                       "Predicate": {
-                        "$type": "RPG.GameCore.ByIsContainModifier",
+                        "$type": "RPG.GameCore.ByTargetTeam",
                         "TargetType": {
                           "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "ModifierOwnerEntity"
+                          "Alias": "ParamEntity"
                         },
-                        "ModifierName": {
-                          "Value": "MModifier_Monster_AML_Minion03_01_Halo"
-                        }
+                        "Team": "TeamLight"
                       },
                       "SuccessTaskList": [
                         {
-                          "$type": "RPG.GameCore.ShowUIPage",
-                          "AssetPath": "UI/Common/Widget/BattleSelfStatusHint.prefab",
-                          "UITextNodes": [
+                          "$type": "RPG.GameCore.PredicateTaskList",
+                          "Predicate": {
+                            "$type": "RPG.GameCore.ByIsContainModifier",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ModifierOwnerEntity"
+                            },
+                            "ModifierName": {
+                              "Value": "MModifier_Monster_AML_Minion03_01_Halo"
+                            }
+                          },
+                          "SuccessTaskList": [
                             {
-                              "TextPath": "AreaInfoPanel/Title/Text",
-                              "TextContent": {
-                                "Hash": 2093662370958685260
+                              "$type": "RPG.GameCore.ShowUIPage",
+                              "AssetPath": "UI/Common/Widget/BattleSelfStatusHint.prefab",
+                              "UITextNodes": [
+                                {
+                                  "TextPath": "AreaInfoPanel/Title/Text",
+                                  "TextContent": {
+                                    "Hash": 2093662370958685260
+                                  }
+                                }
+                              ],
+                              "LifeTime": 2,
+                              "DisplayTarget": {
+                                "$type": "RPG.GameCore.TargetAlias",
+                                "Alias": "ParamEntity"
                               }
                             }
                           ],
-                          "LifeTime": 2,
-                          "DisplayTarget": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ParamEntity"
-                          }
-                        }
-                      ],
-                      "FailedTaskList": [
-                        {
-                          "$type": "RPG.GameCore.ShowUIPage",
-                          "AssetPath": "UI/Common/Widget/BattleSelfStatusHint.prefab",
-                          "UITextNodes": [
+                          "FailedTaskList": [
                             {
-                              "TextPath": "AreaInfoPanel/Title/Text",
-                              "TextContent": {
-                                "Hash": 15636326861219585152
+                              "$type": "RPG.GameCore.ShowUIPage",
+                              "AssetPath": "UI/Common/Widget/BattleSelfStatusHint.prefab",
+                              "UITextNodes": [
+                                {
+                                  "TextPath": "AreaInfoPanel/Title/Text",
+                                  "TextContent": {
+                                    "Hash": 15636326861219585152
+                                  }
+                                }
+                              ],
+                              "LifeTime": 2,
+                              "DisplayTarget": {
+                                "$type": "RPG.GameCore.TargetAlias",
+                                "Alias": "ParamEntity"
                               }
                             }
-                          ],
-                          "LifeTime": 2,
-                          "DisplayTarget": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ParamEntity"
-                          }
+                          ]
                         }
                       ]
                     },
@@ -6491,6 +6612,481 @@
           "-1070223720": {},
           "1821784870": {},
           "-1652797158": {}
+        }
+      }
+    },
+    "MMonster_W4_Claymore_00_314070_Sub": {
+      "BehaviorFlagList": [],
+      "_CallbackList": [
+        {
+          "Event": "OnDestroy",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByIsContainModifier",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ModifierOwnerEntity"
+                },
+                "ModifierName": {
+                  "Value": "MModifier_Monster_W4_Claymore_00_Skill03_Aim"
+                },
+                "Inverse": true
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "DynamicKey": {
+                      "Value": "AIFlag"
+                    },
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "FixedValue": {
+                        "Value": 4
+                      }
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "FixedValue": {
+                          "Value": 5
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "AIFlag"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Event": "OnListenTurnBegin",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByCompareTarget",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "CompareType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    }
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "DynamicKey": {
+                      "Value": "AIFlag"
+                    },
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "FixedValue": {
+                        "Value": 4
+                      }
+                    },
+                    "Inverse": true
+                  }
+                ]
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "Value": {
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "AIFlag"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Event": "OnStack",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.StackProperty",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "Property": "AllDamageTypeAddedRatio",
+              "PropertyValue": {
+                "FixedValue": {
+                  "Value": 1.3
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.StackProperty",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "Property": "SpeedDelta",
+              "PropertyValue": {
+                "FixedValue": {
+                  "Value": 150
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Event": "OnAfterSkillUse",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCurrentSkillName",
+                "SkillName": "Skill04",
+                "Inverse": true
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "Value": {
+                    "FixedValue": {
+                      "Value": 4
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "AIFlag"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Event": "OnListenModifierAdd",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCheckModifierCallBackName",
+                "ModifierName": "MAvatar_GlobalSkill_Castorice_CD"
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.RemoveSelfModifier"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "MMonster_W4_Claymore_00_314070": {
+      "_CallbackList": [
+        {
+          "Event": "OnCreate",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.Retarget",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllLightTeam.GetServant"
+              },
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareCharacterID",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity.GetSummoner"
+                },
+                "TargetCharacterID": {
+                  "FixedValue": {
+                    "Value": 1407
+                  }
+                }
+              },
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.Remodifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "AllLightTeam.WithBattleEvent"
+                  },
+                  "IncludeLimbo": true,
+                  "ModifierName": "MAvatar_GlobalSkill_Castorice_CD",
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MMonster_W4_Claymore_00_314070_Sub"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Event": "OnListenCharacterDie",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareCharacterID",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity.GetSummoner"
+                },
+                "TargetCharacterID": {
+                  "FixedValue": {
+                    "Value": 1407
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.Remodifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "AllLightTeam.WithBattleEvent"
+                  },
+                  "IncludeLimbo": true,
+                  "ModifierName": "MAvatar_GlobalSkill_Castorice_CD",
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "MDF_Key"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "DynamicKey": {
+                          "Value": "MDF_Key"
+                        },
+                        "CompareType": "Equal",
+                        "CompareValue": {
+                          "FixedValue": {
+                            "Value": 1
+                          }
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByIsContainModifier",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "ModifierName": {
+                          "Value": "MModifier_Monster_W4_Claymore_00_Skill03_Aim"
+                        },
+                        "Inverse": true
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MMonster_W4_Claymore_00_314070_Sub"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Event": "OnListenCharacterCreate",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareCharacterID",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity.GetSummoner"
+                },
+                "TargetCharacterID": {
+                  "FixedValue": {
+                    "Value": 1407
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "MDF_Key"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.RemoveModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MMonster_W4_Claymore_00_314070_Sub"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Event": "OnModifierRemove",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "DynamicKey": {
+                      "Value": "MDF_Key"
+                    },
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "FixedValue": {
+                        "Value": 1
+                      }
+                    }
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByCheckModifierCallBackName",
+                    "ModifierName": "MModifier_Monster_W4_Claymore_00_Skill03_Aim"
+                  }
+                ]
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MMonster_W4_Claymore_00_314070_Sub"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Event": "OnListenModifierRemove",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "DynamicKey": {
+                      "Value": "MDF_Key"
+                    },
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "FixedValue": {
+                        "Value": 1
+                      }
+                    }
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByCheckModifierCallBackName",
+                    "ModifierName": "MModifier_Monster_W4_Claymore_00_Skill03_Aim"
+                  }
+                ]
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "MDF_Key"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "DynamicValues": {
+        "Floats": {
+          "-423379901": {}
         }
       }
     }

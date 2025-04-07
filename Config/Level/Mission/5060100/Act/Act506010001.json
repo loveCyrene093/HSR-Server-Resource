@@ -14,7 +14,8 @@
           "PropVisiableList": [],
           "StreamingSourcesInBlackMask": [],
           "StreamingSourcesAfterBlackMask": [],
-          "MarkStreamingItems": []
+          "MarkStreamingItems": [],
+          "AudioStateList": []
         },
         {
           "$type": "RPG.GameCore.AdvNpcFaceToPlayer"
@@ -426,22 +427,51 @@
               ]
             },
             {
-              "$type": "RPG.GameCore.QuestGetReward",
-              "QuestIDList": [
-                {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareQuestGetReward",
+                "QuestID": {
                   "FixedValue": {
                     "Value": 2200301
                   }
                 },
+                "Inverse": true
+              },
+              "SuccessTaskList": [
                 {
-                  "FixedValue": {
-                    "Value": 2200302
-                  }
+                  "$type": "RPG.GameCore.QuestGetReward",
+                  "QuestIDList": [
+                    {
+                      "FixedValue": {
+                        "Value": 2200301
+                      }
+                    },
+                    {
+                      "FixedValue": {
+                        "Value": 2200302
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.EndPerformance"
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.QuestGetReward",
+                  "QuestIDList": [
+                    {
+                      "FixedValue": {
+                        "Value": 2200302
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.EndPerformance"
                 }
               ]
-            },
-            {
-              "$type": "RPG.GameCore.EndPerformance"
             }
           ],
           "FailedTaskList": [
@@ -626,5 +656,6 @@
         }
       ]
     }
-  ]
+  ],
+  "EntityEventList": []
 }

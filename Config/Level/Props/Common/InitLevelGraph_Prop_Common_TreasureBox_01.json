@@ -66,27 +66,21 @@
                   "ParameterType": "Bool"
                 },
                 {
-                  "$type": "RPG.GameCore.TriggerEffectList",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
-                  },
-                  "EffectList": [
-                    {
-                      "EffectPath": "Effects/Eff_Prefab/Eff_Scene/Interactive Object/Eff_Common_PropBlockade_Idle_Locked_Lod0.prefab",
-                      "AttachPoint": "Root",
-                      "PositionOffset": {
-                        "Y": -0.5
-                      }
-                    }
-                  ]
-                },
-                {
                   "$type": "RPG.GameCore.PropSetVisibility",
                   "Visible": true,
                   "SpecifiedRelativePaths": [],
                   "TargetType": {
                     "$type": "RPG.GameCore.TargetFetchAdvPropEx"
                   }
+                },
+                {
+                  "$type": "RPG.GameCore.AdvTriggerEffectList",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  },
+                  "ConfigNameList": [
+                    "Locked"
+                  ]
                 }
               ]
             },
@@ -297,26 +291,21 @@
                       }
                     },
                     {
-                      "$type": "RPG.GameCore.RemoveEffect",
+                      "$type": "RPG.GameCore.AdvRemoveEffectList",
                       "TargetType": {
                         "$type": "RPG.GameCore.TargetFetchAdvPropEx"
                       },
-                      "EffectPath": "Effects/Eff_Prefab/Eff_Scene/Interactive Object/Eff_Common_PropBlockade_Idle_Locked_Lod0.prefab",
-                      "Flags": []
+                      "ConfigNameList": [
+                        "Locked"
+                      ]
                     },
                     {
-                      "$type": "RPG.GameCore.TriggerEffectList",
+                      "$type": "RPG.GameCore.AdvTriggerEffectList",
                       "TargetType": {
                         "$type": "RPG.GameCore.TargetFetchAdvPropEx"
                       },
-                      "EffectList": [
-                        {
-                          "EffectPath": "Effects/Eff_Prefab/Eff_Scene/Interactive Object/Eff_Common_PropBlockade_Trigger.prefab",
-                          "AttachPoint": "Root",
-                          "PositionOffset": {
-                            "Y": -0.5
-                          }
-                        }
+                      "ConfigNameList": [
+                        "Forbidden"
                       ]
                     },
                     {
@@ -328,18 +317,12 @@
                       }
                     },
                     {
-                      "$type": "RPG.GameCore.TriggerEffectList",
+                      "$type": "RPG.GameCore.AdvTriggerEffectList",
                       "TargetType": {
                         "$type": "RPG.GameCore.TargetFetchAdvPropEx"
                       },
-                      "EffectList": [
-                        {
-                          "EffectPath": "Effects/Eff_Prefab/Eff_Scene/Interactive Object/Eff_Common_PropBlockade_Idle_Locked_Lod0.prefab",
-                          "AttachPoint": "Root",
-                          "PositionOffset": {
-                            "Y": -0.5
-                          }
-                        }
+                      "ConfigNameList": [
+                        "Locked"
                       ]
                     }
                   ]
@@ -444,6 +427,15 @@
                       },
                       "ParameterName": "IsDissolved",
                       "ParameterType": "Bool"
+                    },
+                    {
+                      "$type": "RPG.GameCore.AdvTriggerEffectList",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                      },
+                      "ConfigNameList": [
+                        "Locked"
+                      ]
                     },
                     {
                       "$type": "RPG.GameCore.PropSetVisibility",
@@ -600,28 +592,24 @@
           "$type": "RPG.GameCore.WaitPropStateChange",
           "FromState": "ChestLocked",
           "ToState": "ChestClosed",
+          "ToAnyState": true,
           "OnChange": [
             {
-              "$type": "RPG.GameCore.RemoveEffect",
+              "$type": "RPG.GameCore.AdvRemoveEffectList",
               "TargetType": {
                 "$type": "RPG.GameCore.TargetFetchAdvPropEx"
               },
-              "EffectPath": "Effects/Eff_Prefab/Eff_Scene/Interactive Object/Eff_Common_PropBlockade_Idle_Locked_Lod0.prefab",
-              "Flags": []
+              "ConfigNameList": [
+                "Locked"
+              ]
             },
             {
-              "$type": "RPG.GameCore.TriggerEffectList",
+              "$type": "RPG.GameCore.AdvTriggerEffectList",
               "TargetType": {
                 "$type": "RPG.GameCore.TargetFetchAdvPropEx"
               },
-              "EffectList": [
-                {
-                  "EffectPath": "Effects/Eff_Prefab/Eff_Scene/Interactive Object/Eff_Common_PropBlockade_Unlock_Lod0.prefab",
-                  "AttachPoint": "Root",
-                  "PositionOffset": {
-                    "Y": -0.5
-                  }
-                }
+              "ConfigNameList": [
+                "Unlock"
               ]
             }
           ]
@@ -631,22 +619,26 @@
     {
       "TaskList": [
         {
-          "$type": "RPG.GameCore.WaitAnimStateChange",
+          "$type": "RPG.GameCore.WaitAnimStateChangeV2",
           "StateName": "Opened01",
-          "IsEnter": true
-        },
-        {
-          "$type": "RPG.GameCore.AnimSetParameter",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
-          },
-          "ParameterName": "IsDissolved",
-          "ParameterType": "Bool",
-          "Value": {
-            "FixedValue": {
-              "Value": 1
+          "IsEnter": true,
+          "IsTransitionIn": false,
+          "IsListenAllLayer": true,
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.AnimSetParameter",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "ParameterName": "IsDissolved",
+              "ParameterType": "Bool",
+              "Value": {
+                "FixedValue": {
+                  "Value": 1
+                }
+              }
             }
-          }
+          ]
         }
       ]
     },
@@ -654,38 +646,33 @@
       "IsLoop": true,
       "TaskList": [
         {
-          "$type": "RPG.GameCore.WaitAnimStateChange",
+          "$type": "RPG.GameCore.WaitAnimStateChangeV2",
           "StateName": "Dissolved01",
           "IsEnter": true,
-          "IsListenAllLayer": true
-        },
-        {
-          "$type": "RPG.GameCore.WaitSecond",
-          "WaitTime": {
-            "FixedValue": {
-              "Value": 0.5
+          "IsTransitionIn": false,
+          "IsListenAllLayer": true,
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.AdvSetColliderGroupState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "GroupName": "Open"
+            },
+            {
+              "$type": "RPG.GameCore.RemoveNavMeshState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PropSetVisibility",
+              "SpecifiedRelativePaths": [],
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              }
             }
-          }
-        },
-        {
-          "$type": "RPG.GameCore.AdvSetColliderGroupState",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
-          },
-          "GroupName": "Open"
-        },
-        {
-          "$type": "RPG.GameCore.RemoveNavMeshState",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
-          }
-        },
-        {
-          "$type": "RPG.GameCore.PropSetVisibility",
-          "SpecifiedRelativePaths": [],
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
-          }
+          ]
         }
       ]
     },

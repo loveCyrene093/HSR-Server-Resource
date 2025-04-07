@@ -45,6 +45,16 @@
               "Value": 1
             }
           }
+        },
+        {
+          "$type": "RPG.GameCore.DefineDynamicValue",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "DynamicKey": {
+            "Value": "SkipBattleEnterInsertUltraWait"
+          }
         }
       ]
     }
@@ -248,6 +258,10 @@
           "IsAfterWave": true
         },
         {
+          "$type": "RPG.GameCore.TriggeBattleLoadFinishPerformance",
+          "WaitFinish": true
+        },
+        {
           "$type": "RPG.GameCore.PredicateTaskList",
           "Predicate": {
             "$type": "RPG.GameCore.ByContainCustomString",
@@ -366,6 +380,10 @@
         {
           "$type": "RPG.GameCore.IncludeTaskListTemplate",
           "Name": "TaskList_WaveMonsterDelayCreate"
+        },
+        {
+          "$type": "RPG.GameCore.IncludeTaskListTemplate",
+          "Name": "Wave_ShowRoleTrialPage"
         },
         {
           "$type": "RPG.GameCore.TriggerModifierEnterBattle"
@@ -552,16 +570,34 @@
           ]
         },
         {
-          "$type": "RPG.GameCore.IncludeTaskListTemplate",
-          "Name": "Wave_ShowRoleTrialPage"
-        },
-        {
-          "$type": "RPG.GameCore.WaitSecond",
-          "WaitTime": {
-            "FixedValue": {
-              "Value": 0.2
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareDynamicValue",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "LevelEntity"
+            },
+            "DynamicKey": {
+              "Value": "SkipBattleEnterInsertUltraWait"
+            },
+            "ContextScope": "TargetEntity",
+            "CompareType": "LessEqual",
+            "CompareValue": {
+              "FixedValue": {
+                "Value": 0
+              }
             }
-          }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "FixedValue": {
+                  "Value": 0.2
+                }
+              }
+            }
+          ]
         },
         {
           "$type": "RPG.GameCore.PredicateTaskList",
@@ -587,12 +623,34 @@
           ]
         },
         {
-          "$type": "RPG.GameCore.WaitSecond",
-          "WaitTime": {
-            "FixedValue": {
-              "Value": 1.8
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareDynamicValue",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "LevelEntity"
+            },
+            "DynamicKey": {
+              "Value": "SkipBattleEnterInsertUltraWait"
+            },
+            "ContextScope": "TargetEntity",
+            "CompareType": "LessEqual",
+            "CompareValue": {
+              "FixedValue": {
+                "Value": 0
+              }
             }
-          }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "FixedValue": {
+                  "Value": 1.8
+                }
+              }
+            }
+          ]
         },
         {
           "$type": "RPG.GameCore.PauseGameModeToState",

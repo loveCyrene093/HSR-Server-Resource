@@ -25,7 +25,8 @@
           "UseNewStreamingSourceType": false,
           "StreamingSourcesInBlackMask": [],
           "StreamingSourcesAfterBlackMask": [],
-          "MarkStreamingItems": []
+          "MarkStreamingItems": [],
+          "AudioStateList": []
         },
         {
           "$type": "RPG.GameCore.AdvNpcFaceToPlayer"
@@ -534,25 +535,57 @@
               ]
             },
             {
-              "$type": "RPG.GameCore.QuestGetReward",
-              "QuestIDList": [
-                {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareQuestGetReward",
+                "QuestID": {
                   "FixedValue": {
                     "Value": 2200210
                   }
                 },
+                "Inverse": true
+              },
+              "SuccessTaskList": [
                 {
-                  "FixedValue": {
-                    "Value": 2200211
+                  "$type": "RPG.GameCore.QuestGetReward",
+                  "QuestIDList": [
+                    {
+                      "FixedValue": {
+                        "Value": 2200210
+                      }
+                    },
+                    {
+                      "FixedValue": {
+                        "Value": 2200211
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.TriggerCustomString",
+                  "CustomString": {
+                    "Value": "ALL_TALK_END"
+                  }
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.QuestGetReward",
+                  "QuestIDList": [
+                    {
+                      "FixedValue": {
+                        "Value": 2200211
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.TriggerCustomString",
+                  "CustomString": {
+                    "Value": "ALL_TALK_END"
                   }
                 }
               ]
-            },
-            {
-              "$type": "RPG.GameCore.TriggerCustomString",
-              "CustomString": {
-                "Value": "ALL_TALK_END"
-              }
             }
           ],
           "FailedTaskList": [
@@ -752,5 +785,6 @@
         }
       ]
     }
-  ]
+  ],
+  "EntityEventList": []
 }
