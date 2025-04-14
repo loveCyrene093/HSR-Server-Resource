@@ -3831,6 +3831,22 @@
               }
             },
             {
+              "$type": "RPG.GameCore.DefineDynamicValue",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "LevelEntity"
+              },
+              "DynamicKey": {
+                "Value": "ButterflyHasLayer"
+              },
+              "ResetValue": {
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "ContextScope": "TargetEntity"
+            },
+            {
               "$type": "RPG.GameCore.RemoveModifier",
               "TargetType": {
                 "$type": "RPG.GameCore.TargetAlias",
@@ -4083,6 +4099,40 @@
                       },
                       "SuccessTaskList": [
                         {
+                          "$type": "RPG.GameCore.PredicateTaskList",
+                          "Predicate": {
+                            "$type": "RPG.GameCore.ByCompareModifierValue",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntity"
+                            },
+                            "ModifierName": "MLevel_Rogue_Breeding_Butterfly_S4",
+                            "CompareType": "Equal",
+                            "CompareValue": {
+                              "FixedValue": {
+                                "Value": 1
+                              }
+                            }
+                          },
+                          "SuccessTaskList": [
+                            {
+                              "$type": "RPG.GameCore.SetDynamicValue",
+                              "TargetType": {
+                                "$type": "RPG.GameCore.TargetAlias",
+                                "Alias": "LevelEntity"
+                              },
+                              "Value": {
+                                "FixedValue": {
+                                  "Value": 0
+                                }
+                              },
+                              "DynamicKey": {
+                                "Value": "ButterflyHasLayer"
+                              }
+                            }
+                          ]
+                        },
+                        {
                           "$type": "RPG.GameCore.SetModifierValue",
                           "TargetType": {
                             "$type": "RPG.GameCore.TargetAlias",
@@ -4145,14 +4195,35 @@
           "Event": "OnDestroy",
           "CallbackConfig": [
             {
-              "$type": "RPG.GameCore.RemoveModifier",
-              "TargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "LevelEntity"
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "LevelEntity"
+                },
+                "DynamicKey": {
+                  "Value": "ButterflyHasLayer"
+                },
+                "CompareType": "Equal",
+                "CompareValue": {
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
               },
-              "ModifierName": {
-                "Value": "MLevel_Rogue_Breeding_Butterfly_Base"
-              }
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.RemoveModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "LevelEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MLevel_Rogue_Breeding_Butterfly_Base"
+                  }
+                }
+              ]
             }
           ]
         },
