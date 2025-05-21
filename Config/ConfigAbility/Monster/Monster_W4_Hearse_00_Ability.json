@@ -288,14 +288,32 @@
           }
         },
         {
-          "$type": "RPG.GameCore.AddModifier",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "Caster"
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareMonsterTemplateID",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "Caster"
+            },
+            "TargetMonsterTemplateID": {
+              "FixedValue": {
+                "Value": 4014023
+              }
+            },
+            "Inverse": true
           },
-          "ModifierName": {
-            "Value": "Monster_W4_Hearse_00_PhaseController"
-          }
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "ModifierName": {
+                "Value": "Monster_W4_Hearse_00_PhaseController"
+              }
+            }
+          ]
         },
         {
           "$type": "RPG.GameCore.AddModifier",
@@ -373,6 +391,109 @@
                   }
                 }
               ]
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareMonsterTemplateID",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "Caster"
+            },
+            "TargetMonsterTemplateID": {
+              "FixedValue": {
+                "Value": 4014023
+              }
+            }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "ModifierName": {
+                "Value": "Monster_W4_Hearse_00_FullPhase1"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.LevelAudioState",
+              "GroupName": "State_Battle_Monster_W4_Hearse_00",
+              "StateName": {
+                "Value": "Phase2"
+              },
+              "SaveToCustomString": true
+            },
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "ModifierName": {
+                "Value": "OneMorePerTurn"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "ModifierName": {
+                "Value": "Monster_W4_Hearse_00_Phase2Effect"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "ModifierName": {
+                "Value": "Monster_W4_Hearse_00_Phase2EffectMaterial"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.RemoveModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Monster_W4_Nikadory_00_Self"
+              },
+              "ModifierName": {
+                "Value": "Monster_W4_Nikadory_00_Phase2Effect"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Monster_W4_Nikadory_00_Self"
+              },
+              "ModifierName": {
+                "Value": "Monster_W4_Nikadory_00_Phase2EffectWithHearse"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.SetModifierDynamicValue",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "ModifierName": {
+                "Value": "Monster_W4_Hearse_00_Passive"
+              },
+              "DynamicKey": {
+                "Value": "MDF_TurnCount"
+              },
+              "NewValue": {
+                "FixedValue": {
+                  "Value": 2
+                }
+              }
             }
           ]
         }
@@ -1350,6 +1471,32 @@
                         "TargetMonsterTemplateID": {
                           "FixedValue": {
                             "Value": 4014022
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByCompareMonsterPhase",
+                        "CompareType": "Equal",
+                        "CompareValue": {
+                          "FixedValue": {
+                            "Value": 1
+                          }
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCompareMonsterTemplateID",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "Caster"
+                        },
+                        "TargetMonsterTemplateID": {
+                          "FixedValue": {
+                            "Value": 4014023
                           }
                         }
                       }
@@ -2721,7 +2868,6 @@
                 "HitAnimation": "Hit"
               },
               "DisplayData": {
-                "UIMessageHeight": 1,
                 "DitherRangeX": 0.07,
                 "DitherRangeY": 0.07
               }
@@ -2788,7 +2934,6 @@
                 "HitAnimation": "Hit"
               },
               "DisplayData": {
-                "UIMessageHeight": 1,
                 "DitherRangeX": 0.07,
                 "DitherRangeY": 0.07
               }
@@ -2855,7 +3000,6 @@
                 "HitAnimation": "Hit"
               },
               "DisplayData": {
-                "UIMessageHeight": 1,
                 "DitherRangeX": 0.07,
                 "DitherRangeY": 0.07
               }
@@ -2922,7 +3066,6 @@
                 "HitAnimation": "Hit_H"
               },
               "DisplayData": {
-                "UIMessageHeight": 1,
                 "DitherRangeX": 0.07,
                 "DitherRangeY": 0.07,
                 "Scale": 1.5
@@ -6007,6 +6150,89 @@
                   }
                 }
               ]
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByTargetListIntersects",
+                    "FirstTargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "SecondTargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    }
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "DynamicKey": {
+                      "Value": "AIFlag"
+                    },
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "FixedValue": {
+                        "Value": 1
+                      }
+                    }
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByCompareMonsterPhase",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "FixedValue": {
+                        "Value": 1
+                      }
+                    }
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByCompareMonsterTemplateID",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "TargetMonsterTemplateID": {
+                      "FixedValue": {
+                        "Value": 4014023
+                      }
+                    }
+                  }
+                ]
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "Monster_W4_Hearse_00_Action"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "MDF_TurnCount"
+                  }
+                }
+              ]
             }
           ]
         },
@@ -8512,7 +8738,8 @@
           ]
         }
       ]
-    }
+    },
+    "Monster_W4_Hearse_00_FullPhase1": {}
   },
   "GlobalTargetAlias": {
     "Monster_W4_Hearse_00_Self": {

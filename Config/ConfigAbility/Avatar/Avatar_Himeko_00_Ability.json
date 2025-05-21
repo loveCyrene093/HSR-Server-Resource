@@ -1485,15 +1485,67 @@
                                 "DisableAction"
                               ],
                               "InsertAbilityPriority": "AvatarInsertAttackSelf",
-                              "ShowInActionBar": true,
-                              "PreCheck": {
-                                "$type": "RPG.GameCore.TurnInsertAbilityCondition",
-                                "Type": "AbilityOwnerInsertUnusedCount",
-                                "Count": {
-                                  "FixedValue": {
-                                    "Value": 1
+                              "ShowInActionBar": true
+                            },
+                            {
+                              "$type": "RPG.GameCore.SetDynamicValue",
+                              "Value": {
+                                "FixedValue": {
+                                  "Value": 0
+                                }
+                              },
+                              "DynamicKey": {
+                                "Value": "_Himeko_Attack"
+                              }
+                            },
+                            {
+                              "$type": "RPG.GameCore.PredicateTaskList",
+                              "Predicate": {
+                                "$type": "RPG.GameCore.ByAny",
+                                "PredicateList": [
+                                  {
+                                    "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                                    "TargetType": {
+                                      "$type": "RPG.GameCore.TargetAlias",
+                                      "Alias": "Caster"
+                                    },
+                                    "Flag": "STAT_CTRL"
+                                  },
+                                  {
+                                    "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                                    "TargetType": {
+                                      "$type": "RPG.GameCore.TargetAlias",
+                                      "Alias": "Caster"
+                                    },
+                                    "Flag": "DisableAction"
+                                  }
+                                ]
+                              },
+                              "SuccessTaskList": [
+                                {
+                                  "$type": "RPG.GameCore.SetDynamicValue",
+                                  "Value": {
+                                    "FixedValue": {
+                                      "Value": 1
+                                    }
+                                  },
+                                  "DynamicKey": {
+                                    "Value": "Is_CTRL"
                                   }
                                 }
+                              ]
+                            }
+                          ],
+                          "FailedTaskList": [
+                            {
+                              "$type": "RPG.GameCore.SetDynamicValue",
+                              "Value": {
+                                "FixedValue": {
+                                  "Value": 1
+                                }
+                              },
+                              "DynamicKey": {
+                                "Value": "Is_CTRL"
                               }
                             }
                           ]
@@ -1536,22 +1588,27 @@
                         }
                       },
                       {
-                        "$type": "RPG.GameCore.ByContainBehaviorFlag",
-                        "TargetType": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "ModifierOwnerEntity"
-                        },
-                        "Flag": "STAT_CTRL",
-                        "Inverse": true
-                      },
-                      {
-                        "$type": "RPG.GameCore.ByContainBehaviorFlag",
-                        "TargetType": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "ModifierOwnerEntity"
-                        },
-                        "Flag": "DisableAction",
-                        "Inverse": true
+                        "$type": "RPG.GameCore.ByAnd",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ModifierOwnerEntity"
+                            },
+                            "Flag": "STAT_CTRL",
+                            "Inverse": true
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ModifierOwnerEntity"
+                            },
+                            "Flag": "DisableAction",
+                            "Inverse": true
+                          }
+                        ]
                       }
                     ]
                   },
@@ -1605,15 +1662,17 @@
                                 "DisableAction"
                               ],
                               "InsertAbilityPriority": "AvatarInsertAttackSelf",
-                              "ShowInActionBar": true,
-                              "PreCheck": {
-                                "$type": "RPG.GameCore.TurnInsertAbilityCondition",
-                                "Type": "AbilityOwnerInsertUnusedCount",
-                                "Count": {
-                                  "FixedValue": {
-                                    "Value": 1
-                                  }
+                              "ShowInActionBar": true
+                            },
+                            {
+                              "$type": "RPG.GameCore.SetDynamicValue",
+                              "Value": {
+                                "FixedValue": {
+                                  "Value": 0
                                 }
+                              },
+                              "DynamicKey": {
+                                "Value": "_Himeko_Attack"
                               }
                             }
                           ],
@@ -1716,15 +1775,30 @@
                                 "DisableAction"
                               ],
                               "InsertAbilityPriority": "AvatarInsertAttackSelf",
-                              "ShowInActionBar": true,
-                              "PreCheck": {
-                                "$type": "RPG.GameCore.TurnInsertAbilityCondition",
-                                "Type": "AbilityOwnerInsertUnusedCount",
-                                "Count": {
-                                  "FixedValue": {
-                                    "Value": 1
-                                  }
+                              "ShowInActionBar": true
+                            },
+                            {
+                              "$type": "RPG.GameCore.SetDynamicValue",
+                              "Value": {
+                                "FixedValue": {
+                                  "Value": 0
                                 }
+                              },
+                              "DynamicKey": {
+                                "Value": "_Himeko_Attack"
+                              }
+                            }
+                          ],
+                          "FailedTaskList": [
+                            {
+                              "$type": "RPG.GameCore.SetDynamicValue",
+                              "Value": {
+                                "FixedValue": {
+                                  "Value": 1
+                                }
+                              },
+                              "DynamicKey": {
+                                "Value": "Is_CTRL"
                               }
                             }
                           ]
@@ -1876,7 +1950,7 @@
               ]
             },
             {
-              "Event": "OnModifierRemove",
+              "Event": "OnListenModifierRemove",
               "CallbackConfig": [
                 {
                   "$type": "RPG.GameCore.PredicateTaskList",
@@ -1884,9 +1958,29 @@
                     "$type": "RPG.GameCore.ByAnd",
                     "PredicateList": [
                       {
+                        "$type": "RPG.GameCore.ByTargetTeam",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "Team": "TeamLight"
+                      },
+                      {
                         "$type": "RPG.GameCore.ByCompareDynamicValue",
                         "DynamicKey": {
                           "Value": "_Himeko_Attack"
+                        },
+                        "CompareType": "Equal",
+                        "CompareValue": {
+                          "FixedValue": {
+                            "Value": 1
+                          }
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "DynamicKey": {
+                          "Value": "Is_CTRL"
                         },
                         "CompareType": "Equal",
                         "CompareValue": {
@@ -1916,27 +2010,6 @@
                           },
                           "Flag": "DisableAction"
                         }
-                      },
-                      {
-                        "$type": "RPG.GameCore.ByAny",
-                        "PredicateList": [
-                          {
-                            "$type": "RPG.GameCore.ByCheckModifierCallBackBehaviorFlag",
-                            "TargetType": {
-                              "$type": "RPG.GameCore.TargetAlias",
-                              "Alias": "Caster"
-                            },
-                            "Flag": "STAT_CTRL"
-                          },
-                          {
-                            "$type": "RPG.GameCore.ByCheckModifierCallBackBehaviorFlag",
-                            "TargetType": {
-                              "$type": "RPG.GameCore.TargetAlias",
-                              "Alias": "Caster"
-                            },
-                            "Flag": "DisableAction"
-                          }
-                        ]
                       }
                     ]
                   },
@@ -1990,15 +2063,28 @@
                                 "DisableAction"
                               ],
                               "InsertAbilityPriority": "AvatarInsertAttackSelf",
-                              "ShowInActionBar": true,
-                              "PreCheck": {
-                                "$type": "RPG.GameCore.TurnInsertAbilityCondition",
-                                "Type": "AbilityOwnerInsertUnusedCount",
-                                "Count": {
-                                  "FixedValue": {
-                                    "Value": 1
-                                  }
+                              "ShowInActionBar": true
+                            },
+                            {
+                              "$type": "RPG.GameCore.SetDynamicValue",
+                              "Value": {
+                                "FixedValue": {
+                                  "Value": 0
                                 }
+                              },
+                              "DynamicKey": {
+                                "Value": "_Himeko_Attack"
+                              }
+                            },
+                            {
+                              "$type": "RPG.GameCore.SetDynamicValue",
+                              "Value": {
+                                "FixedValue": {
+                                  "Value": 0
+                                }
+                              },
+                              "DynamicKey": {
+                                "Value": "Is_CTRL"
                               }
                             }
                           ],
@@ -2101,15 +2187,30 @@
                                 "DisableAction"
                               ],
                               "InsertAbilityPriority": "AvatarInsertAttackSelf",
-                              "ShowInActionBar": true,
-                              "PreCheck": {
-                                "$type": "RPG.GameCore.TurnInsertAbilityCondition",
-                                "Type": "AbilityOwnerInsertUnusedCount",
-                                "Count": {
-                                  "FixedValue": {
-                                    "Value": 1
-                                  }
+                              "ShowInActionBar": true
+                            },
+                            {
+                              "$type": "RPG.GameCore.SetDynamicValue",
+                              "Value": {
+                                "FixedValue": {
+                                  "Value": 0
                                 }
+                              },
+                              "DynamicKey": {
+                                "Value": "_Himeko_Attack"
+                              }
+                            }
+                          ],
+                          "FailedTaskList": [
+                            {
+                              "$type": "RPG.GameCore.SetDynamicValue",
+                              "Value": {
+                                "FixedValue": {
+                                  "Value": 1
+                                }
+                              },
+                              "DynamicKey": {
+                                "Value": "Is_CTRL"
                               }
                             }
                           ]
@@ -2118,6 +2219,22 @@
                       "FailedTaskList": []
                     }
                   ]
+                }
+              ]
+            },
+            {
+              "Event": "OnInsertAbilityFinish",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "_Himeko_Attack"
+                  }
                 }
               ]
             }
@@ -2408,10 +2525,34 @@
               ]
             }
           }
+        },
+        {
+          "$type": "RPG.GameCore.SetDynamicValue",
+          "Value": {
+            "FixedValue": {
+              "Value": 0
+            }
+          },
+          "DynamicKey": {
+            "Value": "Is_CTRL"
+          }
         }
       ]
     },
     {
+      "OnInsertAbort": [
+        {
+          "$type": "RPG.GameCore.SetDynamicValue",
+          "Value": {
+            "FixedValue": {
+              "Value": 1
+            }
+          },
+          "DynamicKey": {
+            "Value": "_Himeko_Attack"
+          }
+        }
+      ],
       "Name": "Avatar_Himeko_Passive1Atk_Ability",
       "TargetInfo": {
         "TargetType": "InherentTargetEntity"
@@ -2588,17 +2729,6 @@
         "TargetType": "Caster"
       },
       "OnStart": [
-        {
-          "$type": "RPG.GameCore.SetDynamicValue",
-          "Value": {
-            "FixedValue": {
-              "Value": 0
-            }
-          },
-          "DynamicKey": {
-            "Value": "_Himeko_Attack"
-          }
-        },
         {
           "$type": "RPG.GameCore.RemoveModifier",
           "TargetType": {
@@ -2831,17 +2961,6 @@
         },
         {
           "$type": "RPG.GameCore.DamagePerformFinish"
-        },
-        {
-          "$type": "RPG.GameCore.SetDynamicValue",
-          "Value": {
-            "FixedValue": {
-              "Value": 1
-            }
-          },
-          "DynamicKey": {
-            "Value": "_Himeko_Attack"
-          }
         }
       ]
     },

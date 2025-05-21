@@ -4914,7 +4914,6 @@
             "HitPosHeight": 1
           },
           "DisplayData": {
-            "UIMessageHeight": 1,
             "DitherRangeX": 0.02,
             "DitherRangeY": 0.02
           }
@@ -5771,7 +5770,6 @@
             "HitPosHeight": 1
           },
           "DisplayData": {
-            "UIMessageHeight": 1,
             "DitherRangeX": 0.02,
             "DitherRangeY": 0.02
           }
@@ -5944,6 +5942,78 @@
         "TargetType": "Caster"
       },
       "OnAdd": []
+    },
+    {
+      "Name": "Monster_W3_TV_02_IF_Skill01_Insert_SelectTarget",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllLightTeam"
+          },
+          "ByRandom": true,
+          "MaxNumber": {
+            "FixedValue": {
+              "Value": 1
+            }
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.TurnInsertAbility",
+              "AbilityName": {
+                "Value": "Monster_W3_TV_02_IF_Skill01_Insert_Phase01"
+              },
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "AbilityTarget": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "InsertAbilityPriority": "MonsterBuffOthers",
+              "InsertConditionPriority": {
+                "OverridePriority": "MonsterForceKill",
+                "Predicate": {
+                  "$type": "RPG.GameCore.ByCompareAbilityProperty",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "Property": "CurrentHP",
+                  "CompareType": "LessEqual",
+                  "CompareValue": {
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  }
+                }
+              },
+              "OwnerAliveState": "Mask_AliveOrLimbo",
+              "TargetAliveState": "Mask_AliveOrLimbo",
+              "ActivePredicate": {
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByIsContainModifier",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Caster"
+                    },
+                    "ModifierName": {
+                      "Value": "MModifier_Monster_W3_Theater_00_IF_Side_Positive"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "Name": "Monster_W3_TV_02_IF_Skill01_Insert_Phase01",
@@ -9368,64 +9438,45 @@
                       },
                       "SuccessTaskList": [
                         {
-                          "$type": "RPG.GameCore.Retarget",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "AllLightTeam"
+                          "$type": "RPG.GameCore.TurnInsertAbility",
+                          "AbilityName": {
+                            "Value": "Monster_W3_TV_02_IF_Skill01_Insert_SelectTarget"
                           },
-                          "ByRandom": true,
-                          "MaxNumber": {
-                            "FixedValue": {
-                              "Value": 1
-                            }
-                          },
-                          "TaskList": [
-                            {
-                              "$type": "RPG.GameCore.TurnInsertAbility",
-                              "AbilityName": {
-                                "Value": "Monster_W3_TV_02_IF_Skill01_Insert_Phase01"
-                              },
-                              "AbilityTarget": {
+                          "InsertAbilityPriority": "MonsterBuffOthers",
+                          "InsertConditionPriority": {
+                            "OverridePriority": "MonsterForceKill",
+                            "Predicate": {
+                              "$type": "RPG.GameCore.ByCompareAbilityProperty",
+                              "TargetType": {
                                 "$type": "RPG.GameCore.TargetAlias",
-                                "Alias": "ParamEntity"
+                                "Alias": "ModifierOwnerEntity"
                               },
-                              "InsertAbilityPriority": "MonsterBuffOthers",
-                              "InsertConditionPriority": {
-                                "OverridePriority": "MonsterForceKill",
-                                "Predicate": {
-                                  "$type": "RPG.GameCore.ByCompareAbilityProperty",
-                                  "TargetType": {
-                                    "$type": "RPG.GameCore.TargetAlias",
-                                    "Alias": "ModifierOwnerEntity"
-                                  },
-                                  "Property": "CurrentHP",
-                                  "CompareType": "LessEqual",
-                                  "CompareValue": {
-                                    "FixedValue": {
-                                      "Value": 0
-                                    }
-                                  }
+                              "Property": "CurrentHP",
+                              "CompareType": "LessEqual",
+                              "CompareValue": {
+                                "FixedValue": {
+                                  "Value": 0
                                 }
-                              },
-                              "OwnerAliveState": "Mask_AliveOrLimbo",
-                              "TargetAliveState": "Mask_AliveOrLimbo",
-                              "ActivePredicate": {
-                                "$type": "RPG.GameCore.ByAnd",
-                                "PredicateList": [
-                                  {
-                                    "$type": "RPG.GameCore.ByIsContainModifier",
-                                    "TargetType": {
-                                      "$type": "RPG.GameCore.TargetAlias",
-                                      "Alias": "ModifierOwnerEntity"
-                                    },
-                                    "ModifierName": {
-                                      "Value": "MModifier_Monster_W3_Theater_00_IF_Side_Positive"
-                                    }
-                                  }
-                                ]
                               }
                             }
-                          ]
+                          },
+                          "OwnerAliveState": "Mask_AliveOrLimbo",
+                          "TargetAliveState": "Mask_AliveOrLimbo",
+                          "ActivePredicate": {
+                            "$type": "RPG.GameCore.ByAnd",
+                            "PredicateList": [
+                              {
+                                "$type": "RPG.GameCore.ByIsContainModifier",
+                                "TargetType": {
+                                  "$type": "RPG.GameCore.TargetAlias",
+                                  "Alias": "ModifierOwnerEntity"
+                                },
+                                "ModifierName": {
+                                  "Value": "MModifier_Monster_W3_Theater_00_IF_Side_Positive"
+                                }
+                              }
+                            ]
+                          }
                         }
                       ]
                     },

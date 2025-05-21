@@ -30,17 +30,66 @@
           "$type": "RPG.GameCore.WaitRogueSimpleTalkFinish"
         },
         {
-          "$type": "RPG.GameCore.PlayRogueOptionTalk",
-          "OptionList": [
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByAnd",
+            "PredicateList": [
+              {
+                "$type": "RPG.GameCore.ByCurrentRogueShopHasStage",
+                "RogueShopID": 203021
+              },
+              {
+                "$type": "RPG.GameCore.ByAny",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByCurrentRogueHasMiracle",
+                    "MiracleID": 8192
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByCurrentRogueHasMiracle",
+                    "MiracleID": 8902
+                  }
+                ]
+              }
+            ]
+          },
+          "SuccessTaskList": [
             {
-              "TalkSentenceID": 403817436,
-              "OptionIconType": "ShopIcon",
-              "TriggerCustomString": "Go_Miracle"
-            },
+              "$type": "RPG.GameCore.PlayRogueOptionTalk",
+              "OptionList": [
+                {
+                  "TalkSentenceID": 403817436,
+                  "OptionIconType": "ShopIcon",
+                  "TriggerCustomString": "Go_Miracle"
+                },
+                {
+                  "TalkSentenceID": 403817442,
+                  "OptionIconType": "BattleIcon",
+                  "TriggerCustomString": "Go_Battle"
+                },
+                {
+                  "TalkSentenceID": 403817437,
+                  "OptionIconType": "ChatOutIcon",
+                  "TriggerCustomString": "Go_Exit"
+                }
+              ]
+            }
+          ],
+          "FailedTaskList": [
             {
-              "TalkSentenceID": 403817437,
-              "OptionIconType": "ChatOutIcon",
-              "TriggerCustomString": "Go_Exit"
+              "$type": "RPG.GameCore.PlayRogueOptionTalk",
+              "OptionList": [
+                {
+                  "TalkSentenceID": 403817436,
+                  "OptionIconType": "ShopIcon",
+                  "TriggerCustomString": "Go_Miracle"
+                },
+                {
+                  "TalkSentenceID": 403817437,
+                  "OptionIconType": "ChatOutIcon",
+                  "TriggerCustomString": "Go_Exit"
+                }
+              ]
             }
           ]
         }
@@ -85,6 +134,33 @@
       "TaskList": [
         {
           "$type": "RPG.GameCore.WaitPerformanceEnd"
+        },
+        {
+          "$type": "RPG.GameCore.FinishLevelGraph"
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitCustomString",
+          "CustomString": {
+            "Value": "Go_Battle"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.PlayRogueSimpleTalk",
+          "SimpleTalkList": [
+            {
+              "TalkSentenceID": 403817443
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitRogueSimpleTalkFinish"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerRogueShopEnterBattle"
         },
         {
           "$type": "RPG.GameCore.FinishLevelGraph"

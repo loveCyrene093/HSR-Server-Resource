@@ -235,7 +235,8 @@
                       "CanTriggerLastKill": true,
                       "AttackType": "Servant",
                       "DisplayData": {
-                        "UIMessageHeight": 0.8
+                        "UIMessageHeight": 0.8,
+                        "AttachPoint": "Origin"
                       }
                     }
                   ]
@@ -333,6 +334,7 @@
           "AttackType": "Servant",
           "DisplayData": {
             "UIMessageHeight": 1.25,
+            "AttachPoint": "Origin",
             "Scale": 1.2
           }
         },
@@ -1165,6 +1167,7 @@
             "UIMessageHeight": 1.1,
             "DitherRangeX": 0.01,
             "DitherRangeY": 0.01,
+            "AttachPoint": "Origin",
             "Scale": 1.5
           }
         },
@@ -2341,6 +2344,47 @@
           "Event": "OnDestroy",
           "CallbackConfig": [
             {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ModifierOwnerEntity"
+                },
+                "DynamicKey": {
+                  "Value": "Is_Copy"
+                },
+                "CompareType": "LessEqual",
+                "CompareValue": {
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.Retarget",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity.GetServant | ModifierOwnerEntity.GetSummoner"
+                  },
+                  "IncludeLimbo": true,
+                  "TaskList": [
+                    {
+                      "$type": "RPG.GameCore.RemoveModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MServant_PlayerBoyServant_30_UltraBuff_Rank01Copy"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
               "$type": "RPG.GameCore.Retarget",
               "TargetType": {
                 "$type": "RPG.GameCore.TargetAlias",
@@ -2466,6 +2510,11 @@
                           -1729240399
                         ]
                       }
+                    },
+                    "Is_Copy": {
+                      "FixedValue": {
+                        "Value": 1
+                      }
                     }
                   },
                   "CustomOffset": {
@@ -2542,8 +2591,7 @@
                       "CanTriggerLastKill": true,
                       "IsConvert": true,
                       "DisplayData": {
-                        "UIMessageHeight": 0.25,
-                        "AttachPoint": "SelectRoot"
+                        "UIMessageHeight": 0.25
                       },
                       "PerformanceDelay": {
                         "FixedValue": {
@@ -2782,6 +2830,11 @@
                     -1729240399
                   ]
                 }
+              },
+              "Is_Copy": {
+                "FixedValue": {
+                  "Value": 1
+                }
               }
             },
             "Predicate": {
@@ -2860,7 +2913,8 @@
           "2106967967": {},
           "213248053": {},
           "1391682561": {},
-          "390851912": {}
+          "390851912": {},
+          "1009821950": {}
         }
       }
     }

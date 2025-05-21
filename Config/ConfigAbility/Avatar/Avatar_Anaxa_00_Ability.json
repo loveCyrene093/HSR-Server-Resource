@@ -691,6 +691,7 @@
           "CanTriggerLastKill": true,
           "DisplayData": {
             "UIMessageHeight": 0.8,
+            "AttachPoint": "Origin",
             "Scale": 1.2
           }
         },
@@ -1544,6 +1545,7 @@
           "CanTriggerLastKill": true,
           "DisplayData": {
             "UIMessageHeight": 2,
+            "AttachPoint": "Origin",
             "Scale": 1.5
           }
         },
@@ -1685,17 +1687,15 @@
                         }
                       },
                       {
-                        "$type": "RPG.GameCore.ByCompareDynamicValue",
-                        "DynamicKey": {
-                          "Value": "FreeBPInsertAction_Start"
+                        "$type": "RPG.GameCore.ByIsContainModifier",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "Caster"
                         },
-                        "ContextScope": "ContextCaster",
-                        "CompareType": "LessEqual",
-                        "CompareValue": {
-                          "FixedValue": {
-                            "Value": 0
-                          }
-                        }
+                        "ModifierName": {
+                          "Value": "M_Anaxa_00_StartFreeBP"
+                        },
+                        "Inverse": true
                       }
                     ]
                   },
@@ -1717,7 +1717,12 @@
                         "Alias": "Caster"
                       },
                       "ModifierName": {
-                        "Value": "M_Anaxa_00_FreeBP"
+                        "Value": "M_Anaxa_00_PrepareFreeBP"
+                      },
+                      "LayerAddWhenStack": {
+                        "FixedValue": {
+                          "Value": 1
+                        }
                       }
                     },
                     {
@@ -1730,13 +1735,18 @@
                       },
                       "OnInsertAbort": [
                         {
-                          "$type": "RPG.GameCore.RemoveModifier",
+                          "$type": "RPG.GameCore.AddModifier",
                           "TargetType": {
                             "$type": "RPG.GameCore.TargetAlias",
                             "Alias": "Caster"
                           },
                           "ModifierName": {
-                            "Value": "M_Anaxa_00_FreeBP"
+                            "Value": "M_Anaxa_00_PrepareFreeBP"
+                          },
+                          "LayerAddWhenStack": {
+                            "FixedValue": {
+                              "Value": -1
+                            }
                           }
                         },
                         {
@@ -3549,20 +3559,34 @@
             {
               "$type": "RPG.GameCore.PredicateTaskList",
               "Predicate": {
-                "$type": "RPG.GameCore.ByCompareDynamicValue",
-                "TargetType": {
-                  "$type": "RPG.GameCore.TargetAlias",
-                  "Alias": "ModifierOwnerEntity"
-                },
-                "DynamicKey": {
-                  "Value": "MDF_HaveCTRLResistance"
-                },
-                "CompareType": "Equal",
-                "CompareValue": {
-                  "FixedValue": {
-                    "Value": 0
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "DynamicKey": {
+                      "Value": "MDF_HaveCTRLResistance"
+                    },
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "FixedValue": {
+                        "Value": 0
+                      }
+                    }
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "Flag": "Endurance",
+                    "Inverse": true
                   }
-                }
+                ]
               },
               "SuccessTaskList": [
                 {
@@ -3846,7 +3870,12 @@
                     "Alias": "Caster"
                   },
                   "ModifierName": {
-                    "Value": "M_Anaxa_00_FreeBP"
+                    "Value": "M_Anaxa_00_PrepareFreeBP"
+                  },
+                  "LayerAddWhenStack": {
+                    "FixedValue": {
+                      "Value": 1
+                    }
                   }
                 },
                 {
@@ -3859,16 +3888,22 @@
                   },
                   "OnInsertAbort": [
                     {
-                      "$type": "RPG.GameCore.RemoveModifier",
+                      "$type": "RPG.GameCore.AddModifier",
                       "TargetType": {
                         "$type": "RPG.GameCore.TargetAlias",
                         "Alias": "Caster"
                       },
                       "ModifierName": {
-                        "Value": "M_Anaxa_00_FreeBP"
+                        "Value": "M_Anaxa_00_PrepareFreeBP"
+                      },
+                      "LayerAddWhenStack": {
+                        "FixedValue": {
+                          "Value": -1
+                        }
                       }
                     }
-                  ]
+                  ],
+                  "CustomTag": "Anaxa_Passive"
                 },
                 {
                   "$type": "RPG.GameCore.RemoveSelfModifier"
@@ -3879,7 +3914,100 @@
         }
       ]
     },
-    "M_Anaxa_00_FreeBP": {
+    "M_Anaxa_00_PrepareFreeBP": {
+      "MaxLayer": 99999,
+      "_CallbackList": [
+        {
+          "Event": "OnListenTurnBegin",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.RemoveSelfModifier"
+            }
+          ]
+        },
+        {
+          "Event": "OnAfterSkillUse",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByIsContainModifier",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "Caster"
+                },
+                "ModifierName": {
+                  "Value": "M_Anaxa_00_StartFreeBP"
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.RemoveModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "ModifierName": {
+                    "Value": "M_Anaxa_00_StartFreeBP"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "ModifierName": {
+                    "Value": "M_Anaxa_00_PrepareFreeBP"
+                  },
+                  "LayerAddWhenStack": {
+                    "FixedValue": {
+                      "Value": -1
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Event": "OnBeforeInsertActionPrepare",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareParamString",
+                "CompareType": "Equal",
+                "CompareValue": {
+                  "Value": "Anaxa_Passive"
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "ModifierName": {
+                    "Value": "M_Anaxa_00_StartFreeBP"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.ShowBonusUIEffect",
+                  "UIPrefabPath": "UI/Battle/SpecialAction/Avatar/SpecialAction_1405.prefab",
+                  "TitleTextID": {
+                    "Hash": 6458926875675507370
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "Stacking": "ReplaceByCaster"
+    },
+    "M_Anaxa_00_StartFreeBP": {
       "_CallbackList": [
         {
           "Event": "OnCreate",
@@ -3912,17 +4040,6 @@
           "CallbackConfig": [
             {
               "$type": "RPG.GameCore.SetDynamicValue",
-              "Value": {
-                "FixedValue": {
-                  "Value": 0
-                }
-              },
-              "DynamicKey": {
-                "Value": "FreeBPInsertAction_Start"
-              }
-            },
-            {
-              "$type": "RPG.GameCore.SetDynamicValue",
               "ContextScope": "AITag",
               "Value": {
                 "FixedValue": {
@@ -3943,77 +4060,13 @@
               ]
             }
           ]
-        },
-        {
-          "Event": "OnListenTurnBegin",
-          "CallbackConfig": [
-            {
-              "$type": "RPG.GameCore.RemoveSelfModifier"
-            }
-          ]
-        },
-        {
-          "Event": "OnAfterSkillUse",
-          "CallbackConfig": [
-            {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByCompareDynamicValue",
-                "DynamicKey": {
-                  "Value": "FreeBPInsertAction_Start"
-                },
-                "ContextScope": "ContextCaster",
-                "CompareType": "GreaterEqual",
-                "CompareValue": {
-                  "FixedValue": {
-                    "Value": 1
-                  }
-                }
-              },
-              "SuccessTaskList": [
-                {
-                  "$type": "RPG.GameCore.RemoveSelfModifier"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "Event": "OnBeforeInsertActionPrepare",
-          "CallbackConfig": [
-            {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByCompareParamString",
-                "CompareType": "Equal",
-                "CompareValue": {
-                  "Value": "Anaxa_Passive"
-                }
-              },
-              "SuccessTaskList": [
-                {
-                  "$type": "RPG.GameCore.SetDynamicValue",
-                  "Value": {
-                    "FixedValue": {
-                      "Value": 1
-                    }
-                  },
-                  "DynamicKey": {
-                    "Value": "FreeBPInsertAction_Start"
-                  }
-                },
-                {
-                  "$type": "RPG.GameCore.ShowBonusUIEffect",
-                  "UIPrefabPath": "UI/Battle/SpecialAction/Avatar/SpecialAction_1405.prefab",
-                  "TitleTextID": {
-                    "Hash": 6458926875675507370
-                  }
-                }
-              ]
-            }
-          ]
         }
-      ]
+      ],
+      "AdditionConfig": {
+        "DependencyOnRemove": {
+          "DependentModifier": "M_Anaxa_00_PrepareFreeBP"
+        }
+      }
     }
   },
   "GlobalTemplates": [
@@ -5069,7 +5122,8 @@
           },
           "CanTriggerLastKill": true,
           "DisplayData": {
-            "UIMessageHeight": 0.8
+            "UIMessageHeight": 0.8,
+            "AttachPoint": "Origin"
           }
         },
         {

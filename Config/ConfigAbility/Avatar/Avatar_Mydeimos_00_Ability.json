@@ -951,6 +951,7 @@
           "DisplayData": {
             "UIMessageHeight": 0.8,
             "DitherRangeX": 0.01,
+            "AttachPoint": "Origin",
             "Scale": 2
           }
         },
@@ -995,6 +996,7 @@
           "DisplayData": {
             "UIMessageHeight": 0.8,
             "DitherRangeX": 0.01,
+            "AttachPoint": "Origin",
             "Scale": 2
           }
         },
@@ -2170,7 +2172,6 @@
         },
         {
           "$type": "RPG.GameCore.TriggerAnimState",
-          "AnimLogicState": "Idle",
           "AnimStateName": "Passive",
           "NormalizedTimeEnd": {
             "FixedValue": {
@@ -2470,9 +2471,6 @@
                     -995139362
                   ]
                 }
-              },
-              "DisplayData": {
-                "UIMessageHeight": 0.8
               }
             },
             {
@@ -2667,9 +2665,6 @@
                     -995139362
                   ]
                 }
-              },
-              "DisplayData": {
-                "UIMessageHeight": 0.8
               }
             },
             {
@@ -3098,73 +3093,9 @@
       }
     },
     {
-      "Name": "Avatar_Mydeimos_00_Skill22_AbilityTarget",
-      "TargetInfo": {
-        "TargetType": "SkillTargetEntityList"
-      },
-      "OnStart": [
-        {
-          "$type": "RPG.GameCore.Retarget",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "AllDarkTeam"
-          },
-          "Predicate": {
-            "$type": "RPG.GameCore.ByIsContainModifier",
-            "TargetType": {
-              "$type": "RPG.GameCore.TargetAlias",
-              "Alias": "ParamEntity"
-            },
-            "ModifierName": {
-              "Value": "MAvatar_Mydeimos_00_UltraTarget"
-            }
-          },
-          "MaxNumber": {
-            "FixedValue": {
-              "Value": 1
-            }
-          },
-          "TaskList": [
-            {
-              "$type": "RPG.GameCore.TriggerAbility",
-              "TargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "Caster"
-              },
-              "AbilityInherentTargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "ParamEntity"
-              },
-              "AbilityName": {
-                "Value": "Avatar_Mydeimos_00_Skill22_Ability"
-              },
-              "IsSkillPerform": true
-            }
-          ],
-          "FailedTaskList": [
-            {
-              "$type": "RPG.GameCore.TriggerAbility",
-              "TargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "Caster"
-              },
-              "AbilityInherentTargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "AbilityTargetEntity"
-              },
-              "AbilityName": {
-                "Value": "Avatar_Mydeimos_00_Skill22_Ability"
-              },
-              "IsSkillPerform": true
-            }
-          ]
-        }
-      ]
-    },
-    {
       "Name": "Avatar_Mydeimos_00_Skill22_Ability",
       "TargetInfo": {
-        "TargetType": "InherentTargetEntity"
+        "TargetType": "SkillTargetEntityList"
       },
       "OnStart": [
         {
@@ -3916,6 +3847,11 @@
         {
           "$type": "RPG.GameCore.StopTimeline",
           "TimelineName": "Effects/Eff_Prefab/Eff_Avatar/Eff_Mydeimos_00/Eff_Avatar_Mydeimos_00_Skill22_TimeLine.playable"
+        },
+        {
+          "$type": "RPG.GameCore.SetTeamFormation",
+          "Team": "TeamDark",
+          "FormationType": "DarkTeamNormal"
         },
         {
           "$type": "RPG.GameCore.SkillPerformFinish"
@@ -5367,9 +5303,6 @@
                         -2125946860
                       ]
                     }
-                  },
-                  "DisplayData": {
-                    "UIMessageHeight": 0.8
                   }
                 },
                 {
@@ -5410,6 +5343,42 @@
     "MAvatar_Mydeimos_00_UltraTarget": {
       "BehaviorFlagList": [
         "RemoveWhenCasterDead"
+      ],
+      "_CallbackList": [
+        {
+          "Event": "OnCreate",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.SetAIUpperGroupForSpecified",
+              "SpecifiedAIOwner": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "AIUpperGroupPriority": "Player_Specified"
+            }
+          ]
+        },
+        {
+          "Event": "OnDestroy",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.SetAIUpperGroupForSpecified",
+              "IsCancel": true,
+              "SpecifiedAIOwner": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              }
+            }
+          ]
+        }
       ],
       "Stacking": "ReplaceByCaster"
     },

@@ -489,25 +489,73 @@
               "Event": "OnCreate",
               "CallbackConfig": [
                 {
-                  "$type": "RPG.GameCore.DefineDynamicValue",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "LevelEntity"
-                  },
-                  "DynamicKey": {
-                    "Value": "RogueBuffModifier_RuinBlood_IncreaseRatio"
-                  },
-                  "ResetValue": {
-                    "IsDynamic": true,
-                    "PostfixExpr": {
-                      "OpCodes": "AQAR",
-                      "FixedValues": [],
-                      "DynamicHashes": [
-                        462955996
-                      ]
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByContainCustomString",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "LevelEntity"
+                    },
+                    "Key": {
+                      "Hash": 2040571801
                     }
                   },
-                  "ContextScope": "TargetEntity"
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "LevelEntity"
+                      },
+                      "Value": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQABAQIR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            2040571801,
+                            462955996
+                          ]
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "RogueBuffModifier_RuinBlood_IncreaseRatio"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.DebugLog",
+                      "Level": "Warn",
+                      "Message": "========success==616530==RogueBuffModifier_RuinBlood_IncreaseRatio=={RogueBuffModifier_RuinBlood_IncreaseRatio}===================="
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.DefineDynamicValue",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "LevelEntity"
+                      },
+                      "DynamicKey": {
+                        "Value": "RogueBuffModifier_RuinBlood_IncreaseRatio"
+                      },
+                      "ResetValue": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            462955996
+                          ]
+                        }
+                      },
+                      "ContextScope": "TargetEntity"
+                    },
+                    {
+                      "$type": "RPG.GameCore.DebugLog",
+                      "Level": "Warn",
+                      "Message": "========fail==616530==RogueBuffModifier_RuinBlood_IncreaseRatio=={RogueBuffModifier_RuinBlood_IncreaseRatio}===================="
+                    }
+                  ]
                 }
               ]
             },
@@ -3514,7 +3562,7 @@
                     "Alias": "ModifierOwnerEntity"
                   },
                   "ToDynamicKey": {
-                    "Value": "_DamageChangerRatio"
+                    "Value": "_DamageChangerBaseRatio"
                   }
                 }
               ]
@@ -3546,7 +3594,7 @@
                     "Alias": "ModifierOwnerEntity"
                   },
                   "ToDynamicKey": {
-                    "Value": "_RecoverChangerRatio"
+                    "Value": "_RecoverChangerBaseRatio"
                   }
                 }
               ]
@@ -3578,7 +3626,7 @@
                     "Alias": "ModifierOwnerEntity"
                   },
                   "ToDynamicKey": {
-                    "Value": "_ShieldChargerRatio"
+                    "Value": "_ShieldChargerBaseRatio"
                   }
                 }
               ]
@@ -3887,7 +3935,8 @@
                                 ]
                               }
                             }
-                          }
+                          },
+                          "IsShowUIMessageOnUpdate": false
                         }
                       ]
                     }
@@ -3913,7 +3962,7 @@
                     }
                   ],
                   "DynamicHashes": [
-                    -1759707751,
+                    323524756,
                     -628640582
                   ]
                 }
@@ -3934,7 +3983,7 @@
                     }
                   ],
                   "DynamicHashes": [
-                    1197517708,
+                    892886149,
                     -628640582
                   ]
                 }
@@ -3955,7 +4004,7 @@
                     }
                   ],
                   "DynamicHashes": [
-                    1870272993,
+                    250654972,
                     -628640582
                   ]
                 }
@@ -4009,7 +4058,8 @@
                         ]
                       }
                     }
-                  }
+                  },
+                  "IsShowUIMessageOnUpdate": false
                 }
               ],
               "FailedTaskList": []
@@ -4071,7 +4121,8 @@
                             ]
                           }
                         }
-                      }
+                      },
+                      "IsShowUIMessageOnUpdate": false
                     }
                   ],
                   "FailedTaskList": []
@@ -4131,7 +4182,8 @@
                                 ]
                               }
                             }
-                          }
+                          },
+                          "IsShowUIMessageOnUpdate": false
                         }
                       ],
                       "FailedTaskList": []
@@ -4143,13 +4195,16 @@
           ]
         }
       ],
-      "Stacking": "ReplaceByCaster",
+      "Stacking": "Replace",
       "DynamicValues": {
         "Floats": {
           "-628640582": {},
           "567158975": {},
+          "323524756": {},
           "-1759707751": {},
+          "892886149": {},
           "1197517708": {},
+          "250654972": {},
           "1870272993": {},
           "-1309867853": {},
           "-1788813983": {},
@@ -4185,15 +4240,31 @@
                 {
                   "$type": "RPG.GameCore.PredicateTaskList",
                   "Predicate": {
-                    "$type": "RPG.GameCore.ByIsContainModifier",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "LevelEntity"
-                    },
-                    "ModifierName": {
-                      "Value": "StageAbility_674590_Modifier_AllBreak"
-                    },
-                    "Inverse": true
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByIsContainModifier",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "LevelEntity"
+                        },
+                        "ModifierName": {
+                          "Value": "StageAbility_674590_Modifier_AllBreak"
+                        },
+                        "Inverse": true
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByIsContainModifier",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "ModifierName": {
+                          "Value": "Modifier_StageAbility_675510_Sub"
+                        },
+                        "Inverse": true
+                      }
+                    ]
                   },
                   "SuccessTaskList": [
                     {

@@ -1,0 +1,373 @@
+{
+  "AIName": "ST_Sub_NPCMonster_Combat_Steer",
+  "VariableList": [
+    {
+      "$type": "RPG.GameCore.AIVariableFloat",
+      "Name": "CD_ATK"
+    },
+    {
+      "$type": "RPG.GameCore.AIVariableFloat",
+      "Name": "CD_FLASH"
+    }
+  ],
+  "DecisionList": [],
+  "TransitionTable": [],
+  "RootState": {
+    "Name": "Root",
+    "TaskList": [
+      {
+        "$type": "RPG.GameCore.ST_Side_OverrideVision",
+        "VisionSetName": "DefaultVision_Chase",
+        "Visions": []
+      }
+    ],
+    "TransitionList": [
+      {
+        "Trigger": "OnTick",
+        "TransitionToType": "TreeFail",
+        "Condition": {
+          "$type": "RPG.GameCore.ByAnd",
+          "PredicateList": [
+            {
+              "$type": "RPG.GameCore.ST_ByInAIStatus",
+              "States": [
+                "Attack"
+              ],
+              "Inverse": true
+            },
+            {
+              "$type": "RPG.GameCore.ST_ByExitCombat"
+            }
+          ]
+        },
+        "BoolVariableList": [],
+        "FloatVariableList": []
+      }
+    ],
+    "SubStateList": [
+      {
+        "$type": "RPG.GameCore.StateTreeStateConfig",
+        "EnterCondition": {
+          "$type": "RPG.GameCore.ByAnd",
+          "PredicateList": [
+            {
+              "$type": "RPG.GameCore.ST_ByInAttackDistance"
+            },
+            {
+              "$type": "RPG.GameCore.ST_ByInAttackAngle"
+            },
+            {
+              "$type": "RPG.GameCore.ST_BySkillInCD",
+              "CDVariableName": "CD_ATK",
+              "Inverse": true
+            }
+          ]
+        },
+        "TaskList": [
+          {
+            "$type": "RPG.GameCore.ST_Main_DoSkill",
+            "Name": "MazeAtk01",
+            "CDType": "UseAIConfig",
+            "CD": 4,
+            "CDVariableName": "CD_ATK"
+          },
+          {
+            "$type": "RPG.GameCore.ST_Side_AttachAIStatus",
+            "AIStatusTags": [
+              "Attack"
+            ]
+          }
+        ],
+        "TransitionList": [
+          {
+            "TransitionToState": "WaitState",
+            "BoolVariableList": [],
+            "FloatVariableList": []
+          }
+        ],
+        "Name": "AttackState"
+      },
+      {
+        "$type": "RPG.GameCore.StateTreeStateConfig",
+        "TaskList": [],
+        "TransitionList": [
+          {
+            "Trigger": "OnTick",
+            "TransitionToState": "AttackState",
+            "Condition": {
+              "$type": "RPG.GameCore.ByAnd",
+              "PredicateList": [
+                {
+                  "$type": "RPG.GameCore.ST_ByInAttackDistance"
+                },
+                {
+                  "$type": "RPG.GameCore.ST_ByInAttackAngle"
+                },
+                {
+                  "$type": "RPG.GameCore.ST_BySkillInCD",
+                  "CDVariableName": "CD_ATK",
+                  "Inverse": true
+                }
+              ]
+            },
+            "BoolVariableList": [],
+            "FloatVariableList": []
+          }
+        ],
+        "SubStateList": [
+          {
+            "$type": "RPG.GameCore.StateTreeStateConfig",
+            "EnterCondition": {
+              "$type": "RPG.GameCore.ST_ByInAttackDistance",
+              "Inverse": true
+            },
+            "TaskList": [
+              {
+                "$type": "RPG.GameCore.ST_Main_MoveToTarget",
+                "TargetType": "LocalTarget",
+                "MoveStance": "Run",
+                "ToleranceType": "UseAIConfig",
+                "Tolerance": 2
+              }
+            ],
+            "TransitionList": [
+              {
+                "TransitionToType": "NextState",
+                "TransitionToState": "WaitSteer",
+                "BoolVariableList": [],
+                "FloatVariableList": []
+              }
+            ],
+            "SubStateList": [
+              {
+                "$type": "RPG.GameCore.StateTreeStateConfig",
+                "EnterCondition": {
+                  "$type": "RPG.GameCore.ByAnd",
+                  "PredicateList": [
+                    {
+                      "$type": "RPG.GameCore.ST_BySkillInCD",
+                      "CDVariableName": "CD_FLASH",
+                      "Inverse": true
+                    }
+                  ]
+                },
+                "SubStateList": [
+                  {
+                    "$type": "RPG.GameCore.StateTreeStateConfig",
+                    "TaskList": [
+                      {
+                        "$type": "RPG.GameCore.ST_Main_MoveToTarget",
+                        "TargetType": "LocalTarget",
+                        "MoveStance": "Run",
+                        "ToleranceType": "UseAIConfig",
+                        "Tolerance": 2
+                      },
+                      {
+                        "$type": "RPG.GameCore.ST_Side_Timer",
+                        "Time": 0.1
+                      }
+                    ],
+                    "TransitionList": [
+                      {
+                        "TransitionToState": "WaitChase_Sub01_Flash",
+                        "BoolVariableList": [],
+                        "FloatVariableList": []
+                      }
+                    ],
+                    "Name": "WaitChase_Sub01_FirstTurn"
+                  },
+                  {
+                    "$type": "RPG.GameCore.StateTreeStateConfig",
+                    "TaskList": [
+                      {
+                        "$type": "RPG.GameCore.ST_Main_DoSkill",
+                        "Name": "MazeFlash",
+                        "CDType": "UseAIConfig",
+                        "CD": 4,
+                        "CDVariableName": "CD_FLASH",
+                        "SkillPointPos": {
+                          "Generator": {
+                            "$type": "RPG.GameCore.PointGeneratorMergeConfig",
+                            "Generators": [
+                              {
+                                "$type": "RPG.GameCore.CirclePointGeneratorConfig",
+                                "Target": {
+                                  "$type": "RPG.GameCore.TargetFetchAdvAITarget"
+                                },
+                                "StartAngle": 30,
+                                "DistanceInerval": 1,
+                                "AngleInterval": 30,
+                                "DistanceInervalRepeatCount": 10
+                              },
+                              {
+                                "$type": "RPG.GameCore.CirclePointGeneratorConfig",
+                                "Target": {
+                                  "$type": "RPG.GameCore.TargetFetchCaster"
+                                },
+                                "StartAngle": 30,
+                                "DistanceInerval": 1,
+                                "AngleInterval": 30,
+                                "DistanceInervalRepeatCount": 10
+                              }
+                            ]
+                          },
+                          "PointEvaluateConfig": {
+                            "$type": "RPG.GameCore.PointNavPathLengthEvaluator",
+                            "Target": {
+                              "$type": "RPG.GameCore.TargetFetchAdvAITarget"
+                            },
+                            "DistanceScoreTemplate": "Qyery_Target_Point"
+                          }
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ST_Side_SetVariableFloat",
+                        "OnEnter": true,
+                        "EnterName": "CD_ATK"
+                      },
+                      {
+                        "$type": "RPG.GameCore.ST_Side_AttachAIStatus",
+                        "AIStatusTags": [
+                          "Attack"
+                        ]
+                      }
+                    ],
+                    "TransitionList": [
+                      {
+                        "TransitionToState": "WaitChase_Sub02",
+                        "BoolVariableList": [],
+                        "FloatVariableList": []
+                      }
+                    ],
+                    "Name": "WaitChase_Sub01_Flash"
+                  }
+                ],
+                "Name": "WaitChase_Sub01"
+              },
+              {
+                "$type": "RPG.GameCore.StateTreeStateConfig",
+                "TaskList": [
+                  {
+                    "$type": "RPG.GameCore.ST_Main_MoveToTarget",
+                    "TargetType": "LocalTarget",
+                    "MoveStance": "Run",
+                    "ToleranceType": "UseAIConfig",
+                    "Tolerance": 2
+                  }
+                ],
+                "TransitionList": [
+                  {
+                    "Trigger": "OnTick",
+                    "TransitionToState": "WaitChase_Sub01",
+                    "Condition": {
+                      "$type": "RPG.GameCore.ByAnd",
+                      "PredicateList": [
+                        {
+                          "$type": "RPG.GameCore.ST_ByDistanceToTarget",
+                          "TargetType": "LocalTarget",
+                          "CompareType": "GreaterEqual",
+                          "CompareValue": 2
+                        },
+                        {
+                          "$type": "RPG.GameCore.ST_BySkillInCD",
+                          "CDVariableName": "CD_FLASH",
+                          "Inverse": true
+                        },
+                        {
+                          "$type": "RPG.GameCore.ST_ByInAttackAngle"
+                        },
+                        {
+                          "$type": "RPG.GameCore.ST_ByExitCombat",
+                          "Inverse": true
+                        }
+                      ]
+                    },
+                    "BoolVariableList": [],
+                    "FloatVariableList": []
+                  },
+                  {
+                    "Trigger": "OnTick",
+                    "TransitionToType": "TreeFail",
+                    "Condition": {
+                      "$type": "RPG.GameCore.ByAnd",
+                      "PredicateList": [
+                        {
+                          "$type": "RPG.GameCore.ST_ByExitCombat"
+                        },
+                        {
+                          "$type": "RPG.GameCore.ByAny",
+                          "PredicateList": [
+                            {
+                              "$type": "RPG.GameCore.ST_ByInAttackDistance",
+                              "Inverse": true
+                            },
+                            {
+                              "$type": "RPG.GameCore.ST_BySkillInCD",
+                              "CDVariableName": "CD_ATK"
+                            }
+                          ]
+                        },
+                        {
+                          "$type": "RPG.GameCore.ST_ByInAIStatus",
+                          "States": [
+                            "Attack"
+                          ],
+                          "Inverse": true
+                        }
+                      ]
+                    },
+                    "BoolVariableList": [],
+                    "FloatVariableList": []
+                  }
+                ],
+                "Name": "WaitChase_Sub02"
+              }
+            ],
+            "Name": "WaitChase"
+          },
+          {
+            "$type": "RPG.GameCore.StateTreeStateConfig",
+            "TaskList": [
+              {
+                "$type": "RPG.GameCore.ST_Main_Wait",
+                "Time": -1
+              },
+              {
+                "$type": "RPG.GameCore.ST_Side_SteerToTarget"
+              }
+            ],
+            "TransitionList": [
+              {
+                "Trigger": "OnTick",
+                "TransitionToType": "TreeFail",
+                "Condition": {
+                  "$type": "RPG.GameCore.ST_ByExitCombat"
+                },
+                "BoolVariableList": [],
+                "FloatVariableList": []
+              },
+              {
+                "Trigger": "OnTick",
+                "TransitionToState": "WaitChase",
+                "Condition": {
+                  "$type": "RPG.GameCore.ST_ByInAttackDistance",
+                  "Inverse": true
+                },
+                "BoolVariableList": [],
+                "FloatVariableList": []
+              }
+            ],
+            "Name": "WaitSteer"
+          }
+        ],
+        "Name": "WaitState"
+      }
+    ]
+  },
+  "OnDisable": {
+    "$type": "RPG.GameCore.TaskConfig"
+  },
+  "OnInit": {
+    "$type": "RPG.GameCore.TaskConfig"
+  }
+}

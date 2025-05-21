@@ -3992,12 +3992,19 @@
                         }
                       },
                       {
-                        "$type": "RPG.GameCore.ByTargetEntityType",
+                        "$type": "RPG.GameCore.ByTargetListAll",
                         "TargetType": {
                           "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "ModifierOwnerEntity"
+                          "Alias": "ParamEntityAttackTargetList"
                         },
-                        "EntityTypeMask": "Servant"
+                        "Predicate": {
+                          "$type": "RPG.GameCore.ByTargetEntityType",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ParamEntity"
+                          },
+                          "EntityTypeMask": "Servant"
+                        }
                       }
                     ]
                   },
@@ -4005,16 +4012,42 @@
                     {
                       "$type": "RPG.GameCore.PredicateTaskList",
                       "Predicate": {
-                        "$type": "RPG.GameCore.ByIsContainModifier",
-                        "TargetType": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "LevelEntity"
-                        },
-                        "ModifierName": {
-                          "Value": "StageAbility_616442_Modifier"
-                        }
+                        "$type": "RPG.GameCore.ByAny",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByIsContainModifier",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "LevelEntity"
+                            },
+                            "ModifierName": {
+                              "Value": "StageAbility_616442_Modifier"
+                            }
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByIsContainModifier",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ModifierOwnerEntity"
+                            },
+                            "ModifierName": {
+                              "Value": "Modifier_StageAbility_675450_Sub"
+                            }
+                          }
+                        ]
                       },
                       "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.SetDynamicValue",
+                          "Value": {
+                            "FixedValue": {
+                              "Value": 9999
+                            }
+                          },
+                          "DynamicKey": {
+                            "Value": "_LoseLayer"
+                          }
+                        },
                         {
                           "$type": "RPG.GameCore.Retarget",
                           "TargetType": {
@@ -4055,24 +4088,129 @@
                               "DynamicKey": "_Layer"
                             },
                             {
-                              "$type": "RPG.GameCore.SetDynamicValueByCopying",
-                              "FromTargetType": {
-                                "$type": "RPG.GameCore.TargetAlias",
-                                "Alias": "LevelEntity"
+                              "$type": "RPG.GameCore.PredicateTaskList",
+                              "Predicate": {
+                                "$type": "RPG.GameCore.ByIsContainModifier",
+                                "TargetType": {
+                                  "$type": "RPG.GameCore.TargetAlias",
+                                  "Alias": "LevelEntity"
+                                },
+                                "ModifierName": {
+                                  "Value": "StageAbility_616442_Modifier"
+                                }
                               },
-                              "FromDynamicKey": {
-                                "Value": "_LoseLayer"
+                              "SuccessTaskList": [
+                                {
+                                  "$type": "RPG.GameCore.SetDynamicValueByCopying",
+                                  "FromTargetType": {
+                                    "$type": "RPG.GameCore.TargetAlias",
+                                    "Alias": "LevelEntity"
+                                  },
+                                  "FromDynamicKey": {
+                                    "Value": "_LoseLayer"
+                                  },
+                                  "FromModifierName": {
+                                    "Value": "StageAbility_616442_Modifier"
+                                  },
+                                  "ToTargetType": {
+                                    "$type": "RPG.GameCore.TargetAlias",
+                                    "Alias": "ModifierOwnerEntity"
+                                  },
+                                  "ToDynamicKey": {
+                                    "Value": "_LoseLayer"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "$type": "RPG.GameCore.PredicateTaskList",
+                              "Predicate": {
+                                "$type": "RPG.GameCore.ByIsContainModifier",
+                                "TargetType": {
+                                  "$type": "RPG.GameCore.TargetAlias",
+                                  "Alias": "ParamEntity"
+                                },
+                                "ModifierName": {
+                                  "Value": "Modifier_StageAbility_675450_Sub"
+                                }
                               },
-                              "FromModifierName": {
-                                "Value": "StageAbility_616442_Modifier"
-                              },
-                              "ToTargetType": {
-                                "$type": "RPG.GameCore.TargetAlias",
-                                "Alias": "ModifierOwnerEntity"
-                              },
-                              "ToDynamicKey": {
-                                "Value": "_LoseLayer"
-                              }
+                              "SuccessTaskList": [
+                                {
+                                  "$type": "RPG.GameCore.SetDynamicValueByCopying",
+                                  "FromTargetType": {
+                                    "$type": "RPG.GameCore.TargetAlias",
+                                    "Alias": "LevelEntity"
+                                  },
+                                  "FromDynamicKey": {
+                                    "Value": "Hit_Flag"
+                                  },
+                                  "FromModifierName": {
+                                    "Value": "Modifier_StageAbility_675450"
+                                  },
+                                  "ToTargetType": {
+                                    "$type": "RPG.GameCore.TargetAlias",
+                                    "Alias": "ModifierOwnerEntity"
+                                  },
+                                  "ToDynamicKey": {
+                                    "Value": "_IsHitFlag"
+                                  }
+                                },
+                                {
+                                  "$type": "RPG.GameCore.SetDynamicValueByCopying",
+                                  "FromTargetType": {
+                                    "$type": "RPG.GameCore.TargetAlias",
+                                    "Alias": "ParamEntity"
+                                  },
+                                  "FromDynamicKey": {
+                                    "Value": "MaxLoseLayer"
+                                  },
+                                  "FromModifierName": {
+                                    "Value": "Modifier_StageAbility_675450_Sub"
+                                  },
+                                  "ToTargetType": {
+                                    "$type": "RPG.GameCore.TargetAlias",
+                                    "Alias": "ModifierOwnerEntity"
+                                  },
+                                  "ToDynamicKey": {
+                                    "Value": "_MaxLoseLayer"
+                                  }
+                                },
+                                {
+                                  "$type": "RPG.GameCore.PredicateTaskList",
+                                  "Predicate": {
+                                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                                    "DynamicKey": {
+                                      "Value": "_IsHitFlag"
+                                    },
+                                    "CompareType": "Less",
+                                    "CompareValue": {
+                                      "FixedValue": {
+                                        "Value": 1
+                                      }
+                                    }
+                                  },
+                                  "SuccessTaskList": [
+                                    {
+                                      "$type": "RPG.GameCore.SetDynamicValue",
+                                      "Value": {
+                                        "IsDynamic": true,
+                                        "PostfixExpr": {
+                                          "OpCodes": "AQABAQECEAIR",
+                                          "FixedValues": [],
+                                          "DynamicHashes": [
+                                            339799074,
+                                            -667669083,
+                                            -673558119
+                                          ]
+                                        }
+                                      },
+                                      "DynamicKey": {
+                                        "Value": "_LoseLayer"
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
                             },
                             {
                               "$type": "RPG.GameCore.PredicateTaskList",
@@ -4244,6 +4382,8 @@
           "1912601768": {},
           "916155872": {},
           "-667669083": {},
+          "1805173070": {},
+          "-673558119": {},
           "-255505330": {},
           "57470051": {},
           "2085897795": {}

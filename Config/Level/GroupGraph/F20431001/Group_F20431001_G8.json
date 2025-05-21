@@ -1,0 +1,623 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.SetGraphDynamicFloat",
+          "Name": "JumpTargetFloor",
+          "TargetSelf": false,
+          "TargetIDs": [
+            300005
+          ],
+          "Value": {
+            "FixedValue": {
+              "Value": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "Clt_OnUseStart"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "FixedValue": {
+                  "Value": 0.5
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.TriggerEntityEventV2",
+              "EventName": {
+                "Value": "Clt_TriggerStartPuzzle"
+              },
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300001
+                ]
+              }
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.GroupFetchLocalTarget",
+            "TargetType": "Prop",
+            "Targets": [
+              300002
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "Clt_OnPuzzleFinish"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerEntityEventV2",
+              "EventName": {
+                "Value": "Clt_TriggerEndInteract"
+              },
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300002
+                ]
+              }
+            },
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "Clt_UpdateResult"
+              }
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.GroupFetchLocalTarget",
+            "TargetType": "Prop",
+            "Targets": [
+              300001
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "Clt_OnPuzzleQuit"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerEntityEventV2",
+              "EventName": {
+                "Value": "Clt_TriggerEndInteract"
+              },
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300002
+                ]
+              }
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.GroupFetchLocalTarget",
+            "TargetType": "Prop",
+            "Targets": [
+              300001
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Order": -66,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "Clt_UpdateResult"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.GenericSwitchCase",
+              "SwitchRef": {
+                "$type": "RPG.GameCore.SwitchRefGraphDynamicString",
+                "Name": "Loc_Result01",
+                "TargetType": {
+                  "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                  "TargetType": "Prop",
+                  "Targets": [
+                    300001
+                  ]
+                }
+              },
+              "Cases": [
+                {
+                  "$type": "RPG.GameCore.StringCaseContainer",
+                  "Case": {
+                    "Value": "Route_Day_Area02_to_Area03_01"
+                  },
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.GenericSwitchCase",
+                      "SwitchRef": {
+                        "$type": "RPG.GameCore.SwitchRefGraphDynamicString",
+                        "Name": "Loc_Result02",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                          "TargetType": "Prop",
+                          "Targets": [
+                            300001
+                          ]
+                        }
+                      },
+                      "Cases": [
+                        {
+                          "$type": "RPG.GameCore.StringCaseContainer",
+                          "Case": {
+                            "Value": "Route_Day_Area02_to_Area03_02_a"
+                          },
+                          "OnSuccess": [
+                            {
+                              "$type": "RPG.GameCore.SetGraphDynamicFloat",
+                              "Name": "Loc_PuzzleState",
+                              "TargetIDs": [],
+                              "Value": {
+                                "FixedValue": {
+                                  "Value": 1
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "$type": "RPG.GameCore.StringCaseContainer",
+                          "Case": {
+                            "Value": "Route_Day_Area02_to_Area03_02_b"
+                          },
+                          "OnSuccess": [
+                            {
+                              "$type": "RPG.GameCore.SetGraphDynamicFloat",
+                              "Name": "Loc_PuzzleState",
+                              "TargetIDs": [],
+                              "Value": {
+                                "FixedValue": {
+                                  "Value": 2
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "Clt_UpdateRouteAndBox"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.GenericSwitchCase",
+              "SwitchRef": {
+                "$type": "RPG.GameCore.SwitchRefGraphDynamicFloat",
+                "Name": "Loc_PuzzleState"
+              },
+              "Cases": [
+                {
+                  "$type": "RPG.GameCore.NumberCaseContainer",
+                  "Case": {
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.NumberCaseContainer",
+                  "Case": {
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.GenericSwitchCase",
+                      "SwitchRef": {
+                        "$type": "RPG.GameCore.SwitchRefGraphDynamicFloat",
+                        "Name": "Loc_LiftState"
+                      },
+                      "Cases": [
+                        {
+                          "$type": "RPG.GameCore.NumberCaseContainer",
+                          "Case": {
+                            "FixedValue": {
+                              "Value": 1
+                            }
+                          },
+                          "OnSuccess": [
+                            {
+                              "$type": "RPG.GameCore.AdvCreateGroupEntity",
+                              "InstanceIDList": [
+                                300003
+                              ]
+                            },
+                            {
+                              "$type": "RPG.GameCore.AdvDestroyGroupEntity",
+                              "InstanceIDList": [
+                                300004
+                              ]
+                            },
+                            {
+                              "$type": "RPG.GameCore.AdvDestroyGroupEntity",
+                              "InstanceIDList": [
+                                300007
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "$type": "RPG.GameCore.NumberCaseContainer",
+                          "Case": {
+                            "FixedValue": {
+                              "Value": 2
+                            }
+                          },
+                          "OnSuccess": [
+                            {
+                              "$type": "RPG.GameCore.AdvCreateGroupEntity",
+                              "InstanceIDList": [
+                                300004
+                              ]
+                            },
+                            {
+                              "$type": "RPG.GameCore.AdvDestroyGroupEntity",
+                              "InstanceIDList": [
+                                300003
+                              ]
+                            },
+                            {
+                              "$type": "RPG.GameCore.AdvDestroyGroupEntity",
+                              "InstanceIDList": [
+                                300007
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.NumberCaseContainer",
+                  "Case": {
+                    "FixedValue": {
+                      "Value": 2
+                    }
+                  },
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.GenericSwitchCase",
+                      "SwitchRef": {
+                        "$type": "RPG.GameCore.SwitchRefGraphDynamicFloat",
+                        "Name": "Loc_LiftState"
+                      },
+                      "Cases": [
+                        {
+                          "$type": "RPG.GameCore.NumberCaseContainer",
+                          "Case": {
+                            "FixedValue": {
+                              "Value": 1
+                            }
+                          },
+                          "OnSuccess": [
+                            {
+                              "$type": "RPG.GameCore.AdvCreateGroupEntity",
+                              "InstanceIDList": [
+                                300003
+                              ]
+                            },
+                            {
+                              "$type": "RPG.GameCore.AdvDestroyGroupEntity",
+                              "InstanceIDList": [
+                                300004
+                              ]
+                            },
+                            {
+                              "$type": "RPG.GameCore.AdvDestroyGroupEntity",
+                              "InstanceIDList": [
+                                300007
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "$type": "RPG.GameCore.NumberCaseContainer",
+                          "Case": {
+                            "FixedValue": {
+                              "Value": 2
+                            }
+                          },
+                          "OnSuccess": [
+                            {
+                              "$type": "RPG.GameCore.AdvCreateGroupEntity",
+                              "InstanceIDList": [
+                                300007
+                              ]
+                            },
+                            {
+                              "$type": "RPG.GameCore.AdvDestroyGroupEntity",
+                              "InstanceIDList": [
+                                300003
+                              ]
+                            },
+                            {
+                              "$type": "RPG.GameCore.AdvDestroyGroupEntity",
+                              "InstanceIDList": [
+                                300004
+                              ]
+                            },
+                            {
+                              "$type": "RPG.GameCore.GenericSwitchCase",
+                              "SwitchRef": {
+                                "$type": "RPG.GameCore.SwitchRefGraphDynamicString",
+                                "Name": "Loc_BoxRef02",
+                                "TargetType": {
+                                  "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                                  "TargetType": "Prop",
+                                  "Targets": [
+                                    300001
+                                  ]
+                                }
+                              },
+                              "Cases": [
+                                {
+                                  "$type": "RPG.GameCore.StringCaseContainer",
+                                  "Case": {
+                                    "Value": "Box"
+                                  },
+                                  "OnSuccess": [
+                                    {
+                                      "$type": "RPG.GameCore.TriggerEntityEventV2",
+                                      "EventName": {
+                                        "Value": "Clt_DebugShow01"
+                                      },
+                                      "TargetType": {
+                                        "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                                        "TargetType": "Prop",
+                                        "Targets": [
+                                          300006
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "Clt_OnFloorSet"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.GenericSwitchCase",
+              "SwitchRef": {
+                "$type": "RPG.GameCore.SwitchRefGraphDynamicFloat",
+                "Name": "TargetFloorTemp",
+                "TargetType": {
+                  "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                  "TargetType": "Prop",
+                  "Targets": [
+                    300005
+                  ]
+                }
+              },
+              "Cases": [
+                {
+                  "$type": "RPG.GameCore.NumberCaseContainer",
+                  "Case": {
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.SetGraphDynamicFloat",
+                      "Name": "Loc_LiftState",
+                      "TargetIDs": [],
+                      "Value": {
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.NumberCaseContainer",
+                  "Case": {
+                    "FixedValue": {
+                      "Value": 2
+                    }
+                  },
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.SetGraphDynamicFloat",
+                      "Name": "Loc_LiftState",
+                      "TargetIDs": [],
+                      "Value": {
+                        "FixedValue": {
+                          "Value": 2
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.GroupFetchLocalTarget",
+            "TargetType": "Prop",
+            "Targets": [
+              300005
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGraphDynamicValueChange",
+          "Name": "Loc_LiftState",
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "Clt_UpdateRouteAndBox"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.GenericSwitchCase",
+              "SwitchRef": {
+                "$type": "RPG.GameCore.SwitchRefGraphDynamicFloat",
+                "Name": "Loc_LiftState"
+              },
+              "Cases": [
+                {
+                  "$type": "RPG.GameCore.NumberCaseContainer",
+                  "Case": {
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.SetGraphDynamicFloat",
+                      "Name": "TargetFloor",
+                      "TargetSelf": false,
+                      "TargetIDs": [
+                        300005
+                      ],
+                      "Value": {
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.NumberCaseContainer",
+                  "Case": {
+                    "FixedValue": {
+                      "Value": 2
+                    }
+                  },
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.SetGraphDynamicFloat",
+                      "Name": "TargetFloor",
+                      "TargetSelf": false,
+                      "TargetIDs": [
+                        300005
+                      ],
+                      "Value": {
+                        "FixedValue": {
+                          "Value": 2
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGraphDynamicValueChange",
+          "Name": "Loc_PuzzleState",
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "Clt_UpdateRouteAndBox"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "ValueSource": {
+    "Values": [
+      {
+        "$type": "RPG.GameCore.SharedInt",
+        "Key": "Loc_PuzzleState"
+      },
+      {
+        "$type": "RPG.GameCore.SharedInt",
+        "Value": 1,
+        "Key": "Loc_LiftState"
+      },
+      {
+        "$type": "RPG.GameCore.SharedString",
+        "Value": "Route_Day_Area01_to_Area02_01",
+        "Key": "Result01"
+      },
+      {
+        "$type": "RPG.GameCore.SharedString",
+        "Value": "Route_Day_Area01_to_Area02_02",
+        "Key": "Result02"
+      }
+    ]
+  },
+  "Type": "Group"
+}

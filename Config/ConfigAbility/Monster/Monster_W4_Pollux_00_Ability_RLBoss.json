@@ -1,6 +1,1046 @@
 {
   "AbilityList": [
     {
+      "Name": "Monster_W4_Pollux_00_RLBoss_Skill03_Phase01",
+      "TargetInfo": {
+        "TargetType": "AllEnemy"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityName": {
+            "Value": "Monster_W4_Pollux_00_RLBoss_Skill03_Phase02"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityName": {
+            "Value": "Monster_W4_Pollux_00_Skill03_Camera"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "AnimStateName": "Skill03"
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 0.92
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "AnimLogicState": "Idle"
+        },
+        {
+          "$type": "RPG.GameCore.LookAt",
+          "TargetType": "TeamFormation"
+        }
+      ]
+    },
+    {
+      "Name": "Monster_W4_Pollux_00_RLBoss_Skill03_Phase02",
+      "TargetInfo": {
+        "TargetType": "AllEnemy"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.SkillExecutionStart"
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByContainBehaviorFlag",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "Caster"
+            },
+            "Flag": "Taunt",
+            "Inverse": true
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.Retarget",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllLightTeam"
+              },
+              "ByRandom": true,
+              "MaxNumber": {
+                "FixedValue": {
+                  "Value": 3
+                }
+              },
+              "TaskList": [
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "Monster_W4_Pollux_00_Skill03_Mark"
+                  }
+                }
+              ]
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.Retarget",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "TauntOrAggroEnemy"
+              },
+              "ByRandom": true,
+              "MaxNumber": {
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "TaskList": [
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "Monster_W4_Pollux_00_Skill03_Mark"
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.Retarget",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllLightTeam"
+              },
+              "Predicate": {
+                "$type": "RPG.GameCore.ByIsContainModifier",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                },
+                "ModifierName": {
+                  "Value": "Monster_W4_Pollux_00_Skill03_Mark"
+                },
+                "Inverse": true
+              },
+              "ByRandom": true,
+              "MaxNumber": {
+                "FixedValue": {
+                  "Value": 2
+                }
+              },
+              "TaskList": [
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "Monster_W4_Pollux_00_Skill03_Mark"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareTargetCount",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "Monster_W4_Pollux_00_Skill03_Target"
+            },
+            "AliveOnly": true,
+            "Number": {
+              "FixedValue": {
+                "Value": 1
+              }
+            },
+            "CompareType": "Equal"
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetTeamFormation",
+              "FormationTarget": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Monster_W4_Pollux_00_Skill03_Target"
+              },
+              "CustomFormationName": "Monster_4014030_Skill03_1P",
+              "CustomCenterTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              }
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareTargetCount",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "Monster_W4_Pollux_00_Skill03_Target"
+                },
+                "AliveOnly": true,
+                "Number": {
+                  "FixedValue": {
+                    "Value": 2
+                  }
+                },
+                "CompareType": "Equal"
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetTeamFormation",
+                  "FormationTarget": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Monster_W4_Pollux_00_Skill03_Target"
+                  },
+                  "CustomFormationName": "Monster_4014030_Skill03_2P",
+                  "CustomCenterTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  }
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetTeamFormation",
+                  "FormationTarget": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Monster_W4_Pollux_00_Skill03_Target"
+                  },
+                  "CustomFormationName": "Monster_4014030_Skill03",
+                  "CustomCenterTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityPosition",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster.GetDummyEntity"
+          },
+          "PosTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "OffsetZ": {
+            "FixedValue": {
+              "Value": 6.824666
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.LookAt",
+          "TargetType": "TeamFormation"
+        },
+        {
+          "$type": "RPG.GameCore.PlayTimeline",
+          "TimelineName": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Skill03_TimeLine.playable"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Monster_W4_Pollux_00_Skill03_Target"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Skill03_Hit01.prefab"
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareTargetCount",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "Monster_W4_Pollux_00_Skill03_Target"
+            },
+            "AliveOnly": true,
+            "Number": {
+              "FixedValue": {
+                "Value": 1
+              }
+            },
+            "CompareType": "Equal"
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Skill03_Start01_01.prefab"
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareTargetCount",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "Monster_W4_Pollux_00_Skill03_Target"
+                },
+                "AliveOnly": true,
+                "Number": {
+                  "FixedValue": {
+                    "Value": 2
+                  }
+                },
+                "CompareType": "Equal"
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerEffect",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Skill03_Start01_02.prefab"
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerEffect",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Skill03_Start01_03.prefab"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 0.23
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Monster_W4_Pollux_00_Skill03_Target"
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByProperty",
+              "DynamicKey": "_MaxHP",
+              "ReadTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "Value": "MaxHP"
+            },
+            {
+              "$type": "RPG.GameCore.DamageByAttackProperty",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "AttackProperty": {
+                "$type": "RPG.GameCore.AttackData",
+                "DamageType": {
+                  "DamageType": "Quantum"
+                },
+                "DamagePercentage": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAAAAEBAgQR",
+                    "FixedValues": [
+                      {
+                        "Value": 1
+                      }
+                    ],
+                    "DynamicHashes": [
+                      -1722872433,
+                      -1972809571
+                    ]
+                  }
+                },
+                "DamageValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQABAQQAAAQR",
+                    "FixedValues": [
+                      {
+                        "Value": 0.15
+                      }
+                    ],
+                    "DynamicHashes": [
+                      -1309867853,
+                      1347443890
+                    ]
+                  }
+                },
+                "HitSplitRatio": {
+                  "FixedValue": {
+                    "Value": 0.15
+                  }
+                },
+                "SPHitRatio": {
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                },
+                "AttackType": "Normal",
+                "FinalFormulaType": "ByBaseDamage",
+                "IsNonlethal": true,
+                "DamageBehavior": {
+                  "EnumIndex": 1,
+                  "Value": 2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Monster_W4_Pollux_00_Skill03_Target"
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerAnimState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "AnimLogicState": "OnHit",
+              "AnimStateName": "Hit"
+            },
+            {
+              "$type": "RPG.GameCore.Retarget",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Monster_W4_Pollux_00_Skill03_Target"
+              },
+              "TaskList": [
+                {
+                  "$type": "RPG.GameCore.TargetTimeSlow",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "TimeScale": 0.7,
+                  "UnscaledDuration": 0.4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 0.282
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Monster_W4_Pollux_00_Skill03_Target"
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByProperty",
+              "DynamicKey": "_MaxHP",
+              "ReadTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "Value": "MaxHP"
+            },
+            {
+              "$type": "RPG.GameCore.DamageByAttackProperty",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "AttackProperty": {
+                "$type": "RPG.GameCore.AttackData",
+                "DamageType": {
+                  "DamageType": "Quantum"
+                },
+                "DamagePercentage": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAAAAEBAgQR",
+                    "FixedValues": [
+                      {
+                        "Value": 1
+                      }
+                    ],
+                    "DynamicHashes": [
+                      -1722872433,
+                      -1972809571
+                    ]
+                  }
+                },
+                "DamageValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQABAQQAAAQR",
+                    "FixedValues": [
+                      {
+                        "Value": 0.15
+                      }
+                    ],
+                    "DynamicHashes": [
+                      -1309867853,
+                      1347443890
+                    ]
+                  }
+                },
+                "HitSplitRatio": {
+                  "FixedValue": {
+                    "Value": 0.15
+                  }
+                },
+                "SPHitRatio": {
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                },
+                "AttackType": "Normal",
+                "FinalFormulaType": "ByBaseDamage",
+                "IsNonlethal": true,
+                "DamageBehavior": {
+                  "EnumIndex": 1,
+                  "Value": 2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Monster_W4_Pollux_00_Skill03_Target"
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.TargetTimeSlow",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "TimeScale": 0.4,
+              "UnscaledDuration": 0.8
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 0.324
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Monster_W4_Pollux_00_Skill03_Target"
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByProperty",
+              "DynamicKey": "_MaxHP",
+              "ReadTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "Value": "MaxHP"
+            },
+            {
+              "$type": "RPG.GameCore.DamageByAttackProperty",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "AttackProperty": {
+                "$type": "RPG.GameCore.AttackData",
+                "DamageType": {
+                  "DamageType": "Quantum"
+                },
+                "DamagePercentage": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAAAAEBAgQR",
+                    "FixedValues": [
+                      {
+                        "Value": 1
+                      }
+                    ],
+                    "DynamicHashes": [
+                      -1722872433,
+                      -1972809571
+                    ]
+                  }
+                },
+                "DamageValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQABAQQAAAQR",
+                    "FixedValues": [
+                      {
+                        "Value": 0.15
+                      }
+                    ],
+                    "DynamicHashes": [
+                      -1309867853,
+                      1347443890
+                    ]
+                  }
+                },
+                "HitSplitRatio": {
+                  "FixedValue": {
+                    "Value": 0.15
+                  }
+                },
+                "SPHitRatio": {
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                },
+                "AttackType": "Normal",
+                "FinalFormulaType": "ByBaseDamage",
+                "IsNonlethal": true,
+                "DamageBehavior": {
+                  "EnumIndex": 1,
+                  "Value": 2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 0.388
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Monster_W4_Pollux_00_Skill03_Target"
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByProperty",
+              "DynamicKey": "_MaxHP",
+              "ReadTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "Value": "MaxHP"
+            },
+            {
+              "$type": "RPG.GameCore.DamageByAttackProperty",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "AttackProperty": {
+                "$type": "RPG.GameCore.AttackData",
+                "DamageType": {
+                  "DamageType": "Quantum"
+                },
+                "DamagePercentage": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAAAAEBAgQR",
+                    "FixedValues": [
+                      {
+                        "Value": 1
+                      }
+                    ],
+                    "DynamicHashes": [
+                      -1722872433,
+                      -1972809571
+                    ]
+                  }
+                },
+                "DamageValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQABAQQAAAQR",
+                    "FixedValues": [
+                      {
+                        "Value": 0.15
+                      }
+                    ],
+                    "DynamicHashes": [
+                      -1309867853,
+                      1347443890
+                    ]
+                  }
+                },
+                "HitSplitRatio": {
+                  "FixedValue": {
+                    "Value": 0.15
+                  }
+                },
+                "SPHitRatio": {
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                },
+                "AttackType": "Normal",
+                "FinalFormulaType": "ByBaseDamage",
+                "IsNonlethal": true,
+                "DamageBehavior": {
+                  "EnumIndex": 1,
+                  "Value": 2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 0.44
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Monster_W4_Pollux_00_Skill03_Target"
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByProperty",
+              "DynamicKey": "_MaxHP",
+              "ReadTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "Value": "MaxHP"
+            },
+            {
+              "$type": "RPG.GameCore.DamageByAttackProperty",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "AttackProperty": {
+                "$type": "RPG.GameCore.AttackData",
+                "DamageType": {
+                  "DamageType": "Quantum"
+                },
+                "DamagePercentage": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAAAAEBAgQR",
+                    "FixedValues": [
+                      {
+                        "Value": 1
+                      }
+                    ],
+                    "DynamicHashes": [
+                      -1722872433,
+                      -1972809571
+                    ]
+                  }
+                },
+                "DamageValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQABAQQAAAQR",
+                    "FixedValues": [
+                      {
+                        "Value": 0.15
+                      }
+                    ],
+                    "DynamicHashes": [
+                      -1309867853,
+                      1347443890
+                    ]
+                  }
+                },
+                "HitSplitRatio": {
+                  "FixedValue": {
+                    "Value": 0.15
+                  }
+                },
+                "SPHitRatio": {
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                },
+                "AttackType": "Normal",
+                "FinalFormulaType": "ByBaseDamage",
+                "IsNonlethal": true,
+                "DamageBehavior": {
+                  "EnumIndex": 1,
+                  "Value": 2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 0.504
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Monster_W4_Pollux_00_Skill03_Target"
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByProperty",
+              "DynamicKey": "_MaxHP",
+              "ReadTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "Value": "MaxHP"
+            },
+            {
+              "$type": "RPG.GameCore.DamageByAttackProperty",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "AttackProperty": {
+                "$type": "RPG.GameCore.AttackData",
+                "DamageType": {
+                  "DamageType": "Quantum"
+                },
+                "DamagePercentage": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAAAAEBAgQR",
+                    "FixedValues": [
+                      {
+                        "Value": 1
+                      }
+                    ],
+                    "DynamicHashes": [
+                      -1722872433,
+                      -1972809571
+                    ]
+                  }
+                },
+                "DamageValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQABAQQAAAQR",
+                    "FixedValues": [
+                      {
+                        "Value": 0.4
+                      }
+                    ],
+                    "DynamicHashes": [
+                      -1309867853,
+                      1347443890
+                    ]
+                  }
+                },
+                "HitSplitRatio": {
+                  "FixedValue": {
+                    "Value": 0.4
+                  }
+                },
+                "SPHitRatio": {
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                },
+                "AttackType": "Normal",
+                "FinalFormulaType": "ByBaseDamage",
+                "DamageBehavior": {
+                  "EnumIndex": 1,
+                  "Value": 2
+                },
+                "HitAnimation": "Hit_H",
+                "HitEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Skill03_Hit02.prefab"
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.DamagePerformFinish"
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Monster_W4_Pollux_00_Skill03_Target"
+          },
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsContainModifier",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ParamEntity"
+            },
+            "ModifierName": {
+              "Value": "Monster_W4_Pollux_00_ThirstBlood"
+            },
+            "Inverse": true
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "ModifierName": {
+                "Value": "Monster_W4_Pollux_00_ThirstBlood"
+              },
+              "DynamicValues": {
+                "MDF_DamagePercentage": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      549443026
+                    ]
+                  }
+                },
+                "MDF_DamageHpAddedRatio": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      1102644108
+                    ]
+                  }
+                }
+              },
+              "CustomUIModelAttachPointName": "SelectRoot",
+              "CustomOffset": {
+                "Y": 0.5
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 0.59
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.IncludeTaskListTemplate",
+          "Name": "Monster_W4_Pollux_00_Strengthen_EggAbsorb_FX"
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 0.775
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.IncludeTaskListTemplate",
+          "Name": "Monster_W4_Pollux_00_Strengthen_EggAbsorb"
+        },
+        {
+          "$type": "RPG.GameCore.RemoveModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllLightTeam"
+          },
+          "ModifierName": {
+            "Value": "Monster_W4_Pollux_00_Skill03_Mark"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 1
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SkillPerformFinish"
+        }
+      ]
+    },
+    {
       "Name": "Monster_W4_Pollux_00_RLBoss_Skill05_Phase01",
       "TargetInfo": {
         "TargetType": "Caster"
@@ -172,10 +1212,10 @@
           "$type": "RPG.GameCore.PredicateTaskList",
           "Predicate": {
             "$type": "RPG.GameCore.ByCompareMonsterPhase",
-            "CompareType": "Equal",
+            "CompareType": "GreaterEqual",
             "CompareValue": {
               "FixedValue": {
-                "Value": 3
+                "Value": 2
               }
             }
           },
@@ -306,16 +1346,21 @@
                 "HitAnimation": "Hit",
                 "HitEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Skill05_Hit01.prefab"
               }
-            },
-            {
-              "$type": "RPG.GameCore.WaitSecond",
-              "WaitTime": {
-                "FixedValue": {
-                  "Value": 0.16
-                }
-              }
             }
           ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill05",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 0.433
+            }
+          }
         },
         {
           "$type": "RPG.GameCore.Retarget",
@@ -399,16 +1444,21 @@
                 "HitAnimation": "Hit",
                 "HitEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Skill05_Hit01.prefab"
               }
-            },
-            {
-              "$type": "RPG.GameCore.WaitSecond",
-              "WaitTime": {
-                "FixedValue": {
-                  "Value": 0.16
-                }
-              }
             }
           ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill05",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 0.469
+            }
+          }
         },
         {
           "$type": "RPG.GameCore.Retarget",
@@ -492,16 +1542,21 @@
                 "HitAnimation": "Hit",
                 "HitEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Skill05_Hit01.prefab"
               }
-            },
-            {
-              "$type": "RPG.GameCore.WaitSecond",
-              "WaitTime": {
-                "FixedValue": {
-                  "Value": 0.15
-                }
-              }
             }
           ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill05",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 0.501
+            }
+          }
         },
         {
           "$type": "RPG.GameCore.Retarget",
@@ -585,16 +1640,21 @@
                 "HitAnimation": "Hit",
                 "HitEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Skill05_Hit01.prefab"
               }
-            },
-            {
-              "$type": "RPG.GameCore.WaitSecond",
-              "WaitTime": {
-                "FixedValue": {
-                  "Value": 0.14
-                }
-              }
             }
           ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill05",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 0.532
+            }
+          }
         },
         {
           "$type": "RPG.GameCore.Retarget",
@@ -678,16 +1738,21 @@
                 "HitAnimation": "Hit",
                 "HitEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Skill05_Hit01.prefab"
               }
-            },
-            {
-              "$type": "RPG.GameCore.WaitSecond",
-              "WaitTime": {
-                "FixedValue": {
-                  "Value": 0.16
-                }
-              }
             }
           ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill05",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 0.565
+            }
+          }
         },
         {
           "$type": "RPG.GameCore.Retarget",
@@ -771,16 +1836,21 @@
                 "HitAnimation": "Hit",
                 "HitEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Skill05_Hit01.prefab"
               }
-            },
-            {
-              "$type": "RPG.GameCore.WaitSecond",
-              "WaitTime": {
-                "FixedValue": {
-                  "Value": 0.13
-                }
-              }
             }
           ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill05",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 0.594
+            }
+          }
         },
         {
           "$type": "RPG.GameCore.Retarget",
@@ -860,16 +1930,21 @@
                 "HitAnimation": "Hit",
                 "HitEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Skill05_Hit01.prefab"
               }
-            },
-            {
-              "$type": "RPG.GameCore.WaitSecond",
-              "WaitTime": {
-                "FixedValue": {
-                  "Value": 0.05
-                }
-              }
             }
           ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill05",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 0.607
+            }
+          }
         },
         {
           "$type": "RPG.GameCore.Retarget",
@@ -1085,6 +2160,16 @@
                   -1297552395
                 ]
               }
+            },
+            "MDF_DamageUpRatio": {
+              "IsDynamic": true,
+              "PostfixExpr": {
+                "OpCodes": "AQAR",
+                "FixedValues": [],
+                "DynamicHashes": [
+                  720516590
+                ]
+              }
             }
           }
         },
@@ -1159,12 +2244,1070 @@
       }
     },
     {
+      "Name": "Monster_W4_Pollux_00_RLBoss_Skill06_Phase01",
+      "TargetInfo": {
+        "TargetType": "AllEnemy"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.ResetHeadLookAt",
+          "PerformerType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "StopImmediately": true
+        },
+        {
+          "$type": "RPG.GameCore.LookAt",
+          "TargetType": "TeamFormation"
+        },
+        {
+          "$type": "RPG.GameCore.SetSkillTargetFormationByPos",
+          "Team": "TeamLight",
+          "CustomCenterTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "CenterOffset": {
+            "Z": 24
+          },
+          "IgnoreHitBoxRadius": true,
+          "CenterRootYaw": 180,
+          "TargetFormation": {},
+          "LeftSideFormations": [
+            {
+              "LocalDelta": {
+                "X": -2.75
+              }
+            },
+            {
+              "LocalDelta": {
+                "X": -1.25
+              }
+            }
+          ],
+          "RightSideFormations": [
+            {
+              "LocalDelta": {
+                "X": 1.25
+              }
+            },
+            {
+              "LocalDelta": {
+                "X": 2.75
+              }
+            }
+          ],
+          "IgnoreCharacterRootOffset": true
+        },
+        {
+          "$type": "RPG.GameCore.SetSkillTargetFormationByPos",
+          "Team": "TeamDark",
+          "CustomTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllTeamMember"
+          },
+          "CustomCenterTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "IgnoreHitBoxRadius": true,
+          "TargetFormation": {},
+          "LeftSideFormations": [
+            {
+              "Yaw": -38.265
+            },
+            {
+              "Yaw": -38.265
+            }
+          ],
+          "RightSideFormations": [
+            {
+              "Yaw": 45
+            },
+            {
+              "Yaw": 45
+            }
+          ],
+          "SpecifyTargetFormationEntity": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "IgnoreCharacterRootOffset": true
+        },
+        {
+          "$type": "RPG.GameCore.ShowBattleUI"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityName": {
+            "Value": "Monster_W4_Pollux_00_RLBoss_Skill06_Phase02"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityName": {
+            "Value": "Monster_W4_Pollux_00_Skill06_Camera"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Monster_W4_Pollux_00_PolluxPartL"
+          },
+          "AnimStateName": "Skill06_L"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Monster_W4_Pollux_00_PolluxPartR"
+          },
+          "AnimStateName": "Skill06_R"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "AnimStateName": "Skill06"
+        }
+      ]
+    },
+    {
+      "Name": "Monster_W4_Pollux_00_RLBoss_Skill06_Phase02",
+      "TargetInfo": {
+        "TargetType": "AllEnemy"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.SkillExecutionStart"
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByAnd",
+            "PredicateList": [
+              {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "DynamicKey": {
+                  "Value": "StoryMode"
+                },
+                "CompareType": "Equal",
+                "CompareValue": {
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                }
+              },
+              {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "DynamicKey": {
+                  "Value": "_StorySetSpeed"
+                },
+                "CompareType": "Equal",
+                "CompareValue": {
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
+              }
+            ]
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetSimulationSpeedEnable"
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.SetDynamicValue",
+          "Value": {
+            "FixedValue": {
+              "Value": 1
+            }
+          },
+          "DynamicKey": {
+            "Value": "IsNeedFade"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Standby_Lv2_01.prefab",
+          "IsNeedFadeOut": false
+        },
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Standby_Lv2_02.prefab",
+          "IsNeedFadeOut": false
+        },
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Standby_Lv2_03.prefab",
+          "IsNeedFadeOut": false
+        },
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Standby_Lv2_04.prefab",
+          "IsNeedFadeOut": false
+        },
+        {
+          "$type": "RPG.GameCore.ScaleCharacterModel",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllLightTeam"
+          },
+          "ModelScaleBase": {
+            "FixedValue": {
+              "Value": 0.6
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.RemoveModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "Monster_W4_Pollux_00_FX_Ground"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.HideLevelStage",
+          "IsHide": true
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill06",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 0.74
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.ShowBattleUI",
+          "IsShow": true
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllEnemy"
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByProperty",
+              "DynamicKey": "_MaxHP",
+              "ReadTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "Value": "MaxHP"
+            },
+            {
+              "$type": "RPG.GameCore.DamageByAttackProperty",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "AttackProperty": {
+                "$type": "RPG.GameCore.AttackData",
+                "DamageType": {
+                  "DamageType": "Quantum"
+                },
+                "DamagePercentage": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAAAAEBAgQR",
+                    "FixedValues": [
+                      {
+                        "Value": 1
+                      }
+                    ],
+                    "DynamicHashes": [
+                      -753905211,
+                      -1972809571
+                    ]
+                  }
+                },
+                "DamageValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQABAQQAAAUR",
+                    "FixedValues": [
+                      {
+                        "Value": 4
+                      }
+                    ],
+                    "DynamicHashes": [
+                      -1309867853,
+                      1949489177
+                    ]
+                  }
+                },
+                "HitSplitRatio": {
+                  "FixedValue": {
+                    "Value": 0.25
+                  }
+                },
+                "SPHitRatio": {
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                },
+                "AttackType": "Normal",
+                "FinalFormulaType": "ByBaseDamage",
+                "DamageBehavior": {
+                  "EnumIndex": 1,
+                  "Value": 2
+                },
+                "HitAnimation": "Hit"
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill06",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 0.765
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllEnemy"
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByProperty",
+              "DynamicKey": "_MaxHP",
+              "ReadTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "Value": "MaxHP"
+            },
+            {
+              "$type": "RPG.GameCore.DamageByAttackProperty",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "AttackProperty": {
+                "$type": "RPG.GameCore.AttackData",
+                "DamageType": {
+                  "DamageType": "Quantum"
+                },
+                "DamagePercentage": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAAAAEBAgQR",
+                    "FixedValues": [
+                      {
+                        "Value": 1
+                      }
+                    ],
+                    "DynamicHashes": [
+                      -753905211,
+                      -1972809571
+                    ]
+                  }
+                },
+                "DamageValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQABAQQAAAUR",
+                    "FixedValues": [
+                      {
+                        "Value": 4
+                      }
+                    ],
+                    "DynamicHashes": [
+                      -1309867853,
+                      1949489177
+                    ]
+                  }
+                },
+                "HitSplitRatio": {
+                  "FixedValue": {
+                    "Value": 0.25
+                  }
+                },
+                "SPHitRatio": {
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                },
+                "AttackType": "Normal",
+                "FinalFormulaType": "ByBaseDamage",
+                "DamageBehavior": {
+                  "EnumIndex": 1,
+                  "Value": 2
+                },
+                "HitAnimation": "Hit"
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill06",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 0.79
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllEnemy"
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByProperty",
+              "DynamicKey": "_MaxHP",
+              "ReadTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "Value": "MaxHP"
+            },
+            {
+              "$type": "RPG.GameCore.DamageByAttackProperty",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "AttackProperty": {
+                "$type": "RPG.GameCore.AttackData",
+                "DamageType": {
+                  "DamageType": "Quantum"
+                },
+                "DamagePercentage": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAAAAEBAgQR",
+                    "FixedValues": [
+                      {
+                        "Value": 1
+                      }
+                    ],
+                    "DynamicHashes": [
+                      -753905211,
+                      -1972809571
+                    ]
+                  }
+                },
+                "DamageValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQABAQQAAAUR",
+                    "FixedValues": [
+                      {
+                        "Value": 4
+                      }
+                    ],
+                    "DynamicHashes": [
+                      -1309867853,
+                      1949489177
+                    ]
+                  }
+                },
+                "HitSplitRatio": {
+                  "FixedValue": {
+                    "Value": 0.25
+                  }
+                },
+                "SPHitRatio": {
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                },
+                "AttackType": "Normal",
+                "FinalFormulaType": "ByBaseDamage",
+                "DamageBehavior": {
+                  "EnumIndex": 1,
+                  "Value": 2
+                },
+                "HitAnimation": "Hit"
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill06",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 0.815
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllEnemy"
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByProperty",
+              "DynamicKey": "_MaxHP",
+              "ReadTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "Value": "MaxHP"
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByIsContainModifier",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                },
+                "ModifierName": {
+                  "Value": "Monster_W4_Pollux_00_BloodRange"
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.DamageByAttackProperty",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "AttackProperty": {
+                    "$type": "RPG.GameCore.AttackData",
+                    "DamageType": {
+                      "DamageType": "Quantum"
+                    },
+                    "DamageValue": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQABAQQBAAECBAAABQIR",
+                        "FixedValues": [
+                          {
+                            "Value": 4
+                          }
+                        ],
+                        "DynamicHashes": [
+                          -1309867853,
+                          -1660554348,
+                          1949489177
+                        ]
+                      }
+                    },
+                    "SPHitRatio": {
+                      "FixedValue": {
+                        "Value": 0.25
+                      }
+                    },
+                    "AttackType": "Normal",
+                    "FinalFormulaType": "ByBaseDamage",
+                    "DamageBehavior": {
+                      "EnumIndex": 1,
+                      "Value": 2
+                    },
+                    "HitAnimation": "Hit_H"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MCommon_Entangle"
+                  },
+                  "Chance": {
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "LifeTime": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        1534698139
+                      ]
+                    }
+                  },
+                  "DynamicValues": {
+                    "MDF_ActionDelayRatio": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQAR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          474398503
+                        ]
+                      }
+                    },
+                    "Modifier_Entangle_DamagePercentage": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQAR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          657684721
+                        ]
+                      }
+                    },
+                    "Modifier_Entangle_DamageValue": {
+                      "FixedValue": {
+                        "Value": 0
+                      }
+                    }
+                  }
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.DamageByAttackProperty",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "AttackProperty": {
+                    "$type": "RPG.GameCore.AttackData",
+                    "DamageType": {
+                      "DamageType": "Quantum"
+                    },
+                    "DamageValue": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQABAQQAAAUR",
+                        "FixedValues": [
+                          {
+                            "Value": 4
+                          }
+                        ],
+                        "DynamicHashes": [
+                          -1309867853,
+                          1949489177
+                        ]
+                      }
+                    },
+                    "SPHitRatio": {
+                      "FixedValue": {
+                        "Value": 0.25
+                      }
+                    },
+                    "AttackType": "Normal",
+                    "FinalFormulaType": "ByBaseDamage",
+                    "DamageBehavior": {
+                      "EnumIndex": 1,
+                      "Value": 2
+                    },
+                    "HitAnimation": "Hit_H"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.DamagePerformFinish"
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllEnemy"
+          },
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsContainModifier",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ParamEntity"
+            },
+            "ModifierName": {
+              "Value": "Monster_W4_Pollux_00_ThirstBlood"
+            },
+            "Inverse": true
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "ModifierName": {
+                "Value": "Monster_W4_Pollux_00_ThirstBlood"
+              },
+              "DynamicValues": {
+                "MDF_DamagePercentage": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      549443026
+                    ]
+                  }
+                },
+                "MDF_DamageHpAddedRatio": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      1102644108
+                    ]
+                  }
+                }
+              },
+              "CustomUIModelAttachPointName": "SelectRoot",
+              "CustomOffset": {
+                "Y": 0.5
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.SetDynamicValue",
+          "Value": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                1849655343
+              ]
+            }
+          },
+          "DynamicKey": {
+            "Value": "AIFlag"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill06",
+          "NormalizedTimeEnd": {
+            "FixedValue": {
+              "Value": 1
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitTimelineFinish",
+          "TimelineName": "Camera/TimeLine/Monster/Monster_W4_Pollux_00_Skill06_Timeline.playable"
+        },
+        {
+          "$type": "RPG.GameCore.HideLevelStage"
+        },
+        {
+          "$type": "RPG.GameCore.ScaleCharacterModel",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllLightTeam"
+          },
+          "AliveOnly": false,
+          "ModelScaleBase": {
+            "FixedValue": {
+              "Value": 1
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Monster_W4_Pollux_00_PolluxPartL"
+          },
+          "AnimLogicState": "Idle"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Monster_W4_Pollux_00_PolluxPartR"
+          },
+          "AnimLogicState": "Idle"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Standby_Lv2_01.prefab",
+          "IsNeedFadeIn": false
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Standby_Lv2_02.prefab",
+          "IsNeedFadeIn": false
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Standby_Lv2_03.prefab",
+          "IsNeedFadeIn": false
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Standby_Lv2_04.prefab",
+          "IsNeedFadeIn": false
+        },
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "Monster_W4_Pollux_00_FX_Ground"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.RemoveModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "Monster_APShow"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetDynamicValue",
+          "Value": {
+            "FixedValue": {
+              "Value": 0
+            }
+          },
+          "DynamicKey": {
+            "Value": "IsNeedFade"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "AnimLogicState": "Idle"
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareDynamicValue",
+            "DynamicKey": {
+              "Value": "StoryMode"
+            },
+            "CompareType": "Equal",
+            "CompareValue": {
+              "FixedValue": {
+                "Value": 1
+              }
+            }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetSimulationSpeedEnable",
+              "Enable": true
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "Value": {
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "DynamicKey": {
+                "Value": "_StorySetSpeed"
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.SkillPerformFinish"
+        }
+      ],
+      "DynamicValues": {
+        "Floats": {
+          "-1401279839": {}
+        }
+      }
+    },
+    {
       "Modifiers": {
         "Monster_W4_Pollux_00_Status": {
           "BehaviorFlagList": [
             "KeepOnDeathrattle"
           ],
+          "OnDynamicValueChange": [
+            {
+              "Key": {
+                "Hash": 680676060
+              },
+              "ContextScope": "ContextOwner",
+              "Ranges": [
+                {
+                  "Min": {
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "Max": {
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "MaxInclusive": true,
+                  "OnEnterRange": [
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByIsContainModifier",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "ModifierName": {
+                          "Value": "Monster_W4_Pollux_00_Strengthen"
+                        },
+                        "Inverse": true
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.SetDynamicValue",
+                          "Value": {
+                            "FixedValue": {
+                              "Value": 1
+                            }
+                          },
+                          "DynamicKey": {
+                            "Value": "_ReadyToCharge"
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.RemoveModifier",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ModifierOwnerEntity"
+                          },
+                          "ModifierName": {
+                            "Value": "OneMorePerTurn"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "OnExitRange": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "FixedValue": {
+                          "Value": 0
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "_ReadyToCharge"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "OneMorePerTurn"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
           "_CallbackList": [
+            {
+              "Event": "OnDestroy",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "_EnergyValue"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.SetMonsterEnergyBarState",
+                  "Active": "False"
+                }
+              ]
+            },
             {
               "Event": "OnPhase1",
               "CallbackConfig": [
@@ -1173,6 +3316,143 @@
                   "TargetType": {
                     "$type": "RPG.GameCore.TargetAlias",
                     "Alias": "CasterSummonedMinions"
+                  }
+                }
+              ]
+            },
+            {
+              "Event": "OnListenTurnEnd",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "DynamicKey": {
+                          "Value": "_ReadyToCharge"
+                        },
+                        "CompareType": "Equal",
+                        "CompareValue": {
+                          "FixedValue": {
+                            "Value": 1
+                          }
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByIsContainModifier",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "Caster"
+                        },
+                        "ModifierName": {
+                          "Value": "OneMore"
+                        },
+                        "Inverse": true
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            1850673830
+                          ]
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "_TempAIFlag"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "FixedValue": {
+                          "Value": 100
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "AIFlag"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByIsTurnOwnerEntity",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "Caster"
+                        }
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.ModifyCurrentSkillDelayCost",
+                          "NormalizedValue": {
+                            "IsDynamic": true,
+                            "PostfixExpr": {
+                              "OpCodes": "AQAOEQ==",
+                              "FixedValues": [],
+                              "DynamicHashes": [
+                                2054892880
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.ModifyActionDelay",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "Caster"
+                          },
+                          "AddNormalizedValue": {
+                            "IsDynamic": true,
+                            "PostfixExpr": {
+                              "OpCodes": "AQAOEQ==",
+                              "FixedValues": [],
+                              "DynamicHashes": [
+                                2054892880
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "FailedTaskList": [
+                        {
+                          "$type": "RPG.GameCore.ModifyActionDelay",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "Caster"
+                          },
+                          "AddNormalizedValue": {
+                            "IsDynamic": true,
+                            "PostfixExpr": {
+                              "OpCodes": "AQAOEQ==",
+                              "FixedValues": [],
+                              "DynamicHashes": [
+                                2054892880
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "_ReadyToCharge"
                   }
                 }
               ]
@@ -1189,6 +3469,53 @@
                   "ModifierName": {
                     "Value": "Monster_W4_Pollux_00_FX_Ground"
                   }
+                },
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "_EnergyValue"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.SetMonsterEnergyBarState",
+                  "Active": "True",
+                  "CenterStyle": 6,
+                  "IconPath": "SpriteOutput/BuffIcon/Inlevel/IconMonster_W4_Pollux_00_Charge01.png",
+                  "MaxCount": {
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "CurrentCount": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        680676060
+                      ]
+                    }
+                  },
+                  "CustomColor": {
+                    "ProgressColor": "#9947FF",
+                    "FillColor": "#9947FF",
+                    "ChangeEffColor": "#9947FF"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "Monster_W4_Pollux_00_EnergyBar"
+                  }
                 }
               ]
             },
@@ -1203,8 +3530,353 @@
                   }
                 }
               ]
+            },
+            {
+              "Event": "OnListenHPChange",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValueByVariateType",
+                  "DynamicKey": "_HPChangeValue",
+                  "VariateType": "ParamValue"
+                },
+                {
+                  "$type": "RPG.GameCore.SetDynamicValueByProperty",
+                  "DynamicKey": "_TargetMaxHP",
+                  "ReadTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "Value": "MaxHP"
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByTargetTeam",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "Team": "TeamLight"
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByIsContainModifier",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "Caster"
+                        },
+                        "ModifierName": {
+                          "Value": "Monster_W4_Pollux_00_Strengthen"
+                        },
+                        "Inverse": true
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByIsContainModifier",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "Caster"
+                        },
+                        "ModifierName": {
+                          "Value": "Monster_W4_Pollux_00_Strengthen_BreakMark"
+                        },
+                        "Inverse": true
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "DynamicKey": {
+                          "Value": "_HPChangeValue"
+                        },
+                        "CompareType": "Less",
+                        "CompareValue": {
+                          "FixedValue": {
+                            "Value": 0
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAOAQEFEQ==",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            -860822096,
+                            -1822660272
+                          ]
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "_HPChangeRatio"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValueByAddValue",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "Caster"
+                      },
+                      "Key": {
+                        "Value": "_EnergyValue"
+                      },
+                      "AddValue": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQABAQQR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            -439142938,
+                            -1815230329
+                          ]
+                        }
+                      },
+                      "Min": {
+                        "FixedValue": {
+                          "Value": 0
+                        }
+                      },
+                      "Max": {
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByAnd",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByIsTurnActionEntity",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "Caster"
+                            },
+                            "Inverse": true
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByTargetListIntersects",
+                            "FirstTargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "CurrentTurnOwnerEntity"
+                            },
+                            "SecondTargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "CasterSummonedMinions"
+                            },
+                            "Inverse": true
+                          }
+                        ]
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.TriggerEffect",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "Caster"
+                          },
+                          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Egg_Absorb01.prefab"
+                        },
+                        {
+                          "$type": "RPG.GameCore.TriggerEffect",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "Caster"
+                          },
+                          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Egg_Absorb02.prefab"
+                        },
+                        {
+                          "$type": "RPG.GameCore.SetMonsterEnergyBarState",
+                          "CenterStyle": 6,
+                          "MaxCount": {
+                            "FixedValue": {
+                              "Value": 1
+                            }
+                          },
+                          "CurrentCount": {
+                            "IsDynamic": true,
+                            "PostfixExpr": {
+                              "OpCodes": "AQAR",
+                              "FixedValues": [],
+                              "DynamicHashes": [
+                                680676060
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnAfterSkillUse",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCurrentSkillName",
+                    "SkillName": "Skill05"
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByCompareTarget",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "CompareType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "CurrentTurnOwnerEntity"
+                        }
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.ModifyCurrentSkillDelayCost",
+                          "NormalizedValue": {
+                            "IsDynamic": true,
+                            "PostfixExpr": {
+                              "OpCodes": "AQAR",
+                              "FixedValues": [],
+                              "DynamicHashes": [
+                                1894847923
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "FailedTaskList": [
+                        {
+                          "$type": "RPG.GameCore.ModifyActionDelay",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ModifierOwnerEntity"
+                          },
+                          "AddNormalizedValue": {
+                            "IsDynamic": true,
+                            "PostfixExpr": {
+                              "OpCodes": "AQAR",
+                              "FixedValues": [],
+                              "DynamicHashes": [
+                                1894847923
+                              ]
+                            }
+                          },
+                          "ChangeDelayVersion": true
+                        }
+                      ]
+                    },
+                    {
+                      "$type": "RPG.GameCore.ModifyActionDelay",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "CasterSummonedMinions"
+                      },
+                      "AddValue": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            734513939
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "OneMorePerTurn"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnBeingBreak",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAny",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "DynamicKey": {
+                          "Value": "AIFlag"
+                        },
+                        "ContextScope": "TargetEntity",
+                        "CompareType": "Equal",
+                        "CompareValue": {
+                          "FixedValue": {
+                            "Value": 100
+                          }
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "DynamicKey": {
+                          "Value": "AIFlag"
+                        },
+                        "ContextScope": "TargetEntity",
+                        "CompareType": "Equal",
+                        "CompareValue": {
+                          "FixedValue": {
+                            "Value": 7
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "FixedValue": {
+                          "Value": 0
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "AIFlag"
+                      }
+                    }
+                  ]
+                }
+              ]
             }
-          ]
+          ],
+          "DynamicValues": {
+            "Floats": {
+              "-860822096": {},
+              "-1822660272": {},
+              "-439142938": {},
+              "526045269": {},
+              "-807688334": {},
+              "-1982569589": {},
+              "-1630779707": {}
+            }
+          }
         },
         "Monster_W4_PolluxPart_00_L": {},
         "Monster_W4_PolluxPart_00_R": {}
@@ -1214,6 +3886,16 @@
         "TargetType": "Caster"
       },
       "OnAdd": [
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "Monster_W4_Pollux_00_FX_Ground"
+          }
+        },
         {
           "$type": "RPG.GameCore.ModifyDefaultTeamFormation",
           "TeamCenter": {
@@ -1305,7 +3987,8 @@
                 "$type": "RPG.GameCore.TargetAlias",
                 "Alias": "Caster"
               },
-              "TeamLocationOffset": -1
+              "TeamLocationOffset": -1,
+              "SkillFormationVirtualOffset": 2.5
             }
           ]
         },
@@ -1339,7 +4022,8 @@
                 "$type": "RPG.GameCore.TargetAlias",
                 "Alias": "Caster"
               },
-              "TeamLocationOffset": 1
+              "TeamLocationOffset": 1,
+              "SkillFormationVirtualOffset": 1.5
             }
           ],
           "DelayRatio": {
@@ -1356,6 +4040,16 @@
           },
           "ModifierName": {
             "Value": "Monster_W4_PolluxPart_00_R"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "CasterSummonedMinions"
+          },
+          "ModifierName": {
+            "Value": "MCommon_Servant"
           }
         },
         {
@@ -1376,6 +4070,16 @@
             "Alias": "CasterSummonedMinions"
           },
           "ResolveShield": true
+        },
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "Monster_W4_Pollux_00_BloodPool"
+          }
         },
         {
           "$type": "RPG.GameCore.SetComfortZoneWidthOverride",
@@ -1424,6 +4128,22 @@
               "OpCodes": "AQAR",
               "FixedValues": [],
               "DynamicHashes": [
+                -895599575
+              ]
+            }
+          },
+          "DynamicKey": {
+            "Value": "_Skill05_LoseHpRatio"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetDynamicValue",
+          "Value": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
                 -1269800829
               ]
             }
@@ -1455,6 +4175,18 @@
       "TargetInfo": {
         "TargetType": "Caster"
       },
+      "OnAdd": [
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "Monster_W4_Pollux_00_RLBoss_Status"
+          }
+        }
+      ],
       "OnStart": [
         {
           "$type": "RPG.GameCore.DispelStatus",
@@ -1674,16 +4406,6 @@
           },
           "SuccessTaskList": [
             {
-              "$type": "RPG.GameCore.AddModifier",
-              "TargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "Caster"
-              },
-              "ModifierName": {
-                "Value": "Monster_W4_Pollux_00_RLBoss_Status"
-              }
-            },
-            {
               "$type": "RPG.GameCore.ShowUIPage",
               "AssetPath": "UI/Common/Widget/BattlePhaseChangeHint.prefab",
               "UITextNodes": [
@@ -1802,7 +4524,7 @@
             }
           },
           "TriggerName": "SpEff_Trigger",
-          "SpecialEffPath": "UI/Battle/Widget/PassiveSkill/SpecialPassiveSkillEff_Pollux_01.prefab",
+          "SpecialEffPath": "UI/Battle/Widget/PassiveSkill/SpecialMonsterPassiveSkillEff_Pollux_01.prefab",
           "CustomColor": {
             "ProgressColor": "#9947FF",
             "FillColor": "#9947FF",
@@ -1865,333 +4587,24 @@
   ],
   "GlobalModifiers": {
     "Monster_W4_Pollux_00_RLBoss_Status": {
-      "OnDynamicValueChange": [
-        {
-          "Key": {
-            "Hash": 680676060
-          },
-          "ContextScope": "ContextOwner",
-          "Ranges": [
-            {
-              "Min": {
-                "FixedValue": {
-                  "Value": 1
-                }
-              },
-              "Max": {
-                "FixedValue": {
-                  "Value": 1
-                }
-              },
-              "MaxInclusive": true,
-              "OnEnterRange": [
-                {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByIsContainModifier",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ModifierOwnerEntity"
-                    },
-                    "ModifierName": {
-                      "Value": "Monster_W4_Pollux_00_Strengthen"
-                    },
-                    "Inverse": true
-                  },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.SetDynamicValue",
-                      "Value": {
-                        "FixedValue": {
-                          "Value": 1
-                        }
-                      },
-                      "DynamicKey": {
-                        "Value": "_ReadyToCharge"
-                      }
-                    },
-                    {
-                      "$type": "RPG.GameCore.RemoveModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "ModifierName": {
-                        "Value": "OneMorePerTurn"
-                      }
-                    }
-                  ]
-                }
-              ],
-              "OnExitRange": [
-                {
-                  "$type": "RPG.GameCore.SetDynamicValue",
-                  "Value": {
-                    "FixedValue": {
-                      "Value": 0
-                    }
-                  },
-                  "DynamicKey": {
-                    "Value": "_ReadyToCharge"
-                  }
-                },
-                {
-                  "$type": "RPG.GameCore.AddModifier",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "ModifierOwnerEntity"
-                  },
-                  "ModifierName": {
-                    "Value": "OneMorePerTurn"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ],
       "_CallbackList": [
-        {
-          "Event": "OnDestroy",
-          "CallbackConfig": [
-            {
-              "$type": "RPG.GameCore.SetDynamicValue",
-              "Value": {
-                "FixedValue": {
-                  "Value": 0
-                }
-              },
-              "DynamicKey": {
-                "Value": "_EnergyValue"
-              }
-            },
-            {
-              "$type": "RPG.GameCore.SetMonsterEnergyBarState",
-              "Active": "False"
-            }
-          ]
-        },
-        {
-          "Event": "OnListenTurnEnd",
-          "CallbackConfig": [
-            {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByAnd",
-                "PredicateList": [
-                  {
-                    "$type": "RPG.GameCore.ByCompareDynamicValue",
-                    "DynamicKey": {
-                      "Value": "_ReadyToCharge"
-                    },
-                    "CompareType": "Equal",
-                    "CompareValue": {
-                      "FixedValue": {
-                        "Value": 1
-                      }
-                    }
-                  },
-                  {
-                    "$type": "RPG.GameCore.ByIsContainModifier",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "Caster"
-                    },
-                    "ModifierName": {
-                      "Value": "OneMore"
-                    },
-                    "Inverse": true
-                  }
-                ]
-              },
-              "SuccessTaskList": [
-                {
-                  "$type": "RPG.GameCore.SetDynamicValue",
-                  "Value": {
-                    "IsDynamic": true,
-                    "PostfixExpr": {
-                      "OpCodes": "AQAR",
-                      "FixedValues": [],
-                      "DynamicHashes": [
-                        1850673830
-                      ]
-                    }
-                  },
-                  "DynamicKey": {
-                    "Value": "_TempAIFlag"
-                  }
-                },
-                {
-                  "$type": "RPG.GameCore.SetDynamicValue",
-                  "Value": {
-                    "FixedValue": {
-                      "Value": 100
-                    }
-                  },
-                  "DynamicKey": {
-                    "Value": "AIFlag"
-                  }
-                },
-                {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByIsTurnOwnerEntity",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "Caster"
-                    }
-                  },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.ModifyCurrentSkillDelayCost",
-                      "NormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            2054892880
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "$type": "RPG.GameCore.ModifyActionDelay",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "Caster"
-                      },
-                      "AddNormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            2054892880
-                          ]
-                        }
-                      }
-                    }
-                  ],
-                  "FailedTaskList": [
-                    {
-                      "$type": "RPG.GameCore.ModifyActionDelay",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "Caster"
-                      },
-                      "AddNormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            2054892880
-                          ]
-                        }
-                      }
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "$type": "RPG.GameCore.SetDynamicValue",
-              "Value": {
-                "FixedValue": {
-                  "Value": 0
-                }
-              },
-              "DynamicKey": {
-                "Value": "_ReadyToCharge"
-              }
-            }
-          ]
-        },
-        {
-          "Event": "OnStack",
-          "CallbackConfig": [
-            {
-              "$type": "RPG.GameCore.SetDynamicValue",
-              "Value": {
-                "FixedValue": {
-                  "Value": 0
-                }
-              },
-              "DynamicKey": {
-                "Value": "_EnergyValue"
-              }
-            },
-            {
-              "$type": "RPG.GameCore.SetMonsterEnergyBarState",
-              "Active": "True",
-              "CenterStyle": 6,
-              "IconPath": "SpriteOutput/BuffIcon/Inlevel/IconMonster_W4_Pollux_00_Charge01.png",
-              "MaxCount": {
-                "FixedValue": {
-                  "Value": 1
-                }
-              },
-              "CurrentCount": {
-                "IsDynamic": true,
-                "PostfixExpr": {
-                  "OpCodes": "AQAR",
-                  "FixedValues": [],
-                  "DynamicHashes": [
-                    680676060
-                  ]
-                }
-              },
-              "CustomColor": {
-                "ProgressColor": "#9947FF",
-                "FillColor": "#9947FF",
-                "ChangeEffColor": "#9947FF"
-              }
-            },
-            {
-              "$type": "RPG.GameCore.AddModifier",
-              "TargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "Caster"
-              },
-              "ModifierName": {
-                "Value": "Monster_W4_Pollux_00_BloodPool"
-              }
-            },
-            {
-              "$type": "RPG.GameCore.AddModifier",
-              "TargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "Caster"
-              },
-              "ModifierName": {
-                "Value": "Monster_W4_Pollux_00_EnergyBar"
-              }
-            }
-          ]
-        },
         {
           "Event": "OnListenHPChange",
           "CallbackConfig": [
             {
-              "$type": "RPG.GameCore.SetDynamicValueByVariateType",
-              "DynamicKey": "_HPChangeValue",
-              "VariateType": "ParamValue"
-            },
-            {
-              "$type": "RPG.GameCore.SetDynamicValueByProperty",
-              "DynamicKey": "_TargetMaxHP",
-              "ReadTargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "ParamEntity"
-              },
-              "Value": "MaxHP"
-            },
-            {
               "$type": "RPG.GameCore.PredicateTaskList",
               "Predicate": {
                 "$type": "RPG.GameCore.ByAnd",
                 "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByCompareMonsterPhase",
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "FixedValue": {
+                        "Value": 3
+                      }
+                    }
+                  },
                   {
                     "$type": "RPG.GameCore.ByTargetTeam",
                     "TargetType": {
@@ -2199,306 +4612,64 @@
                       "Alias": "ParamEntity"
                     },
                     "Team": "TeamLight"
-                  },
-                  {
-                    "$type": "RPG.GameCore.ByIsContainModifier",
+                  }
+                ]
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareHPRatio",
                     "TargetType": {
                       "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "Caster"
-                    },
-                    "ModifierName": {
-                      "Value": "Monster_W4_Pollux_00_Strengthen"
-                    },
-                    "Inverse": true
-                  },
-                  {
-                    "$type": "RPG.GameCore.ByIsContainModifier",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "Caster"
-                    },
-                    "ModifierName": {
-                      "Value": "Monster_W4_Pollux_00_Strengthen_BreakMark"
-                    },
-                    "Inverse": true
-                  },
-                  {
-                    "$type": "RPG.GameCore.ByCompareDynamicValue",
-                    "DynamicKey": {
-                      "Value": "_HPChangeValue"
+                      "Alias": "ParamEntity"
                     },
                     "CompareType": "Less",
                     "CompareValue": {
-                      "FixedValue": {
-                        "Value": 0
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQAR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          -505009538
+                        ]
                       }
-                    }
-                  }
-                ]
-              },
-              "SuccessTaskList": [
-                {
-                  "$type": "RPG.GameCore.SetDynamicValue",
-                  "Value": {
-                    "IsDynamic": true,
-                    "PostfixExpr": {
-                      "OpCodes": "AQAOAQEFEQ==",
-                      "FixedValues": [],
-                      "DynamicHashes": [
-                        -860822096,
-                        -1822660272
-                      ]
-                    }
-                  },
-                  "DynamicKey": {
-                    "Value": "_HPChangeRatio"
-                  }
-                },
-                {
-                  "$type": "RPG.GameCore.SetDynamicValueByAddValue",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "Caster"
-                  },
-                  "Key": {
-                    "Value": "_EnergyValue"
-                  },
-                  "AddValue": {
-                    "IsDynamic": true,
-                    "PostfixExpr": {
-                      "OpCodes": "AQABAQQR",
-                      "FixedValues": [],
-                      "DynamicHashes": [
-                        -439142938,
-                        -1815230329
-                      ]
-                    }
-                  },
-                  "Min": {
-                    "FixedValue": {
-                      "Value": 0
-                    }
-                  },
-                  "Max": {
-                    "FixedValue": {
-                      "Value": 1
-                    }
-                  }
-                },
-                {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByAnd",
-                    "PredicateList": [
-                      {
-                        "$type": "RPG.GameCore.ByIsTurnActionEntity",
-                        "TargetType": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "Caster"
-                        },
-                        "Inverse": true
-                      },
-                      {
-                        "$type": "RPG.GameCore.ByTargetListIntersects",
-                        "FirstTargetType": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "CurrentTurnOwnerEntity"
-                        },
-                        "SecondTargetType": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "CasterSummonedMinions"
-                        },
-                        "Inverse": true
-                      }
-                    ]
-                  },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.TriggerEffect",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "Caster"
-                      },
-                      "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Egg_Absorb01.prefab"
-                    },
-                    {
-                      "$type": "RPG.GameCore.TriggerEffect",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "Caster"
-                      },
-                      "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Pollux_00/Eff_Monster_W4_Pollux_00_Egg_Absorb02.prefab"
-                    },
-                    {
-                      "$type": "RPG.GameCore.SetMonsterEnergyBarState",
-                      "CenterStyle": 6,
-                      "MaxCount": {
-                        "FixedValue": {
-                          "Value": 1
-                        }
-                      },
-                      "CurrentCount": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAR",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            680676060
-                          ]
-                        }
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "Event": "OnAfterSkillUse",
-          "CallbackConfig": [
-            {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByCurrentSkillName",
-                "SkillName": "Skill05"
-              },
-              "SuccessTaskList": [
-                {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByCompareTarget",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ModifierOwnerEntity"
-                    },
-                    "CompareType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "CurrentTurnOwnerEntity"
                     }
                   },
                   "SuccessTaskList": [
                     {
-                      "$type": "RPG.GameCore.ModifyCurrentSkillDelayCost",
-                      "NormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAR",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            -1269800829
-                          ]
-                        }
-                      }
-                    }
-                  ],
-                  "FailedTaskList": [
-                    {
-                      "$type": "RPG.GameCore.ModifyActionDelay",
+                      "$type": "RPG.GameCore.AddModifier",
                       "TargetType": {
                         "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
+                        "Alias": "ParamEntity"
                       },
-                      "AddNormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAR",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            -1269800829
-                          ]
+                      "ModifierName": {
+                        "Value": "Monster_W4_Pollux_00_BloodRange"
+                      },
+                      "DynamicValues": {
+                        "_HpLimitRatio": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AQAR",
+                            "FixedValues": [],
+                            "DynamicHashes": [
+                              -505009538
+                            ]
+                          }
+                        },
+                        "_FatigueRatio": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AQAR",
+                            "FixedValues": [],
+                            "DynamicHashes": [
+                              -100649199
+                            ]
+                          }
                         }
-                      },
-                      "ChangeDelayVersion": true
+                      }
                     }
                   ]
-                },
-                {
-                  "$type": "RPG.GameCore.ModifyActionDelay",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "CasterSummonedMinions"
-                  },
-                  "AddValue": {
-                    "IsDynamic": true,
-                    "PostfixExpr": {
-                      "OpCodes": "AQAR",
-                      "FixedValues": [],
-                      "DynamicHashes": [
-                        -1360986566
-                      ]
-                    }
-                  }
-                },
-                {
-                  "$type": "RPG.GameCore.AddModifier",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "ModifierOwnerEntity"
-                  },
-                  "ModifierName": {
-                    "Value": "OneMorePerTurn"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "Event": "OnBeingBreak",
-          "CallbackConfig": [
-            {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByAny",
-                "PredicateList": [
-                  {
-                    "$type": "RPG.GameCore.ByCompareDynamicValue",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ModifierOwnerEntity"
-                    },
-                    "DynamicKey": {
-                      "Value": "AIFlag"
-                    },
-                    "ContextScope": "TargetEntity",
-                    "CompareType": "Equal",
-                    "CompareValue": {
-                      "FixedValue": {
-                        "Value": 100
-                      }
-                    }
-                  },
-                  {
-                    "$type": "RPG.GameCore.ByCompareDynamicValue",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ModifierOwnerEntity"
-                    },
-                    "DynamicKey": {
-                      "Value": "AIFlag"
-                    },
-                    "ContextScope": "TargetEntity",
-                    "CompareType": "Equal",
-                    "CompareValue": {
-                      "FixedValue": {
-                        "Value": 7
-                      }
-                    }
-                  }
-                ]
-              },
-              "SuccessTaskList": [
-                {
-                  "$type": "RPG.GameCore.SetDynamicValue",
-                  "Value": {
-                    "FixedValue": {
-                      "Value": 0
-                    }
-                  },
-                  "DynamicKey": {
-                    "Value": "AIFlag"
-                  }
                 }
               ]
             }
@@ -2507,13 +4678,8 @@
       ],
       "DynamicValues": {
         "Floats": {
-          "-860822096": {},
           "-1822660272": {},
-          "-439142938": {},
-          "526045269": {},
-          "-807688334": {},
-          "-1982569589": {},
-          "-1630779707": {}
+          "-2078779657": {}
         }
       }
     },

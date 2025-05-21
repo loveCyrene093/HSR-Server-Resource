@@ -1107,7 +1107,6 @@
                           "DisplayData": {
                             "DitherRangeX": 0,
                             "DitherRangeY": 0,
-                            "AttachPoint": "SelectRoot",
                             "AdditionalDisplay": {
                               "UIMessageHeight": {
                                 "FixedValue": {
@@ -1212,7 +1211,6 @@
                           "DisplayData": {
                             "DitherRangeX": 0,
                             "DitherRangeY": 0,
-                            "AttachPoint": "SelectRoot",
                             "AdditionalDisplay": {
                               "UIMessageHeight": {
                                 "FixedValue": {
@@ -1366,7 +1364,6 @@
                           "DisplayData": {
                             "DitherRangeX": 0,
                             "DitherRangeY": 0,
-                            "AttachPoint": "SelectRoot",
                             "AdditionalDisplay": {
                               "UIMessageHeight": {
                                 "FixedValue": {
@@ -1510,7 +1507,6 @@
                           "DisplayData": {
                             "DitherRangeX": 0,
                             "DitherRangeY": 0,
-                            "AttachPoint": "SelectRoot",
                             "AdditionalDisplay": {
                               "UIMessageHeight": {
                                 "FixedValue": {
@@ -7581,7 +7577,12 @@
                   },
                   "SuccessTaskList": [
                     {
-                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "$type": "RPG.GameCore.SetDynamicValueByCharacterCount",
+                      "DynamicKey": "IceCount",
+                      "ReadTargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent"
+                      },
                       "Predicate": {
                         "$type": "RPG.GameCore.ByCharacterDamageType",
                         "TargetType": {
@@ -7590,11 +7591,100 @@
                         },
                         "DamageType": "Ice"
                       },
+                      "AliveOnly": true
+                    },
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "DynamicKey": {
+                          "Value": "IceCount"
+                        },
+                        "CompareType": "GreaterEqual",
+                        "CompareValue": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AQAR",
+                            "FixedValues": [],
+                            "DynamicHashes": [
+                              866240523
+                            ]
+                          }
+                        }
+                      },
                       "SuccessTaskList": [
                         {
-                          "$type": "RPG.GameCore.SetDynamicValueByCharacterCount",
-                          "DynamicKey": "IceCount",
-                          "ReadTargetType": {
+                          "$type": "RPG.GameCore.AddModifier",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent"
+                          },
+                          "ModifierName": {
+                            "Value": "Modifier_StageAbility_633222_Character"
+                          },
+                          "DynamicValues": {
+                            "MDF_1": {
+                              "IsDynamic": true,
+                              "PostfixExpr": {
+                                "OpCodes": "AQAAAAEBAgQR",
+                                "FixedValues": [
+                                  {
+                                    "Value": 1
+                                  }
+                                ],
+                                "DynamicHashes": [
+                                  462955996,
+                                  -1862642832
+                                ]
+                              }
+                            },
+                            "MDF_2": {
+                              "IsDynamic": true,
+                              "PostfixExpr": {
+                                "OpCodes": "AQAAAAEBAgQR",
+                                "FixedValues": [
+                                  {
+                                    "Value": 1
+                                  }
+                                ],
+                                "DynamicHashes": [
+                                  59671469,
+                                  -1862642832
+                                ]
+                              }
+                            },
+                            "MDF_3": {
+                              "IsDynamic": true,
+                              "PostfixExpr": {
+                                "OpCodes": "AQAAAAEBAgQR",
+                                "FixedValues": [
+                                  {
+                                    "Value": 1
+                                  }
+                                ],
+                                "DynamicHashes": [
+                                  1625755410,
+                                  -1862642832
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      "FailedTaskList": [
+                        {
+                          "$type": "RPG.GameCore.RemoveModifier",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent"
+                          },
+                          "ModifierName": {
+                            "Value": "Modifier_StageAbility_633222_Character"
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.Retarget",
+                          "TargetType": {
                             "$type": "RPG.GameCore.TargetAlias",
                             "Alias": "AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent"
                           },
@@ -7606,33 +7696,13 @@
                             },
                             "DamageType": "Ice"
                           },
-                          "AliveOnly": true
-                        },
-                        {
-                          "$type": "RPG.GameCore.PredicateTaskList",
-                          "Predicate": {
-                            "$type": "RPG.GameCore.ByCompareDynamicValue",
-                            "DynamicKey": {
-                              "Value": "IceCount"
-                            },
-                            "CompareType": "GreaterEqual",
-                            "CompareValue": {
-                              "IsDynamic": true,
-                              "PostfixExpr": {
-                                "OpCodes": "AQAR",
-                                "FixedValues": [],
-                                "DynamicHashes": [
-                                  866240523
-                                ]
-                              }
-                            }
-                          },
-                          "SuccessTaskList": [
+                          "ByRandom": true,
+                          "TaskList": [
                             {
                               "$type": "RPG.GameCore.AddModifier",
                               "TargetType": {
                                 "$type": "RPG.GameCore.TargetAlias",
-                                "Alias": "AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent"
+                                "Alias": "ParamEntity"
                               },
                               "ModifierName": {
                                 "Value": "Modifier_StageAbility_633222_Character"
@@ -7641,121 +7711,34 @@
                                 "MDF_1": {
                                   "IsDynamic": true,
                                   "PostfixExpr": {
-                                    "OpCodes": "AQAAAAEBAgQR",
-                                    "FixedValues": [
-                                      {
-                                        "Value": 1
-                                      }
-                                    ],
+                                    "OpCodes": "AQAR",
+                                    "FixedValues": [],
                                     "DynamicHashes": [
-                                      462955996,
-                                      -1862642832
+                                      462955996
                                     ]
                                   }
                                 },
                                 "MDF_2": {
                                   "IsDynamic": true,
                                   "PostfixExpr": {
-                                    "OpCodes": "AQAAAAEBAgQR",
-                                    "FixedValues": [
-                                      {
-                                        "Value": 1
-                                      }
-                                    ],
+                                    "OpCodes": "AQAR",
+                                    "FixedValues": [],
                                     "DynamicHashes": [
-                                      59671469,
-                                      -1862642832
+                                      59671469
                                     ]
                                   }
                                 },
                                 "MDF_3": {
                                   "IsDynamic": true,
                                   "PostfixExpr": {
-                                    "OpCodes": "AQAAAAEBAgQR",
-                                    "FixedValues": [
-                                      {
-                                        "Value": 1
-                                      }
-                                    ],
+                                    "OpCodes": "AQAR",
+                                    "FixedValues": [],
                                     "DynamicHashes": [
-                                      1625755410,
-                                      -1862642832
+                                      1625755410
                                     ]
                                   }
                                 }
                               }
-                            }
-                          ],
-                          "FailedTaskList": [
-                            {
-                              "$type": "RPG.GameCore.RemoveModifier",
-                              "TargetType": {
-                                "$type": "RPG.GameCore.TargetAlias",
-                                "Alias": "AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent"
-                              },
-                              "ModifierName": {
-                                "Value": "Modifier_StageAbility_633222_Character"
-                              }
-                            },
-                            {
-                              "$type": "RPG.GameCore.Retarget",
-                              "TargetType": {
-                                "$type": "RPG.GameCore.TargetAlias",
-                                "Alias": "AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent"
-                              },
-                              "Predicate": {
-                                "$type": "RPG.GameCore.ByCharacterDamageType",
-                                "TargetType": {
-                                  "$type": "RPG.GameCore.TargetAlias",
-                                  "Alias": "ParamEntity"
-                                },
-                                "DamageType": "Ice"
-                              },
-                              "ByRandom": true,
-                              "TaskList": [
-                                {
-                                  "$type": "RPG.GameCore.AddModifier",
-                                  "TargetType": {
-                                    "$type": "RPG.GameCore.TargetAlias",
-                                    "Alias": "ParamEntity"
-                                  },
-                                  "ModifierName": {
-                                    "Value": "Modifier_StageAbility_633222_Character"
-                                  },
-                                  "DynamicValues": {
-                                    "MDF_1": {
-                                      "IsDynamic": true,
-                                      "PostfixExpr": {
-                                        "OpCodes": "AQAR",
-                                        "FixedValues": [],
-                                        "DynamicHashes": [
-                                          462955996
-                                        ]
-                                      }
-                                    },
-                                    "MDF_2": {
-                                      "IsDynamic": true,
-                                      "PostfixExpr": {
-                                        "OpCodes": "AQAR",
-                                        "FixedValues": [],
-                                        "DynamicHashes": [
-                                          59671469
-                                        ]
-                                      }
-                                    },
-                                    "MDF_3": {
-                                      "IsDynamic": true,
-                                      "PostfixExpr": {
-                                        "OpCodes": "AQAR",
-                                        "FixedValues": [],
-                                        "DynamicHashes": [
-                                          1625755410
-                                        ]
-                                      }
-                                    }
-                                  }
-                                }
-                              ]
                             }
                           ]
                         }
@@ -8156,9 +8139,7 @@
                   }
                 ]
               },
-              "DisplayData": {
-                "AttachPoint": "SelectRoot"
-              }
+              "DisplayData": {}
             },
             {
               "$type": "RPG.GameCore.TriggerModifierCustomEvent",
@@ -8264,9 +8245,7 @@
                   }
                 ]
               },
-              "DisplayData": {
-                "AttachPoint": "SelectRoot"
-              }
+              "DisplayData": {}
             }
           ]
         }

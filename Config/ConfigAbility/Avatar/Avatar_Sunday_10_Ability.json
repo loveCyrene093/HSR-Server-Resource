@@ -3758,7 +3758,7 @@
                     "Alias": "ModifierOwnerEntity"
                   },
                   "ModifierName": {
-                    "Value": "MAvatar_Sunday_10_CriticalChanceConvert"
+                    "Value": "MAvatar_Sunday_10_CriticalChanceConvertListen"
                   }
                 }
               ]
@@ -3856,104 +3856,22 @@
               },
               "SuccessTaskList": [
                 {
-                  "$type": "RPG.GameCore.SetDynamicValueByProperty",
-                  "DynamicKey": "_CritialChance",
-                  "ReadTargetType": {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
                     "$type": "RPG.GameCore.TargetAlias",
                     "Alias": "ModifierOwnerEntity"
                   },
-                  "Value": "CriticalChanceBase"
-                },
-                {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByCompareDynamicValue",
-                    "DynamicKey": {
-                      "Value": "_CritialChance"
-                    },
-                    "CompareType": "Greater",
-                    "CompareValue": {
+                  "ModifierName": {
+                    "Value": "MAvatar_Sunday_10_CriticalChanceConvertListen"
+                  },
+                  "DynamicValues": {
+                    "_CritialChance": {
                       "FixedValue": {
-                        "Value": 1
+                        "Value": 0
                       }
                     }
                   },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.AddModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "ModifierName": {
-                        "Value": "MAvatar_Sunday_10_CriticalChanceConvert"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "Event": "OnCriticalChanceChange",
-          "CallbackConfig": [
-            {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByRankActivated",
-                "TriggerKey": {
-                  "Hash": -1445815962
-                }
-              },
-              "SuccessTaskList": [
-                {
-                  "$type": "RPG.GameCore.SetDynamicValueByProperty",
-                  "DynamicKey": "_CritialChance",
-                  "ReadTargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "ModifierOwnerEntity"
-                  },
-                  "Value": "CriticalChanceBase"
-                },
-                {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByCompareDynamicValue",
-                    "DynamicKey": {
-                      "Value": "_CritialChance"
-                    },
-                    "CompareType": "Greater",
-                    "CompareValue": {
-                      "FixedValue": {
-                        "Value": 1
-                      }
-                    }
-                  },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.AddModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "ModifierName": {
-                        "Value": "MAvatar_Sunday_10_CriticalChanceConvert"
-                      }
-                    }
-                  ],
-                  "FailedTaskList": [
-                    {
-                      "$type": "RPG.GameCore.RemoveModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "ModifierName": {
-                        "Value": "MAvatar_Sunday_10_CriticalChanceConvert"
-                      }
-                    }
-                  ]
+                  "InheritCaster": "TargetSelf"
                 }
               ]
             }
@@ -3963,12 +3881,124 @@
       "Stacking": "ReplaceByCaster",
       "DynamicValues": {
         "Floats": {
-          "-2129834071": {},
           "1662446059": {},
           "-229551721": {},
           "2128130574": {}
         }
       }
+    },
+    "MAvatar_Sunday_10_CriticalChanceConvertListen": {
+      "_CallbackList": [
+        {
+          "Event": "OnDestroy",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.RemoveModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "ModifierName": {
+                "Value": "MAvatar_Sunday_10_CriticalChanceConvert"
+              }
+            }
+          ]
+        },
+        {
+          "Event": "OnStack",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByProperty",
+              "DynamicKey": "_CritialChance",
+              "ReadTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "Value": "CriticalChanceBase"
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "DynamicKey": {
+                  "Value": "_CritialChance"
+                },
+                "CompareType": "Greater",
+                "CompareValue": {
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MAvatar_Sunday_10_CriticalChanceConvert"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Event": "OnCriticalChanceChange",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByProperty",
+              "DynamicKey": "_CritialChance",
+              "ReadTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "Value": "CriticalChanceBase"
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "DynamicKey": {
+                  "Value": "_CritialChance"
+                },
+                "CompareType": "Greater",
+                "CompareValue": {
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MAvatar_Sunday_10_CriticalChanceConvert"
+                  }
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.RemoveModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MAvatar_Sunday_10_CriticalChanceConvert"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     "MAvatar_Sunday_10_CriticalChanceConvert": {
       "_CallbackList": [

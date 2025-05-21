@@ -357,6 +357,15 @@
               "EventName": {
                 "Value": "Clt_OnMoveStop"
               }
+            },
+            {
+              "$type": "RPG.GameCore.TriggerSound",
+              "SoundName": {
+                "Value": "Ev_sfx_amphoreus_timeline_fireseedbox_land"
+              },
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              }
             }
           ]
         }
@@ -447,6 +456,15 @@
           "ToState": "Open",
           "OnChange": [
             {
+              "$type": "RPG.GameCore.TriggerSound",
+              "SoundName": {
+                "Value": "Ev_sfx_amphoreus_timeline_fireseedbox_disappear"
+              },
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              }
+            },
+            {
               "$type": "RPG.GameCore.RemoveEffect",
               "TargetType": {
                 "$type": "RPG.GameCore.TargetFetchAdvPropEx"
@@ -466,6 +484,120 @@
               "TargetType": {
                 "$type": "RPG.GameCore.TargetFetchAdvPropEx"
               }
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEvent",
+          "EventName": {
+            "Value": "Clt_TriggerInVisible"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PropSetVisibility",
+              "SpecifiedRelativePaths": [],
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PropEnableCollider",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PropStateChangeListenerConfig",
+          "ToState": "Locked",
+          "FromAnyState": true,
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.SetGraphDynamicString",
+              "Name": "MoveTargetPos",
+              "TargetIDs": [],
+              "Value": {
+                "Custom": true,
+                "Key": "Pos01"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.TriggerEntityEvent",
+              "EventName": {
+                "Value": "Self_JumpTo"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.TriggerEffectList",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "EffectList": [
+                {
+                  "EffectPath": "Effects/Eff_Prefab/Eff_Scene/InteractiveProp/Eff_Chap04_Prop_KindlingLockBox_01_Resident_Lod0.prefab",
+                  "IsAttachToTargetEntity": true,
+                  "AttachPoint": "EffectPoint"
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareGraphDynamicFloat",
+                "Name": "NeedDefaultRotate",
+                "Value": {
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetupEffectTransformParams",
+                  "OverrideFloating": true,
+                  "FloatingFrequency": {
+                    "FixedValue": {
+                      "Value": 0.1
+                    }
+                  },
+                  "FloatingDistance": {
+                    "FixedValue": {
+                      "Value": 0.1
+                    }
+                  },
+                  "RotatingFrequency": {
+                    "FixedValue": {
+                      "Value": 0.1
+                    }
+                  },
+                  "RotatingSpeed": {
+                    "FixedValue": {
+                      "Value": 10
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.TriggerSound",
+                  "SoundName": {
+                    "Value": "Ev_sfx_amphoreus_prop_fireseed_box_idle"
+                  },
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  }
+                }
+              ]
             }
           ],
           "TargetType": {
@@ -523,8 +655,7 @@
                       "FixedValue": {
                         "Value": 1
                       }
-                    },
-                    "CompareType": "Equal"
+                    }
                   },
                   "SuccessTaskList": [
                     {
@@ -637,6 +768,15 @@
                       "Value": 0
                     }
                   }
+                },
+                {
+                  "$type": "RPG.GameCore.TriggerEntityEventV2",
+                  "EventName": {
+                    "Value": "Clt_TriggerInVisible"
+                  },
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  }
                 }
               ]
             }
@@ -670,5 +810,39 @@
     ]
   },
   "Type": "Entity",
-  "EntityEventList": []
+  "EntityEventList": [
+    {
+      "Name": "Clt_TriggerLock"
+    },
+    {
+      "Name": "Clt_TriggerOpen"
+    },
+    {
+      "Name": "Clt_TriggerClose"
+    },
+    {
+      "Name": "Srv_TriggerOpen"
+    },
+    {
+      "Name": "Srv_TriggerLock"
+    },
+    {
+      "Name": "Srv_TriggerClose"
+    },
+    {
+      "Name": "Self_MoveTo"
+    },
+    {
+      "Name": "Self_JumpTo"
+    },
+    {
+      "Name": "Clt_OnMoveStart"
+    },
+    {
+      "Name": "Clt_OnMoveStop"
+    },
+    {
+      "Name": "Clt_TriggerInVisible"
+    }
+  ]
 }

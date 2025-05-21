@@ -90,6 +90,7 @@
     },
     {
       "ActionEntityTypes": "Self",
+      "Option": "DitherIfBlockOtherCharacter",
       "FormationType": "Follow",
       "LocationConfig": {
         "Width": 1,
@@ -137,6 +138,7 @@
         "Unknow",
         "BattleEnter"
       ],
+      "Option": "DitherIfBlockOtherCharacter",
       "FormationType": "Follow",
       "LocationConfig": {
         "Width": 1,
@@ -204,10 +206,85 @@
       ],
       "ActionEntityTypes": "Enemy",
       "ActiveCondition": {
+        "$type": "RPG.GameCore.ByAnd",
+        "PredicateList": [
+          {
+            "$type": "RPG.GameCore.ByInTimelinePerform",
+            "Inverse": true
+          },
+          {
+            "$type": "RPG.GameCore.ByCompareTargetCount",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "CameraAimTargetList"
+            },
+            "Number": {
+              "FixedValue": {
+                "Value": 1
+              }
+            },
+            "CompareType": "Equal"
+          },
+          {
+            "$type": "RPG.GameCore.ByTargetListIntersects",
+            "FirstTargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "CameraAimTargetList"
+            },
+            "SecondTargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "Caster"
+            }
+          },
+          {
+            "$type": "RPG.GameCore.ByCompareAngleBetweenVCameraAndDir",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "DarkTeamCenter"
+            },
+            "SourceType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "LightTeamCenter"
+            },
+            "CompareType": "LessEqual",
+            "CompareValue": {
+              "FixedValue": {
+                "Value": 90
+              }
+            }
+          }
+        ]
+      },
+      "Option": 20,
+      "FormationType": "Follow",
+      "LocationConfig": {
+        "Width": 1,
+        "FormationFollowOffset": {
+          "Z": -27
+        }
+      },
+      "FollowOffsetMode": "TeamCenter",
+      "AttachPointRedirect": {
+        "CameraRoot": "CameraRootFixEnemy90Dir"
+      }
+    },
+    {
+      "ActiveTurnStates": [
+        "SelfWaitActionOrder1",
+        "SelfActionBegin",
+        "SelfActionExecuting1",
+        "InsertAbilityPhase1Begin",
+        "InsertAbilityActionPhase",
+        "InsertAbilityPhase2",
+        "InsertAbilityAfterUltraSkillBegin",
+        "InsertAbilityAfterUltraSkillEnd"
+      ],
+      "ActionEntityTypes": "Enemy",
+      "ActiveCondition": {
         "$type": "RPG.GameCore.ByInTimelinePerform",
         "Inverse": true
       },
-      "Option": "ExcludeInCustomFromation",
+      "Option": 20,
       "FormationType": "Follow",
       "LocationConfig": {
         "Width": 1,
@@ -354,7 +431,7 @@
             "$type": "RPG.GameCore.ByTargetListIntersects",
             "FirstTargetType": {
               "$type": "RPG.GameCore.TargetAlias",
-              "Alias": "CurrentTurnActionEntity.GetSkillTarget"
+              "Alias": "CurrentTurnActionEntity.GetSkillTargetSafe"
             },
             "SecondTargetType": {
               "$type": "RPG.GameCore.TargetAlias",
@@ -873,15 +950,28 @@
             "Inverse": true
           },
           {
-            "$type": "RPG.GameCore.ByTargetListIntersects",
-            "FirstTargetType": {
-              "$type": "RPG.GameCore.TargetAlias",
-              "Alias": "CurrentTurnActionEntity.GetSkillTarget"
-            },
-            "SecondTargetType": {
-              "$type": "RPG.GameCore.TargetAlias",
-              "Alias": "Caster"
-            }
+            "$type": "RPG.GameCore.ByAny",
+            "PredicateList": [
+              {
+                "$type": "RPG.GameCore.ByCurrentTurnState",
+                "TurnStates": [
+                  "SelfActionExecuting1",
+                  "InsertUltraSkillExecuting"
+                ],
+                "Inverse": true
+              },
+              {
+                "$type": "RPG.GameCore.ByTargetListIntersects",
+                "FirstTargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "CurrentTurnActionEntity.GetSkillTargetSafe"
+                },
+                "SecondTargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "Caster"
+                }
+              }
+            ]
           }
         ]
       },
@@ -982,7 +1072,7 @@
           }
         ]
       },
-      "Option": "ExcludeInCustomFromation",
+      "Option": 20,
       "FormationType": "Follow",
       "LocationConfig": {
         "Width": 1,
@@ -1004,6 +1094,7 @@
         "$type": "RPG.GameCore.ByInTimelinePerform",
         "Inverse": true
       },
+      "Option": "DitherIfBlockOtherCharacter",
       "FormationType": "Follow",
       "LocationConfig": {
         "Width": 1,
@@ -1016,6 +1107,93 @@
       "AttachPointRedirect": {
         "Root": "RootFix",
         "SelectRoot": "SelectRootFix",
+        "Head": "HeadPointFix"
+      }
+    },
+    {
+      "ActiveTurnStates": [
+        "SelfActionPrepare",
+        "SelfWaitActionOrder1",
+        "InsertUltraSkillPrepare",
+        "InsertUltraSkillWaitOrder"
+      ],
+      "ActiveCondition": {
+        "$type": "RPG.GameCore.ByTargetTeam",
+        "TargetType": {
+          "$type": "RPG.GameCore.TargetAlias",
+          "Alias": "ParamEntity"
+        },
+        "Team": "TeamNeutral"
+      },
+      "Option": "DitherIfBlockOtherCharacter",
+      "FormationType": "Follow",
+      "LocationConfig": {
+        "Width": 1,
+        "FormationFollowOffset": {
+          "X": -2.5,
+          "Z": -7.5
+        }
+      },
+      "FollowOffsetMode": "TeamCenter",
+      "AttachPointRedirect": {
+        "Root": "RootFix",
+        "SelectRoot": "SelectRootFix",
+        "Head": "HeadPointFix"
+      }
+    },
+    {
+      "ActiveTurnStates": [
+        "SelfActionExecuting1",
+        "InsertUltraSkillExecuting"
+      ],
+      "ActiveCondition": {
+        "$type": "RPG.GameCore.ByAnd",
+        "PredicateList": [
+          {
+            "$type": "RPG.GameCore.ByTargetTeam",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ParamEntity"
+            },
+            "Team": "TeamNeutral"
+          },
+          {
+            "$type": "RPG.GameCore.ByIsCurrentSkillAllowMultiTarget",
+            "AccessClientActiveSkill": true,
+            "Inverse": true
+          },
+          {
+            "$type": "RPG.GameCore.ByTargetListIntersects",
+            "FirstTargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "CurrentTurnActionEntity.GetSkillTargetSafe"
+            },
+            "SecondTargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "Caster"
+            }
+          }
+        ]
+      },
+      "FormationType": "Follow",
+      "LocationConfig": {
+        "Width": 1,
+        "RootOffset": {
+          "X": 4,
+          "Z": 4.6
+        },
+        "FormationFollowOffset": {
+          "X": 1.5,
+          "Z": -8
+        }
+      },
+      "FollowOffsetMode": "TeamCenter",
+      "Scale": 0.25,
+      "AttachPointRedirect": {
+        "CameraRoot": "CameraRootFix",
+        "SelectRoot": "CameraRootFix",
+        "Root": "RootFix",
+        "Origin": "OriginFix",
         "Head": "HeadPointFix"
       }
     },
@@ -1183,7 +1361,7 @@
         "ShowEntityConfig": {
           "ShowTargetType": {
             "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "CasterWithAllEnemy"
+            "Alias": "CasterWithAllEnemy + AllDarkTeamUnselectable"
           }
         },
         "LockRelatedTarget": true
@@ -1218,7 +1396,7 @@
         "ShowEntityConfig": {
           "ShowTargetType": {
             "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "CasterWithAllEnemy"
+            "Alias": "CasterWithAllEnemy + AllDarkTeamUnselectable"
           }
         },
         "LockRelatedTarget": true
@@ -1325,7 +1503,7 @@
             "ShowEntityConfig": {
               "ShowTargetType": {
                 "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "CasterWithAllEnemy"
+                "Alias": "CasterWithAllEnemy + AllDarkTeamUnselectable"
               }
             }
           },
@@ -1359,7 +1537,7 @@
             "ShowEntityConfig": {
               "ShowTargetType": {
                 "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "CasterWithAllEnemy"
+                "Alias": "CasterWithAllEnemy + AllDarkTeamUnselectable"
               }
             }
           },
@@ -1468,7 +1646,7 @@
             "ShowEntityConfig": {
               "ShowTargetType": {
                 "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "CasterWithAllEnemy"
+                "Alias": "CasterWithAllEnemy + AllDarkTeamUnselectable"
               }
             }
           },
@@ -1502,7 +1680,7 @@
             "ShowEntityConfig": {
               "ShowTargetType": {
                 "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "CasterWithAllEnemy"
+                "Alias": "CasterWithAllEnemy + AllDarkTeamUnselectable"
               }
             }
           },
@@ -1631,7 +1809,7 @@
             "ShowEntityConfig": {
               "ShowTargetType": {
                 "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "CasterWithAllEnemy"
+                "Alias": "CasterWithAllEnemy + AllDarkTeamUnselectable"
               }
             }
           },
@@ -1665,7 +1843,7 @@
             "ShowEntityConfig": {
               "ShowTargetType": {
                 "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "CasterWithAllEnemy"
+                "Alias": "CasterWithAllEnemy + AllDarkTeamUnselectable"
               }
             }
           },
@@ -1733,24 +1911,6 @@
       "EntryAbility": "Servant_CastoriceServant_PassiveSkill01"
     },
     {
-      "Name": "PassiveSkill02",
-      "SkillType": "Passive",
-      "UseType": "Passive",
-      "TargetInfo": {
-        "TargetType": "Caster"
-      },
-      "EntryAbility": "Avatar_Common_PassiveSkill"
-    },
-    {
-      "Name": "PassiveSkill02",
-      "SkillType": "Passive",
-      "UseType": "Passive",
-      "TargetInfo": {
-        "TargetType": "Caster"
-      },
-      "EntryAbility": "Servant_Common_PassiveSkill"
-    },
-    {
       "Name": "SkillP03",
       "SkillType": "Passive",
       "UseType": "Passive",
@@ -1769,6 +1929,24 @@
       },
       "SkillNameHUD": false,
       "EntryAbility": "Servant_CastoriceServant_DeathRattle"
+    },
+    {
+      "Name": "PassiveSkill02",
+      "SkillType": "Passive",
+      "UseType": "Passive",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
+      "EntryAbility": "Avatar_Common_PassiveSkill"
+    },
+    {
+      "Name": "PassiveSkillServant",
+      "SkillType": "Passive",
+      "UseType": "Passive",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
+      "EntryAbility": "Servant_Common_PassiveSkill"
     }
   ],
   "AbilityList": [
