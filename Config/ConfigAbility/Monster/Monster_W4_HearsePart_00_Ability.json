@@ -82,6 +82,7 @@
           "$type": "RPG.GameCore.TriggerAnimState",
           "AnimStateName": "Skill01",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
@@ -95,6 +96,7 @@
           },
           "IgnoreRadius": true,
           "OffsetTargetDistance": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0
             }
@@ -120,6 +122,7 @@
           },
           "AnimStateName": "Skill01",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.234
             }
@@ -136,6 +139,7 @@
           },
           "AnimStateName": "Skill01",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.263
             }
@@ -159,6 +163,7 @@
           },
           "AnimStateName": "Skill01",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.297
             }
@@ -181,6 +186,7 @@
           },
           "AnimStateName": "Skill01",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.688
             }
@@ -194,6 +200,7 @@
           },
           "AnimStateName": "Skill01",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.717
             }
@@ -274,6 +281,7 @@
                 "Inverse": true
               },
               "MaxNumber": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 1
                 }
@@ -288,6 +296,7 @@
                       "Alias": "ParamEntity"
                     },
                     "TargetCharacterID": {
+                      "IsDynamic": false,
                       "FixedValue": {
                         "Value": 1220
                       }
@@ -372,6 +381,131 @@
           ]
         },
         {
+          "Event": "OnAfterBeingHitAll",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByProperty",
+              "DynamicKey": "MDF_CurrentHP",
+              "ReadTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "Value": "CurrentHP"
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByProperty",
+              "DynamicKey": "MDF_MaxHP",
+              "ReadTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "Value": "MaxHP"
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "Value": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQABAQUR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    1814067545,
+                    -1610876898
+                  ]
+                }
+              },
+              "DynamicKey": {
+                "Value": "MDF_HPRatio"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.Retarget",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllLightTeamWithAllUnselectableLightTeam.RemoveServant"
+              },
+              "Predicate": {
+                "$type": "RPG.GameCore.ByIsContainModifier",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                },
+                "ModifierName": {
+                  "Value": "Monster_W4_Hearse_00_AlreadyAdd"
+                },
+                "CasterFilter": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ModifierOwnerEntity"
+                }
+              },
+              "MaxNumber": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "TaskList": [
+                {
+                  "$type": "RPG.GameCore.RemoveModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "Monster_W4_HearsePart_00_BlackBlood"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "MDF_HPRatio"
+                    },
+                    "CompareType": "Greater",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 0
+                      }
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "Monster_W4_HearsePart_00_BlackBlood"
+                      },
+                      "DynamicValues": {
+                        "MDF_DirtyHPRatio": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AQABAQQR",
+                            "FixedValues": [],
+                            "DynamicHashes": [
+                              350792237,
+                              -11934696
+                            ]
+                          }
+                        }
+                      },
+                      "CustomOffset": {
+                        "X": 0,
+                        "Y": 99,
+                        "Z": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
           "Event": "OnListenCharacterDie",
           "CallbackConfig": [
             {
@@ -394,6 +528,7 @@
                 {
                   "$type": "RPG.GameCore.SetDynamicValue",
                   "Value": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 1
                     }
@@ -476,6 +611,7 @@
                 },
                 "CompareType": "Equal",
                 "CompareValue": {
+                  "IsDynamic": false,
                   "FixedValue": {
                     "Value": 0
                   }
@@ -560,6 +696,7 @@
                       "Alias": "Monster_W4_Hearse_00_Self"
                     },
                     "TargetMonsterTemplateID": {
+                      "IsDynamic": false,
                       "FixedValue": {
                         "Value": 4014022
                       }
@@ -576,6 +713,7 @@
                         },
                         "CompareType": "Equal",
                         "CompareValue": {
+                          "IsDynamic": false,
                           "FixedValue": {
                             "Value": 2
                           }
@@ -634,6 +772,7 @@
                         },
                         "CompareType": "Equal",
                         "CompareValue": {
+                          "IsDynamic": false,
                           "FixedValue": {
                             "Value": 1
                           }
@@ -686,135 +825,34 @@
               "FailedTaskList": []
             }
           ]
-        },
-        {
-          "Event": "OnAfterBeingAttacked",
-          "CallbackConfig": [
-            {
-              "$type": "RPG.GameCore.SetDynamicValueByProperty",
-              "DynamicKey": "MDF_CurrentHP",
-              "ReadTargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "ModifierOwnerEntity"
-              },
-              "Value": "CurrentHP"
-            },
-            {
-              "$type": "RPG.GameCore.SetDynamicValueByProperty",
-              "DynamicKey": "MDF_MaxHP",
-              "ReadTargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "ModifierOwnerEntity"
-              },
-              "Value": "MaxHP"
-            },
-            {
-              "$type": "RPG.GameCore.SetDynamicValue",
-              "Value": {
-                "IsDynamic": true,
-                "PostfixExpr": {
-                  "OpCodes": "AQABAQUR",
-                  "FixedValues": [],
-                  "DynamicHashes": [
-                    1814067545,
-                    -1610876898
-                  ]
-                }
-              },
-              "DynamicKey": {
-                "Value": "MDF_HPRatio"
-              }
-            },
-            {
-              "$type": "RPG.GameCore.Retarget",
-              "TargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "AllLightTeamWithAllUnselectableLightTeam.RemoveServant"
-              },
-              "Predicate": {
-                "$type": "RPG.GameCore.ByIsContainModifier",
-                "TargetType": {
-                  "$type": "RPG.GameCore.TargetAlias",
-                  "Alias": "ParamEntity"
-                },
-                "ModifierName": {
-                  "Value": "Monster_W4_Hearse_00_AlreadyAdd"
-                },
-                "CasterFilter": {
-                  "$type": "RPG.GameCore.TargetAlias",
-                  "Alias": "ModifierOwnerEntity"
-                }
-              },
-              "MaxNumber": {
-                "FixedValue": {
-                  "Value": 1
-                }
-              },
-              "TaskList": [
-                {
-                  "$type": "RPG.GameCore.RemoveModifier",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "ParamEntity"
-                  },
-                  "ModifierName": {
-                    "Value": "Monster_W4_HearsePart_00_BlackBlood"
-                  }
-                },
-                {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByCompareDynamicValue",
-                    "DynamicKey": {
-                      "Value": "MDF_HPRatio"
-                    },
-                    "CompareType": "Greater",
-                    "CompareValue": {
-                      "FixedValue": {
-                        "Value": 0
-                      }
-                    }
-                  },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.AddModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ParamEntity"
-                      },
-                      "ModifierName": {
-                        "Value": "Monster_W4_HearsePart_00_BlackBlood"
-                      },
-                      "DynamicValues": {
-                        "MDF_DirtyHPRatio": {
-                          "IsDynamic": true,
-                          "PostfixExpr": {
-                            "OpCodes": "AQABAQQR",
-                            "FixedValues": [],
-                            "DynamicHashes": [
-                              350792237,
-                              -11934696
-                            ]
-                          }
-                        }
-                      },
-                      "CustomOffset": {
-                        "Y": 99
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
         }
       ],
       "DynamicValues": {
         "Floats": {
-          "1814067545": {},
-          "-1610876898": {},
-          "350792237": {},
-          "-1021308767": {}
+          "1814067545": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-1610876898": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "350792237": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-1021308767": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
         }
       }
     },
@@ -863,6 +901,7 @@
                 }
               },
               "MaxNumber": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 1
                 }
@@ -934,6 +973,7 @@
                     },
                     "CompareType": "Equal",
                     "CompareValue": {
+                      "IsDynamic": false,
                       "FixedValue": {
                         "Value": 0
                       }
@@ -945,6 +985,7 @@
                 {
                   "$type": "RPG.GameCore.SetDynamicValue",
                   "Value": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 1
                     }
@@ -1334,6 +1375,7 @@
             {
               "$type": "RPG.GameCore.SetDynamicValue",
               "Value": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 0
                 }
@@ -1431,7 +1473,12 @@
       ],
       "DynamicValues": {
         "Floats": {
-          "-985395165": {}
+          "-985395165": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
         }
       }
     },
@@ -1463,7 +1510,12 @@
       ],
       "DynamicValues": {
         "Floats": {
-          "-985395165": {}
+          "-985395165": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
         }
       }
     },
@@ -1548,7 +1600,102 @@
       ],
       "DynamicValues": {
         "Floats": {
-          "2016212472": {}
+          "2016212472": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
+        }
+      }
+    },
+    "Monster_W4_HearsePart_00_Soul_B": {
+      "_CallbackList": [
+        {
+          "Event": "OnBeforeBeingHit",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByAny",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByTargetListIntersects",
+                    "FirstTargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "SecondTargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Caster"
+                    }
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByTargetListIntersects",
+                    "FirstTargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "SecondTargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Caster.GetServant"
+                    }
+                  }
+                ]
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.ModifyDamageData",
+                  "Defender_AllDamageTypeTakenRatio": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        2016212472
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Event": "OnStack",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByAvatarBaseType",
+                "BaseTypeList": [
+                  "Memory"
+                ],
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "Caster"
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.StackStatusDesc",
+                  "TextID": {
+                    "Hash": 13511049741759971769
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "DynamicValues": {
+        "Floats": {
+          "2016212472": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
         }
       }
     },
@@ -1579,6 +1726,7 @@
             {
               "$type": "RPG.GameCore.LockHP",
               "Threshold": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 1
                 }
@@ -1591,6 +1739,39 @@
     "Monster_W4_HearsePart_00_Stop": {
       "BehaviorFlagList": [
         "MuteSpeed"
+      ],
+      "_CallbackList": [
+        {
+          "Event": "OnDestroy",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.LockActionDelayChange",
+              "LockTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "IsLock": false
+            }
+          ]
+        },
+        {
+          "Event": "OnStack",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.LockActionDelayChange",
+              "LockTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "WhitelistSourceEntity": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "WhitelistChangeReason": "Mask_TurnBasedAdvance",
+              "Preshow_UnlockOnBreak": true
+            }
+          ]
+        }
       ]
     },
     "Monster_W4_HearsePart_00_Phase2HP": {

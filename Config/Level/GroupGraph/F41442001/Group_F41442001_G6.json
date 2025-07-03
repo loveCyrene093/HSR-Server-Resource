@@ -1,0 +1,166 @@
+{
+  "OnInitSequece": [
+    {
+      "TaskList": []
+    }
+  ],
+  "OnStartSequece": [
+    {
+      "TaskList": []
+    },
+    {
+      "Order": 999,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEvent",
+          "EventName": {
+            "Value": "UpdateState"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareGroupProperty",
+                "DynamicName": {
+                  "Value": "State"
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetStageItemState",
+                  "ItemList": [
+                    {
+                      "BlockAlias": "CunzhuangBlock",
+                      "PrefabAlias": "Block"
+                    }
+                  ],
+                  "EnableState": true
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareGroupProperty",
+                "DynamicName": {
+                  "Value": "State"
+                },
+                "CompareValue": 1
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetStageItemState",
+                  "ItemList": [
+                    {
+                      "BlockAlias": "CunzhuangBlock",
+                      "PrefabAlias": "Block"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PropSetupUITrigger",
+          "ButtonCallback": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareGroupProperty",
+                "DynamicName": {
+                  "Value": "State"
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetClientGroupProperty",
+                  "DynamicName": {
+                    "Value": "State"
+                  },
+                  "Value": 1
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareGroupProperty",
+                    "DynamicName": {
+                      "Value": "State"
+                    },
+                    "CompareValue": 1
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetClientGroupProperty",
+                      "DynamicName": {
+                        "Value": "State"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "OverrideTargetTypes": [],
+          "TargetType": {
+            "$type": "RPG.GameCore.GroupFetchLocalTarget",
+            "TargetType": "Prop",
+            "Targets": [
+              300001
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupPropertyChange",
+          "Name": {
+            "Value": "State"
+          },
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.TriggerEntityEvent",
+              "EventName": {
+                "Value": "UpdateState"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.TriggerEntityEvent",
+          "EventName": {
+            "Value": "UpdateState"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitSecond",
+          "WaitTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.2
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEntityEvent",
+          "EventName": {
+            "Value": "UpdateState"
+          }
+        }
+      ]
+    }
+  ],
+  "Type": "Group"
+}

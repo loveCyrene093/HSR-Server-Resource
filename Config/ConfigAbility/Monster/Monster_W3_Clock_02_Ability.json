@@ -73,6 +73,7 @@
                       "$type": "RPG.GameCore.SetDynamicValue",
                       "ContextScope": "TargetEntity",
                       "Value": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 1
                         }
@@ -101,6 +102,7 @@
                           "$type": "RPG.GameCore.SetDynamicValue",
                           "ContextScope": "TargetEntity",
                           "Value": {
+                            "IsDynamic": false,
                             "FixedValue": {
                               "Value": 1
                             }
@@ -116,6 +118,7 @@
                 {
                   "$type": "RPG.GameCore.SetDynamicValue",
                   "Value": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 1
                     }
@@ -192,6 +195,7 @@
                 {
                   "$type": "RPG.GameCore.SetDynamicValue",
                   "Value": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 0
                     }
@@ -298,6 +302,7 @@
                       "$type": "RPG.GameCore.SetDynamicValue",
                       "ContextScope": "TargetEntity",
                       "Value": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 1
                         }
@@ -388,6 +393,7 @@
             "ContextScope": "TargetEntity",
             "CompareType": "Equal",
             "CompareValue": {
+              "IsDynamic": false,
               "FixedValue": {
                 "Value": 1
               }
@@ -481,6 +487,7 @@
                     },
                     "CompareType": "LessEqual",
                     "CompareValue": {
+                      "IsDynamic": false,
                       "FixedValue": {
                         "Value": 0.1
                       }
@@ -561,11 +568,13 @@
           "$type": "RPG.GameCore.TriggerAnimState",
           "AnimStateName": "Skill01",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
           },
           "NormalizedTimeWait": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.9
             }
@@ -596,6 +605,7 @@
           },
           "AnimStateName": "Skill01",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.2
             }
@@ -612,6 +622,7 @@
           },
           "AnimStateName": "Skill01",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.185
             }
@@ -631,6 +642,7 @@
           "$type": "RPG.GameCore.SetDynamicValue",
           "ContextScope": "TargetEntity",
           "Value": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0
             }
@@ -643,6 +655,7 @@
           "$type": "RPG.GameCore.SetDynamicValue",
           "ContextScope": "TargetEntity",
           "Value": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": -1
             }
@@ -652,17 +665,47 @@
           }
         },
         {
-          "$type": "RPG.GameCore.ShowUIPage",
-          "AssetPath": "UI/Common/Widget/BattleAlertHint.prefab",
-          "UITextNodes": [
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCheckCustomValueBool",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "Caster"
+            },
+            "Key": {
+              "Hash": 26031504
+            }
+          },
+          "SuccessTaskList": [
             {
-              "TextPath": "AreaInfoPanel/Title/Text",
-              "TextContent": {
-                "Hash": 4721580666832557208
-              }
+              "$type": "RPG.GameCore.ShowUIPage",
+              "AssetPath": "UI/Common/Widget/BattleAlertHint.prefab",
+              "UITextNodes": [
+                {
+                  "TextPath": "AreaInfoPanel/Title/Text",
+                  "TextContent": {
+                    "Hash": 6822939285317060380
+                  }
+                }
+              ],
+              "LifeTime": 2
             }
           ],
-          "LifeTime": 2
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.ShowUIPage",
+              "AssetPath": "UI/Common/Widget/BattleAlertHint.prefab",
+              "UITextNodes": [
+                {
+                  "TextPath": "AreaInfoPanel/Title/Text",
+                  "TextContent": {
+                    "Hash": 4721580666832557208
+                  }
+                }
+              ],
+              "LifeTime": 2
+            }
+          ]
         },
         {
           "$type": "RPG.GameCore.RemoveModifier",
@@ -702,14 +745,43 @@
           "Delay": 1
         },
         {
-          "$type": "RPG.GameCore.AnimSetParameter",
-          "ParameterName": "Side",
-          "ParameterType": "Int",
-          "Value": {
-            "FixedValue": {
-              "Value": 1
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCheckCustomValueBool",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "Caster"
+            },
+            "Key": {
+              "Hash": 26031504
             }
-          }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.AnimSetParameter",
+              "ParameterName": "Side",
+              "ParameterType": "Int",
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 5
+                }
+              }
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.AnimSetParameter",
+              "ParameterName": "Side",
+              "ParameterType": "Int",
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              }
+            }
+          ]
         },
         {
           "$type": "RPG.GameCore.SkillPerformFinish"
@@ -789,11 +861,13 @@
           "$type": "RPG.GameCore.TriggerAnimState",
           "AnimStateName": "Skill02",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
           },
           "NormalizedTimeWait": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.9
             }
@@ -824,6 +898,7 @@
           },
           "AnimStateName": "Skill02",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.2
             }
@@ -840,6 +915,7 @@
           },
           "AnimStateName": "Skill02",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.285
             }
@@ -902,7 +978,7 @@
     {
       "Name": "Monster_W3_Clock_02_Skill03_Phase01",
       "TargetInfo": {
-        "TargetType": "SkillTargetEntityList"
+        "TargetType": "AllEnemy"
       },
       "OnStart": [
         {
@@ -931,11 +1007,13 @@
           "$type": "RPG.GameCore.TriggerAnimState",
           "AnimStateName": "Skill02",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
           },
           "NormalizedTimeWait": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.9
             }
@@ -961,6 +1039,7 @@
           },
           "IgnoreRadius": true,
           "OffsetTargetDistance": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0
             }
@@ -979,6 +1058,7 @@
           },
           "AnimStateName": "Skill02",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.2
             }
@@ -995,6 +1075,7 @@
           },
           "AnimStateName": "Skill02",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.285
             }
@@ -1094,6 +1175,7 @@
           "$type": "RPG.GameCore.TriggerAnimState",
           "AnimStateName": "Skill08",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
@@ -1134,6 +1216,7 @@
         {
           "$type": "RPG.GameCore.WaitParallelTimeStamp",
           "WaitTime": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.5
             }

@@ -135,7 +135,12 @@
           "Stacking": "ReplaceByCaster",
           "DynamicValues": {
             "Floats": {
-              "2128130574": {}
+              "2128130574": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         },
@@ -148,6 +153,7 @@
                   "$type": "RPG.GameCore.SetDynamicValueByModifierValue",
                   "ValueType": "Layer",
                   "Multiplier": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 1
                     }
@@ -179,8 +185,18 @@
           "Stacking": "ReplaceByCaster",
           "DynamicValues": {
             "Floats": {
-              "2128130574": {},
-              "-1779155193": {}
+              "2128130574": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-1779155193": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -312,7 +328,12 @@
           "Stacking": "ReplaceByCaster",
           "DynamicValues": {
             "Floats": {
-              "2128130574": {}
+              "2128130574": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         },
@@ -323,7 +344,7 @@
           ],
           "_CallbackList": [
             {
-              "Event": "OnResistDebuff",
+              "Event": "OnImmuneDebuff",
               "CallbackConfig": [
                 {
                   "$type": "RPG.GameCore.PredicateTaskList",
@@ -479,7 +500,12 @@
           "Stacking": "ReplaceByCaster",
           "DynamicValues": {
             "Floats": {
-              "2128130574": {}
+              "2128130574": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -1046,9 +1072,24 @@
           "Stacking": "ReplaceByCaster",
           "DynamicValues": {
             "Floats": {
-              "2128130574": {},
-              "-1650426201": {},
-              "404087829": {}
+              "2128130574": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-1650426201": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "404087829": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -1099,6 +1140,7 @@
                         },
                         "CompareType": "Equal",
                         "CompareValue": {
+                          "IsDynamic": false,
                           "FixedValue": {
                             "Value": 1
                           }
@@ -1152,6 +1194,7 @@
                         {
                           "$type": "RPG.GameCore.SetDynamicValue",
                           "Value": {
+                            "IsDynamic": false,
                             "FixedValue": {
                               "Value": 0
                             }
@@ -1170,7 +1213,12 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "-1754375661": {}
+              "-1754375661": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -1234,65 +1282,24 @@
               "Event": "OnTriggerDeath",
               "CallbackConfig": [
                 {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByIsTurnOwnerEntity",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ModifierOwnerEntity"
+                  "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                  "Name": "ReduceActionDelay",
+                  "DynamicValues": {
+                    "Arg0_NormalizedValue": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQAR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          462955996
+                        ]
+                      }
                     }
                   },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.ModifyCurrentSkillDelayCost",
-                      "NormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            462955996
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "$type": "RPG.GameCore.ModifyActionDelay",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "AddNormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            462955996
-                          ]
-                        }
-                      }
-                    }
-                  ],
-                  "FailedTaskList": [
-                    {
-                      "$type": "RPG.GameCore.ModifyActionDelay",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "AddNormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            462955996
-                          ]
-                        }
-                      }
-                    }
-                  ]
+                  "ParamTarget": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  }
                 }
               ]
             }
@@ -1398,7 +1405,12 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "2010134927": {}
+              "2010134927": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         },
@@ -1574,6 +1586,7 @@
                   },
                   "ByRandom": true,
                   "MaxNumber": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 4
                     }
@@ -1612,10 +1625,30 @@
           "Stacking": "ReplaceByCaster",
           "DynamicValues": {
             "Floats": {
-              "2128130574": {},
-              "1820617363": {},
-              "931685943": {},
-              "-1779155193": {}
+              "2128130574": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "1820617363": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "931685943": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-1779155193": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -1672,6 +1705,7 @@
             }
           ],
           "DelayRatio": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.5
             }
@@ -1708,6 +1742,7 @@
           },
           "ByRandom": true,
           "MaxNumber": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 4
             }
@@ -1760,6 +1795,7 @@
         {
           "$type": "RPG.GameCore.WaitSecond",
           "WaitTime": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1.5
             }
@@ -1768,9 +1804,24 @@
       ],
       "DynamicValues": {
         "Floats": {
-          "268198220": {},
-          "-829174193": {},
-          "-1882231037": {}
+          "268198220": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-829174193": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-1882231037": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
         }
       }
     },
@@ -1806,6 +1857,7 @@
           "$type": "RPG.GameCore.TriggerAnimState",
           "AnimStateName": "Skill03",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
@@ -1827,6 +1879,7 @@
           },
           "AnimStateName": "Skill03",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.0009999999
             }
@@ -1838,7 +1891,7 @@
             "$type": "RPG.GameCore.TargetAlias",
             "Alias": "Caster"
           },
-          "IsSlientDispel": true
+          "IsSilentDispel": true
         },
         {
           "$type": "RPG.GameCore.RemoveModifier",
@@ -1858,6 +1911,7 @@
           },
           "AnimStateName": "Skill03",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.19
             }
@@ -1928,6 +1982,7 @@
               "Alias": "Caster"
             },
             "TargetCharacterID": {
+              "IsDynamic": false,
               "FixedValue": {
                 "Value": 8002060
               }
@@ -1968,6 +2023,7 @@
           },
           "AnimStateName": "Skill03",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.4
             }
@@ -1981,6 +2037,7 @@
           },
           "AnimStateName": "Skill03",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
@@ -2127,6 +2184,7 @@
                         {
                           "$type": "RPG.GameCore.SetDynamicValue",
                           "Value": {
+                            "IsDynamic": false,
                             "FixedValue": {
                               "Value": 1
                             }
@@ -2200,6 +2258,7 @@
                 {
                   "$type": "RPG.GameCore.SetDynamicValue",
                   "Value": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 0
                     }
@@ -2211,6 +2270,7 @@
                 {
                   "$type": "RPG.GameCore.SetDynamicValue",
                   "Value": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 0
                     }
@@ -2252,6 +2312,7 @@
                     },
                     "CompareType": "Equal",
                     "CompareValue": {
+                      "IsDynamic": false,
                       "FixedValue": {
                         "Value": 1
                       }
@@ -2261,6 +2322,7 @@
                     {
                       "$type": "RPG.GameCore.SetDynamicValue",
                       "Value": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 0
                         }
@@ -2305,6 +2367,7 @@
                     {
                       "$type": "RPG.GameCore.SetDynamicValue",
                       "Value": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 0
                         }
@@ -2320,15 +2383,60 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "2128130574": {},
-              "-2125946860": {},
-              "602936495": {},
-              "-1319377806": {},
-              "1152718984": {},
-              "-2129789162": {},
-              "-1555222330": {},
-              "-1899429228": {},
-              "-1206228605": {}
+              "2128130574": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-2125946860": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "602936495": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-1319377806": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "1152718984": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-2129789162": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-1555222330": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-1899429228": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-1206228605": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         },
@@ -2374,8 +2482,18 @@
           "Stacking": "Replace",
           "DynamicValues": {
             "Floats": {
-              "2128130574": {},
-              "-1779155193": {}
+              "2128130574": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-1779155193": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -2469,73 +2587,24 @@
               "Event": "OnTriggerLimbo",
               "CallbackConfig": [
                 {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByIsTurnOwnerEntity",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ModifierOwnerEntity"
+                  "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                  "Name": "ReduceActionDelay",
+                  "DynamicValues": {
+                    "Arg0_NormalizedValue": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQAR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          59671469
+                        ]
+                      }
                     }
                   },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.DebugLog",
-                      "Message": "==============CX 0508 Modify Delay======================"
-                    },
-                    {
-                      "$type": "RPG.GameCore.ModifyCurrentSkillDelayCost",
-                      "NormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            59671469
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "$type": "RPG.GameCore.ModifyActionDelay",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "AddNormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            59671469
-                          ]
-                        }
-                      }
-                    }
-                  ],
-                  "FailedTaskList": [
-                    {
-                      "$type": "RPG.GameCore.DebugLog",
-                      "Message": "==============CX 0508 Modify Delay======================"
-                    },
-                    {
-                      "$type": "RPG.GameCore.ModifyActionDelay",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "AddNormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            59671469
-                          ]
-                        }
-                      }
-                    }
-                  ]
+                  "ParamTarget": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  }
                 }
               ]
             },
@@ -2635,73 +2704,24 @@
               "Event": "OnTriggerLimbo",
               "CallbackConfig": [
                 {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByIsTurnOwnerEntity",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ModifierOwnerEntity"
+                  "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                  "Name": "ReduceActionDelay",
+                  "DynamicValues": {
+                    "Arg0_NormalizedValue": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQAR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          59671469
+                        ]
+                      }
                     }
                   },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.DebugLog",
-                      "Message": "==============CX 0508 Modify Delay======================"
-                    },
-                    {
-                      "$type": "RPG.GameCore.ModifyCurrentSkillDelayCost",
-                      "NormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            59671469
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "$type": "RPG.GameCore.ModifyActionDelay",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "AddNormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            59671469
-                          ]
-                        }
-                      }
-                    }
-                  ],
-                  "FailedTaskList": [
-                    {
-                      "$type": "RPG.GameCore.DebugLog",
-                      "Message": "==============CX 0508 Modify Delay======================"
-                    },
-                    {
-                      "$type": "RPG.GameCore.ModifyActionDelay",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "AddNormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            59671469
-                          ]
-                        }
-                      }
-                    }
-                  ]
+                  "ParamTarget": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  }
                 }
               ]
             },
@@ -2857,6 +2877,7 @@
                     },
                     "CompareType": "LessEqual",
                     "CompareValue": {
+                      "IsDynamic": false,
                       "FixedValue": {
                         "Value": 0
                       }
@@ -2866,6 +2887,7 @@
                     {
                       "$type": "RPG.GameCore.SetDynamicValue",
                       "Value": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 0
                         }
@@ -2961,6 +2983,7 @@
                     {
                       "$type": "RPG.GameCore.SetDynamicValue",
                       "Value": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 0
                         }
@@ -2986,8 +3009,18 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "1948829673": {},
-              "234453622": {}
+              "1948829673": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "234453622": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           },
           "TaskListTemplate": [
@@ -3003,6 +3036,7 @@
                     },
                     "CompareType": "Greater",
                     "CompareValue": {
+                      "IsDynamic": false,
                       "FixedValue": {
                         "Value": 0
                       }
@@ -3201,6 +3235,7 @@
                     },
                     "CompareType": "LessEqual",
                     "CompareValue": {
+                      "IsDynamic": false,
                       "FixedValue": {
                         "Value": 0
                       }
@@ -3210,6 +3245,7 @@
                     {
                       "$type": "RPG.GameCore.SetDynamicValue",
                       "Value": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 0
                         }
@@ -3305,6 +3341,7 @@
                     {
                       "$type": "RPG.GameCore.SetDynamicValue",
                       "Value": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 0
                         }
@@ -3330,8 +3367,18 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "1948829673": {},
-              "234453622": {}
+              "1948829673": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "234453622": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           },
           "TaskListTemplate": [
@@ -3347,6 +3394,7 @@
                     },
                     "CompareType": "Greater",
                     "CompareValue": {
+                      "IsDynamic": false,
                       "FixedValue": {
                         "Value": 0
                       }
@@ -3576,73 +3624,24 @@
               "Event": "OnTriggerBreak",
               "CallbackConfig": [
                 {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByIsTurnOwnerEntity",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ModifierOwnerEntity"
+                  "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                  "Name": "ReduceActionDelay",
+                  "DynamicValues": {
+                    "Arg0_NormalizedValue": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQAR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          462955996
+                        ]
+                      }
                     }
                   },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.DebugLog",
-                      "Message": "==============CX 0508 Modify Delay======================"
-                    },
-                    {
-                      "$type": "RPG.GameCore.ModifyCurrentSkillDelayCost",
-                      "NormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            462955996
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "$type": "RPG.GameCore.ModifyActionDelay",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "AddNormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            462955996
-                          ]
-                        }
-                      }
-                    }
-                  ],
-                  "FailedTaskList": [
-                    {
-                      "$type": "RPG.GameCore.DebugLog",
-                      "Message": "==============CX 0508 Modify Delay======================"
-                    },
-                    {
-                      "$type": "RPG.GameCore.ModifyActionDelay",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "AddNormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            462955996
-                          ]
-                        }
-                      }
-                    }
-                  ]
+                  "ParamTarget": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  }
                 }
               ]
             }
@@ -4387,10 +4386,30 @@
           "Stacking": "ReplaceByCaster",
           "DynamicValues": {
             "Floats": {
-              "-1922215033": {},
-              "719639628": {},
-              "-1650426201": {},
-              "404087829": {}
+              "-1922215033": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "719639628": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-1650426201": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "404087829": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -4520,7 +4539,12 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "362218982": {}
+              "362218982": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -4664,8 +4688,18 @@
           "Stacking": "ReplaceByCaster",
           "DynamicValues": {
             "Floats": {
-              "-1633013985": {},
-              "-695722298": {}
+              "-1633013985": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-695722298": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -4753,6 +4787,7 @@
                 {
                   "$type": "RPG.GameCore.SetDynamicValue",
                   "Value": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 0
                     }
@@ -4857,9 +4892,24 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "2128130574": {},
-              "-2125946860": {},
-              "1066658351": {}
+              "2128130574": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-2125946860": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "1066658351": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -4890,6 +4940,7 @@
               "Ranges": [
                 {
                   "Min": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 0
                     }
@@ -5061,11 +5112,13 @@
                     "Value": "_Layer"
                   },
                   "AddValue": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 1
                     }
                   },
                   "Min": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 0
                     }
@@ -5086,7 +5139,12 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "-2125946860": {}
+              "-2125946860": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         },
@@ -5129,7 +5187,12 @@
           "Stacking": "ReplaceByCaster",
           "DynamicValues": {
             "Floats": {
-              "2128130574": {}
+              "2128130574": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -5284,8 +5347,18 @@
           "Stacking": "ReplaceByCaster",
           "DynamicValues": {
             "Floats": {
-              "2128130574": {},
-              "-2125946860": {}
+              "2128130574": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-2125946860": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -5702,10 +5775,30 @@
           "Stacking": "ReplaceByCaster",
           "DynamicValues": {
             "Floats": {
-              "-809789968": {},
-              "-1922215033": {},
-              "-1650426201": {},
-              "404087829": {}
+              "-809789968": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-1922215033": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-1650426201": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "404087829": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -5858,8 +5951,18 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "140599511": {},
-              "-1823081466": {}
+              "140599511": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-1823081466": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -5947,6 +6050,7 @@
                 {
                   "$type": "RPG.GameCore.SetDynamicValue",
                   "Value": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 0
                     }
@@ -5990,77 +6094,24 @@
                   },
                   "SuccessTaskList": [
                     {
-                      "$type": "RPG.GameCore.PredicateTaskList",
-                      "Predicate": {
-                        "$type": "RPG.GameCore.ByIsTurnOwnerEntity",
-                        "TargetType": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "ModifierOwnerEntity"
+                      "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                      "Name": "ReduceActionDelay",
+                      "DynamicValues": {
+                        "Arg0_NormalizedValue": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AQAR",
+                            "FixedValues": [],
+                            "DynamicHashes": [
+                              406205638
+                            ]
+                          }
                         }
                       },
-                      "SuccessTaskList": [
-                        {
-                          "$type": "RPG.GameCore.ModifyCurrentSkillDelayCost",
-                          "NormalizedValue": {
-                            "IsDynamic": true,
-                            "PostfixExpr": {
-                              "OpCodes": "AAABAAMR",
-                              "FixedValues": [
-                                {
-                                  "Value": 0
-                                }
-                              ],
-                              "DynamicHashes": [
-                                406205638
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "$type": "RPG.GameCore.ModifyActionDelay",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ModifierOwnerEntity"
-                          },
-                          "AddNormalizedValue": {
-                            "IsDynamic": true,
-                            "PostfixExpr": {
-                              "OpCodes": "AAABAAMR",
-                              "FixedValues": [
-                                {
-                                  "Value": 0
-                                }
-                              ],
-                              "DynamicHashes": [
-                                406205638
-                              ]
-                            }
-                          }
-                        }
-                      ],
-                      "FailedTaskList": [
-                        {
-                          "$type": "RPG.GameCore.ModifyActionDelay",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ModifierOwnerEntity"
-                          },
-                          "AddNormalizedValue": {
-                            "IsDynamic": true,
-                            "PostfixExpr": {
-                              "OpCodes": "AAABAAMR",
-                              "FixedValues": [
-                                {
-                                  "Value": 0
-                                }
-                              ],
-                              "DynamicHashes": [
-                                406205638
-                              ]
-                            }
-                          }
-                        }
-                      ]
+                      "ParamTarget": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      }
                     },
                     {
                       "$type": "RPG.GameCore.SetDynamicValue",
@@ -6089,9 +6140,24 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "406205638": {},
-              "533171262": {},
-              "1066658351": {}
+              "406205638": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "533171262": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "1066658351": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -6184,6 +6250,7 @@
                     {
                       "$type": "RPG.GameCore.SetDynamicValue",
                       "Value": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 0
                         }
@@ -6237,6 +6304,7 @@
                     {
                       "$type": "RPG.GameCore.SetDynamicValue",
                       "Value": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 1
                         }
@@ -6255,6 +6323,7 @@
                 {
                   "$type": "RPG.GameCore.SetDynamicValue",
                   "Value": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 0
                     }
@@ -6277,6 +6346,7 @@
                     },
                     "CompareType": "Equal",
                     "CompareValue": {
+                      "IsDynamic": false,
                       "FixedValue": {
                         "Value": 1
                       }
@@ -6286,6 +6356,7 @@
                     {
                       "$type": "RPG.GameCore.SetDynamicValue",
                       "Value": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 0
                         }
@@ -6295,65 +6366,24 @@
                       }
                     },
                     {
-                      "$type": "RPG.GameCore.PredicateTaskList",
-                      "Predicate": {
-                        "$type": "RPG.GameCore.ByIsTurnOwnerEntity",
-                        "TargetType": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "ModifierOwnerEntity"
+                      "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                      "Name": "ReduceActionDelay",
+                      "DynamicValues": {
+                        "Arg0_NormalizedValue": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AQAR",
+                            "FixedValues": [],
+                            "DynamicHashes": [
+                              406205638
+                            ]
+                          }
                         }
                       },
-                      "SuccessTaskList": [
-                        {
-                          "$type": "RPG.GameCore.ModifyCurrentSkillDelayCost",
-                          "NormalizedValue": {
-                            "IsDynamic": true,
-                            "PostfixExpr": {
-                              "OpCodes": "AQAOEQ==",
-                              "FixedValues": [],
-                              "DynamicHashes": [
-                                406205638
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "$type": "RPG.GameCore.ModifyActionDelay",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ModifierOwnerEntity"
-                          },
-                          "AddNormalizedValue": {
-                            "IsDynamic": true,
-                            "PostfixExpr": {
-                              "OpCodes": "AQAOEQ==",
-                              "FixedValues": [],
-                              "DynamicHashes": [
-                                406205638
-                              ]
-                            }
-                          }
-                        }
-                      ],
-                      "FailedTaskList": [
-                        {
-                          "$type": "RPG.GameCore.ModifyActionDelay",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ModifierOwnerEntity"
-                          },
-                          "AddNormalizedValue": {
-                            "IsDynamic": true,
-                            "PostfixExpr": {
-                              "OpCodes": "AQAOEQ==",
-                              "FixedValues": [],
-                              "DynamicHashes": [
-                                406205638
-                              ]
-                            }
-                          }
-                        }
-                      ]
+                      "ParamTarget": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      }
                     },
                     {
                       "$type": "RPG.GameCore.SetDynamicValue",
@@ -6382,10 +6412,30 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "406205638": {},
-              "533171262": {},
-              "1066658351": {},
-              "1983882602": {}
+              "406205638": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "533171262": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "1066658351": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "1983882602": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -6509,7 +6559,12 @@
           "Stacking": "ReplaceByCaster",
           "DynamicValues": {
             "Floats": {
-              "8432818": {}
+              "8432818": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -6639,7 +6694,12 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "4127294": {}
+              "4127294": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -6715,81 +6775,36 @@
               "Event": "OnTriggerDeath",
               "CallbackConfig": [
                 {
-                  "$type": "RPG.GameCore.Retarget",
-                  "TargetType": {
+                  "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                  "Name": "ReduceActionDelay",
+                  "DynamicValues": {
+                    "Arg0_NormalizedValue": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQAR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          2128130574
+                        ]
+                      }
+                    }
+                  },
+                  "ParamTarget": {
                     "$type": "RPG.GameCore.TargetAlias",
                     "Alias": "AllLightTeam"
-                  },
-                  "TaskList": [
-                    {
-                      "$type": "RPG.GameCore.PredicateTaskList",
-                      "Predicate": {
-                        "$type": "RPG.GameCore.ByIsTurnOwnerEntity",
-                        "TargetType": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "ParamEntity"
-                        }
-                      },
-                      "SuccessTaskList": [
-                        {
-                          "$type": "RPG.GameCore.ModifyCurrentSkillDelayCost",
-                          "NormalizedValue": {
-                            "IsDynamic": true,
-                            "PostfixExpr": {
-                              "OpCodes": "AQAOEQ==",
-                              "FixedValues": [],
-                              "DynamicHashes": [
-                                2128130574
-                              ]
-                            }
-                          }
-                        },
-                        {
-                          "$type": "RPG.GameCore.ModifyActionDelay",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ParamEntity"
-                          },
-                          "AddNormalizedValue": {
-                            "IsDynamic": true,
-                            "PostfixExpr": {
-                              "OpCodes": "AQAOEQ==",
-                              "FixedValues": [],
-                              "DynamicHashes": [
-                                2128130574
-                              ]
-                            }
-                          }
-                        }
-                      ],
-                      "FailedTaskList": [
-                        {
-                          "$type": "RPG.GameCore.ModifyActionDelay",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ParamEntity"
-                          },
-                          "AddNormalizedValue": {
-                            "IsDynamic": true,
-                            "PostfixExpr": {
-                              "OpCodes": "AQAOEQ==",
-                              "FixedValues": [],
-                              "DynamicHashes": [
-                                2128130574
-                              ]
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  ]
+                  }
                 }
               ]
             }
           ],
           "DynamicValues": {
             "Floats": {
-              "2128130574": {}
+              "2128130574": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -6969,6 +6984,7 @@
                 {
                   "$type": "RPG.GameCore.SetDynamicValue",
                   "Value": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 0
                     }
@@ -7090,6 +7106,7 @@
                     },
                     "CompareType": "Equal",
                     "CompareValue": {
+                      "IsDynamic": false,
                       "FixedValue": {
                         "Value": 1
                       }
@@ -7156,15 +7173,36 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "-1638197343": {},
-              "145125921": {},
-              "666605531": {},
-              "-168799521": {}
+              "-1638197343": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "145125921": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "666605531": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-168799521": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         },
         "MStrongChallengeEX_Talent_StageAbility_TGT_029": {
           "LayerAddWhenStack": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
@@ -7181,6 +7219,7 @@
                   },
                   "ValueType": "Layer",
                   "Multiplier": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 1
                     }
@@ -7234,10 +7273,30 @@
           "Stacking": "ReplaceByCaster",
           "DynamicValues": {
             "Floats": {
-              "1662446059": {},
-              "-1826473127": {},
-              "2128130574": {},
-              "931685943": {}
+              "1662446059": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-1826473127": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "2128130574": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "931685943": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -7417,7 +7476,12 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "362218982": {}
+              "362218982": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         },
@@ -7463,8 +7527,18 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "1583683734": {},
-              "666604539": {}
+              "1583683734": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "666604539": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         },
@@ -7497,7 +7571,12 @@
           "Stacking": "Replace",
           "DynamicValues": {
             "Floats": {
-              "-422130114": {}
+              "-422130114": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -7703,7 +7782,12 @@
           "Stacking": "ReplaceByCaster",
           "DynamicValues": {
             "Floats": {
-              "-2144364009": {}
+              "-2144364009": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -7852,6 +7936,7 @@
                     },
                     "CompareType": "LessEqual",
                     "CompareValue": {
+                      "IsDynamic": false,
                       "FixedValue": {
                         "Value": 0
                       }
@@ -7861,6 +7946,7 @@
                     {
                       "$type": "RPG.GameCore.SetDynamicValue",
                       "Value": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 0
                         }
@@ -7956,6 +8042,7 @@
                     {
                       "$type": "RPG.GameCore.SetDynamicValue",
                       "Value": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 0
                         }
@@ -7981,8 +8068,18 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "1948829673": {},
-              "234453622": {}
+              "1948829673": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "234453622": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           },
           "TaskListTemplate": [
@@ -7998,6 +8095,7 @@
                     },
                     "CompareType": "Greater",
                     "CompareValue": {
+                      "IsDynamic": false,
                       "FixedValue": {
                         "Value": 0
                       }
@@ -8133,73 +8231,24 @@
               "Event": "OnTriggerLimbo",
               "CallbackConfig": [
                 {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByIsTurnOwnerEntity",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ModifierOwnerEntity"
+                  "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                  "Name": "ReduceActionDelay",
+                  "DynamicValues": {
+                    "Arg0_NormalizedValue": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQAR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          -2109623552
+                        ]
+                      }
                     }
                   },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.DebugLog",
-                      "Message": "==============CX 0508 Modify Delay======================"
-                    },
-                    {
-                      "$type": "RPG.GameCore.ModifyCurrentSkillDelayCost",
-                      "NormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            -2109623552
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "$type": "RPG.GameCore.ModifyActionDelay",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "AddNormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            -2109623552
-                          ]
-                        }
-                      }
-                    }
-                  ],
-                  "FailedTaskList": [
-                    {
-                      "$type": "RPG.GameCore.DebugLog",
-                      "Message": "==============CX 0508 Modify Delay======================"
-                    },
-                    {
-                      "$type": "RPG.GameCore.ModifyActionDelay",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "AddNormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            -2109623552
-                          ]
-                        }
-                      }
-                    }
-                  ]
+                  "ParamTarget": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  }
                 }
               ]
             },
@@ -8229,8 +8278,18 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "-612239971": {},
-              "-2109623552": {}
+              "-612239971": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-2109623552": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -8259,6 +8318,7 @@
                 {
                   "$type": "RPG.GameCore.SetDynamicValue",
                   "Value": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 0
                     }
@@ -8292,6 +8352,7 @@
                         },
                         "CompareType": "Equal",
                         "CompareValue": {
+                          "IsDynamic": false,
                           "FixedValue": {
                             "Value": 1
                           }
@@ -8349,6 +8410,7 @@
                     },
                     "CompareType": "GreaterEqual",
                     "CompareValue": {
+                      "IsDynamic": false,
                       "FixedValue": {
                         "Value": 2
                       }
@@ -8358,6 +8420,7 @@
                     {
                       "$type": "RPG.GameCore.SetDynamicValue",
                       "Value": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 1
                         }
@@ -8395,8 +8458,18 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "412426575": {},
-              "1382213269": {}
+              "412426575": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "1382213269": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         },
@@ -8428,7 +8501,12 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "-1826473127": {}
+              "-1826473127": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -8554,8 +8632,18 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "-388883445": {},
-              "-1510088561": {}
+              "-388883445": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-1510088561": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -8619,73 +8707,24 @@
               "Event": "OnTriggerBreak",
               "CallbackConfig": [
                 {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByIsTurnOwnerEntity",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ModifierOwnerEntity"
+                  "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                  "Name": "ReduceActionDelay",
+                  "DynamicValues": {
+                    "Arg0_NormalizedValue": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQAR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          462955996
+                        ]
+                      }
                     }
                   },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.DebugLog",
-                      "Message": "==============CX 0508 Modify Delay======================"
-                    },
-                    {
-                      "$type": "RPG.GameCore.ModifyCurrentSkillDelayCost",
-                      "NormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            462955996
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "$type": "RPG.GameCore.ModifyActionDelay",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "AddNormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            462955996
-                          ]
-                        }
-                      }
-                    }
-                  ],
-                  "FailedTaskList": [
-                    {
-                      "$type": "RPG.GameCore.DebugLog",
-                      "Message": "==============CX 0508 Modify Delay======================"
-                    },
-                    {
-                      "$type": "RPG.GameCore.ModifyActionDelay",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "AddNormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            462955996
-                          ]
-                        }
-                      }
-                    }
-                  ]
+                  "ParamTarget": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  }
                 }
               ]
             }
@@ -8775,6 +8814,7 @@
                 {
                   "$type": "RPG.GameCore.SetDynamicValue",
                   "Value": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 0
                     }
@@ -8879,9 +8919,24 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "2128130574": {},
-              "-2125946860": {},
-              "1066658351": {}
+              "2128130574": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-2125946860": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "1066658351": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -8912,6 +8967,7 @@
               "Ranges": [
                 {
                   "Min": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 0
                     }
@@ -9083,11 +9139,13 @@
                     "Value": "_Layer"
                   },
                   "AddValue": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 1
                     }
                   },
                   "Min": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 0
                     }
@@ -9108,7 +9166,12 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "-2125946860": {}
+              "-2125946860": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         },
@@ -9151,7 +9214,12 @@
           "Stacking": "ReplaceByCaster",
           "DynamicValues": {
             "Floats": {
-              "2128130574": {}
+              "2128130574": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -9307,8 +9375,18 @@
           "Stacking": "ReplaceByCaster",
           "DynamicValues": {
             "Floats": {
-              "2128130574": {},
-              "-2125946860": {}
+              "2128130574": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-2125946860": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -9401,73 +9479,24 @@
               "Event": "OnTriggerLimbo",
               "CallbackConfig": [
                 {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByIsTurnOwnerEntity",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ModifierOwnerEntity"
+                  "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                  "Name": "ReduceActionDelay",
+                  "DynamicValues": {
+                    "Arg0_NormalizedValue": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQAR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          59671469
+                        ]
+                      }
                     }
                   },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.DebugLog",
-                      "Message": "==============CX 0508 Modify Delay======================"
-                    },
-                    {
-                      "$type": "RPG.GameCore.ModifyCurrentSkillDelayCost",
-                      "NormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            59671469
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "$type": "RPG.GameCore.ModifyActionDelay",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "AddNormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            59671469
-                          ]
-                        }
-                      }
-                    }
-                  ],
-                  "FailedTaskList": [
-                    {
-                      "$type": "RPG.GameCore.DebugLog",
-                      "Message": "==============CX 0508 Modify Delay======================"
-                    },
-                    {
-                      "$type": "RPG.GameCore.ModifyActionDelay",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "AddNormalizedValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAOEQ==",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            59671469
-                          ]
-                        }
-                      }
-                    }
-                  ]
+                  "ParamTarget": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  }
                 }
               ]
             }
@@ -9704,8 +9733,18 @@
           "Stacking": "ReplaceByCaster",
           "DynamicValues": {
             "Floats": {
-              "-809789968": {},
-              "-1922215033": {}
+              "-809789968": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-1922215033": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -9798,6 +9837,7 @@
                 {
                   "$type": "RPG.GameCore.SetDynamicValue",
                   "Value": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 0
                     }
@@ -9919,6 +9959,7 @@
                     },
                     "CompareType": "Equal",
                     "CompareValue": {
+                      "IsDynamic": false,
                       "FixedValue": {
                         "Value": 1
                       }
@@ -9985,15 +10026,36 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "-1638197343": {},
-              "-1670862860": {},
-              "666605531": {},
-              "-168799521": {}
+              "-1638197343": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-1670862860": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "666605531": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-168799521": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         },
         "MStrongChallengeEX_Talent_StageAbility_TGT_044": {
           "LayerAddWhenStack": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
@@ -10010,6 +10072,7 @@
                   },
                   "ValueType": "Layer",
                   "Multiplier": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 1
                     }
@@ -10063,10 +10126,30 @@
           "Stacking": "ReplaceByCaster",
           "DynamicValues": {
             "Floats": {
-              "1662446059": {},
-              "-62305284": {},
-              "2128130574": {},
-              "931685943": {}
+              "1662446059": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-62305284": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "2128130574": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "931685943": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -10246,7 +10329,12 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "362218982": {}
+              "362218982": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         },
@@ -10292,8 +10380,18 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "1583683734": {},
-              "666604539": {}
+              "1583683734": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "666604539": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         },
@@ -10326,7 +10424,12 @@
           "Stacking": "Replace",
           "DynamicValues": {
             "Floats": {
-              "-422130114": {}
+              "-422130114": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -10473,6 +10576,7 @@
                         }
                       },
                       "MaxNumber": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 1
                         }
@@ -10723,6 +10827,7 @@
                         },
                         "CompareType": "Less",
                         "CompareValue": {
+                          "IsDynamic": false,
                           "FixedValue": {
                             "Value": 0
                           }
@@ -10770,7 +10875,12 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "-1968398783": {}
+              "-1968398783": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -10931,6 +11041,7 @@
                 {
                   "$type": "RPG.GameCore.SetDynamicValue",
                   "Value": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 0
                     }
@@ -10972,6 +11083,7 @@
                         },
                         "CompareType": "Less",
                         "CompareValue": {
+                          "IsDynamic": false,
                           "FixedValue": {
                             "Value": 0
                           }
@@ -11093,6 +11205,7 @@
                             }
                           },
                           "Min": {
+                            "IsDynamic": false,
                             "FixedValue": {
                               "Value": 0
                             }
@@ -11118,9 +11231,24 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "-1968398783": {},
-              "1290219065": {},
-              "-1610876898": {}
+              "-1968398783": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "1290219065": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-1610876898": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -11384,8 +11512,18 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "-1887771913": {},
-              "-155700727": {}
+              "-1887771913": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-155700727": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -11473,13 +11611,41 @@
                     "DamageType": "Quantum"
                   },
                   "AliveOnly": true
+                },
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "AllDarkTeam"
+                  },
+                  "ModifierName": {
+                    "Value": "MStrongChallengeEX_Talent_StageAbility_MST_054"
+                  },
+                  "DynamicValues": {
+                    "MDF_QuantumResistanceDelta": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQABAQQR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          462955996,
+                          1260961001
+                        ]
+                      }
+                    }
+                  }
                 }
               ]
             }
           ],
           "DynamicValues": {
             "Floats": {
-              "1260961001": {}
+              "1260961001": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         },
@@ -11659,8 +11825,18 @@
           ],
           "DynamicValues": {
             "Floats": {
-              "239988656": {},
-              "2054951994": {}
+              "239988656": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "2054951994": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
             }
           }
         }
@@ -11675,6 +11851,523 @@
           },
           "ModifierName": {
             "Value": "MStrongChallengeEX_Talent_StageAbility_LE_055"
+          }
+        }
+      ]
+    },
+    {
+      "Modifiers": {
+        "MStrongChallengeEX_Talent_StageAbility_LE_056": {
+          "_CallbackList": [
+            {
+              "Event": "OnListenBpChange",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByCompareParamValue",
+                        "CompareType": "Less",
+                        "CompareValue": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 0
+                          }
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByTargetTeam",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "Team": "TeamLight"
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValueByVariateType",
+                      "DynamicKey": "_bpChange",
+                      "VariateType": "ParamValue"
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQABARABAQICEQ==",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            1099313850,
+                            -663650765,
+                            -348290995
+                          ]
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "_bpChangeTotal"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "DynamicKey": {
+                          "Value": "_bpChangeTotal"
+                        },
+                        "CompareType": "GreaterEqual",
+                        "CompareValue": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AQAR",
+                            "FixedValues": [],
+                            "DynamicHashes": [
+                              59671469
+                            ]
+                          }
+                        }
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.SetDynamicValue",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ModifierOwnerEntity"
+                          },
+                          "Value": {
+                            "IsDynamic": true,
+                            "PostfixExpr": {
+                              "OpCodes": "AQABAQECBRABEQ==",
+                              "FixedValues": [],
+                              "DynamicHashes": [
+                                -1226284721,
+                                -348290995,
+                                59671469
+                              ]
+                            }
+                          },
+                          "DynamicKey": {
+                            "Value": "BPRecoverValue"
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.ModifyTeamBoostPoint",
+                          "ModifyFunction": "Add",
+                          "ModifyValue": {
+                            "IsDynamic": true,
+                            "PostfixExpr": {
+                              "OpCodes": "AQAR",
+                              "FixedValues": [],
+                              "DynamicHashes": [
+                                1169862239
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.SetDynamicValue",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ModifierOwnerEntity"
+                          },
+                          "Value": {
+                            "IsDynamic": true,
+                            "PostfixExpr": {
+                              "OpCodes": "AQABAQYR",
+                              "FixedValues": [],
+                              "DynamicHashes": [
+                                -348290995,
+                                59671469
+                              ]
+                            }
+                          },
+                          "DynamicKey": {
+                            "Value": "_bpChangeTotal"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnEnterBattle",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "LightTeamLeftWithoutServant"
+                  },
+                  "ModifierName": {
+                    "Value": "MStrongChallengeEX_Talent_StageAbility_PLY_056"
+                  },
+                  "DynamicValues": {
+                    "MDF_AllDamageTypeAddedRatio": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQAR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          462955996
+                        ]
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "DynamicValues": {
+            "Floats": {
+              "-663650765": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-348290995": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "1169862239": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
+            }
+          }
+        },
+        "MStrongChallengeEX_Talent_StageAbility_PLY_056": {
+          "_CallbackList": [
+            {
+              "Event": "OnStack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.StackProperty",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "Property": "AllDamageTypeAddedRatio",
+                  "PropertyValue": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        -831871865
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "DynamicValues": {
+            "Floats": {
+              "-831871865": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
+            }
+          }
+        }
+      },
+      "Name": "StrongChallengeEX_Talent_StageAbility_056",
+      "OnAdd": [
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MStrongChallengeEX_Talent_StageAbility_LE_056"
+          }
+        }
+      ]
+    },
+    {
+      "Modifiers": {
+        "MStrongChallengeEX_Talent_StageAbility_LE_057": {
+          "_CallbackList": [
+            {
+              "Event": "OnListenCharacterCreate",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByTargetTeam",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "Team": "TeamLight"
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MStrongChallengeEX_Talent_StageAbility_PLY_057"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "MStrongChallengeEX_Talent_StageAbility_PLY_057": {
+          "_CallbackList": [
+            {
+              "Event": "OnHPChange",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValueByChangeValue",
+                  "DynamicKey": "MDF_ChangeValue"
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByCompareTarget",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "CompareType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "DynamicKey": {
+                          "Value": "MDF_ChangeValue"
+                        },
+                        "CompareType": "Less",
+                        "CompareValue": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 0
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MCommon_AllDamageTypeAddedRatio"
+                      },
+                      "LifeTime": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            59671469
+                          ]
+                        }
+                      },
+                      "DynamicValues": {
+                        "MDF_PropertyValue": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AQAR",
+                            "FixedValues": [],
+                            "DynamicHashes": [
+                              462955996
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "DynamicValues": {
+            "Floats": {
+              "-1968398783": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
+            }
+          }
+        }
+      },
+      "Name": "StrongChallengeEX_Talent_StageAbility_057",
+      "OnAdd": [
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MStrongChallengeEX_Talent_StageAbility_LE_057"
+          }
+        }
+      ]
+    },
+    {
+      "Modifiers": {
+        "MStrongChallengeEX_Talent_StageAbility_LE_058": {
+          "_CallbackList": [
+            {
+              "Event": "OnListenCharacterCreate",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByTargetTeam",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "Team": "TeamLight"
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MStrongChallengeEX_Talent_StageAbility_PLY_058"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "MStrongChallengeEX_Talent_StageAbility_PLY_058": {
+          "_CallbackList": [
+            {
+              "Event": "OnBeforeHitAll",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAttackType",
+                    "AttackTypes": [
+                      "DOT"
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.ModifyDamageData",
+                      "Attacker_AllDamageTypePenetrate": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            59671469
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnAfterHitAll",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAttackType",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "AttackTypes": [
+                      "DOT"
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.ModifySPNew",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "FixedAddValue": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            462955996
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "Name": "StrongChallengeEX_Talent_StageAbility_058",
+      "OnAdd": [
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MStrongChallengeEX_Talent_StageAbility_LE_058"
           }
         }
       ]
@@ -11764,10 +12457,30 @@
       "Stacking": "ReplaceByCaster",
       "DynamicValues": {
         "Floats": {
-          "2128130574": {},
-          "1820617363": {},
-          "931685943": {},
-          "-1779155193": {}
+          "2128130574": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "1820617363": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "931685943": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-1779155193": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
         }
       }
     },
@@ -11780,6 +12493,7 @@
               "$type": "RPG.GameCore.SetDynamicValueByModifierValue",
               "ValueType": "Layer",
               "Multiplier": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 1
                 }
@@ -11811,8 +12525,18 @@
       "Stacking": "ReplaceByCaster",
       "DynamicValues": {
         "Floats": {
-          "2128130574": {},
-          "-1779155193": {}
+          "2128130574": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-1779155193": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
         }
       }
     },
@@ -11823,7 +12547,12 @@
       "Stacking": "Replace",
       "DynamicValues": {
         "Floats": {
-          "2128130574": {}
+          "2128130574": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
         }
       }
     }

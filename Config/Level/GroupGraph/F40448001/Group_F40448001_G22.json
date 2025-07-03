@@ -1,0 +1,107 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "EnterDistrict_G{GroupID}"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerPerformance",
+              "ValueSource": {},
+              "PerformanceType": "D",
+              "PerformanceID": 104055311,
+              "MaskConfig": {
+                "UseExcelData": false
+              }
+            },
+            {
+              "$type": "RPG.GameCore.ClientFinishMission",
+              "SubmissionID": 104055309
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvDistrictSetupTrigger",
+          "GroupID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 22
+            }
+          },
+          "DistrictID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 500001
+            }
+          },
+          "DisableAfterTrigger": true,
+          "TickInterval": 0.3,
+          "OnEnter": [
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "EnterDistrict_G{GroupID}"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitFloorCustomValueChangeV2",
+          "Name": {
+            "Value": "FCV_BoxOpen"
+          },
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.AdvClientChangePropState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx",
+                "FetchType": "SinglePropByPropID",
+                "SinglePropID": {
+                  "GroupID": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 22
+                    }
+                  },
+                  "ID": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 300002
+                    }
+                  }
+                }
+              },
+              "FromState": "ChestClosed",
+              "ToState": "ChestUsed"
+            }
+          ],
+          "Condition": {
+            "$type": "RPG.GameCore.ByCompareFloorCustomFloatV2",
+            "Name": {
+              "Value": "FCV_BoxOpen"
+            },
+            "CompareValue": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "Type": "Group"
+}

@@ -1,0 +1,252 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.SetHudTemplate",
+          "TemplateID": 1012,
+          "EnableTemplate": true
+        },
+        {
+          "$type": "RPG.GameCore.SetGameplayBGMEmotionState",
+          "StateName": "State_Gameplay_WolfBro"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerSound",
+          "SoundName": {
+            "Value": "Ev_set_gameplaystate_wolfbro"
+          },
+          "EmitterType": "LocalPlayer"
+        },
+        {
+          "$type": "RPG.GameCore.PlayerRemoteControlOtherEntity",
+          "SpecialNPCID": 13001,
+          "UseLocalPlayerPosition": true,
+          "RecoverControlEntityPosition": true,
+          "PlayerStubAnimation": {
+            "Value": "LookatPhoneBS"
+          },
+          "LevelAreaKey": {
+            "Custom": true,
+            "Key": "Born01"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.AdvOverrideCameraModuleConfig",
+          "OverrideConfigs": [
+            {
+              "OverrideType": "Freelook3rdModuleConfig",
+              "OverrideConfigPath": "Camera/ModuleConfig/SpecialAdventure/Freelook3rdModuleConfigLittleFakeAvatar.asset"
+            },
+            {
+              "OverrideType": "ZoomModuleConfig",
+              "OverrideConfigPath": "Camera/ModuleConfig/SpecialAdventure/ZoomModuleConfigLittleFakeAvatar.asset"
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.AdvSet3CFreeLook3rdCameraNearClippingPlane"
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "Interaction"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerPerformance",
+              "ValueSource": {},
+              "PerformanceType": "D",
+              "PerformanceID": 104055308,
+              "MaskConfig": {
+                "UseExcelData": false,
+                "EndBlack": "NoPost"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "ExitWolfBro"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "ExitWolfBro"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByLocalPlayerIsFakeAvatar"
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetHudTemplate",
+                  "TemplateID": 1012
+                },
+                {
+                  "$type": "RPG.GameCore.SetGameplayBGMEmotionState",
+                  "StateName": "State_Gameplay_WolfBro",
+                  "Reset": true
+                },
+                {
+                  "$type": "RPG.GameCore.TriggerSound",
+                  "SoundName": {
+                    "Value": "Ev_set_gameplaystate_common"
+                  },
+                  "EmitterType": "LocalPlayer"
+                },
+                {
+                  "$type": "RPG.GameCore.RemoveEffect",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvLocalPlayer"
+                  },
+                  "EffectPath": "Effects/Eff_Prefab/Eff_Scene/Interactive Object/Eff_Common_MAZ_SpecialVision_Shrink.prefab",
+                  "Flags": []
+                },
+                {
+                  "$type": "RPG.GameCore.AdvSet3CFreeLook3rdCameraNearClippingPlane"
+                },
+                {
+                  "$type": "RPG.GameCore.PlayerRemoteControlOtherEntity",
+                  "SpecialNPCID": 13002,
+                  "IsCancel": true,
+                  "RecoverControlEntityPosition": true,
+                  "PlayerStubAnimation": {
+                    "Value": "LookatPhoneBS"
+                  },
+                  "LevelAreaKey": {
+                    "Custom": true,
+                    "Key": "Born01"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.AdvOverrideCameraModuleConfig",
+                  "OverrideConfigs": [
+                    {
+                      "OverrideType": "Freelook3rdModuleConfig",
+                      "OverrideConfigPath": "Camera/ModuleConfig/SpecialAdventure/Freelook3rdModuleConfigLittleFakeAvatar.asset"
+                    },
+                    {
+                      "OverrideType": "ZoomModuleConfig",
+                      "OverrideConfigPath": "Camera/ModuleConfig/SpecialAdventure/ZoomModuleConfigLittleFakeAvatar.asset"
+                    }
+                  ],
+                  "IsReset": true
+                },
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "WolfBroFinish"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "WolfBroFinish"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.ClientFinishMission",
+              "SubmissionID": 104055307
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PropTriggerAnimState",
+          "AnimStateName": "TV_Disable",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx",
+            "FetchType": "SinglePropByPropID",
+            "SinglePropID": {
+              "GroupID": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 20
+                }
+              },
+              "ID": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 300001
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitFloorCustomValueChangeV2",
+          "Name": {
+            "Value": "FCV_TVChange"
+          },
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.PropTriggerAnimState",
+              "AnimStateName": "TV_Player",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx",
+                "FetchType": "SinglePropByPropID",
+                "SinglePropID": {
+                  "GroupID": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 20
+                    }
+                  },
+                  "ID": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 300001
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "Condition": {
+            "$type": "RPG.GameCore.ByCompareFloorCustomFloatV2",
+            "Name": {
+              "Value": "FCV_TVChange"
+            },
+            "CompareValue": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "Type": "Group",
+  "EntityEventList": []
+}

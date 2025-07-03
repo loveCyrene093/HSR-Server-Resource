@@ -6,7 +6,7 @@
           "BehaviorFlagList": [
             "MuteSpeed",
             "MuteHPChangeCallBack",
-            "ResistDebuff",
+            "ImmuneDebuff",
             "KeepOnDeathrattle"
           ],
           "_CallbackList": [
@@ -14,12 +14,7 @@
               "Event": "OnStack",
               "CallbackConfig": [
                 {
-                  "$type": "RPG.GameCore.SetEntityUnselectable",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "ModifierOwnerEntity"
-                  },
-                  "Unselectable": true
+                  "$type": "RPG.GameCore.AttachEntityUnselectable"
                 },
                 {
                   "$type": "RPG.GameCore.MakeCharacterHUDVisible",
@@ -73,6 +68,7 @@
                         "$type": "RPG.GameCore.ByCompareMonsterPhase",
                         "CompareType": "GreaterEqual",
                         "CompareValue": {
+                          "IsDynamic": false,
                           "FixedValue": {
                             "Value": 2
                           }
@@ -161,6 +157,7 @@
                             "Alias": "ParamEntity"
                           },
                           "TargetBattleEventID": {
+                            "IsDynamic": false,
                             "FixedValue": {
                               "Value": 20010
                             }
@@ -482,6 +479,7 @@
                   },
                   "ByRandom": true,
                   "MaxNumber": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 1
                     }
@@ -543,6 +541,7 @@
                   },
                   "ByRandom": true,
                   "MaxNumber": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 1
                     }
@@ -583,6 +582,7 @@
                     "$type": "RPG.GameCore.TurnInsertAbilityCondition",
                     "Type": "AbilityOwnerInsertCount",
                     "Count": {
+                      "IsDynamic": false,
                       "FixedValue": {
                         "Value": 1
                       }
@@ -624,6 +624,7 @@
                     "Alias": "AllTeamCenter"
                   },
                   "OffsetY": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": -5
                     }
@@ -660,6 +661,7 @@
                     },
                     "CompareType": "LessEqual",
                     "CompareValue": {
+                      "IsDynamic": false,
                       "FixedValue": {
                         "Value": 2
                       }
@@ -680,6 +682,7 @@
                         "ContextScope": "TargetEntity",
                         "CompareType": "Equal",
                         "CompareValue": {
+                          "IsDynamic": false,
                           "FixedValue": {
                             "Value": 1
                           }
@@ -748,7 +751,7 @@
                                 "Alias": "ParamEntity"
                               },
                               "OnlyAlive": false,
-                              "IsSlientDispel": true
+                              "IsSilentDispel": true
                             }
                           ]
                         },
@@ -989,6 +992,7 @@
                 "Alias": "DarkTeamCenter"
               },
               "AimOffset": {
+                "X": 0,
                 "Y": 1.5,
                 "Z": 0.001
               },
@@ -1008,6 +1012,7 @@
         {
           "$type": "RPG.GameCore.WaitSecond",
           "WaitTime": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.5
             }
@@ -1149,7 +1154,9 @@
                   "ShakeScale": 0.4,
                   "ShakeTime": 0.2,
                   "ShakeDir": {
-                    "Y": 0.1
+                    "X": 0,
+                    "Y": 0.1,
+                    "Z": 0
                   },
                   "RangeAttenuationDelay": 999,
                   "RangeAttenuationTarget": 0
@@ -1190,6 +1197,7 @@
         {
           "$type": "RPG.GameCore.WaitSecond",
           "WaitTime": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
@@ -1198,10 +1206,30 @@
       ],
       "DynamicValues": {
         "Floats": {
-          "-546711733": {},
-          "1728638464": {},
-          "99851652": {},
-          "1656688065": {}
+          "-546711733": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "1728638464": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "99851652": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "1656688065": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
         }
       }
     },
@@ -1234,7 +1262,36 @@
             "Alias": "Caster"
           },
           "OnlyAlive": false,
-          "IsSlientDispel": true
+          "IsSilentDispel": true
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllDarkTeam"
+          },
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCheckCustomValueBool",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ParamEntity"
+            },
+            "Key": {
+              "Hash": -415684185
+            }
+          },
+          "ByRandom": true,
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.DispelStatus",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "OnlyAlive": false,
+              "IsSilentDispel": true
+            }
+          ]
         },
         {
           "$type": "RPG.GameCore.DefineDynamicValue",
@@ -1280,6 +1337,7 @@
                 "Alias": "DarkTeamCenter"
               },
               "AimOffset": {
+                "X": 0,
                 "Y": 1.5,
                 "Z": 0.001
               },
@@ -1317,6 +1375,7 @@
                 "Alias": "DarkTeamCenter"
               },
               "AimOffset": {
+                "X": 0,
                 "Y": 1.5,
                 "Z": 0.001
               },
@@ -1446,6 +1505,7 @@
             "$type": "RPG.GameCore.ByCompareMonsterPhase",
             "CompareType": "Equal",
             "CompareValue": {
+              "IsDynamic": false,
               "FixedValue": {
                 "Value": 2
               }
@@ -1497,6 +1557,7 @@
             "$type": "RPG.GameCore.ByCompareMonsterPhase",
             "CompareType": "Equal",
             "CompareValue": {
+              "IsDynamic": false,
               "FixedValue": {
                 "Value": 3
               }
@@ -1506,6 +1567,7 @@
             {
               "$type": "RPG.GameCore.CreateBattleEvent",
               "EventID": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 20010
                 }
@@ -1557,6 +1619,7 @@
                   "Alias": "ParamEntity"
                 },
                 "TargetBattleEventID": {
+                  "IsDynamic": false,
                   "FixedValue": {
                     "Value": 20010
                   }
@@ -1564,6 +1627,7 @@
               },
               "ByRandom": true,
               "MaxNumber": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 1
                 }
@@ -1810,6 +1874,7 @@
         {
           "$type": "RPG.GameCore.WaitSecond",
           "WaitTime": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
@@ -1835,6 +1900,7 @@
             "Value": "InsertCheck"
           },
           "ResetValue": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
@@ -1941,6 +2007,7 @@
               },
               "ContextScope": "TargetEntity",
               "Value": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": -1
                 }
@@ -1958,6 +2025,7 @@
               "ParameterName": "Side",
               "ParameterType": "Int",
               "Value": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 1
                 }
@@ -2013,6 +2081,7 @@
               },
               "ContextScope": "TargetEntity",
               "Value": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 1
                 }
@@ -2026,6 +2095,7 @@
         {
           "$type": "RPG.GameCore.WaitSecond",
           "WaitTime": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 2
             }
@@ -2047,6 +2117,7 @@
             "$type": "RPG.GameCore.ByCompareMonsterPhase",
             "CompareType": "Equal",
             "CompareValue": {
+              "IsDynamic": false,
               "FixedValue": {
                 "Value": 3
               }
@@ -2150,7 +2221,12 @@
       ],
       "DynamicValues": {
         "Floats": {
-          "1102526190": {}
+          "1102526190": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
         }
       }
     },
@@ -2169,6 +2245,7 @@
             },
             "CompareType": "GreaterEqual",
             "CompareValue": {
+              "IsDynamic": false,
               "FixedValue": {
                 "Value": 4
               }
@@ -2206,6 +2283,7 @@
             },
             "CompareType": "Equal",
             "CompareValue": {
+              "IsDynamic": false,
               "FixedValue": {
                 "Value": 4
               }
@@ -2215,6 +2293,7 @@
             {
               "$type": "RPG.GameCore.SetDynamicValue",
               "Value": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 3002023
                 }
@@ -2226,6 +2305,7 @@
             {
               "$type": "RPG.GameCore.SetDynamicValue",
               "Value": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 3002013
                 }
@@ -2237,6 +2317,7 @@
             {
               "$type": "RPG.GameCore.SetDynamicValue",
               "Value": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 3003016
                 }
@@ -2248,6 +2329,7 @@
             {
               "$type": "RPG.GameCore.SetDynamicValue",
               "Value": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 3002013
                 }
@@ -2259,6 +2341,7 @@
             {
               "$type": "RPG.GameCore.SetDynamicValue",
               "Value": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 3002043
                 }
@@ -2307,6 +2390,7 @@
             "ContextScope": "TargetEntity",
             "CompareType": "Equal",
             "CompareValue": {
+              "IsDynamic": false,
               "FixedValue": {
                 "Value": -1
               }
@@ -2358,7 +2442,11 @@
               "Name": "Lighter"
             }
           ],
-          "Scale": {}
+          "Scale": {
+            "X": 0,
+            "Y": 0,
+            "Z": 0
+          }
         },
         {
           "$type": "RPG.GameCore.AddModifier",
@@ -2398,6 +2486,7 @@
             "ContextScope": "TargetEntity",
             "CompareType": "Equal",
             "CompareValue": {
+              "IsDynamic": false,
               "FixedValue": {
                 "Value": 1
               }
@@ -2526,6 +2615,7 @@
             "ContextScope": "TargetEntity",
             "CompareType": "Equal",
             "CompareValue": {
+              "IsDynamic": false,
               "FixedValue": {
                 "Value": 1
               }
@@ -2628,6 +2718,7 @@
             "ContextScope": "TargetEntity",
             "CompareType": "Equal",
             "CompareValue": {
+              "IsDynamic": false,
               "FixedValue": {
                 "Value": 1
               }
@@ -2718,6 +2809,7 @@
   "GlobalModifiers": {
     "MModifier_Monster_W3_Theater_00_RLBoss_AllDamageTypeAddedRatio": {
       "LayerAddWhenStack": {
+        "IsDynamic": false,
         "FixedValue": {
           "Value": 1
         }
@@ -2730,6 +2822,7 @@
               "$type": "RPG.GameCore.SetDynamicValueByModifierValue",
               "ValueType": "Layer",
               "Multiplier": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 1
                 }
@@ -2761,8 +2854,18 @@
       "Stacking": "Replace",
       "DynamicValues": {
         "Floats": {
-          "2128130574": {},
-          "1662446059": {}
+          "2128130574": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "1662446059": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
         }
       }
     },

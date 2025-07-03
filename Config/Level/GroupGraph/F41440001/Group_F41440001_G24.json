@@ -1,0 +1,211 @@
+{
+  "OnInitSequece": [
+    {
+      "TaskList": []
+    }
+  ],
+  "OnStartSequece": [
+    {
+      "TaskList": []
+    },
+    {
+      "Order": 999,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEvent",
+          "EventName": {
+            "Value": "UpdateFCVbyFSV"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+                "DynamicName": {
+                  "Value": "FSV_MJBlock"
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetFloorCustomFloatV2",
+                  "Name": {
+                    "Value": "FCV_MJBlock"
+                  },
+                  "Value": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  }
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+                    "DynamicName": {
+                      "Value": "FSV_MJBlock"
+                    },
+                    "CompareValue": 1
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetFloorCustomFloatV2",
+                      "Name": {
+                        "Value": "FCV_MJBlock"
+                      },
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      }
+                    }
+                  ],
+                  "FailedTaskList": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Order": 999,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEvent",
+          "EventName": {
+            "Value": "UpdateState"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareFloorCustomFloatV2",
+                "Name": {
+                  "Value": "FCV_MJBlock"
+                },
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetStageItemState",
+                  "ItemList": [
+                    {
+                      "BlockAlias": "CunzhuangBlock",
+                      "PrefabAlias": "Block"
+                    }
+                  ],
+                  "EnableState": true
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareFloorCustomFloatV2",
+                "Name": {
+                  "Value": "FCV_MJBlock"
+                },
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetStageItemState",
+                  "ItemList": [
+                    {
+                      "BlockAlias": "CunzhuangBlock",
+                      "PrefabAlias": "Block"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitFloorSavedValueChangeV2",
+          "Name": {
+            "Value": "FSV_MJBlock"
+          },
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.TriggerEntityEvent",
+              "EventName": {
+                "Value": "UpdateFCVbyFSV"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.TriggerEntityEvent",
+              "EventName": {
+                "Value": "UpdateState"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.TriggerEntityEvent",
+          "EventName": {
+            "Value": "UpdateFCVbyFSV"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEntityEvent",
+          "EventName": {
+            "Value": "UpdateState"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitSecond",
+          "WaitTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.2
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEntityEvent",
+          "EventName": {
+            "Value": "UpdateState"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitFloorCustomValueChangeV2",
+          "Name": {
+            "Value": "FCV_MJBlock"
+          },
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.TriggerEntityEvent",
+              "EventName": {
+                "Value": "UpdateState"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Type": "Group"
+}

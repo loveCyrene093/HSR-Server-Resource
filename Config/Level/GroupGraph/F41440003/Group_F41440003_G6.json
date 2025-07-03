@@ -1,0 +1,71 @@
+{
+  "OnInitSequece": [
+    {
+      "TaskList": []
+    }
+  ],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "RefreshBGM"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+                "DynamicName": {
+                  "Value": "FSV_StageSwitch"
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.ResetFloorDefaultEmotion"
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.OverrideFloorDefaultEmotion",
+                  "EmotionName": "State_Hollowing"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitFloorSavedValueChangeV2",
+          "Name": {
+            "Value": "FSV_StageSwitch"
+          },
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "RefreshBGM"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.TriggerGroupEvent",
+          "EventName": {
+            "Value": "RefreshBGM"
+          }
+        }
+      ]
+    }
+  ],
+  "Type": "Group",
+  "EntityEventList": []
+}

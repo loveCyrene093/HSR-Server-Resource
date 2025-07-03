@@ -32,6 +32,7 @@
           "$type": "RPG.GameCore.TriggerAnimState",
           "AnimStateName": "Skill04",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
@@ -103,7 +104,11 @@
               "Name": "weapon_JNT"
             }
           ],
-          "Scale": {}
+          "Scale": {
+            "X": 0,
+            "Y": 0,
+            "Z": 0
+          }
         },
         {
           "$type": "RPG.GameCore.SummonMonster",
@@ -196,6 +201,7 @@
           "IgnoreHitBoxRadius": true,
           "TargetFormation": {
             "LocalDelta": {
+              "X": 0,
               "Y": 0.7,
               "Z": -1
             }
@@ -203,24 +209,32 @@
           "LeftSideFormations": [
             {
               "LocalDelta": {
-                "X": 3.1
+                "X": 3.1,
+                "Y": 0,
+                "Z": 0
               }
             },
             {
               "LocalDelta": {
-                "X": 1.3
+                "X": 1.3,
+                "Y": 0,
+                "Z": 0
               }
             }
           ],
           "RightSideFormations": [
             {
               "LocalDelta": {
-                "X": -1.3
+                "X": -1.3,
+                "Y": 0,
+                "Z": 0
               }
             },
             {
               "LocalDelta": {
-                "X": -3.1
+                "X": -3.1,
+                "Y": 0,
+                "Z": 0
               }
             }
           ]
@@ -250,6 +264,7 @@
           },
           "AnimStateName": "Skill04",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.42
             }
@@ -288,6 +303,7 @@
           },
           "AnimStateName": "Skill04",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.55
             }
@@ -356,6 +372,7 @@
             "Value": "Monster_W3_Aventurine_00_SignPhase1"
           },
           "LifeTime": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
@@ -369,6 +386,7 @@
           },
           "AnimStateName": "Skill04",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.6
             }
@@ -390,11 +408,13 @@
               },
               "AnimStateName": "Skill01",
               "NormalizedTimeEnd": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 1
                 }
               },
               "NormalizedTimeWait": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 0
                 }
@@ -418,6 +438,7 @@
           },
           "AnimStateName": "Skill04",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.65
             }
@@ -500,6 +521,7 @@
             "Alias": "AbilityTargetEntity"
           },
           "AddNormalizedValue": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": -1
             }
@@ -523,6 +545,7 @@
           },
           "AnimStateName": "Skill04",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.75
             }
@@ -569,98 +592,115 @@
             {
               "$type": "RPG.GameCore.PredicateTaskList",
               "Predicate": {
-                "$type": "RPG.GameCore.ByCompareDynamicValue",
-                "DynamicKey": {
-                  "Value": "WaitInsert"
+                "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "AbilityTargetEntity"
                 },
-                "ContextScope": "TargetEntity",
-                "CompareType": "Equal",
-                "CompareValue": {
-                  "FixedValue": {
-                    "Value": 0
-                  }
-                }
+                "Flag": "SpecialActionState"
               },
-              "SuccessTaskList": [
+              "FailedTaskList": [
                 {
-                  "$type": "RPG.GameCore.SetDynamicValue",
-                  "ContextScope": "TargetEntity",
-                  "Value": {
-                    "FixedValue": {
-                      "Value": 1
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "WaitInsert"
+                    },
+                    "ContextScope": "TargetEntity",
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 0
+                      }
                     }
                   },
-                  "DynamicKey": {
-                    "Value": "WaitInsert"
-                  }
-                },
-                {
-                  "$type": "RPG.GameCore.SetDynamicValue",
-                  "ContextScope": "TargetEntity",
-                  "Value": {
-                    "FixedValue": {
-                      "Value": 0
-                    }
-                  },
-                  "DynamicKey": {
-                    "Value": "GamblingInsertCheck"
-                  }
-                },
-                {
-                  "$type": "RPG.GameCore.Retarget",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "CasterSummonedMinions"
-                  },
-                  "ByRandom": true,
-                  "MaxNumber": {
-                    "FixedValue": {
-                      "Value": 1
-                    }
-                  },
-                  "TaskList": [
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "ContextScope": "TargetEntity",
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "WaitInsert"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "ContextScope": "TargetEntity",
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "GamblingInsertCheck"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.Retarget",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "CasterSummonedMinions"
+                      },
+                      "ByRandom": true,
+                      "MaxNumber": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      },
+                      "TaskList": [
+                        {
+                          "$type": "RPG.GameCore.TurnInsertAbility",
+                          "AbilityName": {
+                            "Value": "Monster_W3_AventurinePart_00_Skill04_Phase01"
+                          },
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ParamEntity"
+                          },
+                          "AbilityTarget": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ParamEntity"
+                          },
+                          "InsertAbilityPriority": "MonsterBuffOthers",
+                          "ShowInActionBar": true
+                        }
+                      ]
+                    },
                     {
                       "$type": "RPG.GameCore.TurnInsertAbility",
                       "AbilityName": {
-                        "Value": "Monster_W3_AventurinePart_00_Skill04_Phase01"
+                        "Value": "Monster_W3_Aventurine_00_Skill09_Phase01_RL"
                       },
                       "TargetType": {
                         "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ParamEntity"
+                        "Alias": "Caster"
                       },
                       "AbilityTarget": {
                         "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ParamEntity"
+                        "Alias": "AbilityTargetEntity"
                       },
-                      "InsertAbilityPriority": "MonsterBuffOthers",
-                      "ShowInActionBar": true
+                      "InsertAbilityPriority": "MonsterBuffOthers"
+                    },
+                    {
+                      "$type": "RPG.GameCore.RemoveModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "AbilityTargetEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "Monster_W3_AventurinePart_00_ResultTarget"
+                      }
                     }
                   ]
-                },
-                {
-                  "$type": "RPG.GameCore.TurnInsertAbility",
-                  "AbilityName": {
-                    "Value": "Monster_W3_Aventurine_00_Skill09_Phase01_RL"
-                  },
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "Caster"
-                  },
-                  "AbilityTarget": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "AbilityTargetEntity"
-                  },
-                  "InsertAbilityPriority": "MonsterBuffOthers"
-                },
-                {
-                  "$type": "RPG.GameCore.RemoveModifier",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "AbilityTargetEntity"
-                  },
-                  "ModifierName": {
-                    "Value": "Monster_W3_AventurinePart_00_ResultTarget"
-                  }
                 }
               ]
             }
@@ -674,6 +714,7 @@
           },
           "AnimStateName": "Skill04",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
@@ -750,6 +791,7 @@
           "$type": "RPG.GameCore.TriggerAnimState",
           "AnimStateName": "Skill05",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
@@ -781,6 +823,7 @@
             "$type": "RPG.GameCore.ByCompareMonsterPhase",
             "CompareType": "Equal",
             "CompareValue": {
+              "IsDynamic": false,
               "FixedValue": {
                 "Value": 2
               }
@@ -820,6 +863,7 @@
         {
           "$type": "RPG.GameCore.SetDynamicValue",
           "Value": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0
             }
@@ -877,7 +921,11 @@
               "Name": "weapon_JNT"
             }
           ],
-          "Scale": {}
+          "Scale": {
+            "X": 0,
+            "Y": 0,
+            "Z": 0
+          }
         },
         {
           "$type": "RPG.GameCore.SummonMonster",
@@ -904,6 +952,7 @@
             "$type": "RPG.GameCore.ByCompareMonsterPhase",
             "CompareType": "Equal",
             "CompareValue": {
+              "IsDynamic": false,
               "FixedValue": {
                 "Value": 2
               }
@@ -945,6 +994,7 @@
             "$type": "RPG.GameCore.ByCompareMonsterPhase",
             "CompareType": "Equal",
             "CompareValue": {
+              "IsDynamic": false,
               "FixedValue": {
                 "Value": 3
               }
@@ -969,6 +1019,7 @@
                 "Inverse": true
               },
               "MaxNumber": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 3
                 }
@@ -1042,6 +1093,7 @@
           "IgnoreHitBoxRadius": true,
           "TargetFormation": {
             "LocalDelta": {
+              "X": 0,
               "Y": 0.7,
               "Z": -1
             }
@@ -1049,24 +1101,32 @@
           "LeftSideFormations": [
             {
               "LocalDelta": {
-                "X": 3.1
+                "X": 3.1,
+                "Y": 0,
+                "Z": 0
               }
             },
             {
               "LocalDelta": {
-                "X": 1.3
+                "X": 1.3,
+                "Y": 0,
+                "Z": 0
               }
             }
           ],
           "RightSideFormations": [
             {
               "LocalDelta": {
-                "X": -1.3
+                "X": -1.3,
+                "Y": 0,
+                "Z": 0
               }
             },
             {
               "LocalDelta": {
-                "X": -3.1
+                "X": -3.1,
+                "Y": 0,
+                "Z": 0
               }
             }
           ]
@@ -1096,6 +1156,7 @@
           },
           "AnimStateName": "Skill05",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.42
             }
@@ -1156,6 +1217,7 @@
               },
               "InsertSpecial": true,
               "DelayTime": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 0
                 }
@@ -1194,6 +1256,7 @@
               },
               "InsertSpecial": true,
               "DelayTime": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 0
                 }
@@ -1242,6 +1305,7 @@
           },
           "AnimStateName": "Skill05",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.6
             }
@@ -1273,6 +1337,7 @@
           },
           "AnimStateName": "Skill05",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.65
             }
@@ -1285,6 +1350,7 @@
             "Alias": "AllLightTeam"
           },
           "AddNormalizedValue": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": -1
             }
@@ -1338,11 +1404,13 @@
               },
               "AnimStateName": "Skill01",
               "NormalizedTimeEnd": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 1
                 }
               },
               "NormalizedTimeWait": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 0
                 }
@@ -1359,6 +1427,7 @@
           },
           "AnimStateName": "Skill05",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.75
             }
@@ -1400,6 +1469,7 @@
           },
           "AnimStateName": "Skill05",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
@@ -1422,6 +1492,7 @@
             "$type": "RPG.GameCore.ByCompareMonsterPhase",
             "CompareType": "Equal",
             "CompareValue": {
+              "IsDynamic": false,
               "FixedValue": {
                 "Value": 2
               }
@@ -1814,6 +1885,7 @@
           "$type": "RPG.GameCore.SetDynamicValue",
           "ContextScope": "TargetEntity",
           "Value": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0
             }
@@ -1877,6 +1949,7 @@
                 "Property": "MaxSpecialSP",
                 "CompareType": "Greater",
                 "CompareValue": {
+                  "IsDynamic": false,
                   "FixedValue": {
                     "Value": 0
                   }
@@ -1929,6 +2002,7 @@
                     "Alias": "AbilityTargetEntity"
                   },
                   "FixedAddMaxSPRatio": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 1
                     }
@@ -1949,6 +2023,7 @@
                 "Value": "GambleWinner"
               },
               "NewValue": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 1
                 }
@@ -2054,6 +2129,7 @@
               "CaseTaskList": [
                 {
                   "Case": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 1
                     }
@@ -2087,6 +2163,7 @@
                       "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Aventurine_00/Eff_Monster_W3_Aventurine_00_Skill09_X_Spyellow.prefab",
                       "AttachPoint": "Origin",
                       "PositionOffset": {
+                        "X": 0,
                         "Y": 0.6,
                         "Z": 0.5
                       },
@@ -2119,6 +2196,7 @@
                 },
                 {
                   "Case": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 2
                     }
@@ -2152,6 +2230,7 @@
                       "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Aventurine_00/Eff_Monster_W3_Aventurine_00_Skill09_X_Spyellow.prefab",
                       "AttachPoint": "Origin",
                       "PositionOffset": {
+                        "X": 0,
                         "Y": 0.6,
                         "Z": 0.5
                       },
@@ -2184,6 +2263,7 @@
                 },
                 {
                   "Case": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 4
                     }
@@ -2217,6 +2297,7 @@
                       "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Aventurine_00/Eff_Monster_W3_Aventurine_00_Skill09_X_Spyellow.prefab",
                       "AttachPoint": "Origin",
                       "PositionOffset": {
+                        "X": 0,
                         "Y": 0.6,
                         "Z": 0.5
                       },
@@ -2249,6 +2330,7 @@
                 },
                 {
                   "Case": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 8
                     }
@@ -2282,6 +2364,7 @@
                       "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Aventurine_00/Eff_Monster_W3_Aventurine_00_Skill09_X_Spyellow.prefab",
                       "AttachPoint": "Origin",
                       "PositionOffset": {
+                        "X": 0,
                         "Y": 0.6,
                         "Z": 0.5
                       },
@@ -2314,6 +2397,7 @@
                 },
                 {
                   "Case": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 16
                     }
@@ -2347,6 +2431,7 @@
                       "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Aventurine_00/Eff_Monster_W3_Aventurine_00_Skill09_X_Spyellow.prefab",
                       "AttachPoint": "Origin",
                       "PositionOffset": {
+                        "X": 0,
                         "Y": 0.6,
                         "Z": 0.5
                       },
@@ -2382,6 +2467,7 @@
             {
               "$type": "RPG.GameCore.WaitSecond",
               "WaitTime": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 0.4
                 }
@@ -2492,6 +2578,7 @@
                 {
                   "$type": "RPG.GameCore.WaitSecond",
                   "WaitTime": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 0.4
                     }
@@ -2524,6 +2611,7 @@
                     "$type": "RPG.GameCore.ByCompareMonsterPhase",
                     "CompareType": "Equal",
                     "CompareValue": {
+                      "IsDynamic": false,
                       "FixedValue": {
                         "Value": 1
                       }
@@ -2643,6 +2731,7 @@
                 {
                   "$type": "RPG.GameCore.WaitSecond",
                   "WaitTime": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 0.4
                     }
@@ -2682,6 +2771,7 @@
                   "CaseTaskList": [
                     {
                       "Case": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 1
                         }
@@ -2715,6 +2805,7 @@
                           "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Aventurine_00/Eff_Monster_W3_Aventurine_00_Skill09_X_Spyellow_Drak.prefab",
                           "AttachPoint": "Origin",
                           "PositionOffset": {
+                            "X": 0,
                             "Y": 0.6,
                             "Z": 0.5
                           },
@@ -2747,6 +2838,7 @@
                     },
                     {
                       "Case": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 2
                         }
@@ -2780,6 +2872,7 @@
                           "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Aventurine_00/Eff_Monster_W3_Aventurine_00_Skill09_X_Spyellow_Drak.prefab",
                           "AttachPoint": "Origin",
                           "PositionOffset": {
+                            "X": 0,
                             "Y": 0.6,
                             "Z": 0.5
                           },
@@ -2812,6 +2905,7 @@
                     },
                     {
                       "Case": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 4
                         }
@@ -2845,6 +2939,7 @@
                           "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Aventurine_00/Eff_Monster_W3_Aventurine_00_Skill09_X_Spyellow_Drak.prefab",
                           "AttachPoint": "Origin",
                           "PositionOffset": {
+                            "X": 0,
                             "Y": 0.6,
                             "Z": 0.5
                           },
@@ -2877,6 +2972,7 @@
                     },
                     {
                       "Case": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 8
                         }
@@ -2910,6 +3006,7 @@
                           "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Aventurine_00/Eff_Monster_W3_Aventurine_00_Skill09_X_Spyellow_Drak.prefab",
                           "AttachPoint": "Origin",
                           "PositionOffset": {
+                            "X": 0,
                             "Y": 0.6,
                             "Z": 0.5
                           },
@@ -2942,6 +3039,7 @@
                     },
                     {
                       "Case": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 16
                         }
@@ -2975,6 +3073,7 @@
                           "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Aventurine_00/Eff_Monster_W3_Aventurine_00_Skill09_X_Spyellow_Drak.prefab",
                           "AttachPoint": "Origin",
                           "PositionOffset": {
+                            "X": 0,
                             "Y": 0.6,
                             "Z": 0.5
                           },
@@ -3014,6 +3113,7 @@
         {
           "$type": "RPG.GameCore.WaitSecond",
           "WaitTime": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
@@ -3025,6 +3125,7 @@
             "$type": "RPG.GameCore.ByCompareMonsterPhase",
             "CompareType": "Equal",
             "CompareValue": {
+              "IsDynamic": false,
               "FixedValue": {
                 "Value": 1
               }
@@ -3266,7 +3367,7 @@
           "$type": "RPG.GameCore.RemoveModifier",
           "TargetType": {
             "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "AllLightTeam"
+            "Alias": "AllLightTeamWithAllLightTeamUnselectable"
           },
           "ModifierName": {
             "Value": "Monster_W3_Aventurine_00_Skill04_NoGambling"
@@ -3276,6 +3377,7 @@
         {
           "$type": "RPG.GameCore.SetDynamicValue",
           "Value": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0
             }
@@ -3310,6 +3412,10 @@
           "PhaseAnimConfig": {
             "StandBy": "StandBy"
           }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "AnimLogicState": "Idle"
         }
       ]
     },
@@ -3422,6 +3528,7 @@
         {
           "$type": "RPG.GameCore.SetDynamicValue",
           "Value": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0
             }
@@ -3433,6 +3540,7 @@
         {
           "$type": "RPG.GameCore.SetDynamicValue",
           "Value": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0
             }
@@ -3468,6 +3576,7 @@
               "ModifierName": "Monster_W3_AventurinePart_00_ResultCount",
               "ValueType": "Layer",
               "Multiplier": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 1
                 }
@@ -3497,6 +3606,7 @@
                 {
                   "$type": "RPG.GameCore.SetDynamicValue",
                   "Value": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 1
                     }
@@ -3518,6 +3628,7 @@
             },
             "CompareType": "Equal",
             "CompareValue": {
+              "IsDynamic": false,
               "FixedValue": {
                 "Value": 1
               }
@@ -3561,6 +3672,7 @@
         {
           "$type": "RPG.GameCore.WaitSecond",
           "WaitTime": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1.2
             }
@@ -3850,6 +3962,7 @@
           "$type": "RPG.GameCore.SetDynamicValue",
           "ContextScope": "TargetEntity",
           "Value": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0
             }
@@ -3869,6 +3982,7 @@
         {
           "$type": "RPG.GameCore.WaitSecond",
           "WaitTime": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.2
             }
@@ -3928,6 +4042,7 @@
                     "Property": "MaxSpecialSP",
                     "CompareType": "Greater",
                     "CompareValue": {
+                      "IsDynamic": false,
                       "FixedValue": {
                         "Value": 0
                       }
@@ -3980,6 +4095,7 @@
                         "Alias": "ParamEntity"
                       },
                       "FixedAddMaxSPRatio": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 1
                         }
@@ -4000,6 +4116,7 @@
                     "Value": "GambleWinner"
                   },
                   "NewValue": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 1
                     }
@@ -4091,6 +4208,7 @@
                   "CaseTaskList": [
                     {
                       "Case": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 1
                         }
@@ -4124,6 +4242,7 @@
                           "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Aventurine_00/Eff_Monster_W3_Aventurine_00_Skill09_X_Spyellow.prefab",
                           "AttachPoint": "Origin",
                           "PositionOffset": {
+                            "X": 0,
                             "Y": 0.6,
                             "Z": 0.5
                           },
@@ -4156,6 +4275,7 @@
                     },
                     {
                       "Case": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 2
                         }
@@ -4189,6 +4309,7 @@
                           "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Aventurine_00/Eff_Monster_W3_Aventurine_00_Skill09_X_Spyellow.prefab",
                           "AttachPoint": "Origin",
                           "PositionOffset": {
+                            "X": 0,
                             "Y": 0.6,
                             "Z": 0.5
                           },
@@ -4221,6 +4342,7 @@
                     },
                     {
                       "Case": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 4
                         }
@@ -4254,6 +4376,7 @@
                           "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Aventurine_00/Eff_Monster_W3_Aventurine_00_Skill09_X_Spyellow.prefab",
                           "AttachPoint": "Origin",
                           "PositionOffset": {
+                            "X": 0,
                             "Y": 0.6,
                             "Z": 0.5
                           },
@@ -4286,6 +4409,7 @@
                     },
                     {
                       "Case": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 8
                         }
@@ -4319,6 +4443,7 @@
                           "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Aventurine_00/Eff_Monster_W3_Aventurine_00_Skill09_X_Spyellow.prefab",
                           "AttachPoint": "Origin",
                           "PositionOffset": {
+                            "X": 0,
                             "Y": 0.6,
                             "Z": 0.5
                           },
@@ -4351,6 +4476,7 @@
                     },
                     {
                       "Case": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 16
                         }
@@ -4384,6 +4510,7 @@
                           "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Aventurine_00/Eff_Monster_W3_Aventurine_00_Skill09_X_Spyellow.prefab",
                           "AttachPoint": "Origin",
                           "PositionOffset": {
+                            "X": 0,
                             "Y": 0.6,
                             "Z": 0.5
                           },
@@ -4419,6 +4546,7 @@
                 {
                   "$type": "RPG.GameCore.WaitSecond",
                   "WaitTime": {
+                    "IsDynamic": false,
                     "FixedValue": {
                       "Value": 0.4
                     }
@@ -4513,6 +4641,7 @@
           },
           "ByRandom": true,
           "MaxNumber": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
@@ -4542,6 +4671,7 @@
             {
               "$type": "RPG.GameCore.WaitSecond",
               "WaitTime": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 1
                 }
@@ -4641,6 +4771,7 @@
           },
           "ByRandom": true,
           "MaxNumber": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
@@ -4662,6 +4793,7 @@
             {
               "$type": "RPG.GameCore.WaitSecond",
               "WaitTime": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 1
                 }
@@ -4812,6 +4944,7 @@
                   "CaseTaskList": [
                     {
                       "Case": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 1
                         }
@@ -4845,6 +4978,7 @@
                           "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Aventurine_00/Eff_Monster_W3_Aventurine_00_Skill09_X_Spyellow_Drak.prefab",
                           "AttachPoint": "Origin",
                           "PositionOffset": {
+                            "X": 0,
                             "Y": 0.6,
                             "Z": 0.5
                           },
@@ -4877,6 +5011,7 @@
                     },
                     {
                       "Case": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 2
                         }
@@ -4910,6 +5045,7 @@
                           "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Aventurine_00/Eff_Monster_W3_Aventurine_00_Skill09_X_Spyellow_Drak.prefab",
                           "AttachPoint": "Origin",
                           "PositionOffset": {
+                            "X": 0,
                             "Y": 0.6,
                             "Z": 0.5
                           },
@@ -4942,6 +5078,7 @@
                     },
                     {
                       "Case": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 4
                         }
@@ -4975,6 +5112,7 @@
                           "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Aventurine_00/Eff_Monster_W3_Aventurine_00_Skill09_X_Spyellow_Drak.prefab",
                           "AttachPoint": "Origin",
                           "PositionOffset": {
+                            "X": 0,
                             "Y": 0.6,
                             "Z": 0.5
                           },
@@ -5007,6 +5145,7 @@
                     },
                     {
                       "Case": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 8
                         }
@@ -5040,6 +5179,7 @@
                           "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Aventurine_00/Eff_Monster_W3_Aventurine_00_Skill09_X_Spyellow_Drak.prefab",
                           "AttachPoint": "Origin",
                           "PositionOffset": {
+                            "X": 0,
                             "Y": 0.6,
                             "Z": 0.5
                           },
@@ -5072,6 +5212,7 @@
                     },
                     {
                       "Case": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 16
                         }
@@ -5105,6 +5246,7 @@
                           "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Aventurine_00/Eff_Monster_W3_Aventurine_00_Skill09_X_Spyellow_Drak.prefab",
                           "AttachPoint": "Origin",
                           "PositionOffset": {
+                            "X": 0,
                             "Y": 0.6,
                             "Z": 0.5
                           },
@@ -5185,6 +5327,7 @@
           },
           "ByRandom": true,
           "MaxNumber": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
@@ -5206,6 +5349,7 @@
             {
               "$type": "RPG.GameCore.WaitSecond",
               "WaitTime": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 1
                 }
@@ -5244,6 +5388,7 @@
         {
           "$type": "RPG.GameCore.WaitSecond",
           "WaitTime": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.5
             }
@@ -5305,6 +5450,7 @@
         {
           "$type": "RPG.GameCore.SetDynamicValue",
           "Value": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0
             }
@@ -5333,6 +5479,7 @@
             },
             "CompareType": "Equal",
             "CompareNumber": {
+              "IsDynamic": false,
               "FixedValue": {
                 "Value": 0
               }
@@ -5528,7 +5675,7 @@
             "Alias": "Caster"
           },
           "OnlyAlive": false,
-          "IsSlientDispel": true
+          "IsSilentDispel": true
         },
         {
           "$type": "RPG.GameCore.SetSkillTargetFormationByPos",
@@ -5922,6 +6069,7 @@
         {
           "$type": "RPG.GameCore.SetDynamicValue",
           "Value": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0
             }
@@ -5964,7 +6112,9 @@
               "TemplateName": "Monster_Common_UseSkill",
               "IsLocalOffset": true,
               "AnchorOffset": {
-                "X": -1
+                "X": -1,
+                "Y": 0,
+                "Z": 0
               },
               "AimTargetType": {
                 "$type": "RPG.GameCore.TargetAlias",
@@ -5988,7 +6138,9 @@
                 "Alias": "Caster"
               },
               "AimOffset": {
-                "Y": 0.6
+                "X": 0,
+                "Y": 0.6,
+                "Z": 0
               },
               "ResetToDefault": false
             },
@@ -6012,7 +6164,9 @@
               "TemplateName": "Monster_Common_UseSkill",
               "IsLocalOffset": true,
               "AnchorOffset": {
-                "X": -1
+                "X": -1,
+                "Y": 0,
+                "Z": 0
               },
               "AimTargetType": {
                 "$type": "RPG.GameCore.TargetAlias",
@@ -6036,7 +6190,9 @@
                 "Alias": "Caster"
               },
               "AimOffset": {
-                "Y": 1
+                "X": 0,
+                "Y": 1,
+                "Z": 0
               },
               "ResetToDefault": false
             },
@@ -6059,6 +6215,7 @@
             "$type": "RPG.GameCore.ByCompareMonsterPhase",
             "CompareType": "Equal",
             "CompareValue": {
+              "IsDynamic": false,
               "FixedValue": {
                 "Value": 2
               }
@@ -6115,16 +6272,19 @@
           "$type": "RPG.GameCore.TriggerAnimState",
           "AnimStateName": "ChangePhaseEnd",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
           },
           "NormalizedTimeWait": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0
             }
           },
           "NormalizedTransitionDuration": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.1
             }
@@ -6137,6 +6297,7 @@
             "Alias": "Caster"
           },
           "NormalizedValue": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0
             }
@@ -6157,7 +6318,11 @@
               "Name": "weapon_JNT"
             }
           ],
-          "Scale": {}
+          "Scale": {
+            "X": 0,
+            "Y": 0,
+            "Z": 0
+          }
         },
         {
           "$type": "RPG.GameCore.AddModifier",
@@ -6177,6 +6342,7 @@
           },
           "AnimStateName": "ChangePhaseEnd",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 0.834
             }
@@ -6211,6 +6377,7 @@
           },
           "AnimStateName": "ChangePhaseEnd",
           "NormalizedTimeEnd": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
@@ -6281,6 +6448,7 @@
             "Value": "InsertCheck"
           },
           "ResetValue": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 1
             }
@@ -6297,6 +6465,7 @@
             "Value": "AIFlag"
           },
           "ResetValue": {
+            "IsDynamic": false,
             "FixedValue": {
               "Value": 7
             }
@@ -6309,6 +6478,7 @@
             "$type": "RPG.GameCore.ByCompareMonsterPhase",
             "CompareType": "Equal",
             "CompareValue": {
+              "IsDynamic": false,
               "FixedValue": {
                 "Value": 3
               }
@@ -6400,6 +6570,7 @@
                 },
                 "CompareType": "Equal",
                 "CompareValue": {
+                  "IsDynamic": false,
                   "FixedValue": {
                     "Value": 1
                   }
@@ -6420,6 +6591,7 @@
                     "ContextScope": "TargetEntity",
                     "CompareType": "Equal",
                     "CompareValue": {
+                      "IsDynamic": false,
                       "FixedValue": {
                         "Value": 1
                       }
@@ -6437,7 +6609,7 @@
                         "Alias": "Caster"
                       },
                       "OnlyAlive": false,
-                      "IsSlientDispel": true
+                      "IsSilentDispel": true
                     },
                     {
                       "$type": "RPG.GameCore.AddModifier",
@@ -6493,6 +6665,7 @@
                     "ContextScope": "TargetEntity",
                     "CompareType": "Equal",
                     "CompareValue": {
+                      "IsDynamic": false,
                       "FixedValue": {
                         "Value": 1
                       }
@@ -6510,7 +6683,7 @@
                         "Alias": "Caster"
                       },
                       "OnlyAlive": false,
-                      "IsSlientDispel": true
+                      "IsSilentDispel": true
                     },
                     {
                       "$type": "RPG.GameCore.AddModifier",
@@ -6554,6 +6727,7 @@
                         "Alias": "ModifierOwnerEntity"
                       },
                       "Value": {
+                        "IsDynamic": false,
                         "FixedValue": {
                           "Value": 1
                         }
@@ -6573,6 +6747,7 @@
     },
     "Monster_W3_Aventurine_00_DamageTakenUp_RL": {
       "LayerAddWhenStack": {
+        "IsDynamic": false,
         "FixedValue": {
           "Value": 1
         }
@@ -6589,6 +6764,7 @@
               "$type": "RPG.GameCore.SetDynamicValueByModifierValue",
               "ValueType": "Layer",
               "Multiplier": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 1
                 }
@@ -6636,14 +6812,30 @@
       "Stacking": "Replace",
       "DynamicValues": {
         "Floats": {
-          "912451277": {},
-          "-422305181": {},
-          "1458882163": {}
+          "912451277": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-422305181": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "1458882163": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
         }
       }
     },
     "Monster_W3_Aventurine_00_DamageUp_RL": {
       "LayerAddWhenStack": {
+        "IsDynamic": false,
         "FixedValue": {
           "Value": 1
         }
@@ -6660,6 +6852,7 @@
               "$type": "RPG.GameCore.SetDynamicValueByModifierValue",
               "ValueType": "Layer",
               "Multiplier": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 1
                 }
@@ -6707,9 +6900,24 @@
       "Stacking": "Replace",
       "DynamicValues": {
         "Floats": {
-          "-945261968": {},
-          "289033194": {},
-          "1458882163": {}
+          "-945261968": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "289033194": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "1458882163": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
         }
       }
     },
@@ -6720,7 +6928,7 @@
     },
     "Monster_W3_Aventurine_00_Skill07Result_RL": {
       "BehaviorFlagList": [
-        "ResistDebuff"
+        "ImmuneDebuff"
       ],
       "_CallbackList": [
         {
@@ -6749,6 +6957,7 @@
                 },
                 "CompareType": "Equal",
                 "CompareValue": {
+                  "IsDynamic": false,
                   "FixedValue": {
                     "Value": 0
                   }
@@ -6761,6 +6970,7 @@
     },
     "Monster_W3_Aventurine_00_DamageUpPunish_RL": {
       "LayerAddWhenStack": {
+        "IsDynamic": false,
         "FixedValue": {
           "Value": 1
         }
@@ -6773,6 +6983,7 @@
               "$type": "RPG.GameCore.SetDynamicValueByModifierValue",
               "ValueType": "Layer",
               "Multiplier": {
+                "IsDynamic": false,
                 "FixedValue": {
                   "Value": 1
                 }
@@ -6804,8 +7015,18 @@
       "Stacking": "Replace",
       "DynamicValues": {
         "Floats": {
-          "-945261968": {},
-          "1458882163": {}
+          "-945261968": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "1458882163": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
         }
       }
     }

@@ -1,0 +1,92 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByHeroGender",
+            "Gender": "GENDER_MAN"
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.AdvCreateGroupEntityV2",
+              "InstanceIDList": [
+                300004
+              ]
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.AdvCreateGroupEntityV2",
+              "InstanceIDList": [
+                300005
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "EnterDistrict_G{GroupID}"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerPerformance",
+              "ValueSource": {},
+              "PerformanceType": "D",
+              "PerformanceID": 104053211,
+              "MaskConfig": {
+                "UseExcelData": false
+              }
+            },
+            {
+              "$type": "RPG.GameCore.ClientFinishMission",
+              "SubmissionID": 104053207
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvDistrictSetupTrigger",
+          "GroupID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 20
+            }
+          },
+          "DistrictID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 500001
+            }
+          },
+          "DisableAfterTrigger": true,
+          "TickInterval": 0.3,
+          "OnEnter": [
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "EnterDistrict_G{GroupID}"
+              }
+            }
+          ],
+          "IsOverrideValidGuestConfig": true,
+          "OverridedValidGuestConfig": {
+            "FakePlayer": true
+          }
+        }
+      ]
+    }
+  ],
+  "Type": "Group",
+  "EntityEventList": []
+}

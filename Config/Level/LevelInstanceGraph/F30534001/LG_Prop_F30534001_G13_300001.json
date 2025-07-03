@@ -1,0 +1,81 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+          "TriggerName": "MissionTrigger",
+          "OnEnter": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+                "Name": "MonsterKilled"
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerCustomString",
+                  "CustomString": {
+                    "Value": "UseMazeSkill"
+                  }
+                }
+              ]
+            }
+          ],
+          "DisableAfterTriggered": true
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitCustomString",
+          "CustomString": {
+            "Value": "UseMazeSkill"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.ShowTutorialUI",
+          "ForceShowDialog": true
+        },
+        {
+          "$type": "RPG.GameCore.ShowGuideHintWithText",
+          "Block": true,
+          "TargetEvent": [
+            {
+              "$type": "RPG.GameCore.TutorialLockControl",
+              "Reset": true
+            },
+            {
+              "$type": "RPG.GameCore.WaitTutorial",
+              "Event": "UseMazeSkill",
+              "Param": "1",
+              "GoNextImmediately": false,
+              "OnSuccessImmediate": []
+            }
+          ],
+          "NodeIDList": [
+            "MazeMainPage.MazeSkill"
+          ],
+          "GuideTextType": "InfoTip",
+          "GuideText": "TutorialTextmap_Avatar_1408_Hint01",
+          "GuideHintShowConfig": {},
+          "GuideTextShowConfig": {},
+          "GuideUIContextConfig": {},
+          "EnableClickInHintArea": true,
+          "EnableActionList": [
+            "Menu_MazeSkill"
+          ],
+          "EnableBattleOperationList": []
+        },
+        {
+          "$type": "RPG.GameCore.ShowTutorialUI",
+          "IsHide": true
+        }
+      ]
+    }
+  ],
+  "Type": "EntityInstance",
+  "EntityEventList": []
+}
