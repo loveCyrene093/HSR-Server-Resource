@@ -283,83 +283,6 @@
       ]
     },
     {
-      "Name": "Wave_ShowRoleTrialPage",
-      "TaskList": [
-        {
-          "$type": "RPG.GameCore.PredicateTaskList",
-          "Predicate": {
-            "$type": "RPG.GameCore.ByAnd",
-            "PredicateList": [
-              {
-                "$type": "RPG.GameCore.ByCompareStageType",
-                "CurrentStageType": "Trial"
-              },
-              {
-                "$type": "RPG.GameCore.ByCompareDynamicValue",
-                "DynamicKey": {
-                  "Value": "RoleTrialDetailPageShowed"
-                },
-                "CompareType": "Equal",
-                "CompareValue": {
-                  "IsDynamic": false,
-                  "FixedValue": {
-                    "Value": 0
-                  }
-                }
-              },
-              {
-                "$type": "RPG.GameCore.ByCheckDarkTeamDestroy",
-                "ForWaveEnd": true,
-                "Inverse": true
-              },
-              {
-                "$type": "RPG.GameCore.ByAny",
-                "PredicateList": [
-                  {
-                    "$type": "RPG.GameCore.ByCompareAllWaveMonsterRank",
-                    "CompareType": "Less",
-                    "CompareValue": 3,
-                    "Inverse": true
-                  },
-                  {
-                    "$type": "RPG.GameCore.ByCheckRoleTrialNormalWaveShowDetail"
-                  }
-                ]
-              }
-            ]
-          },
-          "SuccessTaskList": [
-            {
-              "$type": "RPG.GameCore.SetDynamicValue",
-              "Value": {
-                "IsDynamic": false,
-                "FixedValue": {
-                  "Value": 1
-                }
-              },
-              "DynamicKey": {
-                "Value": "RoleTrialDetailPageShowed"
-              }
-            },
-            {
-              "$type": "RPG.GameCore.WaitSecond",
-              "WaitTime": {
-                "IsDynamic": false,
-                "FixedValue": {
-                  "Value": 0.15
-                }
-              }
-            },
-            {
-              "$type": "RPG.GameCore.ShowUI",
-              "Name": "Ui.Activity.RoleTrial.RoleTrialDetailPage",
-              "WaitForExit": true
-            }
-          ]
-        }
-      ]
-    },
-    {
       "Name": "TaskList_WaveMonsterDelayCreate",
       "TaskList": [
         {
@@ -2661,196 +2584,209 @@
             {
               "$type": "RPG.GameCore.PredicateTaskList",
               "Predicate": {
-                "$type": "RPG.GameCore.BySimulateSpeedUp"
+                "$type": "RPG.GameCore.ByTargetAliveState",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "Caster"
+                },
+                "AliveStateMask": "Mask_AliveOnly"
               },
               "SuccessTaskList": [
                 {
                   "$type": "RPG.GameCore.PredicateTaskList",
                   "Predicate": {
-                    "$type": "RPG.GameCore.ByInTimelinePerform",
-                    "Inverse": true
+                    "$type": "RPG.GameCore.BySimulateSpeedUp"
                   },
                   "SuccessTaskList": [
                     {
-                      "$type": "RPG.GameCore.SetDynamicValue",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "AllLightTeamWithAllUnselectableLightTeam.GetAliveOnly"
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByInTimelinePerform",
+                        "Inverse": true
                       },
-                      "Value": {
-                        "IsDynamic": false,
-                        "FixedValue": {
-                          "Value": 0.3
-                        }
-                      },
-                      "DynamicKey": {
-                        "Value": "MDF_PerformanceDelay"
-                      }
-                    },
-                    {
-                      "$type": "RPG.GameCore.PerformDelayExecute",
-                      "PerformTaskList": [
+                      "SuccessTaskList": [
                         {
-                          "$type": "RPG.GameCore.VCameraConfigChange",
-                          "CameraConfig": {
-                            "ShakeTemplateName": "Impact_Light",
-                            "OverrideShakeConfigV2": {
-                              "ShakeScale": 1,
-                              "ShakeTime": 0.2,
-                              "ShakeDir": {
-                                "X": 0,
-                                "Y": 0.1,
-                                "Z": 0.1
-                              },
-                              "RangeAttenuationDelay": 0.1,
-                              "RangeAttenuationTarget": 0,
-                              "RangeAttenuationDuration": 0.1
-                            },
-                            "DontOverrideLastShowEntityConfig": true
+                          "$type": "RPG.GameCore.SetDynamicValue",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "AllLightTeamWithAllUnselectableLightTeam.GetAliveOnly"
+                          },
+                          "Value": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 0.3
+                            }
+                          },
+                          "DynamicKey": {
+                            "Value": "MDF_PerformanceDelay"
                           }
                         },
                         {
-                          "$type": "RPG.GameCore.RadialBlurCurveEffect",
+                          "$type": "RPG.GameCore.PerformDelayExecute",
+                          "PerformTaskList": [
+                            {
+                              "$type": "RPG.GameCore.VCameraConfigChange",
+                              "CameraConfig": {
+                                "ShakeTemplateName": "Impact_Light",
+                                "OverrideShakeConfigV2": {
+                                  "ShakeScale": 1,
+                                  "ShakeTime": 0.2,
+                                  "ShakeDir": {
+                                    "X": 0,
+                                    "Y": 0.1,
+                                    "Z": 0.1
+                                  },
+                                  "RangeAttenuationDelay": 0.1,
+                                  "RangeAttenuationTarget": 0,
+                                  "RangeAttenuationDuration": 0.1
+                                },
+                                "DontOverrideLastShowEntityConfig": true
+                              }
+                            },
+                            {
+                              "$type": "RPG.GameCore.RadialBlurCurveEffect",
+                              "TargetType": {
+                                "$type": "RPG.GameCore.TargetAlias",
+                                "Alias": "ParamEntityList"
+                              },
+                              "BlurRadius": 0.6,
+                              "Iteration": 4,
+                              "BlurStart": 0.002,
+                              "BlurFeather": 0.001,
+                              "Duration": 0.15,
+                              "CurveName": "ChargeBlurCurve"
+                            }
+                          ],
                           "TargetType": {
                             "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ParamEntityList"
+                            "Alias": "TemplateParamEntityList"
                           },
-                          "BlurRadius": 0.6,
-                          "Iteration": 4,
-                          "BlurStart": 0.002,
-                          "BlurFeather": 0.001,
-                          "Duration": 0.15,
-                          "CurveName": "ChargeBlurCurve"
+                          "Delay": {
+                            "IsDynamic": true,
+                            "PostfixExpr": {
+                              "OpCodes": "AQAR",
+                              "FixedValues": [],
+                              "DynamicHashes": [
+                                1854514093
+                              ]
+                            }
+                          }
                         }
                       ],
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "TemplateParamEntityList"
-                      },
-                      "Delay": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAR",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            1854514093
-                          ]
+                      "FailedTaskList": [
+                        {
+                          "$type": "RPG.GameCore.SetDynamicValue",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "AllLightTeamWithAllUnselectableLightTeam.GetAliveOnly"
+                          },
+                          "Value": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 0.2
+                            }
+                          },
+                          "DynamicKey": {
+                            "Value": "MDF_PerformanceDelay"
+                          }
                         }
-                      }
+                      ]
                     }
                   ],
                   "FailedTaskList": [
                     {
-                      "$type": "RPG.GameCore.SetDynamicValue",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "AllLightTeamWithAllUnselectableLightTeam.GetAliveOnly"
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByInTimelinePerform",
+                        "Inverse": true
                       },
-                      "Value": {
-                        "IsDynamic": false,
-                        "FixedValue": {
-                          "Value": 0.2
-                        }
-                      },
-                      "DynamicKey": {
-                        "Value": "MDF_PerformanceDelay"
-                      }
-                    }
-                  ]
-                }
-              ],
-              "FailedTaskList": [
-                {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByInTimelinePerform",
-                    "Inverse": true
-                  },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.SetDynamicValue",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "AllLightTeamWithAllUnselectableLightTeam.GetAliveOnly"
-                      },
-                      "Value": {
-                        "IsDynamic": false,
-                        "FixedValue": {
-                          "Value": 0.5
-                        }
-                      },
-                      "DynamicKey": {
-                        "Value": "MDF_PerformanceDelay"
-                      }
-                    },
-                    {
-                      "$type": "RPG.GameCore.PerformDelayExecute",
-                      "PerformTaskList": [
+                      "SuccessTaskList": [
                         {
-                          "$type": "RPG.GameCore.VCameraConfigChange",
-                          "CameraConfig": {
-                            "ShakeTemplateName": "Impact_Light",
-                            "OverrideShakeConfigV2": {
-                              "ShakeScale": 1,
-                              "ShakeTime": 0.2,
-                              "ShakeDir": {
-                                "X": 0,
-                                "Y": 0.1,
-                                "Z": 0.1
-                              },
-                              "RangeAttenuationDelay": 0.1,
-                              "RangeAttenuationTarget": 0,
-                              "RangeAttenuationDuration": 0.1
-                            },
-                            "DontOverrideLastShowEntityConfig": true
+                          "$type": "RPG.GameCore.SetDynamicValue",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "AllLightTeamWithAllUnselectableLightTeam.GetAliveOnly"
+                          },
+                          "Value": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 0.5
+                            }
+                          },
+                          "DynamicKey": {
+                            "Value": "MDF_PerformanceDelay"
                           }
                         },
                         {
-                          "$type": "RPG.GameCore.RadialBlurCurveEffect",
+                          "$type": "RPG.GameCore.PerformDelayExecute",
+                          "PerformTaskList": [
+                            {
+                              "$type": "RPG.GameCore.VCameraConfigChange",
+                              "CameraConfig": {
+                                "ShakeTemplateName": "Impact_Light",
+                                "OverrideShakeConfigV2": {
+                                  "ShakeScale": 1,
+                                  "ShakeTime": 0.2,
+                                  "ShakeDir": {
+                                    "X": 0,
+                                    "Y": 0.1,
+                                    "Z": 0.1
+                                  },
+                                  "RangeAttenuationDelay": 0.1,
+                                  "RangeAttenuationTarget": 0,
+                                  "RangeAttenuationDuration": 0.1
+                                },
+                                "DontOverrideLastShowEntityConfig": true
+                              }
+                            },
+                            {
+                              "$type": "RPG.GameCore.RadialBlurCurveEffect",
+                              "TargetType": {
+                                "$type": "RPG.GameCore.TargetAlias",
+                                "Alias": "ParamEntityList"
+                              },
+                              "BlurRadius": 0.6,
+                              "Iteration": 4,
+                              "BlurStart": 0.002,
+                              "BlurFeather": 0.001,
+                              "Duration": 0.15,
+                              "CurveName": "ChargeBlurCurve"
+                            }
+                          ],
                           "TargetType": {
                             "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ParamEntityList"
+                            "Alias": "TemplateParamEntityList"
                           },
-                          "BlurRadius": 0.6,
-                          "Iteration": 4,
-                          "BlurStart": 0.002,
-                          "BlurFeather": 0.001,
-                          "Duration": 0.15,
-                          "CurveName": "ChargeBlurCurve"
+                          "Delay": {
+                            "IsDynamic": true,
+                            "PostfixExpr": {
+                              "OpCodes": "AQAR",
+                              "FixedValues": [],
+                              "DynamicHashes": [
+                                1854514093
+                              ]
+                            }
+                          }
                         }
                       ],
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "TemplateParamEntityList"
-                      },
-                      "Delay": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAR",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            1854514093
-                          ]
+                      "FailedTaskList": [
+                        {
+                          "$type": "RPG.GameCore.SetDynamicValue",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "AllLightTeamWithAllUnselectableLightTeam.GetAliveOnly"
+                          },
+                          "Value": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 0.3
+                            }
+                          },
+                          "DynamicKey": {
+                            "Value": "MDF_PerformanceDelay"
+                          }
                         }
-                      }
-                    }
-                  ],
-                  "FailedTaskList": [
-                    {
-                      "$type": "RPG.GameCore.SetDynamicValue",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "AllLightTeamWithAllUnselectableLightTeam.GetAliveOnly"
-                      },
-                      "Value": {
-                        "IsDynamic": false,
-                        "FixedValue": {
-                          "Value": 0.3
-                        }
-                      },
-                      "DynamicKey": {
-                        "Value": "MDF_PerformanceDelay"
-                      }
+                      ]
                     }
                   ]
                 }

@@ -405,5 +405,279 @@
         }
       ]
     }
-  ]
+  ],
+  "GlobalModifiers": {
+    "ADV_StageAbility_Maze_Topaz": {
+      "OnAfterBattle": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsLastBattleWin"
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerMazeSkillDrop"
+            }
+          ]
+        }
+      ],
+      "Count": 1,
+      "Stacking": "Merge"
+    },
+    "ADV_Modifier_Maze_Topaz_SummonUnit": {
+      "OnCreate": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsTeamLeader",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ModifierOwnerEntity"
+            }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.CreateSummonUnit",
+              "Summoner": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "SummonUnitID": 11121,
+              "PosTarget": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "OffsetX": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "PosAdaption": {
+                "Option": "CharacterDefault",
+                "AvoidanceRadius": 0.3
+              }
+            },
+            {
+              "$type": "RPG.GameCore.EnableAdvEntityDitherWithPlayer",
+              "SourceType": {
+                "$type": "RPG.GameCore.TargetFetchSummonUnit",
+                "Summoner": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ModifierOwnerEntity"
+                },
+                "SummonUnitID": 11121
+              }
+            }
+          ]
+        }
+      ],
+      "OnDestroy": [
+        {
+          "$type": "RPG.GameCore.DestroySummonUnit",
+          "SummonUnit": {
+            "$type": "RPG.GameCore.TargetFetchSummonUnit",
+            "Summoner": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ModifierOwnerEntity"
+            },
+            "SummonUnitID": 11121
+          }
+        }
+      ],
+      "OnAfterBattle": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByAnd",
+            "PredicateList": [
+              {
+                "$type": "RPG.GameCore.ByIsTeamLeader",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ModifierOwnerEntity"
+                }
+              },
+              {
+                "$type": "RPG.GameCore.ByCheckLastBattleSkillDrop"
+              }
+            ]
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchSummonUnit",
+                "Summoner": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ModifierOwnerEntity"
+                },
+                "SummonUnitID": 11121
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Topaz_00/Eff_Avatar_Topaz_00_Skill01_WinCoin.prefab",
+              "AttachPoint": "Spine"
+            }
+          ]
+        }
+      ],
+      "OnStage": [
+        {
+          "$type": "RPG.GameCore.CreateSummonUnit",
+          "Summoner": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ModifierOwnerEntity"
+          },
+          "SummonUnitID": 11121,
+          "PosTarget": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ModifierOwnerEntity"
+          },
+          "OffsetX": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.EnableAdvEntityDitherWithPlayer",
+          "SourceType": {
+            "$type": "RPG.GameCore.TargetFetchSummonUnit",
+            "Summoner": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ModifierOwnerEntity"
+            },
+            "SummonUnitID": 11121
+          }
+        }
+      ],
+      "OnUnstage": [
+        {
+          "$type": "RPG.GameCore.DestroySummonUnit",
+          "SummonUnit": {
+            "$type": "RPG.GameCore.TargetFetchSummonUnit",
+            "Summoner": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ModifierOwnerEntity"
+            },
+            "SummonUnitID": 11121
+          }
+        }
+      ],
+      "Count": 1,
+      "Stacking": "Refresh"
+    },
+    "ADV_Modifier_ZhangZhang_FindTrotter": {
+      "OnCreate": [
+        {
+          "$type": "RPG.GameCore.ShowWayPoint",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ModifierOwnerEntity"
+          },
+          "IconPath": "SpriteOutput/MapPics/Billboard/IconBillboardMazeTrotter.png",
+          "PrefabPath": "UI/Maze/Widget/MazeTopazTrotterWarningMark.prefab"
+        },
+        {
+          "$type": "RPG.GameCore.AdvEnableOwnerIdleShow",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ModifierOwnerEntity"
+          }
+        }
+      ],
+      "OnDestroy": [
+        {
+          "$type": "RPG.GameCore.HideWaypoint",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ModifierOwnerEntity"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.AdvEnableOwnerIdleShow",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ModifierOwnerEntity"
+          },
+          "Enable": true
+        }
+      ],
+      "Count": 1,
+      "Stacking": "Refresh"
+    },
+    "ADV_Modifier_ZhangZhang_FindTrotter_VFX": {
+      "Count": 1,
+      "Stacking": "Refresh"
+    },
+    "ADV_Modifier_ZhangZhang_FindTreasure": {
+      "OnCreate": [
+        {
+          "$type": "RPG.GameCore.ShowWayPoint",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ModifierOwnerEntity"
+          },
+          "IconPath": "SpriteOutput/MapPics/Billboard/IconBillboardMazeBox.png",
+          "PrefabPath": "UI/Maze/Widget/MazeTopazTreasureWarningMark.prefab"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerSound",
+          "SoundName": {
+            "Value": "Ev_vo_zhangzhang_detect_chest"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.AdvEnableOwnerIdleShow",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ModifierOwnerEntity"
+          }
+        }
+      ],
+      "OnDestroy": [
+        {
+          "$type": "RPG.GameCore.HideWaypoint",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ModifierOwnerEntity"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.AdvEnableOwnerIdleShow",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ModifierOwnerEntity"
+          },
+          "Enable": true
+        }
+      ],
+      "Count": 1,
+      "Stacking": "Refresh"
+    },
+    "ADV_Modifier_ZhangZhang_FindTreasure_VFX": {
+      "OnCreate": [
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ModifierOwnerEntity"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Topaz_00/Eff_Avatar_Topaz_00_Zhangzhang_Happy.prefab"
+        }
+      ],
+      "OnDestroy": [
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Topaz_00/Eff_Avatar_Topaz_00_Zhangzhang_Happy.prefab"
+        }
+      ],
+      "Count": 1,
+      "Stacking": "Refresh"
+    }
+  }
 }

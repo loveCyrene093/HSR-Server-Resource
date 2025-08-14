@@ -1851,7 +1851,8 @@
                           }
                         }
                       ],
-                      "CustomTag": "Anaxa_Passive"
+                      "CustomTag": "Anaxa_Passive",
+                      "IgnoreBPDec": true
                     }
                   ]
                 }
@@ -2712,6 +2713,161 @@
       "Modifiers": {
         "MAvatar_Anaxa_00_SkillTree02": {
           "_CallbackList": [
+            {
+              "Event": "OnListenAvatarBaseTypeChange",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByRankActivated",
+                    "TriggerKey": {
+                      "Hash": -1445815962
+                    },
+                    "Inverse": true
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValueByCountOfBaseType",
+                      "DynamicKey": "_count",
+                      "ContextScope": "ContextModifier",
+                      "BaseTypeList": [
+                        "Mage"
+                      ]
+                    },
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "DynamicKey": {
+                          "Value": "_count"
+                        },
+                        "CompareType": "LessEqual",
+                        "CompareValue": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 1
+                          }
+                        }
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.AddModifier",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "Caster"
+                          },
+                          "ModifierName": {
+                            "Value": "MAvatar_Anaxa_00_SkillTree02_Sub"
+                          },
+                          "DynamicValues": {
+                            "MDF_PropertyRatio": {
+                              "IsDynamic": true,
+                              "PostfixExpr": {
+                                "OpCodes": "AQAR",
+                                "FixedValues": [],
+                                "DynamicHashes": [
+                                  -394954435
+                                ]
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.SetDynamicValue",
+                          "ContextScope": "AITag",
+                          "Value": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 100
+                            }
+                          },
+                          "DynamicKey": {
+                            "Value": "DamageCarry"
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.RemoveModifier",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "AllTeamMemberWithUnselectable"
+                          },
+                          "ModifierName": {
+                            "Value": "MAvatar_Anaxa_00_SkillTree02_SubAll"
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.RemoveModifier",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "Caster"
+                          },
+                          "ModifierName": {
+                            "Value": "MAvatar_Anaxa_00_SkillTree02_SubAllListener"
+                          }
+                        }
+                      ],
+                      "FailedTaskList": [
+                        {
+                          "$type": "RPG.GameCore.AddModifier",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "AllTeamMemberWithUnselectable"
+                          },
+                          "ModifierName": {
+                            "Value": "MAvatar_Anaxa_00_SkillTree02_SubAll"
+                          },
+                          "DynamicValues": {
+                            "MDF_PropertyRatio": {
+                              "IsDynamic": true,
+                              "PostfixExpr": {
+                                "OpCodes": "AQAR",
+                                "FixedValues": [],
+                                "DynamicHashes": [
+                                  -395996608
+                                ]
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.AddModifier",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "Caster"
+                          },
+                          "ModifierName": {
+                            "Value": "MAvatar_Anaxa_00_SkillTree02_SubAllListener"
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.SetDynamicValue",
+                          "ContextScope": "AITag",
+                          "Value": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 1
+                            }
+                          },
+                          "DynamicKey": {
+                            "Value": "DamageCarry"
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.RemoveModifier",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "Caster"
+                          },
+                          "ModifierName": {
+                            "Value": "MAvatar_Anaxa_00_SkillTree02_Sub"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
             {
               "Event": "OnEnterBattle",
               "Priority": -80,
@@ -4064,7 +4220,8 @@
                       }
                     }
                   ],
-                  "CustomTag": "Anaxa_Passive"
+                  "CustomTag": "Anaxa_Passive",
+                  "IgnoreBPDec": true
                 },
                 {
                   "$type": "RPG.GameCore.RemoveSelfModifier"

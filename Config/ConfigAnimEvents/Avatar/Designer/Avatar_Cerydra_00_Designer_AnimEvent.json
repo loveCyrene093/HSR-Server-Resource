@@ -1,0 +1,672 @@
+{
+  "AnimatorStateEvents": [
+    {
+      "AnimatorStateName": "Die",
+      "NormalizedTime": 0.9,
+      "EventList": [
+        {
+          "$type": "RPG.GameCore.TriggerDeadHandler"
+        }
+      ]
+    },
+    {
+      "AnimatorStateName": "Die_Limbo",
+      "NormalizedTime": 0.9,
+      "EventList": [
+        {
+          "$type": "RPG.GameCore.TriggerDeadHandler"
+        }
+      ]
+    },
+    {
+      "AnimatorStateName": "Die_Hit",
+      "NormalizedTime": 0.9,
+      "EventList": [
+        {
+          "$type": "RPG.GameCore.TriggerDeadHandler"
+        }
+      ]
+    },
+    {
+      "AnimatorStateName": "Die_Fly",
+      "NormalizedTime": 0.9,
+      "EventList": [
+        {
+          "$type": "RPG.GameCore.TriggerDeadHandler"
+        }
+      ]
+    },
+    {
+      "AnimatorStateName": "Die_Fly_Limbo",
+      "NormalizedTime": 0.9,
+      "EventList": [
+        {
+          "$type": "RPG.GameCore.TriggerDeadHandler"
+        }
+      ]
+    }
+  ],
+  "AnimatorStateGroupEvents": [
+    {
+      "States": [
+        {
+          "Name": "Hit_Stun"
+        },
+        {
+          "Name": "Hit"
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.SetBaseHitStateSpeed",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          }
+        }
+      ],
+      "OnExit": [
+        {
+          "$type": "RPG.GameCore.SetBaseHitStateSpeed",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "StandBy",
+          "NormalizedTime": 0.01
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Common_Fire.prefab",
+          "MinMutexTime": -1
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "Skill01toSkill02"
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareDynamicValue",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "CurrentAimAtTarget"
+            },
+            "DynamicKey": {
+              "Value": "#CL_HaveBuff"
+            },
+            "CompareType": "Equal",
+            "CompareValue": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 1
+              }
+            }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill01to02_chess_01.prefab",
+              "UniqueEffectName": "Eff_Avatar_Cerydra_00_Skill01to02_chess_01",
+              "MinMutexTime": -1
+            },
+            {
+              "$type": "RPG.GameCore.SetEffectAnimatorParameter",
+              "UniqueEffectName": "Eff_Avatar_Cerydra_00_Skill01to02_chess_01",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "ParameterName": "Blue",
+              "ParameterType": "Bool"
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill01to02_chess_01.prefab",
+              "UniqueEffectName": "Eff_Avatar_Cerydra_00_Skill01to02_chess_01",
+              "MinMutexTime": -1
+            },
+            {
+              "$type": "RPG.GameCore.SetEffectAnimatorParameter",
+              "UniqueEffectName": "Eff_Avatar_Cerydra_00_Skill01to02_chess_01",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "ParameterName": "Blue",
+              "ParameterType": "Bool",
+              "BoolValue": true
+            }
+          ]
+        }
+      ],
+      "OnExit": [
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill01to02_chess_01.prefab",
+          "IsNeedFadeOut": false
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "Skill01toSkill02",
+          "NormalizedTime": 0.302,
+          "ExitInTransition": true
+        },
+        {
+          "Name": "Skill02_Ready_Loop"
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill02_Ready_loop.prefab",
+          "MinMutexTime": -1
+        }
+      ],
+      "OnExit": [
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill02_Ready_loop.prefab"
+        },
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllLightTeam"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill_Select.prefab"
+        },
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllLightTeam"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill_Select_Again.prefab"
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "Skill02_Ready_Loop",
+          "EnterInTransition": false,
+          "ExitInTransition": true
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.SwitchCaseByDynamicValue",
+          "Switch": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                -1667362907
+              ]
+            }
+          },
+          "CaseTaskList": [
+            {
+              "Case": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 10
+                }
+              },
+              "TaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerEffect",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill02_chess_Ready_loop.prefab",
+                  "UniqueEffectName": "Eff_Avatar_Cerydra_00_Skill02_chess_Ready_loop",
+                  "MinMutexTime": -1
+                },
+                {
+                  "$type": "RPG.GameCore.SetEffectAnimatorParameter",
+                  "UniqueEffectName": "Eff_Avatar_Cerydra_00_Skill02_chess_Ready_loop",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "ParameterName": "Blue",
+                  "ParameterType": "Bool",
+                  "BoolValue": true
+                }
+              ]
+            },
+            {
+              "Case": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 11
+                }
+              },
+              "TaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerEffect",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill02_chess_Ready_loop.prefab",
+                  "UniqueEffectName": "Eff_Avatar_Cerydra_00_Skill02_chess_Ready_loop",
+                  "MinMutexTime": -1
+                },
+                {
+                  "$type": "RPG.GameCore.SetEffectAnimatorParameter",
+                  "UniqueEffectName": "Eff_Avatar_Cerydra_00_Skill02_chess_Ready_loop",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "ParameterName": "Blue",
+                  "ParameterType": "Bool",
+                  "BoolValue": true
+                },
+                {
+                  "$type": "RPG.GameCore.SetEffectAnimatorParameter",
+                  "UniqueEffectName": "Eff_Avatar_Cerydra_00_Skill02_chess_Ready_loop",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "ParameterName": "ToBlue",
+                  "ParameterType": "Trigger"
+                }
+              ]
+            },
+            {
+              "Case": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 20
+                }
+              },
+              "TaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerEffect",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill02_chess_Ready_loop_Gold.prefab",
+                  "UniqueEffectName": "Eff_Avatar_Cerydra_00_Skill02_chess_Ready_loop",
+                  "MinMutexTime": -1
+                },
+                {
+                  "$type": "RPG.GameCore.SetEffectAnimatorParameter",
+                  "UniqueEffectName": "Eff_Avatar_Cerydra_00_Skill02_chess_Ready_loop",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "ParameterName": "Blue",
+                  "ParameterType": "Bool"
+                }
+              ]
+            },
+            {
+              "Case": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 22
+                }
+              },
+              "TaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerEffect",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill02_chess_Ready_loop.prefab",
+                  "UniqueEffectName": "Eff_Avatar_Cerydra_00_Skill02_chess_Ready_loop",
+                  "MinMutexTime": -1
+                },
+                {
+                  "$type": "RPG.GameCore.SetEffectAnimatorParameter",
+                  "UniqueEffectName": "Eff_Avatar_Cerydra_00_Skill02_chess_Ready_loop",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "ParameterName": "Blue",
+                  "ParameterType": "Bool"
+                },
+                {
+                  "$type": "RPG.GameCore.SetEffectAnimatorParameter",
+                  "UniqueEffectName": "Eff_Avatar_Cerydra_00_Skill02_chess_Ready_loop",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "ParameterName": "ToGloden",
+                  "ParameterType": "Trigger"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "OnExit": [
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill02_chess_Ready_loop.prefab"
+        },
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill02_chess_Ready_loop_Gold.prefab"
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "Skill02toSkill01"
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill02_chess_Ready_loop.prefab"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill02to01_chess_01.prefab",
+          "MinMutexTime": -1
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill02_to_01.prefab",
+          "MinMutexTime": -1
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill02to01_Weapen.prefab",
+          "MinMutexTime": -1
+        }
+      ],
+      "OnExit": [
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill02to01_chess_01.prefab",
+          "IsNeedFadeOut": false
+        },
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill02_to_01.prefab",
+          "IsNeedFadeOut": false
+        },
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill02to01_Weapen.prefab",
+          "IsNeedFadeOut": false
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "Skill01toSkill02",
+          "ExitInTransition": true
+        },
+        {
+          "Name": "Skill02_Ready_Loop",
+          "ExitInTransition": true
+        },
+        {
+          "Name": "Skill02toSkill01",
+          "ExitInTransition": true
+        }
+      ],
+      "OnExit": [
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill02_chess_Ready_loop.prefab"
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "Skill03_Ready"
+        },
+        {
+          "Name": "Skill03_Ready_Loop"
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill03_Ready_Chess.prefab",
+          "MinMutexTime": -1
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill03_Ready.prefab",
+          "MinMutexTime": -1
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Common_Fire.prefab",
+          "MinMutexTime": -1
+        }
+      ],
+      "OnExit": [
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill03_Ready_Chess.prefab",
+          "IsNeedFadeOut": false
+        },
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Skill03_Ready.prefab",
+          "IsNeedFadeOut": false
+        },
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cerydra_00/Eff_Avatar_Cerydra_00_Common_Fire.prefab",
+          "IsNeedFadeOut": false
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "StandBy"
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.SetAttachmentScale",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AttachPoints": [
+            {
+              "Name": "Weapon"
+            }
+          ],
+          "IsReset": true
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "Skill01toSkill02"
+        },
+        {
+          "Name": "Skill02_Ready_Loop"
+        },
+        {
+          "Name": "Skill03_Ready"
+        },
+        {
+          "Name": "Skill03_Ready_Loop"
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.SetAttachmentScale",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AttachPoints": [
+            {
+              "Name": "Weapon"
+            }
+          ],
+          "Scale": {
+            "X": 0,
+            "Y": 0,
+            "Z": 0
+          }
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "Skill02toSkill01",
+          "NormalizedTime": 0.119
+        },
+        {
+          "Name": "Skill01_Ready_Loop"
+        },
+        {
+          "Name": "Skill01_Ready"
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.SetAttachmentScale",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AttachPoints": [
+            {
+              "Name": "Weapon"
+            }
+          ],
+          "IsReset": true
+        }
+      ]
+    }
+  ]
+}

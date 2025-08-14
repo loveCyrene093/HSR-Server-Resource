@@ -444,10 +444,6 @@
                   "Value": 1
                 }
               }
-            },
-            {
-              "$type": "RPG.GameCore.TriggerAnimState",
-              "AnimStateName": "Skill02"
             }
           ]
         },
@@ -524,6 +520,10 @@
                 "Value": "Avatar_Archer_00_Skill02_C02_Camera"
               },
               "IsSkillPerform": true
+            },
+            {
+              "$type": "RPG.GameCore.TriggerAnimState",
+              "AnimStateName": "Skill02"
             },
             {
               "$type": "RPG.GameCore.PlayTimeline",
@@ -659,24 +659,42 @@
           }
         },
         {
-          "$type": "RPG.GameCore.SetDynamicValue",
-          "Value": {
-            "IsDynamic": true,
-            "PostfixExpr": {
-              "OpCodes": "AQAAAAIR",
-              "FixedValues": [
-                {
-                  "Value": 1
-                }
-              ],
-              "DynamicHashes": [
-                -981267151
-              ]
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareDynamicValue",
+            "DynamicKey": {
+              "Value": "MDF_IsWindfurySkill"
+            },
+            "CompareType": "Equal",
+            "CompareValue": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 0
+              }
             }
           },
-          "DynamicKey": {
-            "Value": "MDF_Skill02UseCountInCaps"
-          }
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "Value": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAAAAIR",
+                  "FixedValues": [
+                    {
+                      "Value": 1
+                    }
+                  ],
+                  "DynamicHashes": [
+                    -981267151
+                  ]
+                }
+              },
+              "DynamicKey": {
+                "Value": "MDF_Skill02UseCountInCaps"
+              }
+            }
+          ]
         },
         {
           "$type": "RPG.GameCore.WaitAnimState",
@@ -960,6 +978,16 @@
                         ]
                       }
                     }
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByIsContainModifier",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Caster"
+                    },
+                    "ModifierName": {
+                      "Value": "MCommon_Windfury"
+                    }
                   }
                 ]
               },
@@ -980,6 +1008,19 @@
                         "DynamicHashes": [
                           1781135963
                         ]
+                      }
+                    }
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "MDF_IsWindfurySkill"
+                    },
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 1
                       }
                     }
                   }
@@ -3080,6 +3121,64 @@
                   ]
                 }
               ]
+            },
+            {
+              "Event": "OnInsertActionStart",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareParamString",
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "Value": "ActionTag_Windfury"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "MDF_IsWindfurySkill"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnInsertActionFinish",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareParamString",
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "Value": "ActionTag_Windfury"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "MDF_IsWindfurySkill"
+                      }
+                    }
+                  ]
+                }
+              ]
             }
           ],
           "Stacking": "ReplaceByCaster",
@@ -3234,6 +3333,32 @@
                             "Value": 0
                           }
                         }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "Caster"
+                        },
+                        "Flag": "STAT_CTRL",
+                        "Inverse": true
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "Caster"
+                        },
+                        "Flag": "DisableAction",
+                        "Inverse": true
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByTargetAliveState",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "Caster"
+                        },
+                        "AliveStateMask": "Mask_AliveOnly"
                       }
                     ]
                   },
@@ -3389,6 +3514,16 @@
                           }
                         },
                         {
+                          "$type": "RPG.GameCore.AddModifier",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ParamEntity"
+                          },
+                          "ModifierName": {
+                            "Value": "MAvatar_Archer_00_Insert_Target"
+                          }
+                        },
+                        {
                           "$type": "RPG.GameCore.TurnInsertAbility",
                           "AbilityName": {
                             "Value": "Avatar_Archer_00_Insert_Phase01"
@@ -3399,7 +3534,7 @@
                           },
                           "AbilityTarget": {
                             "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ParamEntity"
+                            "Alias": "AllEnemy"
                           },
                           "AbortBehaviorFlags": [
                             "STAT_CTRL",
@@ -3475,6 +3610,16 @@
                               }
                             },
                             {
+                              "$type": "RPG.GameCore.AddModifier",
+                              "TargetType": {
+                                "$type": "RPG.GameCore.TargetAlias",
+                                "Alias": "ParamEntity"
+                              },
+                              "ModifierName": {
+                                "Value": "MAvatar_Archer_00_Insert_Target"
+                              }
+                            },
+                            {
                               "$type": "RPG.GameCore.TurnInsertAbility",
                               "AbilityName": {
                                 "Value": "Avatar_Archer_00_Insert_Phase01"
@@ -3485,7 +3630,7 @@
                               },
                               "AbilityTarget": {
                                 "$type": "RPG.GameCore.TargetAlias",
-                                "Alias": "ParamEntity"
+                                "Alias": "AllEnemy"
                               },
                               "AbortBehaviorFlags": [
                                 "STAT_CTRL",
@@ -3671,6 +3816,16 @@
                           }
                         },
                         {
+                          "$type": "RPG.GameCore.AddModifier",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ParamEntity"
+                          },
+                          "ModifierName": {
+                            "Value": "MAvatar_Archer_00_Insert_Target"
+                          }
+                        },
+                        {
                           "$type": "RPG.GameCore.TurnInsertAbility",
                           "AbilityName": {
                             "Value": "Avatar_Archer_00_Insert_Phase01"
@@ -3681,7 +3836,7 @@
                           },
                           "AbilityTarget": {
                             "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ParamEntity"
+                            "Alias": "AllEnemy"
                           },
                           "AbortBehaviorFlags": [
                             "STAT_CTRL",
@@ -3795,6 +3950,16 @@
                           }
                         },
                         {
+                          "$type": "RPG.GameCore.AddModifier",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ParamEntity"
+                          },
+                          "ModifierName": {
+                            "Value": "MAvatar_Archer_00_Insert_Target"
+                          }
+                        },
+                        {
                           "$type": "RPG.GameCore.TurnInsertAbility",
                           "AbilityName": {
                             "Value": "Avatar_Archer_00_Insert_Phase01"
@@ -3805,7 +3970,7 @@
                           },
                           "AbilityTarget": {
                             "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ParamEntity"
+                            "Alias": "AllEnemy"
                           },
                           "AbortBehaviorFlags": [
                             "STAT_CTRL",
@@ -3919,6 +4084,16 @@
                           }
                         },
                         {
+                          "$type": "RPG.GameCore.AddModifier",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ParamEntity"
+                          },
+                          "ModifierName": {
+                            "Value": "MAvatar_Archer_00_Insert_Target"
+                          }
+                        },
+                        {
                           "$type": "RPG.GameCore.TurnInsertAbility",
                           "AbilityName": {
                             "Value": "Avatar_Archer_00_Insert_Phase01"
@@ -3929,7 +4104,7 @@
                           },
                           "AbilityTarget": {
                             "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ParamEntity"
+                            "Alias": "AllEnemy"
                           },
                           "AbortBehaviorFlags": [
                             "STAT_CTRL",
@@ -4301,6 +4476,16 @@
                           }
                         },
                         {
+                          "$type": "RPG.GameCore.AddModifier",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ParamEntity"
+                          },
+                          "ModifierName": {
+                            "Value": "MAvatar_Archer_00_Insert_Target"
+                          }
+                        },
+                        {
                           "$type": "RPG.GameCore.TurnInsertAbility",
                           "AbilityName": {
                             "Value": "Avatar_Archer_00_Insert_Phase01"
@@ -4311,7 +4496,7 @@
                           },
                           "AbilityTarget": {
                             "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ParamEntity"
+                            "Alias": "AllEnemy"
                           },
                           "AbortBehaviorFlags": [
                             "STAT_CTRL",
@@ -4357,130 +4542,264 @@
       },
       "OnStart": [
         {
+          "$type": "RPG.GameCore.SetDynamicValue",
+          "Value": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0
+            }
+          },
+          "DynamicKey": {
+            "Value": "MDF_HasTarget"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllDarkTeam"
+          },
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsContainModifier",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ParamEntity"
+            },
+            "ModifierName": {
+              "Value": "MAvatar_Archer_00_Insert_Target"
+            }
+          },
+          "MaxNumber": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "DynamicKey": {
+                "Value": "MDF_HasTarget"
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareDynamicValue",
+            "DynamicKey": {
+              "Value": "MDF_HasTarget"
+            },
+            "CompareType": "Equal",
+            "CompareValue": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 0
+              }
+            }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.Retarget",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllDarkTeam"
+              },
+              "ByRandom": true,
+              "MaxNumber": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "TaskList": [
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MAvatar_Archer_00_Insert_Target"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllDarkTeam"
+          },
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsContainModifier",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ParamEntity"
+            },
+            "ModifierName": {
+              "Value": "MAvatar_Archer_00_Insert_Target"
+            }
+          },
+          "MaxNumber": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.RemoveModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllDarkTeamWithAllDarkTeamUnselectable"
+              },
+              "ModifierName": {
+                "Value": "MAvatar_Archer_00_InsertTag"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.HideLevelStage",
+              "IsHide": true
+            },
+            {
+              "$type": "RPG.GameCore.SetTeamFormation",
+              "FormationTarget": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "CustomFormationName": "Archer_00_Insert_SelfPos",
+              "CustomCenterTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "LevelEntity"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.ShowBonusUIEffect",
+              "UIPrefabPath": "UI/Battle/SpecialAction/Avatar/SpecialAction_1015.prefab",
+              "TitleTextID": {
+                "Hash": 2254284900330735549
+              }
+            },
+            {
+              "$type": "RPG.GameCore.TriggerAbility",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "AbilityInherentTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "AbilityName": {
+                "Value": "Avatar_Archer_00_Insert_Phase02"
+              },
+              "IsSkillPerform": true
+            },
+            {
+              "$type": "RPG.GameCore.TriggerAbility",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "AbilityInherentTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "AbilityName": {
+                "Value": "Avatar_Archer_00_Insert_Camera"
+              },
+              "IsSkillPerform": true
+            },
+            {
+              "$type": "RPG.GameCore.TriggerAnimState",
+              "AnimStateName": "Skill_Passive01"
+            },
+            {
+              "$type": "RPG.GameCore.WaitAnimState",
+              "AnimStateName": "Skill_Passive01",
+              "NormalizedTimeEnd": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.441718
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.TriggerEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Archer_00/Eff_Avatar_Archer_00_PassiveSkill_Hit.prefab"
+            },
+            {
+              "$type": "RPG.GameCore.WaitAnimState",
+              "AnimStateName": "Skill_Passive01",
+              "NormalizedTimeEnd": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.9
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.RemoveEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Archer_00/Eff_Avatar_Archer_00_PassiveSkill_Hit.prefab",
+              "IsNeedFadeOut": false
+            },
+            {
+              "$type": "RPG.GameCore.RemoveEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Archer_00/Eff_Avatar_Archer_00_PassiveSkill_BG.prefab",
+              "IsNeedFadeOut": false
+            },
+            {
+              "$type": "RPG.GameCore.HideLevelStage"
+            },
+            {
+              "$type": "RPG.GameCore.StopTimeline",
+              "TimelineName": "Effects/Eff_Prefab/Eff_Avatar/Eff_Archer_00/Eff_Avatar_Archer_00_PassiveSkill.playable"
+            }
+          ]
+        },
+        {
           "$type": "RPG.GameCore.RemoveModifier",
           "TargetType": {
             "$type": "RPG.GameCore.TargetAlias",
             "Alias": "AllDarkTeamWithAllDarkTeamUnselectable"
           },
           "ModifierName": {
-            "Value": "MAvatar_Archer_00_InsertTag"
+            "Value": "MAvatar_Archer_00_Insert_Target"
           }
-        },
-        {
-          "$type": "RPG.GameCore.HideLevelStage",
-          "IsHide": true
-        },
-        {
-          "$type": "RPG.GameCore.SetTeamFormation",
-          "FormationTarget": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "Caster"
-          },
-          "CustomFormationName": "Archer_00_Insert_SelfPos",
-          "CustomCenterTargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "LevelEntity"
-          }
-        },
-        {
-          "$type": "RPG.GameCore.ShowBonusUIEffect",
-          "UIPrefabPath": "UI/Battle/SpecialAction/Avatar/SpecialAction_1015.prefab",
-          "TitleTextID": {
-            "Hash": 2254284900330735549
-          }
-        },
-        {
-          "$type": "RPG.GameCore.LookAt",
-          "TargetType": "AbilityTargetEntity"
-        },
-        {
-          "$type": "RPG.GameCore.TriggerAbility",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "Caster"
-          },
-          "AbilityInherentTargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "AbilityTargetEntity"
-          },
-          "AbilityName": {
-            "Value": "Avatar_Archer_00_Insert_Camera"
-          },
-          "IsSkillPerform": true
-        },
-        {
-          "$type": "RPG.GameCore.TriggerAbility",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "Caster"
-          },
-          "AbilityInherentTargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "AbilityTargetEntity"
-          },
-          "AbilityName": {
-            "Value": "Avatar_Archer_00_Insert_Phase02"
-          },
-          "IsSkillPerform": true
-        },
-        {
-          "$type": "RPG.GameCore.TriggerAnimState",
-          "AnimStateName": "Skill_Passive01"
-        },
-        {
-          "$type": "RPG.GameCore.WaitAnimState",
-          "AnimStateName": "Skill_Passive01",
-          "NormalizedTimeEnd": {
-            "IsDynamic": false,
-            "FixedValue": {
-              "Value": 0.441718
-            }
-          }
-        },
-        {
-          "$type": "RPG.GameCore.TriggerEffect",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "AbilityTargetEntity"
-          },
-          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Archer_00/Eff_Avatar_Archer_00_PassiveSkill_Hit.prefab"
-        },
-        {
-          "$type": "RPG.GameCore.WaitAnimState",
-          "AnimStateName": "Skill_Passive01",
-          "NormalizedTimeEnd": {
-            "IsDynamic": false,
-            "FixedValue": {
-              "Value": 0.9
-            }
-          }
-        },
-        {
-          "$type": "RPG.GameCore.RemoveEffect",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "AbilityTargetEntity"
-          },
-          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Archer_00/Eff_Avatar_Archer_00_PassiveSkill_Hit.prefab",
-          "IsNeedFadeOut": false
-        },
-        {
-          "$type": "RPG.GameCore.RemoveEffect",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "Caster"
-          },
-          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Archer_00/Eff_Avatar_Archer_00_PassiveSkill_BG.prefab",
-          "IsNeedFadeOut": false
-        },
-        {
-          "$type": "RPG.GameCore.HideLevelStage"
-        },
-        {
-          "$type": "RPG.GameCore.StopTimeline",
-          "TimelineName": "Effects/Eff_Prefab/Eff_Avatar/Eff_Archer_00/Eff_Avatar_Archer_00_PassiveSkill.playable"
         }
-      ]
+      ],
+      "DynamicValues": {
+        "Floats": {
+          "-1679666509": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
+        }
+      }
     },
     {
       "Name": "Avatar_Archer_00_Insert_Phase02",
@@ -4488,6 +4807,10 @@
         "TargetType": "InherentTargetEntity"
       },
       "OnStart": [
+        {
+          "$type": "RPG.GameCore.LookAt",
+          "TargetType": "AbilityTargetEntity"
+        },
         {
           "$type": "RPG.GameCore.SetDynamicValue",
           "Value": {
@@ -5034,6 +5357,7 @@
     }
   ],
   "GlobalModifiers": {
+    "MAvatar_Archer_00_Insert_Target": {},
     "MAvatar_Archer_00_Rank02_AddWeak": {
       "BehaviorFlagList": [
         "STAT_AttachWeakness"
@@ -5420,15 +5744,50 @@
                   }
                 },
                 {
-                  "$type": "RPG.GameCore.TurnInsertAction",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "ModifierOwnerEntity"
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "MDF_IsWindfurySkill"
+                    },
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 0
+                      }
+                    }
                   },
-                  "SkillType": "ControlSkill02",
-                  "CanInsertUltraSkill": true,
-                  "CustomTag": "Archer_Bonus",
-                  "FollowSameTagNormalAction": true
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TurnInsertAction",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "SkillType": "ControlSkill02",
+                      "CanInsertUltraSkill": true,
+                      "OnInsertAbort": [
+                        {
+                          "$type": "RPG.GameCore.SetDynamicValue",
+                          "Value": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 0
+                            }
+                          },
+                          "DynamicKey": {
+                            "Value": "MDF_InBonus"
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.RemoveSelfModifier"
+                        }
+                      ],
+                      "CustomTag": "Archer_Bonus",
+                      "FollowSameTagNormalAction": true
+                    }
+                  ]
                 },
                 {
                   "$type": "RPG.GameCore.SetDynamicValue",
@@ -5493,6 +5852,11 @@
                             "$type": "RPG.GameCore.ByCompareNextUnusedInsertAction",
                             "CustomTagIs": "Archer_Bonus",
                             "Inverse": true
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByCompareNextUnusedInsertAction",
+                            "CustomTagIs": "ActionTag_Windfury",
+                            "Inverse": true
                           }
                         ]
                       },
@@ -5513,6 +5877,19 @@
                                 "DynamicHashes": [
                                   1781135963
                                 ]
+                              }
+                            }
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByCompareDynamicValue",
+                            "DynamicKey": {
+                              "Value": "MDF_IsWindfurySkill"
+                            },
+                            "CompareType": "Equal",
+                            "CompareValue": {
+                              "IsDynamic": false,
+                              "FixedValue": {
+                                "Value": 1
                               }
                             }
                           }

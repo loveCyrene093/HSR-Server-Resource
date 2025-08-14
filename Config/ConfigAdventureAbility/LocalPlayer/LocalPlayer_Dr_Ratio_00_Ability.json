@@ -628,5 +628,104 @@
         }
       ]
     }
-  ]
+  ],
+  "GlobalModifiers": {
+    "ADV_StageAbility_Maze_Dr_Ratio": {
+      "BehaviorFlagList": [
+        "Taunt"
+      ],
+      "OnCreate": [
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ModifierOwnerEntity"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Buff_Common_Taunt_Add.prefab"
+        },
+        {
+          "$type": "RPG.GameCore.ModifierAttachEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ModifierOwnerEntity"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Buff_Common_Taunt_Loop.prefab",
+          "MinMutexTime": -1,
+          "MutexType": "Entity"
+        },
+        {
+          "$type": "RPG.GameCore.AddDynamicEntityParam",
+          "DynamicKey": "_Dr_Ratio_Taunt_Count",
+          "ReadTargetType": {
+            "$type": "RPG.GameCore.TargetFetchSummonUnit",
+            "Summoner": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "Caster"
+            },
+            "SummonUnitID": 13051
+          },
+          "ParamTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ModifierOwnerEntity"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareTargetCount",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetSequence",
+              "Sequence": [
+                {
+                  "$type": "RPG.GameCore.TargetFetchSummonUnit",
+                  "Summoner": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "SummonUnitID": 13051
+                },
+                {
+                  "$type": "RPG.GameCore.TargetMapDynamicEntityParam",
+                  "DynamicKey": "_Dr_Ratio_Taunt_Count"
+                }
+              ]
+            },
+            "Number": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 6
+              }
+            },
+            "CompareType": "GreaterEqual"
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetAdvAchievement",
+              "QuestID": 4072906
+            }
+          ]
+        }
+      ],
+      "OnDestroy": [
+        {
+          "$type": "RPG.GameCore.RemoveDynamicEntityParam",
+          "DynamicKey": "_Dr_Ratio_Taunt_Count",
+          "ReadTargetType": {
+            "$type": "RPG.GameCore.TargetFetchSummonUnit",
+            "Summoner": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "Caster"
+            },
+            "SummonUnitID": 13051
+          },
+          "ParamTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ModifierOwnerEntity"
+          }
+        }
+      ],
+      "Count": 1,
+      "Stacking": "Merge"
+    }
+  }
 }

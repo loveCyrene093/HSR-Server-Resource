@@ -14,15 +14,83 @@
         {
           "$type": "RPG.GameCore.WaitEntityEvent",
           "EventName": {
+            "Value": "UpdateFCVbyFSV"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+                "DynamicName": {
+                  "Value": "CF_Phase"
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetFloorCustomFloatV2",
+                  "Name": {
+                    "Value": "FCV_CF_Phase"
+                  },
+                  "Value": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  }
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+                    "DynamicName": {
+                      "Value": "CF_Phase"
+                    },
+                    "CompareValue": 1
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetFloorCustomFloatV2",
+                      "Name": {
+                        "Value": "FCV_CF_Phase"
+                      },
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Order": 999,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEvent",
+          "EventName": {
             "Value": "UpdateState"
           },
           "OnEvent": [
             {
               "$type": "RPG.GameCore.PredicateTaskList",
               "Predicate": {
-                "$type": "RPG.GameCore.ByCompareGroupProperty",
-                "DynamicName": {
-                  "Value": "State"
+                "$type": "RPG.GameCore.ByCompareFloorCustomFloatV2",
+                "Name": {
+                  "Value": "FCV_CF_Phase"
+                },
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0
+                  }
                 }
               },
               "SuccessTaskList": [
@@ -40,11 +108,16 @@
             {
               "$type": "RPG.GameCore.PredicateTaskList",
               "Predicate": {
-                "$type": "RPG.GameCore.ByCompareGroupProperty",
-                "DynamicName": {
-                  "Value": "State"
+                "$type": "RPG.GameCore.ByCompareFloorCustomFloatV2",
+                "Name": {
+                  "Value": "FCV_CF_Phase"
                 },
-                "CompareValue": 1
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                }
               },
               "SuccessTaskList": [
                 {
@@ -64,16 +137,19 @@
       ]
     },
     {
-      "TaskList": []
-    },
-    {
       "TaskList": [
         {
-          "$type": "RPG.GameCore.WaitGroupPropertyChange",
+          "$type": "RPG.GameCore.WaitFloorSavedValueChangeV2",
           "Name": {
-            "Value": "State"
+            "Value": "CF_Phase"
           },
           "OnChange": [
+            {
+              "$type": "RPG.GameCore.TriggerEntityEvent",
+              "EventName": {
+                "Value": "UpdateFCVbyFSV"
+              }
+            },
             {
               "$type": "RPG.GameCore.TriggerEntityEvent",
               "EventName": {
@@ -86,6 +162,12 @@
     },
     {
       "TaskList": [
+        {
+          "$type": "RPG.GameCore.TriggerEntityEvent",
+          "EventName": {
+            "Value": "UpdateFCVbyFSV"
+          }
+        },
         {
           "$type": "RPG.GameCore.TriggerEntityEvent",
           "EventName": {
@@ -108,7 +190,26 @@
           }
         }
       ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitFloorCustomValueChangeV2",
+          "Name": {
+            "Value": "FCV_CF_Phase"
+          },
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.TriggerEntityEvent",
+              "EventName": {
+                "Value": "UpdateState"
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
-  "Type": "Group"
+  "Type": "Group",
+  "EntityEventList": []
 }

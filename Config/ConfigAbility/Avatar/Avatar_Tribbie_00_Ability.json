@@ -1360,6 +1360,98 @@
           ],
           "_CallbackList": [
             {
+              "Event": "OnActionPhaseBegin",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByIsContainModifier",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Caster"
+                    },
+                    "ModifierName": {
+                      "Value": "MAvatar_Tribbie_00_SKL02_Buff"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValueByModifierValue",
+                      "ModifierName": "MAvatar_Tribbie_00_SKL02_Buff",
+                      "ValueType": "LifeTime",
+                      "Multiplier": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      },
+                      "DynamicKey": "Skill02_EnergyBarCount"
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "Skill02_EnergyBarCount"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "Skill02_EnergyBarCount"
+                    },
+                    "CompareType": "Greater",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 0
+                      }
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetEnergyBarState",
+                      "Active": "True",
+                      "CurrentState": "Active",
+                      "CurrentCount": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            -1554370866
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetEnergyBarState",
+                      "Active": "True",
+                      "CurrentState": "Normal",
+                      "CurrentCount": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
               "Event": "OnListenAfterSkillUse",
               "CallbackConfig": [
                 {
@@ -1881,7 +1973,17 @@
                 }
               ]
             }
-          ]
+          ],
+          "DynamicValues": {
+            "Floats": {
+              "-1554370866": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
+            }
+          }
         }
       },
       "Name": "Avatar_Tribbie_00_PassiveSkill01",
@@ -2666,79 +2768,6 @@
     "MAvatar_Tribbie_00_SKL02_Buff": {
       "LifeStepMoment": "ModifierPhase1End",
       "_CallbackList": [
-        {
-          "Event": "OnPhase1",
-          "CallbackConfig": [
-            {
-              "$type": "RPG.GameCore.SetDynamicValue",
-              "Value": {
-                "IsDynamic": true,
-                "PostfixExpr": {
-                  "OpCodes": "AQAAAAMR",
-                  "FixedValues": [
-                    {
-                      "Value": 1
-                    }
-                  ],
-                  "DynamicHashes": [
-                    -1125463972
-                  ]
-                }
-              },
-              "DynamicKey": {
-                "Value": "Energy_Layer"
-              }
-            },
-            {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByCompareDynamicValue",
-                "DynamicKey": {
-                  "Value": "Energy_Layer"
-                },
-                "CompareType": "Greater",
-                "CompareValue": {
-                  "IsDynamic": false,
-                  "FixedValue": {
-                    "Value": 0
-                  }
-                }
-              },
-              "SuccessTaskList": [
-                {
-                  "$type": "RPG.GameCore.SetEnergyBarState",
-                  "CurrentState": "Active",
-                  "CurrentCount": {
-                    "IsDynamic": true,
-                    "PostfixExpr": {
-                      "OpCodes": "AQAR",
-                      "FixedValues": [],
-                      "DynamicHashes": [
-                        -1125463972
-                      ]
-                    }
-                  }
-                }
-              ],
-              "FailedTaskList": [
-                {
-                  "$type": "RPG.GameCore.SetEnergyBarState",
-                  "CurrentState": "Normal",
-                  "CurrentCount": {
-                    "IsDynamic": true,
-                    "PostfixExpr": {
-                      "OpCodes": "AQAR",
-                      "FixedValues": [],
-                      "DynamicHashes": [
-                        -1125463972
-                      ]
-                    }
-                  }
-                }
-              ]
-            }
-          ]
-        },
         {
           "Event": "OnStack",
           "CallbackConfig": [

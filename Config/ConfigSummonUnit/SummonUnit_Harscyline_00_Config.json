@@ -1,0 +1,183 @@
+{
+  "GroupConfigName": "Field",
+  "ConfigEntityPath": "Config/ConfigEntity/SummonUnit/SummonUnit_Common_TeamField_Entity.json",
+  "ResidentEffects": [
+    {
+      "$type": "RPG.GameCore.TriggerEffect",
+      "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Harscyline_00/Eff_Avatar_Harscyline_00_MazeSkill01_01.prefab",
+      "Delay": 0.09
+    },
+    {
+      "$type": "RPG.GameCore.TriggerEffect",
+      "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Harscyline_00/Eff_Avatar_Harscyline_00_MazeSkill01_fish.prefab",
+      "Delay": 0.77
+    }
+  ],
+  "FadeoutTime": 1.2,
+  "OnCreate": [
+    {
+      "$type": "RPG.GameCore.AdvMarkAsTauntProxy",
+      "TargetType": {
+        "$type": "RPG.GameCore.TargetAlias",
+        "Alias": "CasterSummoner"
+      },
+      "ProxyTargetType": {
+        "$type": "RPG.GameCore.TargetAlias",
+        "Alias": "Caster"
+      }
+    },
+    {
+      "$type": "RPG.GameCore.WaitSecond",
+      "WaitTime": {
+        "IsDynamic": false,
+        "FixedValue": {
+          "Value": 0.835
+        }
+      }
+    },
+    {
+      "$type": "RPG.GameCore.SetTargetDirMove",
+      "TargetType": {
+        "$type": "RPG.GameCore.TargetAlias",
+        "Alias": "Caster"
+      },
+      "Speed": {
+        "IsDynamic": false,
+        "FixedValue": {
+          "Value": 1.5
+        }
+      },
+      "Duration": {
+        "IsDynamic": false,
+        "FixedValue": {
+          "Value": 10
+        }
+      },
+      "PosAdaption": {
+        "Option": 69,
+        "NavMeshEdgeAvoidanceRadius": 1.2,
+        "SmoothTime": 1
+      }
+    }
+  ],
+  "OnDestroy": [
+    {
+      "$type": "RPG.GameCore.RemoveMazeBuff",
+      "TargetType": {
+        "$type": "RPG.GameCore.TargetAlias",
+        "Alias": "AdvAllNPCMonsters"
+      },
+      "ID": 141001
+    },
+    {
+      "$type": "RPG.GameCore.WaitSecond",
+      "WaitTime": {
+        "IsDynamic": false,
+        "FixedValue": {
+          "Value": 0.9
+        }
+      }
+    },
+    {
+      "$type": "RPG.GameCore.RemoveEffect",
+      "TargetType": {
+        "$type": "RPG.GameCore.TargetAlias",
+        "Alias": "Caster"
+      },
+      "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Harscyline_00/Eff_Avatar_Harscyline_00_MazeSkill01_fish.prefab"
+    },
+    {
+      "$type": "RPG.GameCore.RemoveEffect",
+      "TargetType": {
+        "$type": "RPG.GameCore.TargetAlias",
+        "Alias": "Caster"
+      },
+      "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Harscyline_00/Eff_Avatar_Harscyline_00_MazeSkill01_01.prefab"
+    }
+  ],
+  "OnBeReplaced": [
+    {
+      "$type": "RPG.GameCore.RemoveMazeBuff",
+      "TargetType": {
+        "$type": "RPG.GameCore.TargetAlias",
+        "Alias": "AdvAllNPCMonsters"
+      },
+      "ID": 141002
+    }
+  ],
+  "TriggerConfig": {
+    "CustomTriggers": [
+      {
+        "TriggerName": "AttractNpcMonsterTrigger",
+        "Radius": {
+          "IsDynamic": false,
+          "FixedValue": {
+            "Value": 6
+          }
+        },
+        "UseVerticalBound": true,
+        "NeedRaycast": true,
+        "TargetTypes": [
+          "NPCMonster"
+        ],
+        "OnTriggerEnter": [
+          {
+            "$type": "RPG.GameCore.AddMazeBuff",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "TaskActionTarget"
+            },
+            "ID": 141001,
+            "LifeTime": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 500
+              }
+            }
+          },
+          {
+            "$type": "RPG.GameCore.AddMazeBuff",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "TaskActionTarget"
+            },
+            "ID": 141002,
+            "LifeTime": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 500
+              }
+            }
+          }
+        ],
+        "OnTriggerExit": [
+          {
+            "$type": "RPG.GameCore.RemoveMazeBuff",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "TaskActionTarget"
+            },
+            "ID": 141001
+          },
+          {
+            "$type": "RPG.GameCore.RefreshMazeBuffTime",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "TaskActionTarget"
+            },
+            "ID": 141002,
+            "LifeTime": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 1.5
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "DynamicValues": {
+    "Floats": {}
+  }
+}

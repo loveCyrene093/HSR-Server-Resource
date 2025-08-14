@@ -939,5 +939,165 @@
         }
       ]
     }
-  ]
+  ],
+  "GlobalModifiers": {
+    "ADV_StageAbility_Maze_Seele": {
+      "Count": 1,
+      "Stacking": "Refresh"
+    },
+    "ADV_Modifier_Maze_Seele": {
+      "LifeTime": 20,
+      "OnCreate": [
+        {
+          "$type": "RPG.GameCore.TriggerSound",
+          "SoundName": {
+            "Value": "Ev_sfx_avatar_seele_skill_maze_open"
+          },
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.ModifierAttachEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Seele_00/Eff_Avatar_Seele_00_MazeSkill_Body.prefab",
+          "MinMutexTime": -1,
+          "MutexType": "Entity"
+        },
+        {
+          "$type": "RPG.GameCore.ModifierAttachEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Seele_00/Eff_Avatar_Seele_00_MazeSkill_Face.prefab",
+          "MinMutexTime": -1,
+          "MutexType": "Entity"
+        },
+        {
+          "$type": "RPG.GameCore.ModifierAttachEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Seele_00/Eff_Avatar_Seele_00_MazeSkill_Hair.prefab",
+          "MinMutexTime": -1,
+          "MutexType": "Entity"
+        }
+      ],
+      "OnDestroy": [
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Seele_00/Eff_Avatar_Seele_00_MazeSkill_Start01.prefab"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerSound",
+          "SoundName": {
+            "Value": "Ev_sfx_eff_avatar_seele_00_skill_passive"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerSound",
+          "SoundName": {
+            "Value": "Ev_sfx_avatar_seele_skill_maze_close"
+          },
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          }
+        }
+      ],
+      "OnUnstage": [
+        {
+          "$type": "RPG.GameCore.RemoveSelfModifier"
+        }
+      ],
+      "Count": 1,
+      "Stacking": "Refresh"
+    },
+    "ADV_Modifier_MazeEffect_Seele": {
+      "LifeTime": 20,
+      "BehaviorFlagList": [
+        "Stealth"
+      ],
+      "OnCreate": [
+        {
+          "$type": "RPG.GameCore.SetAdvLockDistance",
+          "IsPushValue": true,
+          "LockDistance": 10
+        },
+        {
+          "$type": "RPG.GameCore.AdvFilterNearbyMonsters",
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.AdvForceHideBillboard",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "TaskActionTarget"
+              },
+              "Duration": 1.5
+            },
+            {
+              "$type": "RPG.GameCore.AddMazeBuff",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "TaskActionTarget"
+              },
+              "ID": 1000118
+            },
+            {
+              "$type": "RPG.GameCore.AdvForceHideBillboard",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "TaskActionTarget"
+              },
+              "Duration": 1.5
+            }
+          ]
+        }
+      ],
+      "OnDestroy": [
+        {
+          "$type": "RPG.GameCore.SetAdvLockDistance"
+        }
+      ],
+      "OnUnstage": [
+        {
+          "$type": "RPG.GameCore.RemoveSelfModifier"
+        }
+      ],
+      "Count": 1,
+      "Stacking": "Refresh"
+    },
+    "ADV_Modifier_MazeEffect_Stealth": {
+      "LifeTime": 1.5,
+      "OnCreate": [
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ModifierOwnerEntity"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_MazeSkill_Stealth.prefab"
+        },
+        {
+          "$type": "RPG.GameCore.AdvOnTargetLost",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ModifierOwnerEntity"
+          }
+        }
+      ],
+      "Count": 1,
+      "Stacking": "Refresh"
+    }
+  }
 }

@@ -60,17 +60,60 @@
               "Event": "OnCreate",
               "CallbackConfig": [
                 {
-                  "$type": "RPG.GameCore.LockActionDelayChange",
-                  "LockTargetType": {
+                  "$type": "RPG.GameCore.Retarget",
+                  "TargetType": {
                     "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "ModifierOwnerEntity"
+                    "Alias": "AllLightTeam"
                   },
-                  "WhitelistSourceEntity": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "Caster"
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareCharacterID",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "TargetCharacterID": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 1408
+                      }
+                    }
                   },
-                  "WhitelistChangeReason": "Mask_TurnBasedAdvance",
-                  "Preshow_UnlockOnBreak": true
+                  "MaxNumber": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "TaskList": [
+                    {
+                      "$type": "RPG.GameCore.LockActionDelayChange",
+                      "LockTargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "WhitelistSourceEntity": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "Caster + ParamEntity"
+                      },
+                      "WhitelistChangeReason": "Mask_TurnBasedAdvance",
+                      "Preshow_UnlockOnBreak": true
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.LockActionDelayChange",
+                      "LockTargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "WhitelistSourceEntity": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "Caster"
+                      },
+                      "WhitelistChangeReason": "Mask_TurnBasedAdvance",
+                      "Preshow_UnlockOnBreak": true
+                    }
+                  ]
                 }
               ]
             },
@@ -4403,7 +4446,8 @@
             "FixedValue": {
               "Value": 1
             }
-          }
+          },
+          "WaitAnimState": false
         },
         {
           "$type": "RPG.GameCore.WaitTimelineFinish",
@@ -5029,7 +5073,8 @@
             "FixedValue": {
               "Value": 1
             }
-          }
+          },
+          "WaitAnimState": false
         },
         {
           "$type": "RPG.GameCore.WaitTimelineFinish",
@@ -7461,24 +7506,65 @@
               },
               "SuccessTaskList": [
                 {
-                  "$type": "RPG.GameCore.SetEntityVisible",
+                  "$type": "RPG.GameCore.Retarget",
                   "TargetType": {
-                    "$type": "RPG.GameCore.TargetSequence",
-                    "Sequence": [
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "AllLightTeam"
+                  },
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
                       {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "LightTeamEntity"
+                        "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "Flag": "SpecialActionState"
                       },
                       {
-                        "$type": "RPG.GameCore.TargetMapAllTeamMember"
-                      },
-                      {
-                        "$type": "RPG.GameCore.TargetFilterAliveState",
-                        "Mask": "Mask_DiedButNotDispose"
+                        "$type": "RPG.GameCore.ByCompareCharacterID",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "TargetCharacterID": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 1408
+                          }
+                        }
                       }
                     ]
                   },
-                  "Visible": true
+                  "MaxNumber": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetEntityVisible",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetSequence",
+                        "Sequence": [
+                          {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "LightTeamEntity"
+                          },
+                          {
+                            "$type": "RPG.GameCore.TargetMapAllTeamMember"
+                          },
+                          {
+                            "$type": "RPG.GameCore.TargetFilterAliveState",
+                            "Mask": "Mask_DiedButNotDispose"
+                          }
+                        ]
+                      },
+                      "Visible": true
+                    }
+                  ]
                 }
               ],
               "FailedTaskList": [
@@ -7560,23 +7646,64 @@
               ]
             },
             {
-              "$type": "RPG.GameCore.SetEntityVisible",
+              "$type": "RPG.GameCore.Retarget",
               "TargetType": {
-                "$type": "RPG.GameCore.TargetSequence",
-                "Sequence": [
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllLightTeam"
+              },
+              "Predicate": {
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
                   {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "LightTeamEntity"
+                    "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "Flag": "SpecialActionState"
                   },
                   {
-                    "$type": "RPG.GameCore.TargetMapAllTeamMember"
-                  },
-                  {
-                    "$type": "RPG.GameCore.TargetFilterAliveState",
-                    "Mask": "Mask_DiedButNotDispose"
+                    "$type": "RPG.GameCore.ByCompareCharacterID",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "TargetCharacterID": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 1408
+                      }
+                    }
                   }
                 ]
-              }
+              },
+              "MaxNumber": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetEntityVisible",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetSequence",
+                    "Sequence": [
+                      {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "LightTeamEntity"
+                      },
+                      {
+                        "$type": "RPG.GameCore.TargetMapAllTeamMember"
+                      },
+                      {
+                        "$type": "RPG.GameCore.TargetFilterAliveState",
+                        "Mask": "Mask_DiedButNotDispose"
+                      }
+                    ]
+                  }
+                }
+              ]
             }
           ]
         }
@@ -7609,24 +7736,65 @@
               ]
             },
             {
-              "$type": "RPG.GameCore.SetEntityVisible",
+              "$type": "RPG.GameCore.Retarget",
               "TargetType": {
-                "$type": "RPG.GameCore.TargetSequence",
-                "Sequence": [
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllLightTeam"
+              },
+              "Predicate": {
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
                   {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "LightTeamEntity"
+                    "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "Flag": "SpecialActionState"
                   },
                   {
-                    "$type": "RPG.GameCore.TargetMapAllTeamMember"
-                  },
-                  {
-                    "$type": "RPG.GameCore.TargetFilterAliveState",
-                    "Mask": "Mask_DiedButNotDispose"
+                    "$type": "RPG.GameCore.ByCompareCharacterID",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "TargetCharacterID": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 1408
+                      }
+                    }
                   }
                 ]
               },
-              "Visible": true
+              "MaxNumber": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetEntityVisible",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetSequence",
+                    "Sequence": [
+                      {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "LightTeamEntity"
+                      },
+                      {
+                        "$type": "RPG.GameCore.TargetMapAllTeamMember"
+                      },
+                      {
+                        "$type": "RPG.GameCore.TargetFilterAliveState",
+                        "Mask": "Mask_DiedButNotDispose"
+                      }
+                    ]
+                  },
+                  "Visible": true
+                }
+              ]
             }
           ]
         },

@@ -346,5 +346,148 @@
         }
       ]
     }
-  ]
+  ],
+  "GlobalModifiers": {
+    "ADV_StageAbility_Maze_Robin_Self": {
+      "OnCreate": [
+        {
+          "$type": "RPG.GameCore.CreateSummonUnit",
+          "SummonUnitID": 13091,
+          "AttachTarget": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AdvLocalPlayer"
+          },
+          "PosTarget": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          }
+        }
+      ],
+      "OnDestroy": [
+        {
+          "$type": "RPG.GameCore.RefreshMazeBuffTime",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllEnemy"
+          },
+          "ID": 130901,
+          "LifeTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1.5
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.DestroySummonUnit",
+          "SummonUnit": {
+            "$type": "RPG.GameCore.TargetFetchSummonUnit",
+            "Summoner": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ModifierOwnerEntity"
+            },
+            "SummonUnitID": 13091
+          }
+        }
+      ],
+      "Count": 1,
+      "Stacking": "Merge"
+    },
+    "ADV_StageAbility_Maze_Robin_Enemy_ForShow": {
+      "BehaviorFlagList": [
+        "Enchanted"
+      ],
+      "OnCreate": [],
+      "OnDestroy": [],
+      "OnStage": [],
+      "OnUnstage": [],
+      "Count": 1,
+      "Stacking": "Refresh"
+    },
+    "ADV_StageAbility_Maze_Robin_Enemy": {
+      "OnCreate": [
+        {
+          "$type": "RPG.GameCore.ModifierAttachEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ModifierOwnerEntity"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Robin_00/Eff_Avatar_Robin_00_MazeSkill01_Start02.prefab",
+          "AttachPoint": "HeadPoint"
+        },
+        {
+          "$type": "RPG.GameCore.AddDynamicEntityParam",
+          "DynamicKey": "_Robin_Taunt_Count",
+          "ReadTargetType": {
+            "$type": "RPG.GameCore.TargetFetchSummonUnit",
+            "Summoner": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "Caster"
+            },
+            "SummonUnitID": 13091
+          },
+          "ParamTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ModifierOwnerEntity"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareTargetCount",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetSequence",
+              "Sequence": [
+                {
+                  "$type": "RPG.GameCore.TargetFetchSummonUnit",
+                  "Summoner": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "SummonUnitID": 13091
+                },
+                {
+                  "$type": "RPG.GameCore.TargetMapDynamicEntityParam",
+                  "DynamicKey": "_Robin_Taunt_Count"
+                }
+              ]
+            },
+            "Number": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 6
+              }
+            },
+            "CompareType": "GreaterEqual"
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetAdvAchievement",
+              "QuestID": 4073208
+            }
+          ]
+        }
+      ],
+      "OnDestroy": [
+        {
+          "$type": "RPG.GameCore.RemoveDynamicEntityParam",
+          "DynamicKey": "_Robin_Taunt_Count",
+          "ReadTargetType": {
+            "$type": "RPG.GameCore.TargetFetchSummonUnit",
+            "Summoner": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "Caster"
+            },
+            "SummonUnitID": 13091
+          },
+          "ParamTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ModifierOwnerEntity"
+          }
+        }
+      ],
+      "Count": 1,
+      "Stacking": "Refresh"
+    }
+  }
 }

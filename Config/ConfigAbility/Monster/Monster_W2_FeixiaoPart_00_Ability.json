@@ -831,8 +831,7 @@
     {
       "Name": "Monster_W2_FeixiaoPart_00_Skill02_Phase01",
       "TargetInfo": {
-        "TargetType": "SkillTargetEntityList",
-        "MaxTargetCount": 3
+        "TargetType": "SkillTargetEntityList"
       },
       "OnStart": [
         {
@@ -888,8 +887,7 @@
     {
       "Name": "Monster_W2_FeixiaoPart_00_Skill02_Phase02",
       "TargetInfo": {
-        "TargetType": "SkillTargetEntityList",
-        "MaxTargetCount": 3
+        "TargetType": "SkillTargetEntityList"
       },
       "OnStart": [
         {
@@ -1097,6 +1095,18 @@
           "CanTriggerLastKill": true
         },
         {
+          "$type": "RPG.GameCore.SetDynamicEntityParam",
+          "DynamicKey": "CameraTarget",
+          "ReadTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ParamTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllDarkTeamWithAbilityTargetAndAdjoinEntity + AbilityTargetAndAdjoinEntity.GetCharacterChangeSource"
+          }
+        },
+        {
           "$type": "RPG.GameCore.DamagePerformFinish"
         },
         {
@@ -1114,8 +1124,17 @@
             "ShakeTemplateName": "Common_Rapid_Big",
             "ShowEntityConfig": {
               "ShowTargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "AllDarkTeamWithAbilityTargetAndAdjoinEntity"
+                "$type": "RPG.GameCore.TargetSequence",
+                "Sequence": [
+                  {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  {
+                    "$type": "RPG.GameCore.TargetMapDynamicEntityParam",
+                    "DynamicKey": "CameraTarget"
+                  }
+                ]
               },
               "IsTargetIgnoreCameraDither": true,
               "HideFieldEffect": true

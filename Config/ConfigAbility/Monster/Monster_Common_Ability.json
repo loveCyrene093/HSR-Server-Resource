@@ -461,6 +461,18 @@
       ]
     },
     {
+      "Name": "Monster_Common_AutoCenter",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
+      "OnAdd": [
+        {
+          "$type": "RPG.GameCore.SetTriggeredFormationAssetAutoCenter",
+          "TargetTeam": "TeamLight"
+        }
+      ]
+    },
+    {
       "Modifiers": {
         "MMonster_SpecialDieEffect": {
           "_CallbackList": [
@@ -502,14 +514,30 @@
       },
       "OnAdd": [
         {
-          "$type": "RPG.GameCore.AddModifier",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "Caster"
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCheckCustomValueBool",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "Caster"
+            },
+            "Key": {
+              "Hash": -957706356
+            },
+            "Inverse": true
           },
-          "ModifierName": {
-            "Value": "MMonster_SpecialDieEffect"
-          }
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "ModifierName": {
+                "Value": "MMonster_SpecialDieEffect"
+              }
+            }
+          ]
         }
       ]
     },

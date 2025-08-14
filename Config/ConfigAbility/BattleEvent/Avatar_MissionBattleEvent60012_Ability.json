@@ -170,28 +170,11 @@
       ]
     },
     {
-      "Modifiers": {
-        "MAvatar_MissionBattleEvent60012_CharacterForceVisible": {
-          "BehaviorFlagList": [
-            "STAT_ForceActionable"
-          ]
-        }
-      },
       "Name": "Avatar_MissionBattleEvent60012_Player_Skill03_Phase01",
       "TargetInfo": {
         "TargetType": "Caster"
       },
       "OnStart": [
-        {
-          "$type": "RPG.GameCore.AddModifier",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "Caster"
-          },
-          "ModifierName": {
-            "Value": "MAvatar_MissionBattleEvent60012_CharacterForceVisible"
-          }
-        },
         {
           "$type": "RPG.GameCore.SetEntityVisible",
           "TargetType": {
@@ -263,16 +246,6 @@
           "AnimStateName": "StandBy"
         },
         {
-          "$type": "RPG.GameCore.RemoveModifier",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "Caster"
-          },
-          "ModifierName": {
-            "Value": "MAvatar_MissionBattleEvent60012_CharacterForceVisible"
-          }
-        },
-        {
           "$type": "RPG.GameCore.SetEntityVisible",
           "TargetType": {
             "$type": "RPG.GameCore.TargetAlias",
@@ -283,11 +256,75 @@
       ]
     },
     {
+      "Modifiers": {
+        "MAvatar_MissionBattleEvent60012_CharacterForceVisible": {
+          "BehaviorFlagList": [
+            "STAT_ForceActionable"
+          ]
+        }
+      },
       "Name": "Avatar_MissionBattleEvent60012_Skill03_Phase02",
       "TargetInfo": {
         "TargetType": "AllEnemy"
       },
       "OnStart": [
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent"
+          },
+          "Predicate": {
+            "$type": "RPG.GameCore.ByAny",
+            "PredicateList": [
+              {
+                "$type": "RPG.GameCore.ByCompareCharacterID",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                },
+                "TargetCharacterID": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 8005
+                  }
+                }
+              },
+              {
+                "$type": "RPG.GameCore.ByCompareCharacterID",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                },
+                "TargetCharacterID": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 8006
+                  }
+                }
+              }
+            ]
+          },
+          "ByRandom": true,
+          "MaxNumber": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "ModifierName": {
+                "Value": "MAvatar_MissionBattleEvent60012_CharacterForceVisible"
+              }
+            }
+          ]
+        },
         {
           "$type": "RPG.GameCore.SetDynamicValue",
           "Value": {
@@ -837,6 +874,16 @@
           "$type": "RPG.GameCore.WaitTimelineFinish",
           "TimelineName": "Monster_W3_Sunday_00_BattleEvent_60012_Timeline",
           "IgnoreWarning": true
+        },
+        {
+          "$type": "RPG.GameCore.RemoveModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllLightTeam"
+          },
+          "ModifierName": {
+            "Value": "MAvatar_MissionBattleEvent60012_CharacterForceVisible"
+          }
         },
         {
           "$type": "RPG.GameCore.SetEntityVisible",

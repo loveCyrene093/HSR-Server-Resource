@@ -1,0 +1,383 @@
+{
+  "TaskListTemplate": [
+    {
+      "Name": "TaskList_Stage_EnterBattleUIPerform",
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByAnd",
+            "PredicateList": [
+              {
+                "$type": "RPG.GameCore.ByCompareStageType",
+                "CurrentStageType": "AetherDivide",
+                "Inverse": true
+              },
+              {
+                "$type": "RPG.GameCore.ByContainCustomString",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "LevelEntity"
+                },
+                "Key": {
+                  "Hash": -1298253513
+                },
+                "Inverse": true
+              }
+            ]
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.15
+                }
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareStageType",
+            "CurrentStageType": "EvolveBuildActivity"
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.333
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.ShowEvolveBuildProgressInBattle"
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.TriggerCustomString",
+          "CustomString": {
+            "Value": "Stage_InfoDetailPage_Pre"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Wave_ShowRoleTrialPage",
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByAnd",
+            "PredicateList": [
+              {
+                "$type": "RPG.GameCore.ByCompareStageType",
+                "CurrentStageType": "Trial"
+              },
+              {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "DynamicKey": {
+                  "Value": "RoleTrialDetailPageShowed"
+                },
+                "CompareType": "Equal",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
+              },
+              {
+                "$type": "RPG.GameCore.ByCheckDarkTeamDestroy",
+                "ForWaveEnd": true,
+                "Inverse": true
+              },
+              {
+                "$type": "RPG.GameCore.ByAny",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByCompareAllWaveMonsterRank",
+                    "CompareType": "Less",
+                    "CompareValue": 3,
+                    "Inverse": true
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByCheckRoleTrialNormalWaveShowDetail"
+                  }
+                ]
+              }
+            ]
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "DynamicKey": {
+                "Value": "RoleTrialDetailPageShowed"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.15
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.ShowUI",
+              "Name": "Ui.Activity.RoleTrial.RoleTrialDetailPage",
+              "WaitForExit": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "TaskList_ShowBattleStartUI",
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.TriggerUINotify",
+          "NotifyTypeName": "BattleShowBattleStartDialog"
+        }
+      ]
+    },
+    {
+      "Name": "TaskList_TriggerBattleStartUI",
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByAny",
+            "PredicateList": [
+              {
+                "$type": "RPG.GameCore.ByContainCustomString",
+                "Key": {
+                  "Hash": 1257711741
+                }
+              },
+              {
+                "$type": "RPG.GameCore.ByContainCustomString",
+                "Key": {
+                  "Hash": -1153152981
+                }
+              },
+              {
+                "$type": "RPG.GameCore.ByContainCustomString",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "LevelEntity"
+                },
+                "Key": {
+                  "Hash": 591780479
+                }
+              },
+              {
+                "$type": "RPG.GameCore.ByContainCustomString",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "LevelEntity"
+                },
+                "Key": {
+                  "Hash": -1298253513
+                }
+              },
+              {
+                "$type": "RPG.GameCore.ByHasInsertBattlePerform"
+              }
+            ]
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByContainCustomString",
+                "Key": {
+                  "Hash": -1153152981
+                },
+                "Inverse": true
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.DefineDynamicValue",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "LevelEntity"
+                  },
+                  "DynamicKey": {
+                    "Value": "DelayTriggerBattleStartDialog"
+                  },
+                  "ResetValue": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "ContextScope": "TargetEntity"
+                }
+              ]
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.IncludeTaskListTemplate",
+              "Name": "TaskList_ShowBattleStartUI"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "TaskList_DelayTriggerBattleStartUI",
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByAnd",
+            "PredicateList": [
+              {
+                "$type": "RPG.GameCore.ByContainCustomString",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "LevelEntity"
+                },
+                "Key": {
+                  "Hash": 2035589859
+                }
+              },
+              {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "DynamicKey": {
+                  "Value": "DelayTriggerBattleStartDialog"
+                },
+                "CompareType": "Equal",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                }
+              },
+              {
+                "$type": "RPG.GameCore.ByContainCustomString",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "LevelEntity"
+                },
+                "Key": {
+                  "Hash": -1298253513
+                },
+                "Inverse": true
+              }
+            ]
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.IncludeTaskListTemplate",
+              "Name": "TaskList_ShowBattleStartUI"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "TaskList_DelayTriggerBattleStartUI_AfterBattlePerform",
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByAnd",
+            "PredicateList": [
+              {
+                "$type": "RPG.GameCore.ByContainCustomString",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "LevelEntity"
+                },
+                "Key": {
+                  "Hash": -1298253513
+                }
+              },
+              {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "LevelEntity"
+                },
+                "DynamicKey": {
+                  "Value": "BattlePerformInsertOnBattleEnter"
+                },
+                "ContextScope": "TargetEntity",
+                "CompareType": "GreaterEqual",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                }
+              }
+            ]
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.WaitFrame"
+            },
+            {
+              "$type": "RPG.GameCore.WaitFor",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByHasInsertBattlePerform",
+                "Inverse": true
+              }
+            },
+            {
+              "$type": "RPG.GameCore.IncludeTaskListTemplate",
+              "Name": "TaskList_ShowBattleStartUI"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "TaskList_Stage_InfoDetailPage",
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitCustomString",
+          "CustomString": {
+            "Value": "Stage_InfoDetailPage_Pre"
+          },
+          "GoNextImmediately": true
+        },
+        {
+          "$type": "RPG.GameCore.WaitSecond",
+          "WaitTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.22
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerCustomString",
+          "CustomString": {
+            "Value": "Stage_InfoDetailPage_Start"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerUINotify",
+          "NotifyTypeName": "ShowStageDetailInfoStart"
+        }
+      ]
+    }
+  ]
+}

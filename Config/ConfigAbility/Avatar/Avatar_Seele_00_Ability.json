@@ -1861,17 +1861,33 @@
                     "$type": "RPG.GameCore.ByAny",
                     "PredicateList": [
                       {
-                        "$type": "RPG.GameCore.ByIsInsertAction"
+                        "$type": "RPG.GameCore.ByAnd",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByIsInsertAction"
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByCompareDynamicValue",
+                            "DynamicKey": {
+                              "Value": "Seele_BonusInsertAction"
+                            },
+                            "CompareType": "Equal",
+                            "CompareValue": {
+                              "IsDynamic": false,
+                              "FixedValue": {
+                                "Value": 1
+                              }
+                            }
+                          }
+                        ]
                       },
                       {
-                        "$type": "RPG.GameCore.ByNot",
-                        "Predicate": {
-                          "$type": "RPG.GameCore.ByIsCurrentSkillActive",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "Caster"
-                          }
-                        }
+                        "$type": "RPG.GameCore.ByIsCurrentSkillActive",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "Caster"
+                        },
+                        "Inverse": true
                       }
                     ]
                   },
@@ -1944,17 +1960,33 @@
                     "$type": "RPG.GameCore.ByAny",
                     "PredicateList": [
                       {
-                        "$type": "RPG.GameCore.ByIsInsertAction"
+                        "$type": "RPG.GameCore.ByAnd",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByIsInsertAction"
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByCompareDynamicValue",
+                            "DynamicKey": {
+                              "Value": "Seele_BonusInsertAction"
+                            },
+                            "CompareType": "Equal",
+                            "CompareValue": {
+                              "IsDynamic": false,
+                              "FixedValue": {
+                                "Value": 1
+                              }
+                            }
+                          }
+                        ]
                       },
                       {
-                        "$type": "RPG.GameCore.ByNot",
-                        "Predicate": {
-                          "$type": "RPG.GameCore.ByIsCurrentSkillActive",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "Caster"
-                          }
-                        }
+                        "$type": "RPG.GameCore.ByIsCurrentSkillActive",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "Caster"
+                        },
+                        "Inverse": true
                       }
                     ]
                   },
@@ -2115,7 +2147,22 @@
                     },
                     {
                       "$type": "RPG.GameCore.TurnInsertAction",
-                      "PrepareAbilityName": "Avatar_Seele_00_Bonus"
+                      "PrepareAbilityName": "Avatar_Seele_00_Bonus",
+                      "OnInsertAbort": [
+                        {
+                          "$type": "RPG.GameCore.SetDynamicValue",
+                          "Value": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 0
+                            }
+                          },
+                          "DynamicKey": {
+                            "Value": "Seele_BonusInsertAction"
+                          }
+                        }
+                      ],
+                      "CustomTag": "Avatar_Seele_00_BonusInsertAction"
                     }
                   ],
                   "FailedTaskList": []
@@ -2123,7 +2170,25 @@
                 {
                   "$type": "RPG.GameCore.PredicateTaskList",
                   "Predicate": {
-                    "$type": "RPG.GameCore.ByIsInsertAction"
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByIsInsertAction"
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "DynamicKey": {
+                          "Value": "Seele_BonusInsertAction"
+                        },
+                        "CompareType": "Equal",
+                        "CompareValue": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 1
+                          }
+                        }
+                      }
+                    ]
                   },
                   "SuccessTaskList": [
                     {
@@ -2142,6 +2207,49 @@
                     }
                   ],
                   "FailedTaskList": []
+                }
+              ]
+            },
+            {
+              "Event": "OnInsertActionStart",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareParamString",
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "Value": "Avatar_Seele_00_BonusInsertAction"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "Seele_BonusInsertAction"
+                      }
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "Seele_BonusInsertAction"
+                      }
+                    }
+                  ]
                 }
               ]
             }

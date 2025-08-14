@@ -362,16 +362,26 @@
           "Duration": 5
         },
         {
-          "$type": "RPG.GameCore.PredicateTaskList",
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AbilityTargetAndAdjoinEntity"
+          },
           "Predicate": {
             "$type": "RPG.GameCore.ByContainBehaviorFlag",
             "TargetType": {
               "$type": "RPG.GameCore.TargetAlias",
-              "Alias": "AbilityTargetEntity"
+              "Alias": "ParamEntity"
             },
             "Flag": "STAT_DOT"
           },
-          "SuccessTaskList": [
+          "MaxNumber": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          },
+          "TaskList": [
             {
               "$type": "RPG.GameCore.PlayTimeline",
               "TimelineName": "Effects/Eff_Prefab/Eff_Avatar/Eff_Kafka_00/Avatar_Kafka_00_Skill02_DOT_Timeline.playable"
@@ -828,7 +838,141 @@
             "$type": "RPG.GameCore.TargetAlias",
             "Alias": "AbilityTargetAndAdjoinEntity"
           },
+          "Predicate": {
+            "$type": "RPG.GameCore.ByContainBehaviorFlag",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ParamEntity"
+            },
+            "Flag": "STAT_DOT"
+          },
+          "IncludeLimbo": true,
           "TaskList": [
+            {
+              "$type": "RPG.GameCore.HideModifierEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "EventType": {
+                "EnumIndex": 4,
+                "Value": 1
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "DynamicKey": {
+                  "Value": "_HasDot"
+                },
+                "CompareType": "Equal",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerEffect",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "AbilityTargetEntity"
+                  },
+                  "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Kafka_00/Eff_Avatar_Kafka_00_Skill02_DeBuff_Hit.prefab",
+                  "MinMutexTime": -1,
+                  "MinMutexType": "Entity"
+                }
+              ]
+            }
+          ],
+          "IgnoreParallelWarning": true
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill02",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.66
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AbilityTargetAndAdjoinEntity"
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByTargetListIntersects",
+                "FirstTargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "AbilityTargetEntity"
+                },
+                "SecondTargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerModifierCustomEvent",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "EventType": {
+                    "EnumIndex": 4,
+                    "Value": 1
+                  },
+                  "DynamicKey": "DOT_TriggerRatio",
+                  "Value": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        1994593274
+                      ]
+                    }
+                  }
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerModifierCustomEvent",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "EventType": {
+                    "EnumIndex": 4,
+                    "Value": 1
+                  },
+                  "DynamicKey": "DOT_TriggerRatio",
+                  "Value": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        -979049262
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
             {
               "$type": "RPG.GameCore.PredicateTaskList",
               "Predicate": {
@@ -841,119 +985,23 @@
               },
               "SuccessTaskList": [
                 {
-                  "$type": "RPG.GameCore.HideModifierEffect",
+                  "$type": "RPG.GameCore.TriggerAnimState",
                   "TargetType": {
                     "$type": "RPG.GameCore.TargetAlias",
                     "Alias": "ParamEntity"
                   },
-                  "EventType": {
-                    "EnumIndex": 4,
-                    "Value": 1
-                  }
+                  "AnimLogicState": "OnHit",
+                  "AnimStateName": "Hit_H",
+                  "RandomHitAngle": true
                 },
                 {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByCompareDynamicValue",
-                    "DynamicKey": {
-                      "Value": "_HasDot"
-                    },
-                    "CompareType": "Equal",
-                    "CompareValue": {
-                      "IsDynamic": false,
-                      "FixedValue": {
-                        "Value": 0
-                      }
-                    }
-                  },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.TriggerEffect",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "AbilityTargetEntity"
-                      },
-                      "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Kafka_00/Eff_Avatar_Kafka_00_Skill02_DeBuff_Hit.prefab",
-                      "MinMutexTime": -1,
-                      "MinMutexType": "Entity"
-                    }
-                  ]
-                },
-                {
-                  "$type": "RPG.GameCore.WaitAnimState",
+                  "$type": "RPG.GameCore.TargetTimeSlow",
                   "TargetType": {
                     "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "Caster"
+                    "Alias": "ParamEntity"
                   },
-                  "AnimStateName": "Skill02",
-                  "NormalizedTimeEnd": {
-                    "IsDynamic": false,
-                    "FixedValue": {
-                      "Value": 0.66
-                    }
-                  }
-                },
-                {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByTargetListIntersects",
-                    "FirstTargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "AbilityTargetEntity"
-                    },
-                    "SecondTargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ParamEntity"
-                    }
-                  },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.TriggerModifierCustomEvent",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ParamEntity"
-                      },
-                      "EventType": {
-                        "EnumIndex": 4,
-                        "Value": 1
-                      },
-                      "DynamicKey": "DOT_TriggerRatio",
-                      "Value": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAR",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            1994593274
-                          ]
-                        }
-                      }
-                    }
-                  ],
-                  "FailedTaskList": [
-                    {
-                      "$type": "RPG.GameCore.TriggerModifierCustomEvent",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ParamEntity"
-                      },
-                      "EventType": {
-                        "EnumIndex": 4,
-                        "Value": 1
-                      },
-                      "DynamicKey": "DOT_TriggerRatio",
-                      "Value": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAR",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            -979049262
-                          ]
-                        }
-                      }
-                    }
-                  ]
+                  "TimeScale": 0.3,
+                  "UnscaledDuration": 0.1
                 },
                 {
                   "$type": "RPG.GameCore.PredicateTaskList",
@@ -990,36 +1038,15 @@
                       "FadeDuration": 0.1
                     }
                   ]
-                },
-                {
-                  "$type": "RPG.GameCore.TriggerAnimState",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "ParamEntity"
-                  },
-                  "AnimLogicState": "OnHit",
-                  "AnimStateName": "Hit_H",
-                  "RandomHitAngle": true
-                },
-                {
-                  "$type": "RPG.GameCore.TargetTimeSlow",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "ParamEntity"
-                  },
-                  "TimeScale": 0.3,
-                  "UnscaledDuration": 0.1
                 }
-              ],
-              "FailedTaskList": []
+              ]
             }
           ],
           "FailedTaskList": [
             {
               "$type": "RPG.GameCore.DamagePerformFinish"
             }
-          ],
-          "IgnoreParallelWarning": true
+          ]
         },
         {
           "$type": "RPG.GameCore.WaitAnimState",

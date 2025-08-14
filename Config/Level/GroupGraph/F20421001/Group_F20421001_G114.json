@@ -10,16 +10,22 @@
           },
           "OnEvent": [
             {
-              "$type": "RPG.GameCore.TriggerPerformance",
-              "ValueSource": {},
-              "PerformanceType": "E",
-              "PerformanceID": 504104025,
-              "MaskConfig": {}
+              "$type": "RPG.GameCore.ShowTalkUI",
+              "Show": true
+            },
+            {
+              "$type": "RPG.GameCore.CollectionPlaySimpleTalk",
+              "TalkTemplate": {},
+              "TalkSentenceIdList": {
+                "Custom": true,
+                "Key": "SimpleTalkList",
+                "Value": []
+              }
             },
             {
               "$type": "RPG.GameCore.TriggerEntityEvent",
               "EventName": {
-                "Value": "Clt_TriggerPerformanceFinish"
+                "Value": "Clt_TriggerPullOnly"
               },
               "InstanceID": {
                 "IsDynamic": false,
@@ -27,6 +33,203 @@
                   "Value": 300001
                 }
               }
+            },
+            {
+              "$type": "RPG.GameCore.WaitEntityEvent",
+              "EventName": {
+                "Value": "Clt_OnShow"
+              },
+              "OnEvent": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                    },
+                    "DynamicKey": {
+                      "Value": "Inwater"
+                    },
+                    "ContextScope": "TargetEntity",
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 0
+                      }
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TriggerEntityEvent",
+                      "EventName": {
+                        "Value": "Clt_TriggerOpen"
+                      },
+                      "InstanceID": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 300003
+                        }
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.WaitEntityEvent",
+                      "EventName": {
+                        "Value": "Clt_FadeInReady"
+                      },
+                      "OnEvent": [
+                        {
+                          "$type": "RPG.GameCore.CollectionPlaySimpleTalk",
+                          "TalkTemplate": {},
+                          "TalkSentenceIdList": {
+                            "Custom": true,
+                            "Key": "SimpleTalkList02",
+                            "Value": []
+                          },
+                          "KeepDisplay": false
+                        },
+                        {
+                          "$type": "RPG.GameCore.TriggerEntityEvent",
+                          "EventName": {
+                            "Value": "Clt_TriggerClose"
+                          },
+                          "InstanceID": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 300003
+                            }
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.WaitEntityEvent",
+                          "EventName": {
+                            "Value": "Clt_FadeOutReady"
+                          },
+                          "OnEvent": [
+                            {
+                              "$type": "RPG.GameCore.ShowTalkUI",
+                              "ShowDialogControlUI": false
+                            },
+                            {
+                              "$type": "RPG.GameCore.TriggerEntityEvent",
+                              "EventName": {
+                                "Value": "Clt_TriggerPerformanceFinish"
+                              },
+                              "InstanceID": {
+                                "IsDynamic": false,
+                                "FixedValue": {
+                                  "Value": 300001
+                                }
+                              }
+                            }
+                          ],
+                          "InstanceID": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 300003
+                            }
+                          },
+                          "IsLoop": false
+                        }
+                      ],
+                      "InstanceID": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 300003
+                        }
+                      },
+                      "IsLoop": false
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TriggerEntityEvent",
+                      "EventName": {
+                        "Value": "Clt_TriggerOpen"
+                      },
+                      "InstanceID": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 300005
+                        }
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.WaitEntityEvent",
+                      "EventName": {
+                        "Value": "Clt_FadeInReady"
+                      },
+                      "OnEvent": [
+                        {
+                          "$type": "RPG.GameCore.PlaySimpleTalk",
+                          "SimpleTalkList": [
+                            {
+                              "TalkSentenceID": 404015027
+                            }
+                          ]
+                        },
+                        {
+                          "$type": "RPG.GameCore.TriggerEntityEvent",
+                          "EventName": {
+                            "Value": "Clt_TriggerClose"
+                          },
+                          "InstanceID": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 300005
+                            }
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.WaitEntityEvent",
+                          "EventName": {
+                            "Value": "Clt_FadeOutReady"
+                          },
+                          "OnEvent": [
+                            {
+                              "$type": "RPG.GameCore.ShowTalkUI",
+                              "ShowDialogControlUI": false
+                            },
+                            {
+                              "$type": "RPG.GameCore.TriggerEntityEvent",
+                              "EventName": {
+                                "Value": "Clt_TriggerPerformanceFinish"
+                              },
+                              "InstanceID": {
+                                "IsDynamic": false,
+                                "FixedValue": {
+                                  "Value": 300001
+                                }
+                              }
+                            }
+                          ],
+                          "InstanceID": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 300005
+                            }
+                          },
+                          "IsLoop": false
+                        }
+                      ],
+                      "InstanceID": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 300005
+                        }
+                      },
+                      "IsLoop": false
+                    }
+                  ]
+                }
+              ],
+              "InstanceID": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 300001
+                }
+              },
+              "IsLoop": false
             }
           ],
           "InstanceID": {
@@ -182,225 +385,6 @@
               "Value": 300006
             }
           }
-        }
-      ]
-    },
-    {
-      "TaskList": [
-        {
-          "$type": "RPG.GameCore.WaitGroupEvent",
-          "EventName": {
-            "Value": "Clt_TriggerPullOnly"
-          },
-          "OnEvent": [
-            {
-              "$type": "RPG.GameCore.TriggerEntityEvent",
-              "EventName": {
-                "Value": "Clt_TriggerPullOnly"
-              },
-              "InstanceID": {
-                "IsDynamic": false,
-                "FixedValue": {
-                  "Value": 300001
-                }
-              }
-            },
-            {
-              "$type": "RPG.GameCore.WaitEntityEvent",
-              "EventName": {
-                "Value": "Clt_OnShow"
-              },
-              "OnEvent": [
-                {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByCompareDynamicValue",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetFetchAdvPropEx"
-                    },
-                    "DynamicKey": {
-                      "Value": "Inwater"
-                    },
-                    "ContextScope": "TargetEntity",
-                    "CompareType": "Equal",
-                    "CompareValue": {
-                      "IsDynamic": false,
-                      "FixedValue": {
-                        "Value": 0
-                      }
-                    }
-                  },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.TriggerEntityEvent",
-                      "EventName": {
-                        "Value": "Clt_TriggerOpen"
-                      },
-                      "InstanceID": {
-                        "IsDynamic": false,
-                        "FixedValue": {
-                          "Value": 300003
-                        }
-                      }
-                    },
-                    {
-                      "$type": "RPG.GameCore.WaitEntityEvent",
-                      "EventName": {
-                        "Value": "Clt_FadeInReady"
-                      },
-                      "OnEvent": [
-                        {
-                          "$type": "RPG.GameCore.TriggerGroupEvent",
-                          "EventName": {
-                            "Value": "Clt_FadeInReady300003"
-                          }
-                        }
-                      ],
-                      "InstanceID": {
-                        "IsDynamic": false,
-                        "FixedValue": {
-                          "Value": 300003
-                        }
-                      },
-                      "IsLoop": false
-                    }
-                  ],
-                  "FailedTaskList": [
-                    {
-                      "$type": "RPG.GameCore.TriggerEntityEvent",
-                      "EventName": {
-                        "Value": "Clt_TriggerOpen"
-                      },
-                      "InstanceID": {
-                        "IsDynamic": false,
-                        "FixedValue": {
-                          "Value": 300005
-                        }
-                      }
-                    },
-                    {
-                      "$type": "RPG.GameCore.WaitEntityEvent",
-                      "EventName": {
-                        "Value": "Clt_FadeInReady"
-                      },
-                      "OnEvent": [
-                        {
-                          "$type": "RPG.GameCore.TriggerGroupEvent",
-                          "EventName": {
-                            "Value": "Clt_FadeInReady300005"
-                          }
-                        }
-                      ],
-                      "InstanceID": {
-                        "IsDynamic": false,
-                        "FixedValue": {
-                          "Value": 300005
-                        }
-                      },
-                      "IsLoop": false
-                    }
-                  ]
-                }
-              ],
-              "InstanceID": {
-                "IsDynamic": false,
-                "FixedValue": {
-                  "Value": 300001
-                }
-              },
-              "IsLoop": false
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "TaskList": [
-        {
-          "$type": "RPG.GameCore.WaitGroupEvent",
-          "EventName": {
-            "Value": "Clt_TriggerClose300003"
-          },
-          "OnEvent": [
-            {
-              "$type": "RPG.GameCore.TriggerEntityEvent",
-              "EventName": {
-                "Value": "Clt_TriggerClose"
-              },
-              "InstanceID": {
-                "IsDynamic": false,
-                "FixedValue": {
-                  "Value": 300003
-                }
-              }
-            },
-            {
-              "$type": "RPG.GameCore.WaitEntityEvent",
-              "EventName": {
-                "Value": "Clt_FadeOutReady"
-              },
-              "OnEvent": [
-                {
-                  "$type": "RPG.GameCore.TriggerGroupEvent",
-                  "EventName": {
-                    "Value": "Clt_FadeOutReady300003"
-                  }
-                }
-              ],
-              "InstanceID": {
-                "IsDynamic": false,
-                "FixedValue": {
-                  "Value": 300003
-                }
-              },
-              "IsLoop": false
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "TaskList": [
-        {
-          "$type": "RPG.GameCore.WaitGroupEvent",
-          "EventName": {
-            "Value": "Clt_TriggerClose300005"
-          },
-          "OnEvent": [
-            {
-              "$type": "RPG.GameCore.TriggerEntityEvent",
-              "EventName": {
-                "Value": "Clt_TriggerClose"
-              },
-              "InstanceID": {
-                "IsDynamic": false,
-                "FixedValue": {
-                  "Value": 300005
-                }
-              }
-            },
-            {
-              "$type": "RPG.GameCore.WaitEntityEvent",
-              "EventName": {
-                "Value": "Clt_FadeOutReady"
-              },
-              "OnEvent": [
-                {
-                  "$type": "RPG.GameCore.TriggerGroupEvent",
-                  "EventName": {
-                    "Value": "Clt_FadeOutReady300005"
-                  }
-                }
-              ],
-              "InstanceID": {
-                "IsDynamic": false,
-                "FixedValue": {
-                  "Value": 300005
-                }
-              },
-              "IsLoop": false
-            }
-          ]
         }
       ]
     }
