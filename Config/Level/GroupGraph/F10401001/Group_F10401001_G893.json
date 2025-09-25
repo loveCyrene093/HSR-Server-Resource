@@ -1,0 +1,153 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "OpenUI"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.OpenHipplenMainPage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "OpenUIBefore"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.EnterHipplenGame"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.CollectDataConditions",
+          "TaskIDList": [
+            803610109,
+            803610210,
+            803610401
+          ],
+          "MainMissionIDList": [],
+          "PerformanceIDList": [],
+          "PerformanceIDDsList": [],
+          "CustomValueMainMissionIDList": []
+        },
+        {
+          "$type": "RPG.GameCore.AdvOnButtonPressed",
+          "ButtonName": "Interaction",
+          "OnPressedCallback": [
+            {
+              "$type": "RPG.GameCore.SwitchCase",
+              "TaskList": [
+                {
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareSubMissionState",
+                    "SubMissionID": 803610210,
+                    "SubMissionState": "Started"
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TriggerPerformance",
+                      "PerformanceType": "E",
+                      "PerformanceID": 803610401,
+                      "MaskConfig": {
+                        "UseExcelData": false,
+                        "StartBlack": "None",
+                        "EndBlack": "None"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareSubMissionState",
+                    "SubMissionID": 803610401,
+                    "SubMissionState": "Started"
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TriggerPerformance",
+                      "PerformanceType": "E",
+                      "PerformanceID": 803610402,
+                      "MaskConfig": {
+                        "UseExcelData": false,
+                        "StartBlack": "None",
+                        "EndBlack": "None"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "DefaultTask": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareSubMissionState",
+                    "SubMissionID": 803610109,
+                    "SubMissionState": "Finish"
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TriggerGroupEvent",
+                      "EventName": {
+                        "Value": "OpenUI"
+                      }
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TriggerGroupEvent",
+                      "EventName": {
+                        "Value": "OpenUIBefore"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvSetupButtonListTrigger",
+          "TargetType": {
+            "$type": "RPG.GameCore.GroupFetchLocalTarget",
+            "TargetType": "Prop",
+            "Targets": [
+              300001
+            ]
+          },
+          "TriggerName": "InteractTrigger",
+          "ButtonsByName": [],
+          "ButtonConfigs": [
+            {
+              "ID": "Interaction",
+              "IconType": "GeneralActivityIcon",
+              "ButtonText": {
+                "Value": "PropInteractTitle_549"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Type": "Group",
+  "EntityEventList": []
+}

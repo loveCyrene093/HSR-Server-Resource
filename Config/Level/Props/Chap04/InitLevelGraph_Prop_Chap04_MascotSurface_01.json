@@ -1,0 +1,336 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+          "TriggerName": "SwimTrigger",
+          "OnEnter": [
+            {
+              "$type": "RPG.GameCore.TriggerEntityEventV2",
+              "EventName": {
+                "Value": "Self_TriggerSpray"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.AnimSetParameter",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvLocalPlayer"
+              },
+              "ParameterName": "Swim",
+              "ParameterType": "Bool",
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.SetGraphDynamicFloat",
+              "Name": "_AchievementTimer",
+              "TargetIDs": [],
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              }
+            }
+          ],
+          "OnExit": [
+            {
+              "$type": "RPG.GameCore.RemoveEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvLocalPlayer"
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_Run_WaterSpray_03.prefab",
+              "AttachPointName": "Eff_Spray_1",
+              "Flags": [],
+              "ForceImmediateFadeOut": false
+            },
+            {
+              "$type": "RPG.GameCore.RemoveEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvLocalPlayer"
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_Run_WaterSpray_03.prefab",
+              "AttachPointName": "Eff_Spray_2",
+              "Flags": [],
+              "ForceImmediateFadeOut": false
+            },
+            {
+              "$type": "RPG.GameCore.RemoveEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvLocalPlayer"
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_RunningWater.prefab",
+              "AttachPointName": "Eff_Spray_Ripple",
+              "Flags": [],
+              "IsNeedFadeOut": false
+            },
+            {
+              "$type": "RPG.GameCore.AnimSetParameter",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvLocalPlayer"
+              },
+              "ParameterName": "Swim",
+              "ParameterType": "Bool"
+            },
+            {
+              "$type": "RPG.GameCore.SetGraphDynamicFloat",
+              "Name": "_AchievementTimer",
+              "TargetIDs": [],
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              }
+            }
+          ],
+          "IsOverrideValidGuestConfig": true,
+          "OverridedValidGuestConfig": {
+            "Teammember": false,
+            "FakePlayer": true
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "Self_TriggerSpray"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvLocalPlayer"
+              },
+              "IsAttachToTargetEntity": true,
+              "Flags": [],
+              "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_RunningWater.prefab",
+              "AttachPoint": "Eff_Spray_Ripple",
+              "Scale": {
+                "X": 3,
+                "Y": 3,
+                "Z": 3
+              },
+              "ForceSimulateImmediately": false,
+              "SubObjectModifyDataList": []
+            },
+            {
+              "$type": "RPG.GameCore.TriggerEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvLocalPlayer"
+              },
+              "IsAttachToTargetEntity": true,
+              "Flags": [],
+              "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_Run_WaterSpray_03.prefab",
+              "AttachPoint": "Eff_Spray_1",
+              "Scale": {
+                "X": 3,
+                "Y": 3,
+                "Z": 3
+              },
+              "ForceSimulateImmediately": false,
+              "SubObjectModifyDataList": []
+            },
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.25
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareGraphDynamicFloat",
+                "Name": "_AchievementTimer",
+                "Value": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerEffect",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvLocalPlayer"
+                  },
+                  "IsAttachToTargetEntity": true,
+                  "Flags": [],
+                  "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_Run_WaterSpray_03.prefab",
+                  "AttachPoint": "Eff_Spray_2",
+                  "Scale": {
+                    "X": 3,
+                    "Y": 3,
+                    "Z": 3
+                  },
+                  "ForceSimulateImmediately": false,
+                  "SubObjectModifyDataList": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGraphDynamicValueChange",
+          "Name": "_AchievementTimer",
+          "Condition": {
+            "$type": "RPG.GameCore.ByCompareGraphDynamicFloat",
+            "Name": "_AchievementTimer",
+            "Value": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 1
+              }
+            }
+          },
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 5
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareGraphDynamicFloat",
+                "Name": "_AchievementTimer",
+                "Value": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "GE_SwimAchievemnet"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvSetColliderGroupState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          },
+          "GroupName": "R2_2F"
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "Clt_Surface_R2_1F"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.AdvSetColliderGroupState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "GroupName": "R2_1F"
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "Clt_Surface_R2_0F"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.AdvSetColliderGroupState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "GroupName": "R2_0F"
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          }
+        }
+      ]
+    }
+  ],
+  "ValueSource": {
+    "Values": [
+      {
+        "$type": "RPG.GameCore.SharedFloat",
+        "Key": "_AchievementTimer"
+      }
+    ]
+  },
+  "Type": "Entity",
+  "EntityEventList": [
+    {
+      "Name": "Clt_TriggerClosed"
+    },
+    {
+      "Name": "Clt_TriggerOpen"
+    },
+    {
+      "Name": "Clt_TriggerCustomState01"
+    },
+    {
+      "Name": "Clt_TriggerCustomState02"
+    },
+    {
+      "Name": "Clt_TriggerCustomState03"
+    },
+    {
+      "Name": "Clt_TriggerLocked"
+    },
+    {
+      "Name": "Self_TriggerSpray",
+      "IsPrivate": true
+    },
+    {
+      "Name": "Clt_Surface_R2_2F"
+    },
+    {
+      "Name": "Clt_Surface_R2_1F"
+    },
+    {
+      "Name": "Clt_Surface_R2_0F"
+    }
+  ]
+}

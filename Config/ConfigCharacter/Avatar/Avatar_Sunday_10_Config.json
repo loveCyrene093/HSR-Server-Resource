@@ -121,7 +121,7 @@
       "SkillType": "Skill",
       "UseType": "SelectEntity",
       "AlwaysDoAutoLock": true,
-      "LockType": "ScoreOfSource",
+      "AutoLockType": "ScoreOfSource",
       "AutoLockBySource": {
         "Groups": [
           {
@@ -199,7 +199,7 @@
       "SkillType": "Ultra",
       "UseType": "SelectEntity",
       "AlwaysDoAutoLock": true,
-      "LockType": "HighWP_DamageCarry",
+      "AutoLockType": "HighWP_DamageCarry",
       "TargetInfo": {
         "TargetType": "FriendSelect",
         "SubTargetType": "TargetServantOrSummoner",
@@ -589,12 +589,6 @@
           "Type": "None",
           "Index": 0
         }
-      },
-      "-1649595214": {
-        "ReadInfo": {
-          "Type": "None",
-          "Index": 0
-        }
       }
     }
   },
@@ -757,7 +751,8 @@
             },
             "PowerOfDamageCarry": {
               "Value": 2
-            }
+            },
+            "SumUpServantDamageCarry": true
           },
           "Mapper": {
             "$type": "RPG.GameCore.ComplexSkillAIMapperMultiRange",
@@ -891,8 +886,12 @@
         {
           "CombineOperator": "Mul",
           "Source": {
-            "$type": "RPG.GameCore.ComplexSkillAISourceAITag",
-            "DynamicValueKey": "DamageCarry"
+            "$type": "RPG.GameCore.ComplexSkillAISourceRetarget",
+            "Retarget": "TargetAndServant",
+            "Evaluator": {
+              "$type": "RPG.GameCore.ComplexSkillAISourceAITag",
+              "DynamicValueKey": "DamageCarry"
+            }
           },
           "Mapper": {
             "$type": "RPG.GameCore.ComplexSkillAIMapperMultiRange",
@@ -903,6 +902,20 @@
                 },
                 "xmax": {
                   "Value": 10
+                },
+                "ymax": {
+                  "Value": 1
+                }
+              },
+              {
+                "xmin": {
+                  "Value": 10
+                },
+                "ymin": {
+                  "Value": 1
+                },
+                "xmax": {
+                  "Value": 110
                 },
                 "ymax": {
                   "Value": 10

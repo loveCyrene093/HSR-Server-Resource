@@ -1,0 +1,346 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "IsLoop": true,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvOnButtonPressed",
+          "ButtonName": "Interact",
+          "OnPressedCallback": [
+            {
+              "$type": "RPG.GameCore.TriggerEntityEvent",
+              "EventName": {
+                "Value": "Self_Use"
+              },
+              "InstanceID": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvSetupButtonListTrigger",
+          "TriggerName": "InteractTrigger",
+          "ButtonsByName": [
+            "Interact"
+          ],
+          "ButtonConfigs": [],
+          "IsOverrideValidGuestConfig": true,
+          "OverridedValidGuestConfig": {}
+        },
+        {
+          "$type": "RPG.GameCore.AdvEnableButtons",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          },
+          "TriggerName": "InteractTrigger",
+          "ButtonsByName": [
+            "Interact"
+          ],
+          "IsEnable": true
+        }
+      ]
+    },
+    {
+      "IsLoop": true,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "Self_Use"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.LockPlayerControl"
+            },
+            {
+              "$type": "RPG.GameCore.StartPropInteractMode",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "Mode": "UsePose02"
+            },
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.5
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.TriggerEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "IsAttachToTargetEntity": true,
+              "Flags": [],
+              "EffectPath": "Effects/Eff_Prefab/Eff_Scene/InteractiveProp/Eff_Chap04_Prop_Hands_01_HandConsoleScreen01_Lod0.prefab",
+              "Scale": {
+                "X": 1.5,
+                "Y": 1.5,
+                "Z": 1.5
+              },
+              "ForceSimulateImmediately": false,
+              "SubObjectModifyDataList": []
+            },
+            {
+              "$type": "RPG.GameCore.LensDistortionCurveEffect",
+              "XMultiplier": 2,
+              "YMultiplier": 2,
+              "Intensity": 2,
+              "Scale": 2.5,
+              "XCurvePath": "Camera/BlendCurve/Blend_SlowToFast.asset",
+              "YCurvePath": "Camera/BlendCurve/Blend_SlowToFast.asset",
+              "IntensityCurvePath": "Camera/BlendCurve/Blend_SlowToFast.asset",
+              "ScaleCurvePath": "Camera/BlendCurve/Blend_SlowToFast.asset",
+              "Duration": 1.7
+            },
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1.2
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PlayScreenTransfer",
+              "Type": "White",
+              "Mode": "SwitchOut",
+              "CustomTime": 0.2
+            },
+            {
+              "$type": "RPG.GameCore.EndPropInteract"
+            },
+            {
+              "$type": "RPG.GameCore.PropInitPuzzle",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "BoardPath": {
+                "Custom": true,
+                "Key": "PuzzlePath"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.SetHudTemplate",
+              "TemplateID": 1024,
+              "EnableTemplate": true
+            },
+            {
+              "$type": "RPG.GameCore.PropStartPuzzle",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "OnStart": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "GE_MascotStart"
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.SetForceStreamingThisFrame"
+            },
+            {
+              "$type": "RPG.GameCore.WaitStreamingJobFinished"
+            },
+            {
+              "$type": "RPG.GameCore.RemoveEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Scene/InteractiveProp/Eff_Chap04_Prop_Hands_01_HandConsoleScreen_Lod0.prefab",
+              "Flags": [],
+              "IsNeedFadeOut": false,
+              "ForceImmediateFadeOut": false
+            },
+            {
+              "$type": "RPG.GameCore.PlayScreenTransfer",
+              "Type": "White",
+              "CustomTime": 0.5
+            },
+            {
+              "$type": "RPG.GameCore.UnLockPlayerControl"
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvLocalPlayer"
+              },
+              "Value": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    -1137915272
+                  ]
+                }
+              },
+              "DynamicKey": {
+                "Value": "AbilityPara_FastBullet"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.TutorialTaskUnlock",
+              "TriggerParam": {
+                "Value": "6357"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.ShowGuideDetailDialog",
+              "GuideID": {
+                "Value": "6357"
+              },
+              "WaitForExit": true,
+              "SkipIfAlreadySeen": true
+            },
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "GE_MascotStartTalk"
+              }
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "SwitchMascotExitGame"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PlayScreenTransfer",
+              "Mode": "SwitchOut",
+              "CustomTime": 0.2
+            },
+            {
+              "$type": "RPG.GameCore.PropClosePuzzle",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "GE_MascotClose"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.SetForceStreamingThisFrame"
+            },
+            {
+              "$type": "RPG.GameCore.WaitStreamingJobFinished"
+            },
+            {
+              "$type": "RPG.GameCore.SetHudTemplate",
+              "TemplateID": 1024
+            },
+            {
+              "$type": "RPG.GameCore.PlayScreenTransfer",
+              "CustomTime": 0.2
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "SwitchMascotResetGame"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "GE_MascotReset"
+              }
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "SwitchMascotSpawnGuaranteeProp"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "GE_TriggerRefreshBullet"
+              }
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          }
+        }
+      ]
+    }
+  ],
+  "ValueSource": {
+    "Values": [
+      {
+        "$type": "RPG.GameCore.SharedString",
+        "Key": "PuzzlePath"
+      },
+      {
+        "$type": "RPG.GameCore.SharedInt",
+        "Key": "isFastBullet"
+      }
+    ]
+  },
+  "Type": "Entity",
+  "EntityEventList": [
+    {
+      "Name": "Self_Use",
+      "IsPrivate": true
+    },
+    {
+      "Name": "SwitchMascotExitGame",
+      "IsPrivate": true
+    },
+    {
+      "Name": "SwitchMascotResetGame",
+      "IsPrivate": true,
+      "Description": "重置当前层"
+    },
+    {
+      "Name": "SwitchMascotSpawnGuaranteeProp",
+      "Description": "触发保底"
+    }
+  ]
+}

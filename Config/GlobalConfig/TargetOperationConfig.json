@@ -33,6 +33,9 @@
         }
       }
     },
+    "RemovePartReplaceWithOwner": {
+      "$type": "RPG.GameCore.TargetMapPartToOwner"
+    },
     "GetAllSelfUnselectable": {
       "$type": "RPG.GameCore.TargetFetchAllUnselectable",
       "SourceEntity": {
@@ -111,6 +114,73 @@
       "$type": "RPG.GameCore.TargetAlias",
       "Alias": "ParamEntityList | ParamEntityList.GetBattleEvent"
     },
+    "GetSelfCreateBattleEvent": {
+      "$type": "RPG.GameCore.TargetSequence",
+      "Sequence": [
+        {
+          "$type": "RPG.GameCore.TargetMapCreatedBattleEvent"
+        },
+        {
+          "$type": "RPG.GameCore.TargetFilter",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareTarget",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ParamEntity.GetSummoner"
+            },
+            "CompareType": {
+              "$type": "RPG.GameCore.TargetSequence",
+              "Sequence": [
+                {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                },
+                {
+                  "$type": "RPG.GameCore.TargetMapCreator"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "RemoveNonSelfCreateBattleEvent": {
+      "$type": "RPG.GameCore.TargetFilter",
+      "Predicate": {
+        "$type": "RPG.GameCore.ByAny",
+        "PredicateList": [
+          {
+            "$type": "RPG.GameCore.ByTargetEntityType",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ParamEntity"
+            },
+            "EntityTypeMask": "BattleEvent",
+            "AliveStateMask": "Anyone",
+            "Inverse": true
+          },
+          {
+            "$type": "RPG.GameCore.ByCompareTarget",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ParamEntity.GetSummoner"
+            },
+            "CompareType": {
+              "$type": "RPG.GameCore.TargetSequence",
+              "Sequence": [
+                {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                },
+                {
+                  "$type": "RPG.GameCore.TargetMapCreator"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
     "GetAdjoinEntity": {
       "$type": "RPG.GameCore.TargetMapAdjoinEntity"
     },
@@ -160,9 +230,17 @@
         }
       ]
     },
+    "GetSelfCreateDummyCharacter": {
+      "$type": "RPG.GameCore.TargetAlias",
+      "Alias": "ParamEntityList.GetDummyCharacter.RemoveNonSelfCreateBattleEvent"
+    },
     "WithDummyCharacter": {
       "$type": "RPG.GameCore.TargetAlias",
       "Alias": "ParamEntityList | ParamEntityList.GetDummyCharacter"
+    },
+    "WithSelfCreateDummyCharacter": {
+      "$type": "RPG.GameCore.TargetAlias",
+      "Alias": "ParamEntityList | ParamEntityList.GetSelfCreateDummyCharacter"
     },
     "GetServant": {
       "$type": "RPG.GameCore.TargetSequence",

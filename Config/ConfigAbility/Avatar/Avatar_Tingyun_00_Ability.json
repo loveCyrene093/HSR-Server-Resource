@@ -407,7 +407,8 @@
             "Alias": "AbilityTargetEntity"
           },
           "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Tingyun_00/Eff_Avatar_Tingyun_00_Skill02_Buff.prefab",
-          "AttachPoint": "Origin"
+          "AttachPoint": "Origin",
+          "ForceSimulateImmediately": false
         },
         {
           "$type": "RPG.GameCore.PredicateTaskList",
@@ -1342,7 +1343,8 @@
             "$type": "RPG.GameCore.TargetAlias",
             "Alias": "AbilityTargetEntity"
           },
-          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Tingyun_00/Eff_Avatar_Tingyun_00_Skill03_Buff.prefab"
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Tingyun_00/Eff_Avatar_Tingyun_00_Skill03_Buff.prefab",
+          "ForceSimulateImmediately": false
         },
         {
           "$type": "RPG.GameCore.WaitAnimState",
@@ -1370,7 +1372,8 @@
             "$type": "RPG.GameCore.TargetAlias",
             "Alias": "AbilityTargetEntity"
           },
-          "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_MAZ_RecoverSP.prefab"
+          "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_MAZ_RecoverSP.prefab",
+          "ForceSimulateImmediately": false
         },
         {
           "$type": "RPG.GameCore.PredicateTaskList",
@@ -1675,33 +1678,24 @@
             {
               "OnChange": [
                 {
-                  "$type": "RPG.GameCore.AddModifier",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetSequence",
-                    "Sequence": [
-                      {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCasterAliveOrLimbo",
+                    "AliveStateMask": "Mask_AliveOnly"
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
                         "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "AllLightTeamWithAllUnselectableLightTeam"
+                        "Alias": "Caster"
                       },
-                      {
-                        "$type": "RPG.GameCore.TargetFilter",
-                        "Predicate": {
-                          "$type": "RPG.GameCore.ByIsContainModifier",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ParamEntity"
-                          },
-                          "ModifierName": {
-                            "Value": "MAvatar_TingYun_ByIsTingYun"
-                          }
-                        }
-                      }
-                    ]
-                  },
-                  "ModifierName": {
-                    "Value": "MWAvatar_TingYun_00_BPSkill_AttackDelta_LifeTimeChangeMark"
-                  },
-                  "ReferenceModifierName": "MReference_Empty"
+                      "ModifierName": {
+                        "Value": "MWAvatar_TingYun_00_BPSkill_AttackDelta_LifeTimeChangeMark"
+                      },
+                      "ReferenceModifierName": "MReference_Empty"
+                    }
+                  ]
                 }
               ]
             }

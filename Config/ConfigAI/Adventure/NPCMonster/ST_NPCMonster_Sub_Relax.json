@@ -1,6 +1,13 @@
 {
   "AIName": "ST_Sub_NPCMonster_Relax",
   "VariableList": [],
+  "GlobalVariableList": [
+    {
+      "$type": "RPG.GameCore.AIVariableFloat",
+      "Name": "Int_PatrolType",
+      "IsPrivate": false
+    }
+  ],
   "DecisionList": [],
   "TransitionTable": [],
   "RootState": {
@@ -8,7 +15,8 @@
     "TaskList": [
       {
         "$type": "RPG.GameCore.ST_Side_OverrideVision",
-        "VisionSetName": "DefaultVision_Relaxed"
+        "VisionSetName": "DefaultVision_Relaxed",
+        "Visions": []
       },
       {
         "$type": "RPG.GameCore.ST_Side_RecordGuardPosition"
@@ -33,11 +41,45 @@
       {
         "$type": "RPG.GameCore.StateTreeStateConfig",
         "EnterCondition": {
-          "$type": "RPG.GameCore.ST_ByHasPatrolPath"
+          "$type": "RPG.GameCore.ByAnd",
+          "PredicateList": [
+            {
+              "$type": "RPG.GameCore.ST_ByCompareVariableFloat",
+              "VarName": "Int_PatrolType",
+              "CompareType": "Equal"
+            },
+            {
+              "$type": "RPG.GameCore.ST_ByHasPatrolPath"
+            }
+          ]
         },
         "TaskList": [
           {
             "$type": "RPG.GameCore.ST_Main_Patrol",
+            "MoveStance": "Walk"
+          }
+        ],
+        "Name": "Patrol"
+      },
+      {
+        "$type": "RPG.GameCore.StateTreeStateConfig",
+        "EnterCondition": {
+          "$type": "RPG.GameCore.ByAnd",
+          "PredicateList": [
+            {
+              "$type": "RPG.GameCore.ST_ByCompareVariableFloat",
+              "VarName": "Int_PatrolType",
+              "CompareType": "Equal",
+              "CompareValue": 1
+            },
+            {
+              "$type": "RPG.GameCore.ST_ByHasPatrolPath"
+            }
+          ]
+        },
+        "TaskList": [
+          {
+            "$type": "RPG.GameCore.ST_Main_MoveAlongPath",
             "MoveStance": "Walk"
           }
         ],
@@ -66,7 +108,9 @@
             "TransitionList": [
               {
                 "Trigger": "OnStateSucceeded",
-                "TransitionToType": "NextState"
+                "TransitionToType": "NextState",
+                "BoolVariableList": [],
+                "FloatVariableList": []
               }
             ],
             "Name": "IdleMove"
@@ -85,5 +129,11 @@
         "Name": "Idle"
       }
     ]
+  },
+  "OnDisable": {
+    "$type": "RPG.GameCore.TaskConfig"
+  },
+  "OnInit": {
+    "$type": "RPG.GameCore.TaskConfig"
   }
 }

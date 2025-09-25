@@ -1,0 +1,385 @@
+{
+  "AbilityList": [
+    {
+      "Name": "MazeMonster_W4_Serpent_00_Passive",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.AddAdventureModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": "ADV_Monster_Common_NoMove"
+        }
+      ]
+    },
+    {
+      "Name": "MazeMonster_W4_Serpent_00_MazeAttack",
+      "TargetInfo": {
+        "TargetType": "SkillPointEntity"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.AdventureTriggerAnimStateWithMove",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimLogicState": "NormalAtk",
+          "AnimStateName": "Attack",
+          "MovingRangeList": [
+            {
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AbilityTargetEntity"
+              },
+              "SteerNormalizedTimeStart": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.005
+                }
+              },
+              "SteerNormalizedTimeEnd": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.384
+                }
+              },
+              "MaxSteerSpeed": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 300
+                }
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Attack",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.426
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.AdvSetDynamicValueByTargetDistance",
+          "From": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AbilityTargetEntity"
+          },
+          "To": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "IgnoreRadius": false,
+          "DynamicKey": {
+            "Value": "TargetDistance"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.DebugLog",
+          "Message": "==============PowerDeliver Listen distance {TargetDistance}======================"
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareDynamicValue",
+            "DynamicKey": {
+              "Value": "TargetDistance"
+            },
+            "CompareType": "GreaterEqual",
+            "CompareValue": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 5.5
+              }
+            }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.AdventureFireProjectile",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "None"
+              },
+              "Projectile": {
+                "ColliderTemplate": "CapsuleZ_MazeCommonBullet_Big",
+                "Behavior": "LinearWithHitDetect",
+                "FlySpeed": 10,
+                "EnableRayCast": true,
+                "Gravity": -12,
+                "AttachPoint": "JawUpM_00_JNT",
+                "TargetAttachPoint": "SelectRoot",
+                "FlyEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Serpent_00/Eff_Monster_W4_Serpent_00_MazeAttack_Attack.prefab",
+                "LinearPitchAngle": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 10
+                  }
+                }
+              },
+              "OnProjectileHit": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByIsProjectileHitTarget",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "AdvLocalPlayer"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AdventureTriggerAttack",
+                      "AttackTargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ProjectileHitEntity"
+                      },
+                      "AttackRootTargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ProjectileHitEntity"
+                      },
+                      "TriggerBattleDelay": 0.1,
+                      "AttackDetectConfig": {
+                        "$type": "RPG.GameCore.AdventureAttackDetectCircleConfig",
+                        "MaxRadius": 0.3,
+                        "FanAngle": 360
+                      },
+                      "HitConfig": {
+                        "HitAnimation": "Hit",
+                        "HitEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Serpent_00/Eff_Monster_W4_Serpent_00_MazeAttack_Hit.prefab"
+                      },
+                      "OnHit": [
+                        {
+                          "$type": "RPG.GameCore.VCameraConfigChange",
+                          "CameraConfig": {
+                            "ShakeTemplateName": "Impact_Middle"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TriggerEffect",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ProjectileHitPos"
+                      },
+                      "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Serpent_00/Eff_Monster_W4_Serpent_00_MazeAttack_Hit_Ground.prefab",
+                      "ForceSimulateImmediately": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "DynamicKey": {
+                  "Value": "TargetDistance"
+                },
+                "CompareType": "GreaterEqual",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 2.5
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.AdventureFireProjectile",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "None"
+                  },
+                  "Projectile": {
+                    "ColliderTemplate": "CapsuleZ_MazeCommonBullet_Big",
+                    "Behavior": "LinearWithHitDetect",
+                    "FlySpeed": 10,
+                    "EnableRayCast": true,
+                    "Gravity": -25,
+                    "AttachPoint": "JawUpM_00_JNT",
+                    "TargetAttachPoint": "SelectRoot",
+                    "FlyEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Serpent_00/Eff_Monster_W4_Serpent_00_MazeAttack_Attack.prefab"
+                  },
+                  "OnProjectileHit": [
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByIsProjectileHitTarget",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "AdvLocalPlayer"
+                        }
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.AdventureTriggerAttack",
+                          "AttackTargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ProjectileHitEntity"
+                          },
+                          "AttackRootTargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ProjectileHitEntity"
+                          },
+                          "TriggerBattleDelay": 0.1,
+                          "AttackDetectConfig": {
+                            "$type": "RPG.GameCore.AdventureAttackDetectCircleConfig",
+                            "MaxRadius": 0.3,
+                            "FanAngle": 360
+                          },
+                          "HitConfig": {
+                            "HitAnimation": "Hit",
+                            "HitEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Serpent_00/Eff_Monster_W4_Serpent_00_MazeAttack_Hit.prefab"
+                          },
+                          "OnHit": [
+                            {
+                              "$type": "RPG.GameCore.VCameraConfigChange",
+                              "CameraConfig": {
+                                "ShakeTemplateName": "Impact_Middle"
+                              }
+                            }
+                          ]
+                        }
+                      ],
+                      "FailedTaskList": [
+                        {
+                          "$type": "RPG.GameCore.TriggerEffect",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ProjectileHitPos"
+                          },
+                          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Serpent_00/Eff_Monster_W4_Serpent_00_MazeAttack_Hit_Ground.prefab",
+                          "ForceSimulateImmediately": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.AdventureFireProjectile",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "None"
+                  },
+                  "Projectile": {
+                    "ColliderTemplate": "CapsuleZ_MazeCommonBullet_Big",
+                    "Behavior": "LinearWithHitDetect",
+                    "FlySpeed": 10,
+                    "EnableRayCast": true,
+                    "Gravity": -45,
+                    "AttachPoint": "JawUpM_00_JNT",
+                    "TargetAttachPoint": "SelectRoot",
+                    "FlyEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Serpent_00/Eff_Monster_W4_Serpent_00_MazeAttack_Attack.prefab",
+                    "LinearPitchAngle": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": -50
+                      }
+                    }
+                  },
+                  "OnProjectileHit": [
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByIsProjectileHitTarget",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "AdvLocalPlayer"
+                        }
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.AdventureTriggerAttack",
+                          "AttackTargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ProjectileHitEntity"
+                          },
+                          "AttackRootTargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ProjectileHitEntity"
+                          },
+                          "TriggerBattleDelay": 0.1,
+                          "AttackDetectConfig": {
+                            "$type": "RPG.GameCore.AdventureAttackDetectCircleConfig",
+                            "MaxRadius": 0.3,
+                            "FanAngle": 360
+                          },
+                          "HitConfig": {
+                            "HitAnimation": "Hit",
+                            "HitEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Serpent_00/Eff_Monster_W4_Serpent_00_MazeAttack_Hit.prefab"
+                          },
+                          "OnHit": [
+                            {
+                              "$type": "RPG.GameCore.VCameraConfigChange",
+                              "CameraConfig": {
+                                "ShakeTemplateName": "Impact_Middle"
+                              }
+                            }
+                          ]
+                        }
+                      ],
+                      "FailedTaskList": [
+                        {
+                          "$type": "RPG.GameCore.TriggerEffect",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ProjectileHitPos"
+                          },
+                          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Serpent_00/Eff_Monster_W4_Serpent_00_MazeAttack_Hit_Ground.prefab",
+                          "ForceSimulateImmediately": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Attack",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          }
+        }
+      ],
+      "DynamicValues": {
+        "Floats": {
+          "3703384": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
+        }
+      }
+    }
+  ]
+}

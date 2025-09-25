@@ -149,36 +149,6 @@
     {
       "TaskList": [
         {
-          "$type": "RPG.GameCore.WaitEntityEvent",
-          "EventName": {
-            "Value": "Clt_OnOpened"
-          },
-          "OnEvent": [
-            {
-              "$type": "RPG.GameCore.TriggerEntityEvent",
-              "EventName": {
-                "Value": "CltSrv_TriggerOpen"
-              },
-              "InstanceID": {
-                "IsDynamic": false,
-                "FixedValue": {
-                  "Value": 300009
-                }
-              }
-            }
-          ],
-          "InstanceID": {
-            "IsDynamic": false,
-            "FixedValue": {
-              "Value": 300008
-            }
-          }
-        }
-      ]
-    },
-    {
-      "TaskList": [
-        {
           "$type": "RPG.GameCore.LoopWaitServerFloorSavedValueChange"
         }
       ]
@@ -212,7 +182,42 @@
           }
         }
       ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByAnd",
+            "PredicateList": [
+              {
+                "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+                "DynamicName": {
+                  "Value": "FSV_PasswayDoor"
+                },
+                "CompareValue": 1
+              },
+              {
+                "$type": "RPG.GameCore.ByComparePropState",
+                "TargetType": {
+                  "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                  "TargetType": "Prop",
+                  "Targets": [
+                    300011
+                  ]
+                }
+              }
+            ]
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerEntityServerEvent"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "Type": "Group"
+  "Type": "Group",
+  "EntityEventList": []
 }

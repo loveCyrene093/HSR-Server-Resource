@@ -1,3 +1,248 @@
 {
-  "AbilityList": []
+  "AbilityList": [
+    {
+      "Modifiers": {
+        "Modifier_FakePlayer_Mascot_Stealth": {
+          "BehaviorFlagList": [
+            "Stealth"
+          ]
+        }
+      },
+      "Name": "FakePlayer_Mascot_Stealth",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.AddAdventureModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": "Modifier_FakePlayer_Mascot_Stealth"
+        }
+      ]
+    },
+    {
+      "OnAbort": [
+        {
+          "$type": "RPG.GameCore.RadialBlurEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "Active": false
+        }
+      ],
+      "Name": "FakePlayer_Mascot_ShootAtk",
+      "TargetInfo": {
+        "TargetType": "SkillPointEntityOrNone"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.BySwitchMascotCanShootTarget"
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "DynamicKey": {
+                  "Value": "AbilityPara_FastBullet"
+                },
+                "CompareType": "Equal",
+                "CompareValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AAAR",
+                    "FixedValues": [
+                      {
+                        "Value": 1
+                      }
+                    ],
+                    "DynamicHashes": []
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SwitchMascotAddPickupCount",
+                  "AddCount": {
+                    "Value": "-1"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.SwitchMascotTriggerUIShootEffect"
+                },
+                {
+                  "$type": "RPG.GameCore.VCameraConfigChange",
+                  "CameraConfig": {
+                    "ShakeTemplateName": "Punch_Light"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.TriggerEffect",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "EffectPath": "Effects/Eff_Prefab/Eff_Scene/InteractiveProp/Eff_Chap04_Prop_MascotMonster_02_Bullet02_Lod0.prefab",
+                  "AttachPoint": "EffectPoint",
+                  "Scale": {
+                    "X": 2,
+                    "Y": 2,
+                    "Z": 2
+                  },
+                  "ForceSimulateImmediately": false
+                },
+                {
+                  "$type": "RPG.GameCore.NewAdventureFireProjectile",
+                  "NewProjectile": {
+                    "$type": "RPG.GameCore.TraceWithDetectProjectileData",
+                    "MaxLifeTime": 5,
+                    "TraceDelay": 0.01,
+                    "TurnSpeed": 2000,
+                    "TraceAttachPoint": true,
+                    "MuteTraceIfTargetNotAlive": true,
+                    "DelayMoveOneFrame": true,
+                    "FlySpeed": 30,
+                    "HitEffect": "Effects/Eff_Prefab/Eff_Scene/InteractiveProp/Eff_Chap04_Prop_MascotMonster_02_Bullet01_Lod0.prefab",
+                    "AlignHitEffect": true,
+                    "InitDirection": {
+                      "X": 0,
+                      "Y": 0,
+                      "Z": 1
+                    },
+                    "AttachPoint": "EffectPoint",
+                    "TargetAttachPoint": "SelectRoot",
+                    "TargetAttachPoint2": "Root",
+                    "IgnoreCasterWallCheck": true,
+                    "ColliderTemplate": "CapsuleZ_MiniHeroBullet",
+                    "EnableRayCast": true,
+                    "FlyEffect": "Effects/Eff_Prefab/Eff_Scene/InteractiveProp/Eff_Chap04_Prop_MascotMonster_02_Bullet_Lod0.prefab"
+                  },
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "AbilityTargetEntity"
+                  },
+                  "OnProjectileHit": [
+                    {
+                      "$type": "RPG.GameCore.SwitchMascotBulletTriggerAttack",
+                      "AttackTargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "AllEnemy"
+                      },
+                      "AttackRootTargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ProjectileHitEntity"
+                      },
+                      "AttackDetectConfig": {
+                        "$type": "RPG.GameCore.AdventureAttackDetectCircleConfig",
+                        "MaxRadius": 1,
+                        "FanAngle": 360
+                      },
+                      "HitConfig": {
+                        "HitAnimation": "Hit"
+                      },
+                      "HitDecalEffectRandomRadius": 1,
+                      "HitDecalEffectFollowHitTarget": true
+                    }
+                  ]
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.SwitchMascotAddPickupCount",
+                  "AddCount": {
+                    "Value": "-1"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.SwitchMascotTriggerUIShootEffect"
+                },
+                {
+                  "$type": "RPG.GameCore.VCameraConfigChange",
+                  "CameraConfig": {
+                    "ShakeTemplateName": "Punch_Light"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.TriggerEffect",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "EffectPath": "Effects/Eff_Prefab/Eff_Scene/InteractiveProp/Eff_Chap04_Prop_MascotMonster_02_Bullet02_Lod0.prefab",
+                  "AttachPoint": "EffectPoint",
+                  "Scale": {
+                    "X": 2,
+                    "Y": 2,
+                    "Z": 2
+                  },
+                  "ForceSimulateImmediately": false
+                },
+                {
+                  "$type": "RPG.GameCore.NewAdventureFireProjectile",
+                  "NewProjectile": {
+                    "$type": "RPG.GameCore.TraceWithDetectProjectileData",
+                    "MaxLifeTime": 5,
+                    "TraceDelay": 0.01,
+                    "TurnSpeed": 400,
+                    "TraceAttachPoint": true,
+                    "MuteTraceIfTargetNotAlive": true,
+                    "DelayMoveOneFrame": true,
+                    "FlySpeed": 15,
+                    "HitEffect": "Effects/Eff_Prefab/Eff_Scene/InteractiveProp/Eff_Chap04_Prop_MascotMonster_02_Bullet01_Lod0.prefab",
+                    "AlignHitEffect": true,
+                    "InitDirection": {
+                      "X": 0,
+                      "Y": 0,
+                      "Z": 1
+                    },
+                    "AttachPoint": "EffectPoint",
+                    "TargetAttachPoint": "SelectRoot",
+                    "TargetAttachPoint2": "Root",
+                    "IgnoreCasterWallCheck": true,
+                    "ColliderTemplate": "CapsuleZ_MiniHeroBullet",
+                    "EnableRayCast": true,
+                    "FlyEffect": "Effects/Eff_Prefab/Eff_Scene/InteractiveProp/Eff_Chap04_Prop_MascotMonster_02_Bullet_Lod0.prefab"
+                  },
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "AbilityTargetEntity"
+                  },
+                  "OnProjectileHit": [
+                    {
+                      "$type": "RPG.GameCore.SwitchMascotBulletTriggerAttack",
+                      "AttackTargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "AllEnemy"
+                      },
+                      "AttackRootTargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ProjectileHitEntity"
+                      },
+                      "AttackDetectConfig": {
+                        "$type": "RPG.GameCore.AdventureAttackDetectCircleConfig",
+                        "MaxRadius": 3,
+                        "FanAngle": 360,
+                        "Hight": 3
+                      },
+                      "HitConfig": {
+                        "HitAnimation": "Hit"
+                      },
+                      "HitDecalEffectRandomRadius": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "FailedTaskList": []
+        }
+      ]
+    }
+  ]
 }

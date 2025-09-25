@@ -1,6 +1,11 @@
 {
   "OnInitSequece": [
     {
+      "TaskList": []
+    }
+  ],
+  "OnStartSequece": [
+    {
       "TaskList": [
         {
           "$type": "RPG.GameCore.GenericSwitchCase",
@@ -30,107 +35,6 @@
                     "$type": "RPG.GameCore.TargetFetchAdvPropEx"
                   },
                   "GroupName": "OpenCollider"
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "OnStartSequece": [
-    {
-      "TaskList": [
-        {
-          "$type": "RPG.GameCore.WaitEntityEvent",
-          "EventName": {
-            "Value": "Clt_TriggerOpen"
-          },
-          "OnEvent": [
-            {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByCompareEntityAuthoritySide"
-              },
-              "SuccessTaskList": [
-                {
-                  "$type": "RPG.GameCore.GenericSwitchCase",
-                  "SwitchRef": {
-                    "$type": "RPG.GameCore.SwitchRefPropState"
-                  },
-                  "Cases": [
-                    {
-                      "$type": "RPG.GameCore.PropStateCaseContainer",
-                      "OnSuccess": [
-                        {
-                          "$type": "RPG.GameCore.AdvClientChangePropState",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
-                          },
-                          "ToState": "Open"
-                        }
-                      ]
-                    },
-                    {
-                      "$type": "RPG.GameCore.PropStateCaseContainer",
-                      "Case": "Locked",
-                      "OnSuccess": [
-                        {
-                          "$type": "RPG.GameCore.AdvClientChangePropState",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
-                          },
-                          "FromState": "Locked",
-                          "ToState": "Open"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ],
-              "FailedTaskList": [
-                {
-                  "$type": "RPG.GameCore.GenericSwitchCase",
-                  "SwitchRef": {
-                    "$type": "RPG.GameCore.SwitchRefPropState"
-                  },
-                  "Cases": [
-                    {
-                      "$type": "RPG.GameCore.PropStateCaseContainer",
-                      "OnSuccess": [
-                        {
-                          "$type": "RPG.GameCore.PropReqInteract",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
-                          },
-                          "InteractID": {
-                            "IsDynamic": false,
-                            "FixedValue": {
-                              "Value": 1010
-                            }
-                          }
-                        }
-                      ]
-                    },
-                    {
-                      "$type": "RPG.GameCore.PropStateCaseContainer",
-                      "Case": "Locked",
-                      "OnSuccess": [
-                        {
-                          "$type": "RPG.GameCore.PropReqInteract",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
-                          },
-                          "InteractID": {
-                            "IsDynamic": false,
-                            "FixedValue": {
-                              "Value": 1210
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  ]
                 }
               ]
             }
@@ -199,16 +103,28 @@
                       "Case": "Open",
                       "OnSuccess": [
                         {
-                          "$type": "RPG.GameCore.PropReqInteract",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                          "$type": "RPG.GameCore.PredicateTaskList",
+                          "Predicate": {
+                            "$type": "RPG.GameCore.ByComparePropState",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetFetchOwnerEntity"
+                            },
+                            "State": "Open"
                           },
-                          "InteractID": {
-                            "IsDynamic": false,
-                            "FixedValue": {
-                              "Value": 1100
+                          "SuccessTaskList": [
+                            {
+                              "$type": "RPG.GameCore.PropReqInteract",
+                              "TargetType": {
+                                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                              },
+                              "InteractID": {
+                                "IsDynamic": false,
+                                "FixedValue": {
+                                  "Value": 1100
+                                }
+                              }
                             }
-                          }
+                          ]
                         }
                       ]
                     },
@@ -361,7 +277,7 @@
     {
       "TaskList": [
         {
-          "$type": "RPG.GameCore.WaitPropStateChange",
+          "$type": "RPG.GameCore.WaitPropStateChangeV2",
           "FromAnyState": true,
           "ToAnyState": true,
           "OnChange": [
@@ -393,6 +309,116 @@
                         "$type": "RPG.GameCore.TargetFetchAdvPropEx"
                       },
                       "GroupName": "ClosedCollider"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEvent",
+          "EventName": {
+            "Value": "Clt_TriggerOpen"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareEntityAuthoritySide"
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.GenericSwitchCase",
+                  "SwitchRef": {
+                    "$type": "RPG.GameCore.SwitchRefPropState"
+                  },
+                  "Cases": [
+                    {
+                      "$type": "RPG.GameCore.PropStateCaseContainer",
+                      "OnSuccess": [
+                        {
+                          "$type": "RPG.GameCore.AdvClientChangePropState",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                          },
+                          "ToState": "Open"
+                        }
+                      ]
+                    },
+                    {
+                      "$type": "RPG.GameCore.PropStateCaseContainer",
+                      "Case": "Locked",
+                      "OnSuccess": [
+                        {
+                          "$type": "RPG.GameCore.AdvClientChangePropState",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                          },
+                          "FromState": "Locked",
+                          "ToState": "Open"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.GenericSwitchCase",
+                  "SwitchRef": {
+                    "$type": "RPG.GameCore.SwitchRefPropState"
+                  },
+                  "Cases": [
+                    {
+                      "$type": "RPG.GameCore.PropStateCaseContainer",
+                      "OnSuccess": [
+                        {
+                          "$type": "RPG.GameCore.PredicateTaskList",
+                          "Predicate": {
+                            "$type": "RPG.GameCore.ByComparePropState",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetFetchOwnerEntity"
+                            }
+                          },
+                          "SuccessTaskList": [
+                            {
+                              "$type": "RPG.GameCore.PropReqInteract",
+                              "TargetType": {
+                                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                              },
+                              "InteractID": {
+                                "IsDynamic": false,
+                                "FixedValue": {
+                                  "Value": 1010
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "$type": "RPG.GameCore.PropStateCaseContainer",
+                      "Case": "Locked",
+                      "OnSuccess": [
+                        {
+                          "$type": "RPG.GameCore.PropReqInteract",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                          },
+                          "InteractID": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 1210
+                            }
+                          }
+                        }
+                      ]
                     }
                   ]
                 }

@@ -1,0 +1,2971 @@
+{
+  "AbilityList": [
+    {
+      "Modifiers": {
+        "MActivity_ElationBattle_Sampo_ListenBEKillMonster_PreCheck": {
+          "BehaviorFlagList": [
+            "RemoveWhenCasterDead"
+          ],
+          "_CallbackList": [
+            {
+              "Event": "OnInsertAbilityStart",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ElationBattle_BoxTarget"
+                  },
+                  "ModifierName": {
+                    "Value": "MActivity_ElationBattle_Sampo_ListenBEKillMonster"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "MActivity_ElationBattle_Sampo_ListenBeforeUltraUse": {
+          "_CallbackList": [
+            {
+              "Event": "OnBeforeSkillUse",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCurrentSkillType",
+                    "SkillType": "Ultra"
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "Caster"
+                      },
+                      "ModifierName": {
+                        "Value": "MActivity_ElationBattle_Sampo_AddDamage"
+                      },
+                      "LifeTime": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            1906820465
+                          ]
+                        }
+                      },
+                      "DynamicValues": {
+                        "MDF_PropertyValue": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AQAR",
+                            "FixedValues": [],
+                            "DynamicHashes": [
+                              340736524
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "MActivity_ElationBattle_Sampo_AddDamage": {
+          "_CallbackList": [
+            {
+              "Event": "OnStack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.StackProperty",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "Property": "AllDamageTypeAddedRatio",
+                  "PropertyValue": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        2128130574
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "Stacking": "Replace"
+        },
+        "MActivity_ElationBattle_Sampo_ListenBEKillMonster": {
+          "BehaviorFlagList": [
+            "RemoveWhenCasterDead"
+          ],
+          "_CallbackList": [
+            {
+              "Event": "OnDestroy",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.ModifyActivityElationPower",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "ModifyOp": "Add",
+                  "ModifyValue": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        1202896711
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "Event": "OnStack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "MDF_Killed"
+                  }
+                }
+              ]
+            },
+            {
+              "Event": "OnListenCharacterDie",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByTargetTeam",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "Team": "TeamDark"
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQABAQIR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            1202896711,
+                            782621791
+                          ]
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "MDF_Killed"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "DynamicValues": {
+            "Floats": {
+              "1202896711": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
+            }
+          }
+        }
+      },
+      "Name": "Avatar_Sampo_00_ElationBattle_SkillPC01",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ElationBattle_BoxTarget"
+          },
+          "ModifierName": {
+            "Value": "MActivity_ElationBattle_Sampo_ListenBEKillMonster_PreCheck"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MActivity_ElationBattle_Sampo_ListenBeforeUltraUse"
+          }
+        }
+      ]
+    },
+    {
+      "Modifiers": {
+        "MActivity_ElationBattle_Sampo_AvatarTag": {},
+        "MActivity_ElationBattle_Sampo_ListenUltraUse": {
+          "BehaviorFlagList": [
+            "CustomEvent_InfiniteRefresh"
+          ],
+          "_CallbackList": [
+            {
+              "Event": "OnAfterSkillUse",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCurrentSkillType",
+                    "SkillType": "Ultra"
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "LevelEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MActivity_ElationBattle_Sampo_BETrigger"
+                      },
+                      "DynamicValues": {
+                        "MDF_ElationEnergy": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AQAR",
+                            "FixedValues": [],
+                            "DynamicHashes": [
+                              744021051
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "_Sampo_BETrigger_Abort"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByHaveEnemyAlive",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "Caster"
+                        }
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.TurnInsertAbility",
+                          "AbilityName": {
+                            "Value": "Activity_ElationBattle_BEStart_InsertAbility"
+                          },
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ElationBattle_BoxTarget"
+                          },
+                          "AbilityTarget": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ElationBattle_BoxTarget"
+                          },
+                          "InsertAbilityPriority": "UseElationSkill",
+                          "PreCheck": {
+                            "$type": "RPG.GameCore.TurnInsertAbilityCondition",
+                            "Type": "AbilityOwnerInsertUnusedCount",
+                            "Count": {
+                              "IsDynamic": false,
+                              "FixedValue": {
+                                "Value": 1
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnCustomEvent",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "_Sampo_BETrigger_Abort"
+                    },
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 1
+                      }
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TurnInsertAbility",
+                      "AbilityName": {
+                        "Value": "Activity_ElationBattle_BEStart_InsertAbility"
+                      },
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ElationBattle_BoxTarget"
+                      },
+                      "AbilityTarget": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ElationBattle_BoxTarget"
+                      },
+                      "InsertAbilityPriority": "UseElationSkill",
+                      "PreCheck": {
+                        "$type": "RPG.GameCore.TurnInsertAbilityCondition",
+                        "Type": "AbilityOwnerInsertUnusedCount",
+                        "Count": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 1
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnWaveMonster",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "_Sampo_BETrigger_Abort"
+                    },
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 1
+                      }
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TurnInsertAbility",
+                      "AbilityName": {
+                        "Value": "Activity_ElationBattle_BEStart_InsertAbility"
+                      },
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ElationBattle_BoxTarget"
+                      },
+                      "AbilityTarget": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ElationBattle_BoxTarget"
+                      },
+                      "InsertAbilityPriority": "UseElationSkill",
+                      "PreCheck": {
+                        "$type": "RPG.GameCore.TurnInsertAbilityCondition",
+                        "Type": "AbilityOwnerInsertUnusedCount",
+                        "Count": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 1
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnListenRevive",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByTargetTeam",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "Team": "TeamDark"
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "DynamicKey": {
+                          "Value": "_Sampo_BETrigger_Abort"
+                        },
+                        "CompareType": "Equal",
+                        "CompareValue": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 1
+                          }
+                        }
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.TurnInsertAbility",
+                          "AbilityName": {
+                            "Value": "Activity_ElationBattle_BEStart_InsertAbility"
+                          },
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ElationBattle_BoxTarget"
+                          },
+                          "AbilityTarget": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ElationBattle_BoxTarget"
+                          },
+                          "InsertAbilityPriority": "UseElationSkill",
+                          "PreCheck": {
+                            "$type": "RPG.GameCore.TurnInsertAbilityCondition",
+                            "Type": "AbilityOwnerInsertUnusedCount",
+                            "Count": {
+                              "IsDynamic": false,
+                              "FixedValue": {
+                                "Value": 1
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "MActivity_ElationBattle_Sampo_BETrigger": {}
+      },
+      "Name": "Avatar_Sampo_00_ElationBattle_SkillPC02",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MActivity_ElationBattle_Sampo_AvatarTag"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MActivity_ElationBattle_Sampo_ListenUltraUse"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Avatar_Sampo_00_ElationBattle_SkillPC03",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.SummonPartner",
+          "PrefabPath": "Characters/CharacterPrefabs/Avatar/Activity/ActivitySummon/Avatar_ActivitySummon_W3_Junk_00.prefab",
+          "ConfigPath": "Config/ConfigCharacter/Activity/ActivitySummon/ActivitySummon_Junk_BattleEvent_Partner_00_Config.json",
+          "MemberName": "Junk01",
+          "RefreshFormation": false
+        },
+        {
+          "$type": "RPG.GameCore.SummonPartner",
+          "PrefabPath": "Characters/CharacterPrefabs/Avatar/Activity/ActivitySummon/Avatar_ActivitySummon_W3_Junk_00.prefab",
+          "ConfigPath": "Config/ConfigCharacter/Activity/ActivitySummon/ActivitySummon_Junk_BattleEvent_Partner_00_Config.json",
+          "MemberName": "Junk02"
+        },
+        {
+          "$type": "RPG.GameCore.SummonPartner",
+          "PrefabPath": "Characters/CharacterPrefabs/Avatar/Activity/ActivitySummon/Avatar_ActivitySummon_W3_Junk_00.prefab",
+          "ConfigPath": "Config/ConfigCharacter/Activity/ActivitySummon/ActivitySummon_Junk_BattleEvent_Partner_00_Config.json",
+          "MemberName": "Junk03"
+        },
+        {
+          "$type": "RPG.GameCore.SummonPartner",
+          "PrefabPath": "Characters/CharacterPrefabs/Avatar/Activity/ActivitySummon/Avatar_ActivitySummon_W3_Junk_00.prefab",
+          "ConfigPath": "Config/ConfigCharacter/Activity/ActivitySummon/ActivitySummon_Junk_BattleEvent_Partner_00_Config.json",
+          "MemberName": "Junk04"
+        },
+        {
+          "$type": "RPG.GameCore.SummonPartner",
+          "PrefabPath": "Characters/CharacterPrefabs/Avatar/Activity/ActivitySummon/Avatar_ActivitySummon_W3_Junk_00.prefab",
+          "ConfigPath": "Config/ConfigCharacter/Activity/ActivitySummon/ActivitySummon_Junk_BattleEvent_Partner_00_Config.json",
+          "MemberName": "Junk05"
+        },
+        {
+          "$type": "RPG.GameCore.CharacterReplaceOriginMaterial",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk01"
+          },
+          "ReplaceKey": "W3_Junk_00_Paster_Dark_Sampo"
+        },
+        {
+          "$type": "RPG.GameCore.CharacterReplaceOriginMaterial",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk02"
+          },
+          "ReplaceKey": "W3_Junk_00_Paster_Dark_Sampo"
+        },
+        {
+          "$type": "RPG.GameCore.CharacterReplaceOriginMaterial",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk03"
+          },
+          "ReplaceKey": "W3_Junk_00_Paster_Dark_Sampo"
+        },
+        {
+          "$type": "RPG.GameCore.CharacterReplaceOriginMaterial",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk04"
+          },
+          "ReplaceKey": "W3_Junk_00_Paster_Dark_Sampo"
+        },
+        {
+          "$type": "RPG.GameCore.CharacterReplaceOriginMaterial",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk05"
+          },
+          "ReplaceKey": "W3_Junk_00_Paster_Dark_Sampo"
+        },
+        {
+          "$type": "RPG.GameCore.SetCharacterAnimFollow",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk01"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetCharacterAnimFollow",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk02"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetCharacterAnimFollow",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk03"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetCharacterAnimFollow",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk04"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetCharacterAnimFollow",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk05"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk01"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk02"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk03"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk04"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk05"
+          }
+        }
+      ]
+    },
+    {
+      "Modifiers": {
+        "MActivity_ElationBattle_Sampo_ChosenTarget": {}
+      },
+      "OnInsertAbort": [
+        {
+          "$type": "RPG.GameCore.ElationActivityActionBarAbilityChange",
+          "CharacterID": 3121108,
+          "IsAdd": false
+        }
+      ],
+      "Name": "Avatar_Sampo_00_ElationBattle_BEAbility",
+      "TargetInfo": {
+        "TargetType": "InherentTargetEntity"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.WaitFor",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByDieAnimFinished",
+            "TeamTypeMask": "TeamDark",
+            "EntityTypeMask": "Mask_TeamCharacters"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetDynamicValueByHardLevelProperty",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "LevelEntity"
+          },
+          "Property": "HPRatio",
+          "DynamicKey": "_HardLevelHpRatio"
+        },
+        {
+          "$type": "RPG.GameCore.SetTeamFormation",
+          "Team": "TeamDark",
+          "FormationType": "DarkTeamNormal"
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityInherentTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllDarkTeam"
+          },
+          "AbilityName": {
+            "Value": "Avatar_Sampo_00_ElationBattle_BEAbility_TriggerAnim"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityInherentTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllDarkTeam"
+          },
+          "AbilityName": {
+            "Value": "Avatar_Sampo_00_ElationBattle_BE_Camera"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsContainModifier",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "LevelEntity"
+            },
+            "ModifierName": {
+              "Value": "MActivity_ElationBattle_Sampo_BETrigger"
+            }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.ActivityElationShowCutIn",
+              "IsSpecialCutin": true,
+              "Duration": -1,
+              "AvatarID": 3121108
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByCopying",
+              "FromTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "LevelEntity"
+              },
+              "FromDynamicKey": {
+                "Value": "MDF_ElationEnergy"
+              },
+              "FromModifierName": {
+                "Value": "MActivity_ElationBattle_Sampo_BETrigger"
+              },
+              "ToDynamicKey": {
+                "Value": "_Current_ElationEnergy"
+              },
+              "TargetContextScope": "ContextCaster"
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.ActivityElationShowCutIn",
+              "Duration": -1,
+              "AvatarID": 3121108
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByActivityElation",
+              "DynamicKey": "_Current_ElationEnergy",
+              "ContextScope": "ContextCaster"
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareDynamicValue",
+            "DynamicKey": {
+              "Value": "MDF_CerydraTrigger"
+            },
+            "CompareType": "Equal",
+            "CompareValue": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 1
+              }
+            }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.ShowUIPage",
+              "AssetPath": "UI/Common/Widget/BattleSelfStatusHint.prefab",
+              "UITextNodes": [
+                {
+                  "TextPath": "AreaInfoPanel/Title/Text",
+                  "TextContent": {
+                    "Hash": 11648049338400892337
+                  }
+                }
+              ],
+              "LifeTime": 2
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "Value": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQABAQECBBABEQ==",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    1776456860,
+                    -2095322645,
+                    156003375
+                  ]
+                }
+              },
+              "DynamicKey": {
+                "Value": "_Current_ElationEnergy"
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitAbilityStartTimeStamp",
+          "WaitTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.25
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk01"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Junk_00/Eff_Monster_W3_Junk_00_Skill04_Activity_physics_Bullet.prefab",
+          "ForceSimulateImmediately": false
+        },
+        {
+          "$type": "RPG.GameCore.WaitAbilityStartTimeStamp",
+          "WaitTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.35
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk02"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Junk_00/Eff_Monster_W3_Junk_00_Skill04_Activity_physics_Bullet.prefab",
+          "ForceSimulateImmediately": false
+        },
+        {
+          "$type": "RPG.GameCore.WaitAbilityStartTimeStamp",
+          "WaitTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.45
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk03"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Junk_00/Eff_Monster_W3_Junk_00_Skill04_Activity_physics_Bullet.prefab",
+          "ForceSimulateImmediately": false
+        },
+        {
+          "$type": "RPG.GameCore.WaitAbilityStartTimeStamp",
+          "WaitTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.55
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk04"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Junk_00/Eff_Monster_W3_Junk_00_Skill04_Activity_physics_Bullet.prefab",
+          "ForceSimulateImmediately": false
+        },
+        {
+          "$type": "RPG.GameCore.WaitAbilityStartTimeStamp",
+          "WaitTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.55
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk05"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Junk_00/Eff_Monster_W3_Junk_00_Skill04_Activity_physics_Bullet.prefab",
+          "ForceSimulateImmediately": false
+        },
+        {
+          "$type": "RPG.GameCore.WaitAbilityStartTimeStamp",
+          "WaitTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1.1
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.RemoveModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllDarkTeam"
+          },
+          "ModifierName": {
+            "Value": "MActivity_ElationBattle_Sampo_ChosenTarget"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetSequence",
+            "Sequence": [
+              {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllDarkTeam"
+              },
+              {
+                "$type": "RPG.GameCore.TargetSortByFormation",
+                "HighestFirst": true
+              },
+              {
+                "$type": "RPG.GameCore.TargetTake",
+                "Count": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                }
+              }
+            ]
+          },
+          "ModifierName": {
+            "Value": "MActivity_ElationBattle_Sampo_ChosenTarget"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetSequence",
+            "Sequence": [
+              {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllDarkTeam"
+              },
+              {
+                "$type": "RPG.GameCore.TargetSortByFormation"
+              },
+              {
+                "$type": "RPG.GameCore.TargetTake",
+                "Count": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                }
+              }
+            ]
+          },
+          "ModifierName": {
+            "Value": "MActivity_ElationBattle_Sampo_ChosenTarget"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerParallelTaskListTemplate",
+          "Templates": [
+            {
+              "Name": "Avatar_Sampo_00_ElationBattle_Bullet01_Template"
+            },
+            {
+              "Name": "Avatar_Sampo_00_ElationBattle_Bullet02_Template",
+              "BaseDelay": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.1
+                }
+              }
+            },
+            {
+              "Name": "Avatar_Sampo_00_ElationBattle_Bullet03_Template",
+              "BaseDelay": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.2
+                }
+              }
+            },
+            {
+              "Name": "Avatar_Sampo_00_ElationBattle_Bullet04_Template",
+              "BaseDelay": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.3
+                }
+              }
+            },
+            {
+              "Name": "Avatar_Sampo_00_ElationBattle_Bullet05_Template",
+              "BaseDelay": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.4
+                }
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitAllProjectileFinish"
+        },
+        {
+          "$type": "RPG.GameCore.DamagePerformFinish"
+        },
+        {
+          "$type": "RPG.GameCore.SetDynamicValue",
+          "Value": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0
+            }
+          },
+          "DynamicKey": {
+            "Value": "MDF_HasRestBE"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllLightTeamWithAllLightTeamUnselectable - Caster"
+          },
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsContainModifier",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ParamEntity"
+            },
+            "ModifierName": {
+              "Value": "MActivity_ElationBattle_HasBEAbilityToTrigger_Tag"
+            }
+          },
+          "MaxNumber": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "DynamicKey": {
+                "Value": "MDF_HasRestBE"
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareDynamicValue",
+            "DynamicKey": {
+              "Value": "MDF_HasRestBE"
+            },
+            "CompareType": "Equal",
+            "CompareValue": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 0
+              }
+            }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.5
+                }
+              }
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              },
+              "DynamicKey": {
+                "Value": "MDF_NeedResetCamera"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              },
+              "DynamicKey": {
+                "Value": "MDF_FindSampo"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.Retarget",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "RightToLeftLightTeamTarget"
+              },
+              "TaskList": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "MDF_FindSampo"
+                    },
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 1
+                      }
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByAny",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByIsContainModifier",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntity"
+                            },
+                            "ModifierName": {
+                              "Value": "MActivity_ElationBattle_Sparkle_AvatarTag"
+                            }
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByIsContainModifier",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntity"
+                            },
+                            "ModifierName": {
+                              "Value": "MActivity_ElationBattle_Aventurine_AvatarTag"
+                            }
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByIsContainModifier",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntity"
+                            },
+                            "ModifierName": {
+                              "Value": "MActivity_ElationBattle_Qingque_AvatarTag"
+                            }
+                          }
+                        ]
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.SetDynamicValue",
+                          "Value": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 1
+                            }
+                          },
+                          "DynamicKey": {
+                            "Value": "MDF_NeedResetCamera"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByIsContainModifier",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "ModifierName": {
+                      "Value": "MActivity_ElationBattle_Sampo_AvatarTag"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "MDF_FindSampo"
+                      }
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "MDF_FindSampo"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "DynamicKey": {
+                  "Value": "MDF_NeedResetCamera"
+                },
+                "CompareType": "Equal",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.VCameraConfigChange",
+                  "CameraConfig": {
+                    "NormalConfig": {
+                      "CameraState": "UseSkillPerform",
+                      "AnchorTargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "DarkTeamCenter"
+                      },
+                      "IsLocalOffset": true,
+                      "AnchorOffset": {
+                        "X": 0.001,
+                        "Y": 2.5,
+                        "Z": 0.001
+                      },
+                      "AimTargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "DarkTeamCenter"
+                      },
+                      "AimOffset": {
+                        "X": 0.001,
+                        "Y": 0.7,
+                        "Z": 0.001
+                      },
+                      "FollowPoleAngle": 90,
+                      "FollowRadius": 12.5,
+                      "FollowDamp": 0.5,
+                      "AimDamp": 0.5
+                    },
+                    "BlendConfig": {
+                      "BlendType": "Custom",
+                      "CustomCurveName": "BlendCut_00to1",
+                      "BlendTime": 0.5
+                    },
+                    "ShowEntityConfig": {
+                      "ShowTargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "CasterWithAllEnemy"
+                      },
+                      "IsTargetIgnoreCameraDither": true,
+                      "IsAliveOnly": false
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.5
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "DynamicValues": {
+        "Floats": {
+          "1025702329": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "1964852332": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-305868883": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "2038923012": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "962887169": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
+        }
+      },
+      "TaskListTemplate": [
+        {
+          "Name": "Avatar_Sampo_00_ElationBattle_Bullet01_Template",
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.RemoveEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchPartner",
+                "Name": "Junk01"
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Junk_00/Eff_Monster_W3_Junk_00_Skill04_Activity_physics_Bullet.prefab",
+              "ForceImmediateFadeOut": false
+            },
+            {
+              "$type": "RPG.GameCore.Retarget",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "RightToLeftDarkTeamTarget"
+              },
+              "MaxNumber": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "TaskList": [
+                {
+                  "$type": "RPG.GameCore.FireProjectile",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "CustomAnchorTarget": {
+                    "$type": "RPG.GameCore.TargetFetchPartner",
+                    "Name": "Junk01"
+                  },
+                  "Projectile": {
+                    "ColliderTemplate": "CapsuleZ_BattleCommonBullet",
+                    "FlyTime": 0.3,
+                    "AttachPoint": "RHand",
+                    "AttachOffset": {
+                      "X": 0.2,
+                      "Y": 0.4,
+                      "Z": 1.2
+                    },
+                    "TargetAttachPoint": "SelectRoot",
+                    "TargetOffset": {
+                      "X": 0.25,
+                      "Y": 0,
+                      "Z": 0.25
+                    },
+                    "FlyEffect": "Effects/Eff_Prefab/Eff_ActivityProp/Eff_ActivityProp_ElationBattle/Eff_ActivityProp_ElationBattle_Sampo_Boom_Bullet.prefab",
+                    "HitEffect": "Effects/Eff_Prefab/Eff_ActivityProp/Eff_ActivityProp_ElationBattle/Eff_ActivityProp_ElationBattle_Sampo_Boom.prefab",
+                    "FlyEffectFadeOut": true,
+                    "AlignHitEffect": true,
+                    "WriteProgressToEffectAnimator": true
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.WaitParallelTimeStamp",
+                  "WaitTime": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0.3
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.DamageByAttackProperty",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "AttackProperty": {
+                    "$type": "RPG.GameCore.AttackData",
+                    "DamageType": {
+                      "DamageType": "Physical"
+                    },
+                    "DamageValue": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQABAQQBAgQBAwQR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          -902560830,
+                          120190099,
+                          -1007921549,
+                          -2095322645
+                        ]
+                      }
+                    },
+                    "AttackType": "Level",
+                    "FinalFormulaType": "ByBaseDamage",
+                    "HitAnimation": "Hit_H",
+                    "HitAngleVertical": -30
+                  },
+                  "CanTriggerLastKill": true,
+                  "DisplayData": {
+                    "UIMessageHeight": 0.15,
+                    "DitherRangeY": 0.1
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.VCameraConfigChange",
+                  "CameraConfig": {
+                    "ShakeTemplateName": "Punch_Light",
+                    "OverrideShakeConfigV2": {
+                      "ShakeScale": 0.25,
+                      "ShakeTime": 0.1,
+                      "ShakeDir": {
+                        "X": 0.05,
+                        "Y": 0.05,
+                        "Z": -0.3
+                      }
+                    },
+                    "DontOverrideLastShowEntityConfig": true
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "Avatar_Sampo_00_ElationBattle_Bullet02_Template",
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.RemoveEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchPartner",
+                "Name": "Junk02"
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Junk_00/Eff_Monster_W3_Junk_00_Skill04_Activity_physics_Bullet.prefab",
+              "ForceImmediateFadeOut": false
+            },
+            {
+              "$type": "RPG.GameCore.Retarget",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllDarkTeam"
+              },
+              "Predicate": {
+                "$type": "RPG.GameCore.ByIsContainModifier",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                },
+                "ModifierName": {
+                  "Value": "MActivity_ElationBattle_Sampo_ChosenTarget"
+                },
+                "Inverse": true
+              },
+              "ByRandom": true,
+              "MaxNumber": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "TaskList": [
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MActivity_ElationBattle_Sampo_ChosenTarget"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.FireProjectile",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "CustomAnchorTarget": {
+                    "$type": "RPG.GameCore.TargetFetchPartner",
+                    "Name": "Junk02"
+                  },
+                  "Projectile": {
+                    "ColliderTemplate": "CapsuleZ_BattleCommonBullet",
+                    "FlyTime": 0.3,
+                    "AttachPoint": "RHand",
+                    "AttachOffset": {
+                      "X": 0.2,
+                      "Y": 0.4,
+                      "Z": 1.2
+                    },
+                    "TargetAttachPoint": "SelectRoot",
+                    "TargetOffset": {
+                      "X": 0.25,
+                      "Y": 0,
+                      "Z": 0.25
+                    },
+                    "FlyEffect": "Effects/Eff_Prefab/Eff_ActivityProp/Eff_ActivityProp_ElationBattle/Eff_ActivityProp_ElationBattle_Sampo_Boom_Bullet.prefab",
+                    "HitEffect": "Effects/Eff_Prefab/Eff_ActivityProp/Eff_ActivityProp_ElationBattle/Eff_ActivityProp_ElationBattle_Sampo_Boom.prefab",
+                    "FlyEffectFadeOut": true,
+                    "AlignHitEffect": true,
+                    "WriteProgressToEffectAnimator": true
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.WaitParallelTimeStamp",
+                  "WaitTime": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0.3
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.DamageByAttackProperty",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "AttackProperty": {
+                    "$type": "RPG.GameCore.AttackData",
+                    "DamageType": {
+                      "DamageType": "Physical"
+                    },
+                    "DamageValue": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQABAQQBAgQBAwQR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          -902560830,
+                          120190099,
+                          -1007921549,
+                          -2095322645
+                        ]
+                      }
+                    },
+                    "AttackType": "Level",
+                    "FinalFormulaType": "ByBaseDamage",
+                    "HitAnimation": "Hit_H",
+                    "HitAngleVertical": -30
+                  },
+                  "CanTriggerLastKill": true,
+                  "DisplayData": {
+                    "UIMessageHeight": 0.15,
+                    "DitherRangeY": 0.1
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.VCameraConfigChange",
+                  "CameraConfig": {
+                    "ShakeTemplateName": "Punch_Light",
+                    "OverrideShakeConfigV2": {
+                      "ShakeScale": 0.25,
+                      "ShakeTime": 0.1,
+                      "ShakeDir": {
+                        "X": 0.05,
+                        "Y": 0.05,
+                        "Z": -0.3
+                      }
+                    },
+                    "DontOverrideLastShowEntityConfig": true
+                  }
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.Retarget",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "AllDarkTeam"
+                  },
+                  "ByRandom": true,
+                  "MaxNumber": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "TaskList": [
+                    {
+                      "$type": "RPG.GameCore.FireProjectile",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "CustomAnchorTarget": {
+                        "$type": "RPG.GameCore.TargetFetchPartner",
+                        "Name": "Junk02"
+                      },
+                      "Projectile": {
+                        "ColliderTemplate": "CapsuleZ_BattleCommonBullet",
+                        "FlyTime": 0.3,
+                        "AttachPoint": "RHand",
+                        "AttachOffset": {
+                          "X": 0.2,
+                          "Y": 0.4,
+                          "Z": 1.2
+                        },
+                        "TargetAttachPoint": "SelectRoot",
+                        "TargetOffset": {
+                          "X": 0.25,
+                          "Y": 0,
+                          "Z": 0.25
+                        },
+                        "FlyEffect": "Effects/Eff_Prefab/Eff_ActivityProp/Eff_ActivityProp_ElationBattle/Eff_ActivityProp_ElationBattle_Sampo_Boom_Bullet.prefab",
+                        "HitEffect": "Effects/Eff_Prefab/Eff_ActivityProp/Eff_ActivityProp_ElationBattle/Eff_ActivityProp_ElationBattle_Sampo_Boom.prefab",
+                        "FlyEffectFadeOut": true,
+                        "AlignHitEffect": true,
+                        "WriteProgressToEffectAnimator": true
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.WaitParallelTimeStamp",
+                      "WaitTime": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0.3
+                        }
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.DamageByAttackProperty",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "AttackProperty": {
+                        "$type": "RPG.GameCore.AttackData",
+                        "DamageType": {
+                          "DamageType": "Physical"
+                        },
+                        "DamageValue": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AQABAQQBAgQBAwQR",
+                            "FixedValues": [],
+                            "DynamicHashes": [
+                              -902560830,
+                              120190099,
+                              -1007921549,
+                              -2095322645
+                            ]
+                          }
+                        },
+                        "AttackType": "Level",
+                        "FinalFormulaType": "ByBaseDamage",
+                        "HitAnimation": "Hit_H",
+                        "HitAngleVertical": -30
+                      },
+                      "CanTriggerLastKill": true,
+                      "DisplayData": {
+                        "UIMessageHeight": 0.15,
+                        "DitherRangeY": 0.1
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.VCameraConfigChange",
+                      "CameraConfig": {
+                        "ShakeTemplateName": "Punch_Light",
+                        "OverrideShakeConfigV2": {
+                          "ShakeScale": 0.25,
+                          "ShakeTime": 0.1,
+                          "ShakeDir": {
+                            "X": 0.05,
+                            "Y": 0.05,
+                            "Z": -0.3
+                          }
+                        },
+                        "DontOverrideLastShowEntityConfig": true
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "Avatar_Sampo_00_ElationBattle_Bullet03_Template",
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.RemoveEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchPartner",
+                "Name": "Junk03"
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Junk_00/Eff_Monster_W3_Junk_00_Skill04_Activity_physics_Bullet.prefab",
+              "ForceImmediateFadeOut": false
+            },
+            {
+              "$type": "RPG.GameCore.Retarget",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllDarkTeam"
+              },
+              "Predicate": {
+                "$type": "RPG.GameCore.ByIsContainModifier",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                },
+                "ModifierName": {
+                  "Value": "MActivity_ElationBattle_Sampo_ChosenTarget"
+                },
+                "Inverse": true
+              },
+              "ByRandom": true,
+              "MaxNumber": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "TaskList": [
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MActivity_ElationBattle_Sampo_ChosenTarget"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.FireProjectile",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "CustomAnchorTarget": {
+                    "$type": "RPG.GameCore.TargetFetchPartner",
+                    "Name": "Junk03"
+                  },
+                  "Projectile": {
+                    "ColliderTemplate": "CapsuleZ_BattleCommonBullet",
+                    "FlyTime": 0.3,
+                    "AttachPoint": "RHand",
+                    "AttachOffset": {
+                      "X": 0.2,
+                      "Y": 0.4,
+                      "Z": 1.2
+                    },
+                    "TargetAttachPoint": "SelectRoot",
+                    "TargetOffset": {
+                      "X": 0.25,
+                      "Y": 0,
+                      "Z": 0.25
+                    },
+                    "FlyEffect": "Effects/Eff_Prefab/Eff_ActivityProp/Eff_ActivityProp_ElationBattle/Eff_ActivityProp_ElationBattle_Sampo_Boom_Bullet.prefab",
+                    "HitEffect": "Effects/Eff_Prefab/Eff_ActivityProp/Eff_ActivityProp_ElationBattle/Eff_ActivityProp_ElationBattle_Sampo_Boom.prefab",
+                    "FlyEffectFadeOut": true,
+                    "AlignHitEffect": true,
+                    "WriteProgressToEffectAnimator": true
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.WaitParallelTimeStamp",
+                  "WaitTime": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0.3
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.DamageByAttackProperty",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "AttackProperty": {
+                    "$type": "RPG.GameCore.AttackData",
+                    "DamageType": {
+                      "DamageType": "Physical"
+                    },
+                    "DamageValue": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQABAQQBAgQBAwQR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          -902560830,
+                          120190099,
+                          -1007921549,
+                          -2095322645
+                        ]
+                      }
+                    },
+                    "AttackType": "Level",
+                    "FinalFormulaType": "ByBaseDamage",
+                    "HitAnimation": "Hit_H",
+                    "HitAngleVertical": -30
+                  },
+                  "CanTriggerLastKill": true,
+                  "DisplayData": {
+                    "UIMessageHeight": 0.15,
+                    "DitherRangeY": 0.1
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.VCameraConfigChange",
+                  "CameraConfig": {
+                    "ShakeTemplateName": "Punch_Light",
+                    "OverrideShakeConfigV2": {
+                      "ShakeScale": 0.25,
+                      "ShakeTime": 0.1,
+                      "ShakeDir": {
+                        "X": 0.05,
+                        "Y": 0.05,
+                        "Z": -0.3
+                      }
+                    },
+                    "DontOverrideLastShowEntityConfig": true
+                  }
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.Retarget",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "AllDarkTeam"
+                  },
+                  "ByRandom": true,
+                  "MaxNumber": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "TaskList": [
+                    {
+                      "$type": "RPG.GameCore.FireProjectile",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "CustomAnchorTarget": {
+                        "$type": "RPG.GameCore.TargetFetchPartner",
+                        "Name": "Junk03"
+                      },
+                      "Projectile": {
+                        "ColliderTemplate": "CapsuleZ_BattleCommonBullet",
+                        "FlyTime": 0.3,
+                        "AttachPoint": "RHand",
+                        "AttachOffset": {
+                          "X": 0.2,
+                          "Y": 0.4,
+                          "Z": 1.2
+                        },
+                        "TargetAttachPoint": "SelectRoot",
+                        "TargetOffset": {
+                          "X": 0.25,
+                          "Y": 0,
+                          "Z": 0.25
+                        },
+                        "FlyEffect": "Effects/Eff_Prefab/Eff_ActivityProp/Eff_ActivityProp_ElationBattle/Eff_ActivityProp_ElationBattle_Sampo_Boom_Bullet.prefab",
+                        "HitEffect": "Effects/Eff_Prefab/Eff_ActivityProp/Eff_ActivityProp_ElationBattle/Eff_ActivityProp_ElationBattle_Sampo_Boom.prefab",
+                        "FlyEffectFadeOut": true,
+                        "AlignHitEffect": true,
+                        "WriteProgressToEffectAnimator": true
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.WaitParallelTimeStamp",
+                      "WaitTime": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0.3
+                        }
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.DamageByAttackProperty",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "AttackProperty": {
+                        "$type": "RPG.GameCore.AttackData",
+                        "DamageType": {
+                          "DamageType": "Physical"
+                        },
+                        "DamageValue": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AQABAQQBAgQBAwQR",
+                            "FixedValues": [],
+                            "DynamicHashes": [
+                              -902560830,
+                              120190099,
+                              -1007921549,
+                              -2095322645
+                            ]
+                          }
+                        },
+                        "AttackType": "Level",
+                        "FinalFormulaType": "ByBaseDamage",
+                        "HitAnimation": "Hit_H",
+                        "HitAngleVertical": -30
+                      },
+                      "CanTriggerLastKill": true,
+                      "DisplayData": {
+                        "UIMessageHeight": 0.15,
+                        "DitherRangeY": 0.1
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.VCameraConfigChange",
+                      "CameraConfig": {
+                        "ShakeTemplateName": "Punch_Light",
+                        "OverrideShakeConfigV2": {
+                          "ShakeScale": 0.25,
+                          "ShakeTime": 0.1,
+                          "ShakeDir": {
+                            "X": 0.05,
+                            "Y": 0.05,
+                            "Z": -0.3
+                          }
+                        },
+                        "DontOverrideLastShowEntityConfig": true
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "Avatar_Sampo_00_ElationBattle_Bullet04_Template",
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.RemoveEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchPartner",
+                "Name": "Junk04"
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Junk_00/Eff_Monster_W3_Junk_00_Skill04_Activity_physics_Bullet.prefab",
+              "ForceImmediateFadeOut": false
+            },
+            {
+              "$type": "RPG.GameCore.Retarget",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllDarkTeam"
+              },
+              "Predicate": {
+                "$type": "RPG.GameCore.ByIsContainModifier",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                },
+                "ModifierName": {
+                  "Value": "MActivity_ElationBattle_Sampo_ChosenTarget"
+                },
+                "Inverse": true
+              },
+              "ByRandom": true,
+              "MaxNumber": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "TaskList": [
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MActivity_ElationBattle_Sampo_ChosenTarget"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.FireProjectile",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "CustomAnchorTarget": {
+                    "$type": "RPG.GameCore.TargetFetchPartner",
+                    "Name": "Junk04"
+                  },
+                  "Projectile": {
+                    "ColliderTemplate": "CapsuleZ_BattleCommonBullet",
+                    "FlyTime": 0.3,
+                    "AttachPoint": "RHand",
+                    "AttachOffset": {
+                      "X": 0.2,
+                      "Y": 0.4,
+                      "Z": 1.2
+                    },
+                    "TargetAttachPoint": "SelectRoot",
+                    "TargetOffset": {
+                      "X": 0.25,
+                      "Y": 0,
+                      "Z": 0.25
+                    },
+                    "FlyEffect": "Effects/Eff_Prefab/Eff_ActivityProp/Eff_ActivityProp_ElationBattle/Eff_ActivityProp_ElationBattle_Sampo_Boom_Bullet.prefab",
+                    "HitEffect": "Effects/Eff_Prefab/Eff_ActivityProp/Eff_ActivityProp_ElationBattle/Eff_ActivityProp_ElationBattle_Sampo_Boom.prefab",
+                    "FlyEffectFadeOut": true,
+                    "AlignHitEffect": true,
+                    "WriteProgressToEffectAnimator": true
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.WaitParallelTimeStamp",
+                  "WaitTime": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0.3
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.DamageByAttackProperty",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "AttackProperty": {
+                    "$type": "RPG.GameCore.AttackData",
+                    "DamageType": {
+                      "DamageType": "Physical"
+                    },
+                    "DamageValue": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQABAQQBAgQBAwQR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          -902560830,
+                          120190099,
+                          -1007921549,
+                          -2095322645
+                        ]
+                      }
+                    },
+                    "AttackType": "Level",
+                    "FinalFormulaType": "ByBaseDamage",
+                    "HitAnimation": "Hit_H",
+                    "HitAngleVertical": -30
+                  },
+                  "CanTriggerLastKill": true,
+                  "DisplayData": {
+                    "UIMessageHeight": 0.15,
+                    "DitherRangeY": 0.1
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.VCameraConfigChange",
+                  "CameraConfig": {
+                    "ShakeTemplateName": "Punch_Light",
+                    "OverrideShakeConfigV2": {
+                      "ShakeScale": 0.25,
+                      "ShakeTime": 0.1,
+                      "ShakeDir": {
+                        "X": 0.05,
+                        "Y": 0.05,
+                        "Z": -0.3
+                      }
+                    },
+                    "DontOverrideLastShowEntityConfig": true
+                  }
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.Retarget",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "AllDarkTeam"
+                  },
+                  "ByRandom": true,
+                  "MaxNumber": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "TaskList": [
+                    {
+                      "$type": "RPG.GameCore.FireProjectile",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "CustomAnchorTarget": {
+                        "$type": "RPG.GameCore.TargetFetchPartner",
+                        "Name": "Junk04"
+                      },
+                      "Projectile": {
+                        "ColliderTemplate": "CapsuleZ_BattleCommonBullet",
+                        "FlyTime": 0.3,
+                        "AttachPoint": "RHand",
+                        "AttachOffset": {
+                          "X": 0.2,
+                          "Y": 0.4,
+                          "Z": 1.2
+                        },
+                        "TargetAttachPoint": "SelectRoot",
+                        "TargetOffset": {
+                          "X": 0.25,
+                          "Y": 0,
+                          "Z": 0.25
+                        },
+                        "FlyEffect": "Effects/Eff_Prefab/Eff_ActivityProp/Eff_ActivityProp_ElationBattle/Eff_ActivityProp_ElationBattle_Sampo_Boom_Bullet.prefab",
+                        "HitEffect": "Effects/Eff_Prefab/Eff_ActivityProp/Eff_ActivityProp_ElationBattle/Eff_ActivityProp_ElationBattle_Sampo_Boom.prefab",
+                        "FlyEffectFadeOut": true,
+                        "AlignHitEffect": true,
+                        "WriteProgressToEffectAnimator": true
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.WaitParallelTimeStamp",
+                      "WaitTime": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0.3
+                        }
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.DamageByAttackProperty",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "AttackProperty": {
+                        "$type": "RPG.GameCore.AttackData",
+                        "DamageType": {
+                          "DamageType": "Physical"
+                        },
+                        "DamageValue": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AQABAQQBAgQBAwQR",
+                            "FixedValues": [],
+                            "DynamicHashes": [
+                              -902560830,
+                              120190099,
+                              -1007921549,
+                              -2095322645
+                            ]
+                          }
+                        },
+                        "AttackType": "Level",
+                        "FinalFormulaType": "ByBaseDamage",
+                        "HitAnimation": "Hit_H",
+                        "HitAngleVertical": -30
+                      },
+                      "CanTriggerLastKill": true,
+                      "DisplayData": {
+                        "UIMessageHeight": 0.15,
+                        "DitherRangeY": 0.1
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.VCameraConfigChange",
+                      "CameraConfig": {
+                        "ShakeTemplateName": "Punch_Light",
+                        "OverrideShakeConfigV2": {
+                          "ShakeScale": 0.25,
+                          "ShakeTime": 0.1,
+                          "ShakeDir": {
+                            "X": 0.05,
+                            "Y": 0.05,
+                            "Z": -0.3
+                          }
+                        },
+                        "DontOverrideLastShowEntityConfig": true
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "Avatar_Sampo_00_ElationBattle_Bullet05_Template",
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.RemoveEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchPartner",
+                "Name": "Junk05"
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W3_Junk_00/Eff_Monster_W3_Junk_00_Skill04_Activity_physics_Bullet.prefab",
+              "ForceImmediateFadeOut": false
+            },
+            {
+              "$type": "RPG.GameCore.Retarget",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "LeftToRightDarkTeamTarget"
+              },
+              "MaxNumber": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "TaskList": [
+                {
+                  "$type": "RPG.GameCore.FireProjectile",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "CustomAnchorTarget": {
+                    "$type": "RPG.GameCore.TargetFetchPartner",
+                    "Name": "Junk05"
+                  },
+                  "Projectile": {
+                    "ColliderTemplate": "CapsuleZ_BattleCommonBullet",
+                    "FlyTime": 0.3,
+                    "AttachPoint": "RHand",
+                    "AttachOffset": {
+                      "X": 0.2,
+                      "Y": 0.4,
+                      "Z": 1.2
+                    },
+                    "TargetAttachPoint": "SelectRoot",
+                    "TargetOffset": {
+                      "X": 0.25,
+                      "Y": 0,
+                      "Z": 0.25
+                    },
+                    "FlyEffect": "Effects/Eff_Prefab/Eff_ActivityProp/Eff_ActivityProp_ElationBattle/Eff_ActivityProp_ElationBattle_Sampo_Boom_Bullet.prefab",
+                    "HitEffect": "Effects/Eff_Prefab/Eff_ActivityProp/Eff_ActivityProp_ElationBattle/Eff_ActivityProp_ElationBattle_Sampo_Boom.prefab",
+                    "FlyEffectFadeOut": true,
+                    "AlignHitEffect": true,
+                    "WriteProgressToEffectAnimator": true
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.WaitParallelTimeStamp",
+                  "WaitTime": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0.3
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.DamageByAttackProperty",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "AttackProperty": {
+                    "$type": "RPG.GameCore.AttackData",
+                    "DamageType": {
+                      "DamageType": "Physical"
+                    },
+                    "DamageValue": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQABAQQBAgQBAwQR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          -902560830,
+                          120190099,
+                          -1007921549,
+                          -2095322645
+                        ]
+                      }
+                    },
+                    "AttackType": "Level",
+                    "FinalFormulaType": "ByBaseDamage",
+                    "HitAnimation": "Hit_H",
+                    "HitAngleVertical": -30
+                  },
+                  "CanTriggerLastKill": true,
+                  "DisplayData": {
+                    "UIMessageHeight": 0.15,
+                    "DitherRangeY": 0.1
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.VCameraConfigChange",
+                  "CameraConfig": {
+                    "ShakeTemplateName": "Punch_Light",
+                    "OverrideShakeConfigV2": {
+                      "ShakeScale": 0.25,
+                      "ShakeTime": 0.1,
+                      "ShakeDir": {
+                        "X": 0.05,
+                        "Y": 0.05,
+                        "Z": -0.3
+                      }
+                    },
+                    "DontOverrideLastShowEntityConfig": true
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Avatar_Sampo_00_ElationBattle_BEAbility_TriggerAnim",
+      "TargetInfo": {
+        "TargetType": "InherentTargetEntity"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.SetEntityPosition",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk01"
+          },
+          "PosTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "DarkTeamCenter"
+          },
+          "OffsetX": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": -2
+            }
+          },
+          "OffsetZ": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 13
+            }
+          },
+          "YawAngle": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 180
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityPosition",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk02"
+          },
+          "PosTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "DarkTeamCenter"
+          },
+          "OffsetX": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": -1
+            }
+          },
+          "OffsetZ": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 13
+            }
+          },
+          "YawAngle": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 180
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityPosition",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk03"
+          },
+          "PosTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "DarkTeamCenter"
+          },
+          "OffsetX": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0
+            }
+          },
+          "OffsetZ": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 13
+            }
+          },
+          "YawAngle": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 180
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityPosition",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk04"
+          },
+          "PosTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "DarkTeamCenter"
+          },
+          "OffsetX": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          },
+          "OffsetZ": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 13
+            }
+          },
+          "YawAngle": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 180
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityPosition",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk05"
+          },
+          "PosTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "DarkTeamCenter"
+          },
+          "OffsetX": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 2
+            }
+          },
+          "OffsetZ": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 13
+            }
+          },
+          "YawAngle": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 180
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk01"
+          },
+          "Visible": true
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk02"
+          },
+          "Visible": true
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk03"
+          },
+          "Visible": true
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk04"
+          },
+          "Visible": true
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk05"
+          },
+          "Visible": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerParallelTaskListTemplate",
+          "Templates": [
+            {
+              "Name": "Avatar_Sampo_00_ElationBattle_JunkTrigger01"
+            },
+            {
+              "Name": "Avatar_Sampo_00_ElationBattle_JunkTrigger02",
+              "BaseDelay": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.1
+                }
+              }
+            },
+            {
+              "Name": "Avatar_Sampo_00_ElationBattle_JunkTrigger03",
+              "BaseDelay": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.2
+                }
+              }
+            },
+            {
+              "Name": "Avatar_Sampo_00_ElationBattle_JunkTrigger04",
+              "BaseDelay": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.3
+                }
+              }
+            },
+            {
+              "Name": "Avatar_Sampo_00_ElationBattle_JunkTrigger05",
+              "BaseDelay": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.4
+                }
+              }
+            }
+          ],
+          "DynamicValues": {}
+        },
+        {
+          "$type": "RPG.GameCore.WaitFrameForBattleServer"
+        },
+        {
+          "$type": "RPG.GameCore.WaitAllProjectileFinish"
+        },
+        {
+          "$type": "RPG.GameCore.WaitFor",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByDieAnimFinished",
+            "TeamTypeMask": "TeamDark",
+            "EntityTypeMask": "Mask_TeamCharacters"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk01"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk02"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk03"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk04"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchPartner",
+            "Name": "Junk05"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityPosition",
+          "PosTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "LightTeamEntity"
+          },
+          "OffsetZ": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": -40
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "Visible": true
+        },
+        {
+          "$type": "RPG.GameCore.RemoveModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MActivity_ElationBattle_HasBEAbilityToTrigger_Tag"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.ElationActivityActionBarAbilityChange",
+          "CharacterID": 3121108,
+          "IsAdd": false
+        }
+      ],
+      "TaskListTemplate": [
+        {
+          "Name": "Avatar_Sampo_00_ElationBattle_JunkTrigger01",
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerAnimState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchPartner",
+                "Name": "Junk01"
+              },
+              "AnimStateName": "Skill02",
+              "NormalizedTimeEnd": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.85
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.TriggerAnimState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchPartner",
+                "Name": "Junk01"
+              },
+              "AnimLogicState": "Idle",
+              "AnimStateName": "StandBy"
+            }
+          ]
+        },
+        {
+          "Name": "Avatar_Sampo_00_ElationBattle_JunkTrigger02",
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerAnimState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchPartner",
+                "Name": "Junk02"
+              },
+              "AnimStateName": "Skill02",
+              "NormalizedTimeEnd": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "NormalizedTimeWait": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.85
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.TriggerAnimState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchPartner",
+                "Name": "Junk02"
+              },
+              "AnimLogicState": "Idle",
+              "AnimStateName": "StandBy"
+            }
+          ]
+        },
+        {
+          "Name": "Avatar_Sampo_00_ElationBattle_JunkTrigger03",
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerAnimState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchPartner",
+                "Name": "Junk03"
+              },
+              "AnimStateName": "Skill02",
+              "NormalizedTimeEnd": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "NormalizedTimeWait": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.85
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.TriggerAnimState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchPartner",
+                "Name": "Junk03"
+              },
+              "AnimLogicState": "Idle",
+              "AnimStateName": "StandBy"
+            }
+          ]
+        },
+        {
+          "Name": "Avatar_Sampo_00_ElationBattle_JunkTrigger04",
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerAnimState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchPartner",
+                "Name": "Junk04"
+              },
+              "AnimStateName": "Skill02",
+              "NormalizedTimeEnd": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "NormalizedTimeWait": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.85
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.TriggerAnimState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchPartner",
+                "Name": "Junk04"
+              },
+              "AnimLogicState": "Idle",
+              "AnimStateName": "StandBy"
+            }
+          ]
+        },
+        {
+          "Name": "Avatar_Sampo_00_ElationBattle_JunkTrigger05",
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerAnimState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchPartner",
+                "Name": "Junk05"
+              },
+              "AnimStateName": "Skill02",
+              "NormalizedTimeEnd": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "NormalizedTimeWait": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.85
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.TriggerAnimState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchPartner",
+                "Name": "Junk05"
+              },
+              "AnimLogicState": "Idle",
+              "AnimStateName": "StandBy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Avatar_Sampo_00_ElationBattle_BE_Camera",
+      "TargetInfo": {
+        "TargetType": "InherentTargetEntity"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.VCameraConfigChange",
+          "CameraConfig": {
+            "NormalConfig": {
+              "CameraState": "UseSkillPerform",
+              "AnchorTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "DarkTeamCenter"
+              },
+              "IsLocalOffset": true,
+              "AnchorOffset": {
+                "X": 0.001,
+                "Y": 2.5,
+                "Z": 0.001
+              },
+              "AimTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "DarkTeamCenter"
+              },
+              "AimOffset": {
+                "X": 0.001,
+                "Y": 0.7,
+                "Z": 0.001
+              },
+              "FollowPoleAngle": 90,
+              "FollowRadius": 12.5,
+              "FollowDamp": 0.5,
+              "AimDamp": 0.5
+            },
+            "BlendConfig": {
+              "BlendType": "Custom",
+              "CustomCurveName": "BlendCut_00to1",
+              "BlendTime": 0.7
+            },
+            "ShowEntityConfig": {
+              "ShowTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "CasterWithAllEnemy"
+              },
+              "IsTargetIgnoreCameraDither": true,
+              "IsAliveOnly": false
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitSecond",
+          "WaitTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.38750002
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.VCameraConfigChange",
+          "CameraConfig": {
+            "NormalConfig": {
+              "CameraState": "UseSkillPerform",
+              "AnchorTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "DarkTeamCenter"
+              },
+              "IsLocalOffset": true,
+              "AnchorOffset": {
+                "X": 0.001,
+                "Y": 2.5,
+                "Z": 6
+              },
+              "AimTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "DarkTeamCenter"
+              },
+              "AimOffset": {
+                "X": 0.001,
+                "Y": 0.7,
+                "Z": 6
+              },
+              "FollowPoleAngle": 90,
+              "FollowRadius": 12.5,
+              "FollowDamp": 0.5,
+              "AimDamp": 0.5
+            },
+            "BlendConfig": {
+              "BlendType": "Custom",
+              "CustomCurveName": "BlendCut_00to1",
+              "BlendTime": 0.7
+            },
+            "ShowEntityConfig": {
+              "ShowTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "CasterWithAllEnemy"
+              },
+              "IsTargetIgnoreCameraDither": true,
+              "IsAliveOnly": false
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "GlobalTemplates": []
+}
