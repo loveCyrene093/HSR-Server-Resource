@@ -1,0 +1,186 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+            "Name": "FSV_CPUCoreNumis4",
+            "CompareValue": 1
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+                    "Name": "FSV_NormalProblemSolved",
+                    "CompareValue": 1
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+                    "Name": "FSV_BugProblemSolved",
+                    "CompareValue": 1
+                  }
+                ]
+              },
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.AdvSetupButtonListTrigger",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx",
+                    "SinglePropKey": {
+                      "Custom": true,
+                      "Key": "RailBall"
+                    }
+                  },
+                  "TriggerName": "InteractTrigger",
+                  "ButtonsByName": [],
+                  "ButtonConfigs": [
+                    {
+                      "ID": "Option1",
+                      "IconType": "CheckIcon",
+                      "ButtonText": {
+                        "Value": "PropInteractTitle_1"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvOnButtonPressed",
+          "ButtonName": "Option1",
+          "OnPressedCallback": [
+            {
+              "$type": "RPG.GameCore.ToastPile",
+              "DescTextKey": {
+                "Custom": true,
+                "Key": "ToastTextmap"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitFloorSavedValueChangeV2",
+          "Name": {
+            "Value": "FSV_NormalProblemSolved"
+          },
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+                "Name": "FSV_BugProblemSolved",
+                "CompareValue": 1
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.AdvEnableTrigger",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  },
+                  "TriggerName": "InteractTrigger"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitFloorSavedValueChangeV2",
+          "Name": {
+            "Value": "FSV_BugProblemSolved"
+          },
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+                "Name": "FSV_BugProblemSolved",
+                "DynamicName": {
+                  "Value": "FSV_NormalProblemSolved"
+                },
+                "CompareValue": 1
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.AdvEnableTrigger",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  },
+                  "TriggerName": "InteractTrigger"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitFloorSavedValueChangeV2",
+          "Name": {
+            "Value": "FSV_CPUCoreNumis4"
+          },
+          "Condition": {
+            "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+            "Name": "FSV_CPUCoreNumis4",
+            "CompareValue": 1
+          },
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.AdvSetupButtonListTrigger",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx",
+                "SinglePropKey": {
+                  "Custom": true,
+                  "Key": "RailBall"
+                }
+              },
+              "TriggerName": "InteractTrigger",
+              "ButtonsByName": [],
+              "ButtonConfigs": [
+                {
+                  "ID": "Option1",
+                  "IconType": "CheckIcon",
+                  "ButtonText": {
+                    "Value": "PropInteractTitle_1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "ValueSource": {
+    "Values": [
+      {
+        "$type": "RPG.GameCore.SharedString",
+        "Key": "ToastTextmap"
+      }
+    ]
+  },
+  "Type": "EntityInstance",
+  "EntityEventList": []
+}
