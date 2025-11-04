@@ -1186,7 +1186,6 @@
                             "$type": "RPG.GameCore.TargetAlias",
                             "Alias": "AbilityTargetEntity"
                           },
-                          "OverrideProperty": true,
                           "DynamicValues": {
                             "MDF_Skill03_DamagePercentage": {
                               "IsDynamic": true,
@@ -1252,7 +1251,6 @@
                             "$type": "RPG.GameCore.TargetAlias",
                             "Alias": "AbilityTargetEntity"
                           },
-                          "OverrideProperty": true,
                           "DynamicValues": {
                             "MDF_Skill03_DamagePercentage": {
                               "IsDynamic": true,
@@ -1329,7 +1327,6 @@
                             "$type": "RPG.GameCore.TargetAlias",
                             "Alias": "AbilityTargetEntity"
                           },
-                          "OverrideProperty": true,
                           "DynamicValues": {
                             "MDF_Skill03_DamagePercentage": {
                               "IsDynamic": true,
@@ -1391,7 +1388,6 @@
                             "$type": "RPG.GameCore.TargetAlias",
                             "Alias": "AbilityTargetEntity"
                           },
-                          "OverrideProperty": true,
                           "DynamicValues": {
                             "MDF_Skill03_DamagePercentage": {
                               "IsDynamic": true,
@@ -1794,6 +1790,42 @@
                   ]
                 }
               ]
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByIsContainModifier",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "Caster"
+                },
+                "ModifierName": {
+                  "Value": "MAvatar_DanHengPT_00_BoostEnergy"
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.ShowActionBarEffect",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "DanHengPT_00_BattleEventLongLing"
+                  },
+                  "MultiActionIndexes": [
+                    1
+                  ],
+                  "IsShow": true,
+                  "EffectPrefabs": [
+                    {
+                      "Status": "Normal",
+                      "Path": "UI/Battle/TimLineIconFx/TimeLineEffs_1414_Normal.prefab"
+                    },
+                    {
+                      "Status": "Action",
+                      "Path": "UI/Battle/TimLineIconFx/TimeLineEffs_1414_Action.prefab"
+                    }
+                  ]
+                }
+              ]
             }
           ],
           "FailedTaskList": [
@@ -1810,10 +1842,6 @@
               }
             }
           ]
-        },
-        {
-          "$type": "RPG.GameCore.IncludeTaskListTemplate",
-          "Name": "DanHengPT_RecordCurrentShield"
         },
         {
           "$type": "RPG.GameCore.IncludeTaskListTemplate",
@@ -1885,10 +1913,6 @@
             "Alias": "Caster"
           },
           "Value": "Attack"
-        },
-        {
-          "$type": "RPG.GameCore.IncludeTaskListTemplate",
-          "Name": "DanHengPT_RecordCurrentShield"
         },
         {
           "$type": "RPG.GameCore.IncludeTaskListTemplate",
@@ -2584,10 +2608,6 @@
         },
         {
           "$type": "RPG.GameCore.IncludeTaskListTemplate",
-          "Name": "DanHengPT_RecordCurrentShield"
-        },
-        {
-          "$type": "RPG.GameCore.IncludeTaskListTemplate",
           "Name": "DanHengPT_Skill03_AddShield"
         },
         {
@@ -2609,12 +2629,6 @@
           "TargetType": {
             "$type": "RPG.GameCore.TargetAlias",
             "Alias": "Caster"
-          }
-        },
-        {
-          "$type": "RPG.GameCore.ShowSkillTextDialog",
-          "SkillName": {
-            "Hash": 10367782174689759335
           }
         },
         {
@@ -3232,23 +3246,75 @@
       },
       "OnStart": [
         {
-          "$type": "RPG.GameCore.AddModifier",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "DanHengPT_00_BattleEventCaster"
-          },
-          "ModifierName": {
-            "Value": "MAvatar_DanHengPT_00_BoostEnergy"
-          },
-          "DynamicValues": {
-            "MDF_IsStack": {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareDynamicValue",
+            "DynamicKey": {
+              "Value": "DanHengPT_IsFreeAction"
+            },
+            "CompareType": "Equal",
+            "CompareValue": {
               "IsDynamic": false,
               "FixedValue": {
-                "Value": 0
+                "Value": 1
               }
             }
           },
-          "InheritCaster": "TargetSelf"
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "DanHengPT_00_BattleEventCaster"
+                },
+                "DynamicKey": {
+                  "Value": "DanHengPT_Passive_Count"
+                },
+                "CompareType": "Equal",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.RemoveModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "DanHengPT_00_BattleEventCaster"
+                  },
+                  "ModifierName": {
+                    "Value": "MAvatar_DanHengPT_00_BoostEnergy"
+                  }
+                }
+              ]
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "DanHengPT_00_BattleEventCaster"
+              },
+              "ModifierName": {
+                "Value": "MAvatar_DanHengPT_00_BoostEnergy"
+              },
+              "DynamicValues": {
+                "MDF_IsStack": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
+              },
+              "InheritCaster": "TargetSelf"
+            }
+          ]
         },
         {
           "$type": "RPG.GameCore.WaitSecond",
@@ -3561,6 +3627,114 @@
         {
           "$type": "RPG.GameCore.PredicateTaskList",
           "Predicate": {
+            "$type": "RPG.GameCore.ByAnd",
+            "PredicateList": [
+              {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "DynamicKey": {
+                  "Value": "DanHengPT_ExtraDamageCount"
+                },
+                "CompareType": "Greater",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
+              },
+              {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "DynamicKey": {
+                  "Value": "DanHengPT_LongLing_Flag"
+                },
+                "CompareType": "Equal",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                }
+              }
+            ]
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByShield",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "DanHengPT_00_BattleEventOwner"
+              },
+              "DynamicKey": "DanHengPT_ExtraDamageShield"
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "Value": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAAAAMR",
+                  "FixedValues": [
+                    {
+                      "Value": 1
+                    }
+                  ],
+                  "DynamicHashes": [
+                    11092676
+                  ]
+                }
+              },
+              "DynamicKey": {
+                "Value": "DanHengPT_ExtraDamageCount"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.DamageByAttackProperty",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllEnemy"
+              },
+              "AttackProperty": {
+                "$type": "RPG.GameCore.AttackData",
+                "DamageType": {
+                  "SourceType": "ReadTargetType",
+                  "ReadTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "DanHengPT_00_BattleEventOwner"
+                  }
+                },
+                "DamageValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQABAQQR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      54568576,
+                      286063300
+                    ]
+                  }
+                },
+                "AttackType": "Pursued",
+                "DamageTag": [
+                  {
+                    "EnumIndex": 3,
+                    "Value": 39
+                  }
+                ]
+              },
+              "DisplayData": {},
+              "OverrideAttacker": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "DanHengPT_00_BattleEventOwner"
+              },
+              "OverrideDamagePropertySource": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "DanHengPT_00_BattleEventOwner"
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
             "$type": "RPG.GameCore.BySkillPointActivated",
             "PointTriggerKey": "PointB3"
           },
@@ -3641,6 +3815,36 @@
                   ]
                 }
               ]
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareDynamicValue",
+            "DynamicKey": {
+              "Value": "DanHengPT_IsFreeAction"
+            },
+            "CompareType": "Equal",
+            "CompareValue": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 1
+              }
+            }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              },
+              "DynamicKey": {
+                "Value": "DanHengPT_IsFreeAction"
+              }
             }
           ]
         },
@@ -4297,6 +4501,288 @@
               }
             }
           }
+        },
+        "MAvatar_DanHengPT_00_ExtraListen": {
+          "_CallbackList": [
+            {
+              "Event": "OnModifierOnStack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCheckModifierCallBackName",
+                    "ModifierName": "MAvatar_DanHengPT_00_LongLingAttackExtraDamage"
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "DanHengPT_00_BattleEventCaster"
+                      },
+                      "ModifierName": {
+                        "Value": "MAvatar_DanHengPT_00_ExtraDamageCount"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCheckModifierCallBackName",
+                    "ModifierName": "MAvatar_DanHengPT_00_LongLingExtraShield"
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MAvatar_DanHengPT_00_LongLingFreeImmediateAction"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCheckModifierCallBackName",
+                    "ModifierName": "MAvatar_DanHengPT_00_LongLingExtraShield"
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "DanHengPT_00_BattleEventCaster"
+                      },
+                      "ModifierName": {
+                        "Value": "MAvatar_DanHengPT_00_ShieldUPFlag"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "MAvatar_DanHengPT_00_ExtraDamageCount": {
+          "_CallbackList": [
+            {
+              "Event": "OnDestroy",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "DanHengPT_ExtraDamageCount"
+                  }
+                }
+              ]
+            },
+            {
+              "Event": "OnStack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValueByCopying",
+                  "FromTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "DanHengPT_00_BattleEventCaster"
+                  },
+                  "FromDynamicKey": {
+                    "Value": "MDF_DamageRatio"
+                  },
+                  "FromModifierName": {
+                    "Value": "MAvatar_DanHengPT_00_LongLingAttackExtraDamage"
+                  },
+                  "ToTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "DanHengPT_00_BattleEventCaster"
+                  },
+                  "ToDynamicKey": {
+                    "Value": "MDF_DamageRatioTemp"
+                  },
+                  "TargetContextScope": "ContextModifier"
+                },
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        1885798958
+                      ]
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "DanHengPT_ExtraDamageRatio"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.SetDynamicValueByCopying",
+                  "FromTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "DanHengPT_00_BattleEventCaster"
+                  },
+                  "FromDynamicKey": {
+                    "Value": "MDF_Count"
+                  },
+                  "FromModifierName": {
+                    "Value": "MAvatar_DanHengPT_00_LongLingAttackExtraDamage"
+                  },
+                  "ToTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "DanHengPT_00_BattleEventCaster"
+                  },
+                  "ToDynamicKey": {
+                    "Value": "MDF_DamageCountTemp"
+                  },
+                  "TargetContextScope": "ContextModifier"
+                },
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        -2117124922
+                      ]
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "DanHengPT_ExtraDamageCount"
+                  }
+                }
+              ]
+            }
+          ],
+          "AdditionConfig": {
+            "DependencyOnRemove": {
+              "DependentModifier": "MServant_CyreneServant_00_AmazingBuff_DanHengPT"
+            }
+          },
+          "Stacking": "ReplaceByCaster",
+          "DynamicValues": {
+            "Floats": {
+              "1885798958": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-2117124922": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
+            }
+          }
+        },
+        "MAvatar_DanHengPT_00_ImmediateAction": {
+          "_CallbackList": [
+            {
+              "Event": "OnStack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                  "Name": "ReduceActionDelay",
+                  "DynamicValues": {
+                    "Arg0_NormalizedValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 1
+                      }
+                    }
+                  },
+                  "ParamTarget": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "DanHengPT_00_BattleEventLongLing"
+                  }
+                }
+              ]
+            }
+          ],
+          "Stacking": "ReplaceByCaster"
+        },
+        "MAvatar_DanHengPT_00_ShieldUPFlag": {
+          "_CallbackList": [
+            {
+              "Event": "OnStack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByIsContainModifier",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "DanHengPT_00_BattleEventCaster"
+                    },
+                    "ModifierName": {
+                      "Value": "MAvatar_DanHengPT_00_ShieldUPFlag"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValueByCopying",
+                      "FromTargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "DanHengPT_00_BattleEventCaster"
+                      },
+                      "FromDynamicKey": {
+                        "Value": "MDF_ShieldRatio"
+                      },
+                      "FromModifierName": {
+                        "Value": "MAvatar_DanHengPT_00_LongLingExtraShield"
+                      },
+                      "ToDynamicKey": {
+                        "Value": "MDF_ShieldUPRatioTemp"
+                      },
+                      "TargetContextScope": "ContextModifier"
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            1528354399
+                          ]
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "DanHengPT_ExtraShieldUPRatio"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Stacking": "ReplaceByCaster",
+          "DynamicValues": {
+            "Floats": {
+              "1528354399": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
+            }
+          }
         }
       },
       "Name": "Avatar_DanHengPT_00_PassiveSkill01",
@@ -4344,6 +4830,40 @@
           },
           "ModifierName": {
             "Value": "MAvatar_DanHengPT_00_PassiveModifier"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetDynamicValue",
+          "Value": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          },
+          "DynamicKey": {
+            "Value": "DanHengPT_ExtraShieldUPRatio"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetDynamicValue",
+          "Value": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0
+            }
+          },
+          "DynamicKey": {
+            "Value": "DanHengPT_IsFreeAction"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MAvatar_DanHengPT_00_ExtraListen"
           }
         },
         {
@@ -5384,12 +5904,8 @@
               }
             },
             {
-              "$type": "RPG.GameCore.InitShield",
-              "TargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "ModifierOwnerEntity"
-              },
-              "ShieldValue": {
+              "$type": "RPG.GameCore.StackShield",
+              "StackValue": {
                 "IsDynamic": true,
                 "PostfixExpr": {
                   "OpCodes": "AQAR",
@@ -5399,7 +5915,19 @@
                   ]
                 }
               },
-              "ShowText": false
+              "MaxStack": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQABAQQBAgIBAwQR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    -1236299186,
+                    -1530572981,
+                    1089505780,
+                    -1177161350
+                  ]
+                }
+              }
             }
           ]
         }
@@ -5430,368 +5958,8 @@
               "Type": "None",
               "Index": 0
             }
-          }
-        }
-      }
-    },
-    "MAvatar_DanHengPT_00_Skill02_StackPreload": {
-      "_CallbackList": [
-        {
-          "Event": "OnStack",
-          "CallbackConfig": [
-            {
-              "$type": "RPG.GameCore.SetDynamicValueByCopying",
-              "FromTargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "ModifierOwnerEntity"
-              },
-              "FromDynamicKey": {
-                "Value": "DanHengPTShieldValue"
-              },
-              "ToTargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "ModifierOwnerEntity"
-              },
-              "ToDynamicKey": {
-                "Value": "CurShield"
-              }
-            },
-            {
-              "$type": "RPG.GameCore.SetDynamicValueByProperty",
-              "DynamicKey": "MDF_ShieldAddedRatio",
-              "ReadTargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "Caster"
-              },
-              "Value": "ShieldAddedRatio"
-            },
-            {
-              "$type": "RPG.GameCore.SetDynamicValueByProperty",
-              "DynamicKey": "MDF_ShieldTakenRatio",
-              "ReadTargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "ModifierOwnerEntity"
-              },
-              "Value": "ShieldTakenRatio"
-            },
-            {
-              "$type": "RPG.GameCore.SetDynamicValue",
-              "Value": {
-                "IsDynamic": true,
-                "PostfixExpr": {
-                  "OpCodes": "AQAAAAEBAgECAgQR",
-                  "FixedValues": [
-                    {
-                      "Value": 1
-                    }
-                  ],
-                  "DynamicHashes": [
-                    -1018056705,
-                    -166370685,
-                    1654319276
-                  ]
-                }
-              },
-              "DynamicKey": {
-                "Value": "MDF_NewShield"
-              }
-            },
-            {
-              "$type": "RPG.GameCore.SetDynamicValue",
-              "Value": {
-                "IsDynamic": true,
-                "PostfixExpr": {
-                  "OpCodes": "AQAR",
-                  "FixedValues": [],
-                  "DynamicHashes": [
-                    -1018056705
-                  ]
-                }
-              },
-              "DynamicKey": {
-                "Value": "MDF_NewShieldShow"
-              }
-            },
-            {
-              "$type": "RPG.GameCore.SetDynamicValue",
-              "ContextScope": "ContextCaster",
-              "Value": {
-                "IsDynamic": true,
-                "PostfixExpr": {
-                  "OpCodes": "AQAR",
-                  "FixedValues": [],
-                  "DynamicHashes": [
-                    -876979594
-                  ]
-                }
-              },
-              "DynamicKey": {
-                "Value": "MDF_AchievementCount"
-              }
-            },
-            {
-              "$type": "RPG.GameCore.SetDynamicValue",
-              "ContextScope": "ContextCaster",
-              "Value": {
-                "IsDynamic": false,
-                "FixedValue": {
-                  "Value": 0
-                }
-              },
-              "DynamicKey": {
-                "Value": "MDF_AchievementCount"
-              }
-            },
-            {
-              "$type": "RPG.GameCore.SetDynamicValue",
-              "Value": {
-                "IsDynamic": true,
-                "PostfixExpr": {
-                  "OpCodes": "AQABAQIR",
-                  "FixedValues": [],
-                  "DynamicHashes": [
-                    -905379045,
-                    -1018056705
-                  ]
-                }
-              },
-              "DynamicKey": {
-                "Value": "MDF_NewShield"
-              }
-            },
-            {
-              "$type": "RPG.GameCore.SetDynamicValue",
-              "ContextScope": "ContextCaster",
-              "Value": {
-                "IsDynamic": true,
-                "PostfixExpr": {
-                  "OpCodes": "AQABAQQAAAECAgEDAgQR",
-                  "FixedValues": [
-                    {
-                      "Value": 1
-                    }
-                  ],
-                  "DynamicHashes": [
-                    1079898730,
-                    -1177161350,
-                    -166370685,
-                    1654319276
-                  ]
-                }
-              },
-              "DynamicKey": {
-                "Value": "MDF_ForceShieldValue"
-              }
-            },
-            {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByCompareDynamicValue",
-                "TargetType": {
-                  "$type": "RPG.GameCore.TargetAlias",
-                  "Alias": "ModifierOwnerEntity"
-                },
-                "DynamicKey": {
-                  "Value": "MDF_NewShield"
-                },
-                "ContextScope": "ContextModifier",
-                "CompareType": "GreaterEqual",
-                "CompareValue": {
-                  "IsDynamic": true,
-                  "PostfixExpr": {
-                    "OpCodes": "AQAR",
-                    "FixedValues": [],
-                    "DynamicHashes": [
-                      2054132361
-                    ]
-                  }
-                }
-              },
-              "SuccessTaskList": [
-                {
-                  "$type": "RPG.GameCore.SetDynamicValue",
-                  "Value": {
-                    "IsDynamic": true,
-                    "PostfixExpr": {
-                      "OpCodes": "AQAR",
-                      "FixedValues": [],
-                      "DynamicHashes": [
-                        2054132361
-                      ]
-                    }
-                  },
-                  "DynamicKey": {
-                    "Value": "MDF_NewShield"
-                  }
-                }
-              ]
-            },
-            {
-              "$type": "RPG.GameCore.ModifyShieldMax",
-              "TargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "ModifierOwnerEntity"
-              },
-              "ShieldModifiers": [
-                "MAvatar_DanHengPT_00_Shield"
-              ],
-              "SpecifiedModifierCaster": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "Caster"
-              },
-              "ModifyOp": "Set",
-              "FormulaValue": {
-                "IsDynamic": true,
-                "PostfixExpr": {
-                  "OpCodes": "AQAR",
-                  "FixedValues": [],
-                  "DynamicHashes": [
-                    -1018056705
-                  ]
-                }
-              }
-            },
-            {
-              "$type": "RPG.GameCore.SetDynamicValue",
-              "Value": {
-                "IsDynamic": true,
-                "PostfixExpr": {
-                  "OpCodes": "AQAR",
-                  "FixedValues": [],
-                  "DynamicHashes": [
-                    -1018056705
-                  ]
-                }
-              },
-              "DynamicKey": {
-                "Value": "MDF_ShieldMax"
-              }
-            },
-            {
-              "$type": "RPG.GameCore.ModifyShield",
-              "TargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "ModifierOwnerEntity"
-              },
-              "ShieldModifiers": [
-                "MAvatar_DanHengPT_00_Shield"
-              ],
-              "SpecifiedModifierCaster": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "Caster"
-              },
-              "ModifyOp": "Set",
-              "FormulaValue": {
-                "IsDynamic": true,
-                "PostfixExpr": {
-                  "OpCodes": "AQAR",
-                  "FixedValues": [],
-                  "DynamicHashes": [
-                    -1018056705
-                  ]
-                }
-              },
-              "ShowText": false
-            },
-            {
-              "$type": "RPG.GameCore.ModifyShield",
-              "TargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "ModifierOwnerEntity"
-              },
-              "ShieldModifiers": [
-                "MAvatar_DanHengPT_00_Shield"
-              ],
-              "SpecifiedModifierCaster": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "Caster"
-              },
-              "FormulaValue": {
-                "IsDynamic": true,
-                "PostfixExpr": {
-                  "OpCodes": "AQAR",
-                  "FixedValues": [],
-                  "DynamicHashes": [
-                    -876979594
-                  ]
-                }
-              }
-            }
-          ]
-        },
-        {
-          "Event": "OnModifierRemove",
-          "CallbackConfig": [
-            {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByCheckModifierCallBackName",
-                "ModifierName": "MAvatar_DanHengPT_00_Shield"
-              },
-              "SuccessTaskList": [
-                {
-                  "$type": "RPG.GameCore.SetDynamicValue",
-                  "Value": {
-                    "IsDynamic": false,
-                    "FixedValue": {
-                      "Value": 0
-                    }
-                  },
-                  "DynamicKey": {
-                    "Value": "MDF_ShieldMax"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "Stacking": "ReplaceByCaster",
-      "DynamicValues": {
-        "Floats": {
-          "-106459293": {
-            "ReadInfo": {
-              "Type": "None",
-              "Index": 0
-            }
           },
-          "-905379045": {
-            "ReadInfo": {
-              "Type": "None",
-              "Index": 0
-            }
-          },
-          "-1018056705": {
-            "ReadInfo": {
-              "Type": "None",
-              "Index": 0
-            }
-          },
-          "2006709307": {
-            "ReadInfo": {
-              "Type": "None",
-              "Index": 0
-            }
-          },
-          "-876979594": {
-            "ReadInfo": {
-              "Type": "None",
-              "Index": 0
-            }
-          },
-          "1079898730": {
-            "ReadInfo": {
-              "Type": "None",
-              "Index": 0
-            }
-          },
-          "1654319276": {
-            "ReadInfo": {
-              "Type": "None",
-              "Index": 0
-            }
-          },
-          "-166370685": {
+          "-1177161350": {
             "ReadInfo": {
               "Type": "None",
               "Index": 0
@@ -6005,113 +6173,179 @@
           }
         }
       }
-    }
-  },
-  "GlobalTemplates": [
-    {
-      "Name": "DanHengPT_RecordCurrentShield",
-      "TaskList": [
+    },
+    "MAvatar_DanHengPT_00_LongLingFreeImmediateAction": {
+      "BehaviorFlagList": [
+        "RemoveWhenCasterDead"
+      ],
+      "_CallbackList": [
         {
-          "$type": "RPG.GameCore.Retarget",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "AllLightTeam"
-          },
-          "ByRandom": true,
-          "TaskList": [
+          "Event": "OnStack",
+          "CallbackConfig": [
             {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByIsContainModifier",
-                "TargetType": {
-                  "$type": "RPG.GameCore.TargetAlias",
-                  "Alias": "ParamEntity"
-                },
-                "ModifierName": {
-                  "Value": "MAvatar_DanHengPT_00_Shield"
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "DanHengPT_00_BattleEventCaster"
+              },
+              "ModifierName": {
+                "Value": "MAvatar_DanHengPT_00_BoostEnergy"
+              },
+              "DynamicValues": {
+                "MDF_IsStack": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 1
+                  }
                 }
               },
-              "SuccessTaskList": [
-                {
-                  "$type": "RPG.GameCore.DefineDynamicValue",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "Caster"
-                  },
-                  "DynamicKey": {
-                    "Value": "Tmp_Currentshield"
-                  },
-                  "ContextScope": "ContextTaskTemplate"
-                },
-                {
-                  "$type": "RPG.GameCore.SetDynamicValueByModifierValue",
-                  "ReadTargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "ParamEntity"
-                  },
-                  "ModifierName": "MAvatar_DanHengPT_00_Shield",
-                  "ValueType": "CurrentShield",
-                  "Multiplier": {
-                    "IsDynamic": false,
-                    "FixedValue": {
-                      "Value": 1
-                    }
-                  },
-                  "DynamicKey": "Tmp_Currentshield",
-                  "ContextScope": "ContextTaskTemplate"
-                },
-                {
-                  "$type": "RPG.GameCore.DefineDynamicValue",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "ParamEntity"
-                  },
-                  "DynamicKey": {
-                    "Value": "DanHengPTShieldValue"
-                  },
-                  "ResetValue": {
-                    "IsDynamic": true,
-                    "PostfixExpr": {
-                      "OpCodes": "AQAR",
-                      "FixedValues": [],
-                      "DynamicHashes": [
-                        1051269840
-                      ]
-                    }
-                  },
-                  "ContextScope": "TargetEntity"
+              "InheritCaster": "TargetSelf"
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
                 }
-              ],
-              "FailedTaskList": [
+              },
+              "DynamicKey": {
+                "Value": "DanHengPT_IsFreeAction"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "DanHengPT_00_BattleEventCaster"
+              },
+              "ModifierName": {
+                "Value": "MAvatar_DanHengPT_00_ImmediateAction"
+              }
+            }
+          ]
+        }
+      ],
+      "Stacking": "Replace"
+    },
+    "MAvatar_DanHengPT_00_LongLingAttackExtraDamage": {
+      "BehaviorFlagList": [
+        "RemoveWhenCasterDead"
+      ],
+      "OnDynamicValueChange": [
+        {
+          "Key": {
+            "Hash": 11092676
+          },
+          "ContextScope": "ContextOwner",
+          "Ranges": [
+            {
+              "OnChange": [
                 {
-                  "$type": "RPG.GameCore.DefineDynamicValue",
-                  "TargetType": {
+                  "$type": "RPG.GameCore.SetDynamicValueByCopying",
+                  "FromTargetType": {
                     "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "ParamEntity"
+                    "Alias": "ModifierOwnerEntity"
                   },
-                  "DynamicKey": {
-                    "Value": "DanHengPTShieldValue"
+                  "FromDynamicKey": {
+                    "Value": "DanHengPT_ExtraDamageCount"
                   },
-                  "ResetValue": {
-                    "IsDynamic": true,
-                    "PostfixExpr": {
-                      "OpCodes": "AAAR",
-                      "FixedValues": [
-                        {
-                          "Value": 0
-                        }
-                      ],
-                      "DynamicHashes": []
+                  "ToDynamicKey": {
+                    "Value": "MDF_DanHengPT_ExtraDamageCount"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "MDF_DanHengPT_ExtraDamageCount"
+                    },
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 0
+                      }
                     }
                   },
-                  "ContextScope": "TargetEntity"
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.RemoveSelfModifier"
+                    }
+                  ]
                 }
               ]
             }
           ]
         }
-      ]
+      ],
+      "_CallbackList": [
+        {
+          "Event": "OnDestroy",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "ContextScope": "TargetEntity",
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              },
+              "DynamicKey": {
+                "Value": "DanHengPT_ExtraDamageCount"
+              }
+            }
+          ]
+        }
+      ],
+      "Stacking": "Replace",
+      "DynamicValues": {
+        "Floats": {
+          "-2027709849": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-2039151640": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "560886806": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
+        }
+      }
     },
+    "MAvatar_DanHengPT_00_LongLingExtraShield": {
+      "BehaviorFlagList": [
+        "RemoveWhenCasterDead"
+      ],
+      "Stacking": "Replace",
+      "DynamicValues": {
+        "Floats": {
+          "-1268026324": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
+        }
+      }
+    }
+  },
+  "GlobalTemplates": [
     {
       "Name": "DanHengPT_AddShield",
       "TaskList": [
@@ -6156,48 +6390,6 @@
                 ]
               }
             },
-            "MDF_MainTarget": {
-              "IsDynamic": false,
-              "FixedValue": {
-                "Value": 1
-              }
-            }
-          }
-        },
-        {
-          "$type": "RPG.GameCore.AddModifier",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "AllLightTeam"
-          },
-          "ModifierName": {
-            "Value": "MAvatar_DanHengPT_00_Skill02_StackPreload"
-          },
-          "DynamicValues": {
-            "MDF_NewShield": {
-              "IsDynamic": true,
-              "PostfixExpr": {
-                "OpCodes": "AQABAQQBAgIR",
-                "FixedValues": [],
-                "DynamicHashes": [
-                  -1236299186,
-                  -1530572981,
-                  1089505780
-                ]
-              }
-            },
-            "MDF_ForceShield": {
-              "IsDynamic": true,
-              "PostfixExpr": {
-                "OpCodes": "AQABAQQBAgIR",
-                "FixedValues": [],
-                "DynamicHashes": [
-                  -1236299186,
-                  -1530572981,
-                  1089505780
-                ]
-              }
-            },
             "MDF_MaxShieldRatio": {
               "IsDynamic": true,
               "PostfixExpr": {
@@ -6206,6 +6398,12 @@
                 "DynamicHashes": [
                   -1317091266
                 ]
+              }
+            },
+            "MDF_MainTarget": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 1
               }
             }
           }
@@ -6256,56 +6454,20 @@
                 ]
               }
             },
-            "MDF_MainTarget": {
-              "IsDynamic": false,
-              "FixedValue": {
-                "Value": 1
-              }
-            }
-          }
-        },
-        {
-          "$type": "RPG.GameCore.AddModifier",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "AllLightTeam"
-          },
-          "ModifierName": {
-            "Value": "MAvatar_DanHengPT_00_Skill02_StackPreload"
-          },
-          "DynamicValues": {
-            "MDF_NewShield": {
-              "IsDynamic": true,
-              "PostfixExpr": {
-                "OpCodes": "AQABAQQBAgIR",
-                "FixedValues": [],
-                "DynamicHashes": [
-                  -1236299186,
-                  -1132665461,
-                  -1530638164
-                ]
-              }
-            },
-            "MDF_ForceShield": {
-              "IsDynamic": true,
-              "PostfixExpr": {
-                "OpCodes": "AQABAQQBAgIR",
-                "FixedValues": [],
-                "DynamicHashes": [
-                  -1236299186,
-                  -1530572981,
-                  1089505780
-                ]
-              }
-            },
             "MDF_MaxShieldRatio": {
               "IsDynamic": true,
               "PostfixExpr": {
                 "OpCodes": "AQAR",
                 "FixedValues": [],
                 "DynamicHashes": [
-                  -1555288670
+                  -1317091266
                 ]
+              }
+            },
+            "MDF_MainTarget": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 1
               }
             }
           }
@@ -6343,6 +6505,38 @@
                       "IsDynamic": false,
                       "FixedValue": {
                         "Value": 0
+                      }
+                    }
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "#SkillRank_Rank02_P3_ShieldRatio"
+                    },
+                    "ContextScope": "ContextCaster",
+                    "CompareType": "Greater",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 0
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "DanHengPT_IsFreeAction"
+                    },
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 1
                       }
                     }
                   },
@@ -6408,56 +6602,14 @@
                 "MDF_DanHengPT_InitShieldValue": {
                   "IsDynamic": true,
                   "PostfixExpr": {
-                    "OpCodes": "AQABAQQBAgIBAwQR",
+                    "OpCodes": "AQABAQQBAgIBAwQBBAQR",
                     "FixedValues": [],
                     "DynamicHashes": [
                       -1236299186,
                       695819656,
                       231388597,
+                      -1558894855,
                       -1709651598
-                    ]
-                  }
-                },
-                "MDF_MainTarget": {
-                  "IsDynamic": false,
-                  "FixedValue": {
-                    "Value": 1
-                  }
-                }
-              }
-            },
-            {
-              "$type": "RPG.GameCore.AddModifier",
-              "TargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "AllLightTeam"
-              },
-              "ModifierName": {
-                "Value": "MAvatar_DanHengPT_00_Skill02_StackPreload"
-              },
-              "DynamicValues": {
-                "MDF_NewShield": {
-                  "IsDynamic": true,
-                  "PostfixExpr": {
-                    "OpCodes": "AQABAQQBAgIBAwQR",
-                    "FixedValues": [],
-                    "DynamicHashes": [
-                      -1236299186,
-                      695819656,
-                      231388597,
-                      -1709651598
-                    ]
-                  }
-                },
-                "MDF_ForceShield": {
-                  "IsDynamic": true,
-                  "PostfixExpr": {
-                    "OpCodes": "AQABAQQBAgIR",
-                    "FixedValues": [],
-                    "DynamicHashes": [
-                      -1236299186,
-                      -1530572981,
-                      1089505780
                     ]
                   }
                 },
@@ -6467,8 +6619,14 @@
                     "OpCodes": "AQAR",
                     "FixedValues": [],
                     "DynamicHashes": [
-                      -278120771
+                      -1317091266
                     ]
+                  }
+                },
+                "MDF_MainTarget": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 1
                   }
                 }
               }
@@ -6513,95 +6671,6 @@
                   },
                   "TaskList": [
                     {
-                      "$type": "RPG.GameCore.PredicateTaskList",
-                      "Predicate": {
-                        "$type": "RPG.GameCore.ByIsContainModifier",
-                        "TargetType": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "ParamEntity"
-                        },
-                        "ModifierName": {
-                          "Value": "MAvatar_DanHengPT_00_Shield"
-                        }
-                      },
-                      "SuccessTaskList": [
-                        {
-                          "$type": "RPG.GameCore.DefineDynamicValue",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "Caster"
-                          },
-                          "DynamicKey": {
-                            "Value": "Tmp_Currentshield"
-                          },
-                          "ContextScope": "ContextTaskTemplate"
-                        },
-                        {
-                          "$type": "RPG.GameCore.SetDynamicValueByModifierValue",
-                          "ReadTargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ParamEntity"
-                          },
-                          "ModifierName": "MAvatar_DanHengPT_00_Shield",
-                          "ValueType": "CurrentShield",
-                          "Multiplier": {
-                            "IsDynamic": false,
-                            "FixedValue": {
-                              "Value": 1
-                            }
-                          },
-                          "DynamicKey": "Tmp_Currentshield",
-                          "ContextScope": "ContextTaskTemplate"
-                        },
-                        {
-                          "$type": "RPG.GameCore.DefineDynamicValue",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ParamEntity"
-                          },
-                          "DynamicKey": {
-                            "Value": "DanHengPTShieldValue"
-                          },
-                          "ResetValue": {
-                            "IsDynamic": true,
-                            "PostfixExpr": {
-                              "OpCodes": "AQAR",
-                              "FixedValues": [],
-                              "DynamicHashes": [
-                                1051269840
-                              ]
-                            }
-                          },
-                          "ContextScope": "TargetEntity"
-                        }
-                      ],
-                      "FailedTaskList": [
-                        {
-                          "$type": "RPG.GameCore.DefineDynamicValue",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ParamEntity"
-                          },
-                          "DynamicKey": {
-                            "Value": "DanHengPTShieldValue"
-                          },
-                          "ResetValue": {
-                            "IsDynamic": true,
-                            "PostfixExpr": {
-                              "OpCodes": "AAAR",
-                              "FixedValues": [
-                                {
-                                  "Value": 0
-                                }
-                              ],
-                              "DynamicHashes": []
-                            }
-                          },
-                          "ContextScope": "TargetEntity"
-                        }
-                      ]
-                    },
-                    {
                       "$type": "RPG.GameCore.AddModifier",
                       "TargetType": {
                         "$type": "RPG.GameCore.TargetAlias",
@@ -6624,56 +6693,14 @@
                         "MDF_DanHengPT_InitShieldValue": {
                           "IsDynamic": true,
                           "PostfixExpr": {
-                            "OpCodes": "AQABAQQBAgIBAwQR",
+                            "OpCodes": "AQABAQQBAgIBAwQBBAQR",
                             "FixedValues": [],
                             "DynamicHashes": [
                               -1236299186,
                               414711138,
                               -1706535151,
+                              -1558894855,
                               -1709651598
-                            ]
-                          }
-                        },
-                        "MDF_MainTarget": {
-                          "IsDynamic": false,
-                          "FixedValue": {
-                            "Value": 1
-                          }
-                        }
-                      }
-                    },
-                    {
-                      "$type": "RPG.GameCore.AddModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ParamEntity"
-                      },
-                      "ModifierName": {
-                        "Value": "MAvatar_DanHengPT_00_Skill02_StackPreload"
-                      },
-                      "DynamicValues": {
-                        "MDF_NewShield": {
-                          "IsDynamic": true,
-                          "PostfixExpr": {
-                            "OpCodes": "AQABAQQBAgIBAwQR",
-                            "FixedValues": [],
-                            "DynamicHashes": [
-                              -1236299186,
-                              414711138,
-                              -1706535151,
-                              -1709651598
-                            ]
-                          }
-                        },
-                        "MDF_ForceShield": {
-                          "IsDynamic": true,
-                          "PostfixExpr": {
-                            "OpCodes": "AQABAQQBAgIR",
-                            "FixedValues": [],
-                            "DynamicHashes": [
-                              -1236299186,
-                              -1530572981,
-                              1089505780
                             ]
                           }
                         },
@@ -6683,8 +6710,14 @@
                             "OpCodes": "AQAR",
                             "FixedValues": [],
                             "DynamicHashes": [
-                              -925478678
+                              -1317091266
                             ]
+                          }
+                        },
+                        "MDF_MainTarget": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 1
                           }
                         }
                       }
@@ -6718,54 +6751,13 @@
                 "MDF_DanHengPT_InitShieldValue": {
                   "IsDynamic": true,
                   "PostfixExpr": {
-                    "OpCodes": "AQABAQQBAgIR",
+                    "OpCodes": "AQABAQQBAgIBAwQR",
                     "FixedValues": [],
                     "DynamicHashes": [
                       -1236299186,
                       695819656,
-                      231388597
-                    ]
-                  }
-                },
-                "MDF_MainTarget": {
-                  "IsDynamic": false,
-                  "FixedValue": {
-                    "Value": 1
-                  }
-                }
-              }
-            },
-            {
-              "$type": "RPG.GameCore.AddModifier",
-              "TargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "AllLightTeam"
-              },
-              "ModifierName": {
-                "Value": "MAvatar_DanHengPT_00_Skill02_StackPreload"
-              },
-              "DynamicValues": {
-                "MDF_NewShield": {
-                  "IsDynamic": true,
-                  "PostfixExpr": {
-                    "OpCodes": "AQABAQQBAgIR",
-                    "FixedValues": [],
-                    "DynamicHashes": [
-                      -1236299186,
-                      695819656,
-                      231388597
-                    ]
-                  }
-                },
-                "MDF_ForceShield": {
-                  "IsDynamic": true,
-                  "PostfixExpr": {
-                    "OpCodes": "AQABAQQBAgIR",
-                    "FixedValues": [],
-                    "DynamicHashes": [
-                      -1236299186,
-                      -1530572981,
-                      1089505780
+                      231388597,
+                      -1558894855
                     ]
                   }
                 },
@@ -6775,8 +6767,14 @@
                     "OpCodes": "AQAR",
                     "FixedValues": [],
                     "DynamicHashes": [
-                      -278120771
+                      -1317091266
                     ]
+                  }
+                },
+                "MDF_MainTarget": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 1
                   }
                 }
               }
@@ -6821,95 +6819,6 @@
                   },
                   "TaskList": [
                     {
-                      "$type": "RPG.GameCore.PredicateTaskList",
-                      "Predicate": {
-                        "$type": "RPG.GameCore.ByIsContainModifier",
-                        "TargetType": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "ParamEntity"
-                        },
-                        "ModifierName": {
-                          "Value": "MAvatar_DanHengPT_00_Shield"
-                        }
-                      },
-                      "SuccessTaskList": [
-                        {
-                          "$type": "RPG.GameCore.DefineDynamicValue",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "Caster"
-                          },
-                          "DynamicKey": {
-                            "Value": "Tmp_Currentshield"
-                          },
-                          "ContextScope": "ContextTaskTemplate"
-                        },
-                        {
-                          "$type": "RPG.GameCore.SetDynamicValueByModifierValue",
-                          "ReadTargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ParamEntity"
-                          },
-                          "ModifierName": "MAvatar_DanHengPT_00_Shield",
-                          "ValueType": "CurrentShield",
-                          "Multiplier": {
-                            "IsDynamic": false,
-                            "FixedValue": {
-                              "Value": 1
-                            }
-                          },
-                          "DynamicKey": "Tmp_Currentshield",
-                          "ContextScope": "ContextTaskTemplate"
-                        },
-                        {
-                          "$type": "RPG.GameCore.DefineDynamicValue",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ParamEntity"
-                          },
-                          "DynamicKey": {
-                            "Value": "DanHengPTShieldValue"
-                          },
-                          "ResetValue": {
-                            "IsDynamic": true,
-                            "PostfixExpr": {
-                              "OpCodes": "AQAR",
-                              "FixedValues": [],
-                              "DynamicHashes": [
-                                1051269840
-                              ]
-                            }
-                          },
-                          "ContextScope": "TargetEntity"
-                        }
-                      ],
-                      "FailedTaskList": [
-                        {
-                          "$type": "RPG.GameCore.DefineDynamicValue",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ParamEntity"
-                          },
-                          "DynamicKey": {
-                            "Value": "DanHengPTShieldValue"
-                          },
-                          "ResetValue": {
-                            "IsDynamic": true,
-                            "PostfixExpr": {
-                              "OpCodes": "AAAR",
-                              "FixedValues": [
-                                {
-                                  "Value": 0
-                                }
-                              ],
-                              "DynamicHashes": []
-                            }
-                          },
-                          "ContextScope": "TargetEntity"
-                        }
-                      ]
-                    },
-                    {
                       "$type": "RPG.GameCore.AddModifier",
                       "TargetType": {
                         "$type": "RPG.GameCore.TargetAlias",
@@ -6932,12 +6841,23 @@
                         "MDF_DanHengPT_InitShieldValue": {
                           "IsDynamic": true,
                           "PostfixExpr": {
-                            "OpCodes": "AQABAQQBAgIR",
+                            "OpCodes": "AQABAQQBAgIBAwQR",
                             "FixedValues": [],
                             "DynamicHashes": [
                               -1236299186,
                               414711138,
-                              -1706535151
+                              -1706535151,
+                              -1558894855
+                            ]
+                          }
+                        },
+                        "MDF_MaxShieldRatio": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AQAR",
+                            "FixedValues": [],
+                            "DynamicHashes": [
+                              -1317091266
                             ]
                           }
                         },
@@ -6948,58 +6868,24 @@
                           }
                         }
                       }
-                    },
-                    {
-                      "$type": "RPG.GameCore.AddModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ParamEntity"
-                      },
-                      "ModifierName": {
-                        "Value": "MAvatar_DanHengPT_00_Skill02_StackPreload"
-                      },
-                      "DynamicValues": {
-                        "MDF_NewShield": {
-                          "IsDynamic": true,
-                          "PostfixExpr": {
-                            "OpCodes": "AQABAQQBAgIR",
-                            "FixedValues": [],
-                            "DynamicHashes": [
-                              -1236299186,
-                              414711138,
-                              -1706535151
-                            ]
-                          }
-                        },
-                        "MDF_ForceShield": {
-                          "IsDynamic": true,
-                          "PostfixExpr": {
-                            "OpCodes": "AQABAQQBAgIR",
-                            "FixedValues": [],
-                            "DynamicHashes": [
-                              -1236299186,
-                              -1530572981,
-                              1089505780
-                            ]
-                          }
-                        },
-                        "MDF_MaxShieldRatio": {
-                          "IsDynamic": true,
-                          "PostfixExpr": {
-                            "OpCodes": "AQAR",
-                            "FixedValues": [],
-                            "DynamicHashes": [
-                              -925478678
-                            ]
-                          }
-                        }
-                      }
                     }
                   ]
                 }
               ]
             }
           ]
+        },
+        {
+          "$type": "RPG.GameCore.SetDynamicValue",
+          "Value": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          },
+          "DynamicKey": {
+            "Value": "DanHengPT_ExtraShieldUPRatio"
+          }
         }
       ]
     }

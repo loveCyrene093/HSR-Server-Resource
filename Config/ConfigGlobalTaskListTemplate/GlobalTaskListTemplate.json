@@ -66,6 +66,17 @@
         },
         {
           "$type": "RPG.GameCore.RefreshChangePhaseUI"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerModifierCustomEvent",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "BattleAllEntity.GetAliveOrLimbo"
+          },
+          "EventType": {
+            "EnumIndex": 4,
+            "Value": 8
+          }
         }
       ]
     },
@@ -170,7 +181,8 @@
           "$type": "RPG.GameCore.AddMazeBuffBinding",
           "BindingTypes": [
             "StageAbility",
-            "StageAbilityBeforeCharacterBorn"
+            "StageAbilityBeforeCharacterBorn",
+            "StageAbilityBeforeCharacterBorn2"
           ]
         },
         {
@@ -7220,6 +7232,706 @@
           ]
         }
       ]
+    },
+    {
+      "Name": "DealSuperBreakDamage",
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "TemplateParamEntityList"
+          },
+          "ByRandom": true,
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.DefineDynamicValue",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "DynamicKey": {
+                "Value": "TDF_TotalStanceDamageOnTarget"
+              },
+              "ContextScope": "ContextTaskTemplate"
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ModifierOwnerEntity"
+                },
+                "DynamicKey": {
+                  "Value": "StanceValue"
+                },
+                "ContextScope": "ContextTaskTemplate",
+                "CompareType": "Less",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValueByCopying",
+                  "FromTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "FromDynamicKey": {
+                    "Value": "MDF_TotalStanceDamage"
+                  },
+                  "FromModifierName": {
+                    "Value": "MStageAbility_BattleCommonRule_SuperBreak_SubOnEnemy"
+                  },
+                  "ToDynamicKey": {
+                    "Value": "TDF_TotalStanceDamageOnTarget"
+                  },
+                  "TargetContextScope": "ContextTaskTemplate"
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        -949434255
+                      ]
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "TDF_TotalStanceDamageOnTarget"
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ModifierOwnerEntity"
+                },
+                "DynamicKey": {
+                  "Value": "TDF_TotalStanceDamageOnTarget"
+                },
+                "CompareType": "Greater",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.DamageByAttackProperty",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "AttackProperty": {
+                    "$type": "RPG.GameCore.AttackData",
+                    "DamageType": {
+                      "SourceType": "ReadTargetType",
+                      "ReadTargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      }
+                    },
+                    "FormulaType": "ByBreakDamage",
+                    "AttackType": "ElementDamage",
+                    "DamageTag": [
+                      {
+                        "EnumIndex": 3,
+                        "Value": 33
+                      }
+                    ],
+                    "BreakDamagePercentage": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQABAQAABQQR",
+                        "FixedValues": [
+                          {
+                            "Value": 30
+                          }
+                        ],
+                        "DynamicHashes": [
+                          44044987,
+                          1039671212
+                        ]
+                      }
+                    },
+                    "FinalFormulaType": "ByPureDamage"
+                  },
+                  "CanTriggerLastKill": true,
+                  "DisplayData": {
+                    "DitherRangeX": 0,
+                    "DitherRangeY": 0,
+                    "AdditionalDisplay": {
+                      "UIMessageHeight": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0.75
+                        }
+                      },
+                      "DitherRangeX": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0.05
+                        }
+                      },
+                      "DitherRangeY": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0.1
+                        }
+                      }
+                    },
+                    "ElementDamageType": "Super"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "DynamicValues": {
+        "Floats": {
+          "44044987": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-949434255": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "Name": "BeingDealSuperBreakDamage",
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByTargetAliveState",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ModifierOwnerEntity"
+            },
+            "AliveStateMask": "Mask_AliveOnly"
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.DefineDynamicValue",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "DynamicKey": {
+                "Value": "TDF_TotalStanceDamageOnTarget"
+              },
+              "ContextScope": "ContextTaskTemplate"
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ModifierOwnerEntity"
+                },
+                "DynamicKey": {
+                  "Value": "StanceValue"
+                },
+                "ContextScope": "ContextTaskTemplate",
+                "CompareType": "Less",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValueByCopying",
+                  "FromTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "FromDynamicKey": {
+                    "Value": "MDF_TotalStanceDamage"
+                  },
+                  "FromModifierName": {
+                    "Value": "MStageAbility_BattleCommonRule_SuperBreak_SubOnEnemy"
+                  },
+                  "ToDynamicKey": {
+                    "Value": "TDF_TotalStanceDamageOnTarget"
+                  },
+                  "TargetContextScope": "ContextTaskTemplate"
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        -949434255
+                      ]
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "TDF_TotalStanceDamageOnTarget"
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ModifierOwnerEntity"
+                },
+                "DynamicKey": {
+                  "Value": "TDF_TotalStanceDamageOnTarget"
+                },
+                "CompareType": "Greater",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.DamageByAttackProperty",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "AttackProperty": {
+                    "$type": "RPG.GameCore.AttackData",
+                    "DamageType": {
+                      "SourceType": "ReadTargetType",
+                      "ReadTargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "Caster"
+                      }
+                    },
+                    "FormulaType": "ByBreakDamage",
+                    "AttackType": "ElementDamage",
+                    "DamageTag": [
+                      {
+                        "EnumIndex": 3,
+                        "Value": 33
+                      }
+                    ],
+                    "BreakDamagePercentage": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQABAQAABQQR",
+                        "FixedValues": [
+                          {
+                            "Value": 30
+                          }
+                        ],
+                        "DynamicHashes": [
+                          44044987,
+                          1039671212
+                        ]
+                      }
+                    },
+                    "FinalFormulaType": "ByPureDamage"
+                  },
+                  "CanTriggerLastKill": true,
+                  "DisplayData": {
+                    "DitherRangeX": 0,
+                    "DitherRangeY": 0,
+                    "AdditionalDisplay": {
+                      "UIMessageHeight": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0.75
+                        }
+                      },
+                      "DitherRangeX": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0.05
+                        }
+                      },
+                      "DitherRangeY": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0.1
+                        }
+                      }
+                    },
+                    "ElementDamageType": "Super"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "DynamicValues": {
+        "Floats": {
+          "44044987": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-949434255": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "Name": "DealSuperBreakDamage_DamagePerformance",
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "TemplateParamEntityList"
+          },
+          "ByRandom": true,
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.DefineDynamicValue",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "DynamicKey": {
+                "Value": "TDF_TotalStanceDamageOnTarget"
+              },
+              "ContextScope": "ContextTaskTemplate"
+            },
+            {
+              "$type": "RPG.GameCore.DefineDynamicValue",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "DynamicKey": {
+                "Value": "BreakDamagePercentage"
+              },
+              "ContextScope": "ContextTaskTemplate"
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ModifierOwnerEntity"
+                },
+                "DynamicKey": {
+                  "Value": "StanceValue"
+                },
+                "ContextScope": "ContextTaskTemplate",
+                "CompareType": "Less",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValueByCopying",
+                  "FromTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "FromDynamicKey": {
+                    "Value": "MDF_TotalStanceDamage"
+                  },
+                  "FromModifierName": {
+                    "Value": "MStageAbility_BattleCommonRule_SuperBreak_SubOnEnemy"
+                  },
+                  "ToDynamicKey": {
+                    "Value": "TDF_TotalStanceDamageOnTarget"
+                  },
+                  "TargetContextScope": "ContextTaskTemplate"
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        -949434255
+                      ]
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "TDF_TotalStanceDamageOnTarget"
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "Value": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQABAQAABQQR",
+                  "FixedValues": [
+                    {
+                      "Value": 30
+                    }
+                  ],
+                  "DynamicHashes": [
+                    44044987,
+                    1039671212
+                  ]
+                }
+              },
+              "DynamicKey": {
+                "Value": "BreakDamagePercentage"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ModifierOwnerEntity"
+                },
+                "DynamicKey": {
+                  "Value": "TDF_TotalStanceDamageOnTarget"
+                },
+                "CompareType": "Greater",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.TaskTemplateFetchParamSequence",
+                  "ParamName": "DamagePerformance"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "DynamicValues": {
+        "Floats": {
+          "44044987": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-949434255": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "Name": "BeingDealSuperBreakDamage_DamagePerformance",
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByTargetAliveState",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ModifierOwnerEntity"
+            },
+            "AliveStateMask": "Mask_AliveOnly"
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.DefineDynamicValue",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "DynamicKey": {
+                "Value": "TDF_TotalStanceDamageOnTarget"
+              },
+              "ContextScope": "ContextTaskTemplate"
+            },
+            {
+              "$type": "RPG.GameCore.DefineDynamicValue",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "DynamicKey": {
+                "Value": "BreakDamagePercentage"
+              },
+              "ContextScope": "ContextTaskTemplate"
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ModifierOwnerEntity"
+                },
+                "DynamicKey": {
+                  "Value": "StanceValue"
+                },
+                "ContextScope": "ContextTaskTemplate",
+                "CompareType": "Less",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValueByCopying",
+                  "FromTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "FromDynamicKey": {
+                    "Value": "MDF_TotalStanceDamage"
+                  },
+                  "FromModifierName": {
+                    "Value": "MStageAbility_BattleCommonRule_SuperBreak_SubOnEnemy"
+                  },
+                  "ToDynamicKey": {
+                    "Value": "TDF_TotalStanceDamageOnTarget"
+                  },
+                  "TargetContextScope": "ContextTaskTemplate"
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        -949434255
+                      ]
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "TDF_TotalStanceDamageOnTarget"
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "Value": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQABAQAABQQR",
+                  "FixedValues": [
+                    {
+                      "Value": 30
+                    }
+                  ],
+                  "DynamicHashes": [
+                    44044987,
+                    1039671212
+                  ]
+                }
+              },
+              "DynamicKey": {
+                "Value": "BreakDamagePercentage"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ModifierOwnerEntity"
+                },
+                "DynamicKey": {
+                  "Value": "TDF_TotalStanceDamageOnTarget"
+                },
+                "CompareType": "Greater",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.TaskTemplateFetchParamSequence",
+                  "ParamName": "DamagePerformance"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "DynamicValues": {
+        "Floats": {
+          "44044987": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-949434255": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
+        }
+      }
     },
     {
       "Name": "AddMuteSpeedAndLockActionDelayChange",

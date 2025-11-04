@@ -1,35 +1,84 @@
 {
   "OnInitSequece": [
     {
-      "TaskList": []
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+            "DynamicName": {
+              "Value": "FSV_Change"
+            }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetFloorCustomFloatV2",
+              "Name": {
+                "Value": "FCV_Change"
+              },
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              }
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.SetFloorCustomFloatV2",
+              "Name": {
+                "Value": "FCV_Change"
+              },
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "OnStartSequece": [
     {
       "TaskList": [
         {
-          "$type": "RPG.GameCore.AdvPlayerAddAttachment",
-          "BindTargetType": {
-            "$type": "RPG.GameCore.GroupFetchLocalTarget",
-            "TargetType": "Prop",
-            "Targets": [
-              300001
-            ]
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+            "DynamicName": {
+              "Value": "FSV_Change"
+            }
           },
-          "PrefabPath": {
-            "Value": "Stages/OriginalResPos/Chapter04/Prefab/LightPrefab/Chapter04/Chap04_MAZ_A502/Chap04_CloseView_MAZ_A502_Player_Follow_Light.prefab"
-          },
-          "UniqueName": {
-            "Value": "A401_Player_Light"
-          },
-          "AttachPoint": {
-            "Value": "Root"
-          },
-          "AttachOffset": {
-            "X": -1,
-            "Y": 0,
-            "Z": 0
-          }
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.AdvPlayerAddAttachment",
+              "BindTargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300001
+                ]
+              },
+              "PrefabPath": {
+                "Value": "Stages/OriginalResPos/Chapter04/Prefab/LightPrefab/Chapter04/Chap04_MAZ_A502/Chap04_CloseView_MAZ_A502_Player_Follow_Light.prefab"
+              },
+              "UniqueName": {
+                "Value": "A401_Player_Light"
+              },
+              "AttachPoint": {
+                "Value": "Root"
+              },
+              "AttachOffset": {
+                "X": -1,
+                "Y": 0,
+                "Z": 0
+              }
+            }
+          ]
         }
       ]
     },
@@ -42,10 +91,27 @@
           },
           "OnChange": [
             {
-              "$type": "RPG.GameCore.AdvPlayerRemoveAttachment",
-              "UniqueName": {
-                "Value": "A401_Player_Light"
-              }
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareFloorCustomFloatV2",
+                "Name": {
+                  "Value": "FCV_Change"
+                },
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.AdvPlayerRemoveAttachment",
+                  "UniqueName": {
+                    "Value": "A401_Player_Light"
+                  }
+                }
+              ]
             }
           ]
         }
@@ -56,15 +122,9 @@
         {
           "$type": "RPG.GameCore.PredicateTaskList",
           "Predicate": {
-            "$type": "RPG.GameCore.ByCompareFloorCustomFloatV2",
-            "Name": {
-              "Value": "FCV_Change"
-            },
-            "CompareValue": {
-              "IsDynamic": false,
-              "FixedValue": {
-                "Value": 0
-              }
+            "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+            "DynamicName": {
+              "Value": "FSV_Change"
             }
           },
           "SuccessTaskList": [
@@ -109,49 +169,97 @@
           },
           "OnChange": [
             {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByCompareFloorCustomFloatV2",
-                "Name": {
-                  "Value": "FCV_Change"
-                },
-                "CompareValue": {
-                  "IsDynamic": false,
-                  "FixedValue": {
-                    "Value": 0
-                  }
-                }
-              },
-              "SuccessTaskList": [
+              "$type": "RPG.GameCore.SwitchCase",
+              "TaskList": [
                 {
-                  "$type": "RPG.GameCore.TriggerEntityEventV2",
-                  "EventName": {
-                    "Value": "change01"
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareFloorCustomFloatV2",
+                    "Name": {
+                      "Value": "FCV_Change"
+                    },
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 0
+                      }
+                    }
                   },
-                  "TargetType": {
-                    "$type": "RPG.GameCore.GroupFetchLocalTarget",
-                    "TargetType": "Prop",
-                    "Targets": [
-                      300002
-                    ]
-                  }
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TriggerEntityEventV2",
+                      "EventName": {
+                        "Value": "change01"
+                      },
+                      "TargetType": {
+                        "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                        "TargetType": "Prop",
+                        "Targets": [
+                          300002
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareFloorCustomFloatV2",
+                    "Name": {
+                      "Value": "FCV_Change"
+                    },
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 1
+                      }
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TriggerEntityEventV2",
+                      "EventName": {
+                        "Value": "change02"
+                      },
+                      "TargetType": {
+                        "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                        "TargetType": "Prop",
+                        "Targets": [
+                          300002
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareFloorCustomFloatV2",
+                    "Name": {
+                      "Value": "FCV_Change"
+                    },
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 2
+                      }
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TriggerEntityEventV2",
+                      "EventName": {
+                        "Value": "change03"
+                      },
+                      "TargetType": {
+                        "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                        "TargetType": "Prop",
+                        "Targets": [
+                          300002
+                        ]
+                      }
+                    }
+                  ]
                 }
               ],
-              "FailedTaskList": [
-                {
-                  "$type": "RPG.GameCore.TriggerEntityEventV2",
-                  "EventName": {
-                    "Value": "change02"
-                  },
-                  "TargetType": {
-                    "$type": "RPG.GameCore.GroupFetchLocalTarget",
-                    "TargetType": "Prop",
-                    "Targets": [
-                      300002
-                    ]
-                  }
-                }
-              ]
+              "DefaultTask": []
             }
           ]
         }
@@ -662,15 +770,9 @@
         {
           "$type": "RPG.GameCore.PredicateTaskList",
           "Predicate": {
-            "$type": "RPG.GameCore.ByCompareFloorCustomFloatV2",
-            "Name": {
-              "Value": "FCV_Change"
-            },
-            "CompareValue": {
-              "IsDynamic": false,
-              "FixedValue": {
-                "Value": 0
-              }
+            "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+            "DynamicName": {
+              "Value": "FSV_Change"
             }
           },
           "SuccessTaskList": [
@@ -738,6 +840,36 @@
                 ]
               },
               "Visible": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitFloorSavedValueChangeV2",
+          "Name": {
+            "Value": "FSV_Change"
+          },
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+                "DynamicName": {
+                  "Value": "FSV_Change"
+                },
+                "CompareValue": 1
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.AdvPlayerRemoveAttachment",
+                  "UniqueName": {
+                    "Value": "A401_Player_Light"
+                  }
+                }
+              ]
             }
           ]
         }

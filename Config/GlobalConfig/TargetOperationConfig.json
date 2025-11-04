@@ -72,28 +72,6 @@
         "Team": "TeamDark"
       }
     },
-    "GetAliveOnly": {
-      "$type": "RPG.GameCore.TargetFilter",
-      "Predicate": {
-        "$type": "RPG.GameCore.ByTargetAliveState",
-        "TargetType": {
-          "$type": "RPG.GameCore.TargetAlias",
-          "Alias": "ParamEntity"
-        },
-        "AliveStateMask": "Mask_AliveOnly"
-      }
-    },
-    "GetAliveOrLimbo": {
-      "$type": "RPG.GameCore.TargetFilter",
-      "Predicate": {
-        "$type": "RPG.GameCore.ByTargetAliveState",
-        "TargetType": {
-          "$type": "RPG.GameCore.TargetAlias",
-          "Alias": "ParamEntity"
-        },
-        "AliveStateMask": "Mask_AliveOrLimbo"
-      }
-    },
     "RemoveBattleEvent": {
       "$type": "RPG.GameCore.TargetFilter",
       "Predicate": {
@@ -278,6 +256,41 @@
         "Inverse": true
       }
     },
+    "RemoveBEServant": {
+      "$type": "RPG.GameCore.TargetFilter",
+      "Predicate": {
+        "$type": "RPG.GameCore.ByIsBattleEventEntity",
+        "TargetType": {
+          "$type": "RPG.GameCore.TargetAlias",
+          "Alias": "ParamEntity"
+        },
+        "ExpectSubType": "BEServant",
+        "Inverse": true
+      }
+    },
+    "GetBEServant": {
+      "$type": "RPG.GameCore.TargetSequence",
+      "Sequence": [
+        {
+          "$type": "RPG.GameCore.TargetMapCreatedBattleEvent"
+        },
+        {
+          "$type": "RPG.GameCore.TargetFilter",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsBattleEventEntity",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ParamEntity"
+            },
+            "ExpectSubType": "BEServant"
+          }
+        }
+      ]
+    },
+    "WithBEServant": {
+      "$type": "RPG.GameCore.TargetAlias",
+      "Alias": "ParamEntityList | ParamEntityList.GetBEServant"
+    },
     "GetActualOwner": {
       "$type": "RPG.GameCore.TargetFetchActualOwner"
     },
@@ -305,7 +318,8 @@
       "$type": "RPG.GameCore.TargetMapSnapshotEntity"
     },
     "GetDummyEntity": {
-      "$type": "RPG.GameCore.TargetMapDummyEntity"
+      "$type": "RPG.GameCore.TargetMapDummyEntity",
+      "AutoCreate": true
     },
     "GetSkillTargetAgent": {
       "$type": "RPG.GameCore.TargetMapDummyEntity",
@@ -340,6 +354,39 @@
       "$type": "RPG.GameCore.TargetAlias",
       "Alias": "ParamEntityList + ParamEntityList.GetCharacterChangeSource + ParamEntityList.GetCharacterChangeTarget"
     },
+    "GetAliveOnly": {
+      "$type": "RPG.GameCore.TargetFilter",
+      "Predicate": {
+        "$type": "RPG.GameCore.ByTargetAliveState",
+        "TargetType": {
+          "$type": "RPG.GameCore.TargetAlias",
+          "Alias": "ParamEntity"
+        },
+        "AliveStateMask": "Mask_AliveOnly"
+      }
+    },
+    "GetAliveOrLimbo": {
+      "$type": "RPG.GameCore.TargetFilter",
+      "Predicate": {
+        "$type": "RPG.GameCore.ByTargetAliveState",
+        "TargetType": {
+          "$type": "RPG.GameCore.TargetAlias",
+          "Alias": "ParamEntity"
+        },
+        "AliveStateMask": "Mask_AliveOrLimbo"
+      }
+    },
+    "GetDiedButNotDispose": {
+      "$type": "RPG.GameCore.TargetFilter",
+      "Predicate": {
+        "$type": "RPG.GameCore.ByTargetAliveState",
+        "TargetType": {
+          "$type": "RPG.GameCore.TargetAlias",
+          "Alias": "ParamEntity"
+        },
+        "AliveStateMask": "Mask_DiedButNotDispose"
+      }
+    },
     "Select1": {
       "$type": "RPG.GameCore.TargetIndex",
       "IndexType": "IndexStrict"
@@ -368,6 +415,9 @@
       "$type": "RPG.GameCore.TargetIndex",
       "IndexType": "Last"
     },
+    "Shuffle": {
+      "$type": "RPG.GameCore.TargetShuffle"
+    },
     "Reverse": {
       "$type": "RPG.GameCore.TargetReverse"
     },
@@ -379,9 +429,17 @@
       "$type": "RPG.GameCore.TargetSortByProperty",
       "PropertyType": "MaxHP"
     },
+    "SortByShield": {
+      "$type": "RPG.GameCore.TargetSortByProperty",
+      "PropertyType": "Shield"
+    },
     "SortByStance": {
       "$type": "RPG.GameCore.TargetSortByProperty",
       "PropertyType": "CurrentStance"
+    },
+    "SortByMaxStance": {
+      "$type": "RPG.GameCore.TargetSortByProperty",
+      "PropertyType": "MaxStance"
     },
     "SortByActionOrder": {
       "$type": "RPG.GameCore.TargetSortByActionOrder"

@@ -1,0 +1,514 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEvent",
+          "EventName": {
+            "Value": "Self_UpdateTrigger"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.GenericSwitchCase",
+              "SwitchRef": {
+                "$type": "RPG.GameCore.SwitchRefPropState"
+              },
+              "Cases": [
+                {
+                  "$type": "RPG.GameCore.PropStateCaseContainer",
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.AnimSetParameter",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                      },
+                      "ParameterName": "IsShow",
+                      "ParameterType": "Bool",
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetEntityVisible",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                      },
+                      "Visible": true,
+                      "MuteTriggerWhenInvisible": true
+                    },
+                    {
+                      "$type": "RPG.GameCore.PropEnableCollider",
+                      "Enabled": true,
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.PropStateCaseContainer",
+                  "Case": "Open",
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.AnimSetParameter",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                      },
+                      "ParameterName": "IsShow",
+                      "ParameterType": "Bool"
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetEntityVisible",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                      },
+                      "MuteTriggerWhenInvisible": true
+                    },
+                    {
+                      "$type": "RPG.GameCore.PropEnableCollider",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEvent",
+          "EventName": {
+            "Value": "Clt_TriggerClose"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.AdvClientChangePropState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "FromState": "Open"
+            },
+            {
+              "$type": "RPG.GameCore.TriggerEntityEvent",
+              "EventName": {
+                "Value": "Self_UpdateTrigger"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEvent",
+          "EventName": {
+            "Value": "Clt_TriggerOpen"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.AdvClientChangePropState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "ToState": "Open"
+            },
+            {
+              "$type": "RPG.GameCore.TriggerEntityEvent",
+              "EventName": {
+                "Value": "Self_UpdateTrigger"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "IsLoop": true,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitCustomString",
+          "CustomString": {
+            "Value": "TriggerMovePlatform"
+          },
+          "WaitOwnerOnly": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEntityEvent",
+          "EventName": {
+            "Value": "Clt_TriggerClose"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.GenericSwitchCase",
+          "SwitchRef": {
+            "$type": "RPG.GameCore.SwitchRefFloorSavedValue",
+            "Name": {
+              "Custom": true,
+              "Key": "FSV_PlayingRoomStage"
+            }
+          },
+          "Cases": [
+            {
+              "$type": "RPG.GameCore.NumberCaseContainer",
+              "Case": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "OnSuccess": [
+                {
+                  "$type": "RPG.GameCore.PlayFullScreenTransfer",
+                  "Action": [
+                    {
+                      "$type": "RPG.GameCore.ScrTrfActPerformance",
+                      "CreateNpc": {
+                        "TaskEnabled": false
+                      },
+                      "DestroyNpc": {
+                        "Hide": true,
+                        "TaskEnabled": false
+                      },
+                      "CreateProp": {
+                        "TaskEnabled": false
+                      },
+                      "DestroyProp": {
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                        },
+                        "TaskEnabled": false
+                      },
+                      "CaptureNpc": [],
+                      "SwitchCharacterAnchor": {
+                        "IsLocalPlayer": true,
+                        "CharacterUniqueName": "LocalPlayer",
+                        "LevelAreaKey": {
+                          "Custom": true,
+                          "Key": "Teleport01"
+                        },
+                        "ResetTurnInPlace": true
+                      },
+                      "ActiveVirtualCamera": {
+                        "TaskEnabled": false
+                      },
+                      "ActiveTemplateVirtualCamera": {
+                        "TaskEnabled": false
+                      },
+                      "AdvNpcFaceToPlayer": {
+                        "SteerImmediately": true,
+                        "FinishImmadiate": true,
+                        "TaskEnabled": false
+                      },
+                      "WaitStreamingFinish": true
+                    },
+                    {
+                      "$type": "RPG.GameCore.ScrTrfActTaskList",
+                      "TaskList": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.NumberCaseContainer",
+              "Case": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 2
+                }
+              },
+              "OnSuccess": [
+                {
+                  "$type": "RPG.GameCore.PlayFullScreenTransfer",
+                  "Action": [
+                    {
+                      "$type": "RPG.GameCore.ScrTrfActPerformance",
+                      "CreateNpc": {
+                        "TaskEnabled": false
+                      },
+                      "DestroyNpc": {
+                        "Hide": true,
+                        "TaskEnabled": false
+                      },
+                      "CreateProp": {
+                        "TaskEnabled": false
+                      },
+                      "DestroyProp": {
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                        },
+                        "TaskEnabled": false
+                      },
+                      "CaptureNpc": [],
+                      "SwitchCharacterAnchor": {
+                        "IsLocalPlayer": true,
+                        "CharacterUniqueName": "LocalPlayer",
+                        "LevelAreaKey": {
+                          "Custom": true,
+                          "Key": "Teleport02"
+                        },
+                        "ResetTurnInPlace": true
+                      },
+                      "ActiveVirtualCamera": {
+                        "TaskEnabled": false
+                      },
+                      "ActiveTemplateVirtualCamera": {
+                        "TaskEnabled": false
+                      },
+                      "AdvNpcFaceToPlayer": {
+                        "SteerImmediately": true,
+                        "FinishImmadiate": true,
+                        "TaskEnabled": false
+                      },
+                      "WaitStreamingFinish": true
+                    },
+                    {
+                      "$type": "RPG.GameCore.ScrTrfActTaskList",
+                      "TaskList": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.NumberCaseContainer",
+              "Case": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 3
+                }
+              },
+              "OnSuccess": [
+                {
+                  "$type": "RPG.GameCore.PlayFullScreenTransfer",
+                  "Action": [
+                    {
+                      "$type": "RPG.GameCore.ScrTrfActPerformance",
+                      "CreateNpc": {
+                        "TaskEnabled": false
+                      },
+                      "DestroyNpc": {
+                        "Hide": true,
+                        "TaskEnabled": false
+                      },
+                      "CreateProp": {
+                        "TaskEnabled": false
+                      },
+                      "DestroyProp": {
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                        },
+                        "TaskEnabled": false
+                      },
+                      "CaptureNpc": [],
+                      "SwitchCharacterAnchor": {
+                        "IsLocalPlayer": true,
+                        "CharacterUniqueName": "LocalPlayer",
+                        "LevelAreaKey": {
+                          "Custom": true,
+                          "Key": "Teleport03"
+                        },
+                        "ResetTurnInPlace": true
+                      },
+                      "ActiveVirtualCamera": {
+                        "TaskEnabled": false
+                      },
+                      "ActiveTemplateVirtualCamera": {
+                        "TaskEnabled": false
+                      },
+                      "AdvNpcFaceToPlayer": {
+                        "SteerImmediately": true,
+                        "FinishImmadiate": true,
+                        "TaskEnabled": false
+                      },
+                      "WaitStreamingFinish": true
+                    },
+                    {
+                      "$type": "RPG.GameCore.ScrTrfActTaskList",
+                      "TaskList": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.NumberCaseContainer",
+              "Case": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 4
+                }
+              },
+              "OnSuccess": [
+                {
+                  "$type": "RPG.GameCore.PlayFullScreenTransfer",
+                  "Action": [
+                    {
+                      "$type": "RPG.GameCore.ScrTrfActPerformance",
+                      "CreateNpc": {
+                        "TaskEnabled": false
+                      },
+                      "DestroyNpc": {
+                        "Hide": true,
+                        "TaskEnabled": false
+                      },
+                      "CreateProp": {
+                        "TaskEnabled": false
+                      },
+                      "DestroyProp": {
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                        },
+                        "TaskEnabled": false
+                      },
+                      "CaptureNpc": [],
+                      "SwitchCharacterAnchor": {
+                        "IsLocalPlayer": true,
+                        "CharacterUniqueName": "LocalPlayer",
+                        "LevelAreaKey": {
+                          "Custom": true,
+                          "Key": "Teleport04"
+                        },
+                        "ResetTurnInPlace": true
+                      },
+                      "ActiveVirtualCamera": {
+                        "TaskEnabled": false
+                      },
+                      "ActiveTemplateVirtualCamera": {
+                        "TaskEnabled": false
+                      },
+                      "AdvNpcFaceToPlayer": {
+                        "SteerImmediately": true,
+                        "FinishImmadiate": true,
+                        "TaskEnabled": false
+                      },
+                      "WaitStreamingFinish": true
+                    },
+                    {
+                      "$type": "RPG.GameCore.ScrTrfActTaskList",
+                      "TaskList": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "IsLoop": true,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitCustomString",
+          "CustomString": {
+            "Value": "TriggerExitController"
+          },
+          "WaitOwnerOnly": true
+        },
+        {
+          "$type": "RPG.GameCore.EndPropInteract"
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.TriggerEntityEvent",
+          "EventName": {
+            "Value": "Self_UpdateTrigger"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.PropSetupUITrigger",
+          "ColliderRelativePath": "Trigger",
+          "IconType": "ChatIcon",
+          "ButtonText": {
+            "Hash": 8447699362571980852
+          },
+          "ButtonCallback": [
+            {
+              "$type": "RPG.GameCore.StartPropInteractMode",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "Mode": "OpenUI"
+            },
+            {
+              "$type": "RPG.GameCore.PlayOptionTalk",
+              "OptionList": [
+                {
+                  "$type": "RPG.GameCore.OptionTalkInfo",
+                  "OptionTextmapID": {
+                    "Hash": 2594102891466891453
+                  },
+                  "OptionIconType": "ChatIcon",
+                  "TriggerCustomString": "TriggerMovePlatform"
+                },
+                {
+                  "$type": "RPG.GameCore.OptionTalkInfo",
+                  "OptionTextmapID": {
+                    "Hash": 13520775396572387505
+                  },
+                  "OptionIconType": "ChatOutIcon",
+                  "TriggerCustomString": "TriggerExitController"
+                }
+              ]
+            }
+          ],
+          "OverrideTargetTypes": [],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          }
+        }
+      ]
+    }
+  ],
+  "ValueSource": {
+    "Values": [
+      {
+        "$type": "RPG.GameCore.SharedString",
+        "Key": "FSV_PlayingRoomStage"
+      },
+      {
+        "$type": "RPG.GameCore.SharedString",
+        "Key": "Teleport01"
+      },
+      {
+        "$type": "RPG.GameCore.SharedString",
+        "Key": "Teleport02"
+      },
+      {
+        "$type": "RPG.GameCore.SharedString",
+        "Key": "Teleport03"
+      },
+      {
+        "$type": "RPG.GameCore.SharedString",
+        "Key": "Teleport04"
+      }
+    ]
+  },
+  "Type": "Entity",
+  "EntityEventList": [
+    {
+      "Name": "Clt_TriggerOpen"
+    },
+    {
+      "Name": "Clt_TriggerClose"
+    },
+    {
+      "Name": "Self_UpdateTrigger",
+      "IsPrivate": true
+    }
+  ]
+}

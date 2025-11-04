@@ -3636,6 +3636,23 @@
           ]
         },
         {
+          "$type": "RPG.GameCore.SetDynamicValue",
+          "Value": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQABAQIR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                812377323,
+                -2026477217
+              ]
+            }
+          },
+          "DynamicKey": {
+            "Value": "SkillP04_P1_HPPercentage"
+          }
+        },
+        {
           "$type": "RPG.GameCore.LoopExecuteTaskList",
           "MaxLoopCount": {
             "IsDynamic": true,
@@ -3689,7 +3706,7 @@
                                 "OpCodes": "AQABAQQR",
                                 "FixedValues": [],
                                 "DynamicHashes": [
-                                  812377323,
+                                  1121955706,
                                   1958022546
                                 ]
                               }
@@ -3741,7 +3758,7 @@
                                 "OpCodes": "AQAR",
                                 "FixedValues": [],
                                 "DynamicHashes": [
-                                  812377323
+                                  1121955706
                                 ]
                               }
                             },
@@ -3859,6 +3876,7 @@
             "$type": "RPG.GameCore.TargetAlias",
             "Alias": "Caster"
           },
+          "AbortUnusedInsertAbility": true,
           "MuteHpChange": true,
           "MuteAllTriggerDeath": true
         },
@@ -4507,6 +4525,23 @@
           ]
         },
         {
+          "$type": "RPG.GameCore.SetDynamicValue",
+          "Value": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQABAQIR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                812377323,
+                -2026477217
+              ]
+            }
+          },
+          "DynamicKey": {
+            "Value": "SkillP04_P1_HPPercentage"
+          }
+        },
+        {
           "$type": "RPG.GameCore.LoopExecuteTaskList",
           "MaxLoopCount": {
             "IsDynamic": true,
@@ -4560,7 +4595,7 @@
                                 "OpCodes": "AQABAQQR",
                                 "FixedValues": [],
                                 "DynamicHashes": [
-                                  812377323,
+                                  1121955706,
                                   1958022546
                                 ]
                               }
@@ -4612,7 +4647,7 @@
                                 "OpCodes": "AQAR",
                                 "FixedValues": [],
                                 "DynamicHashes": [
-                                  812377323
+                                  1121955706
                                 ]
                               }
                             },
@@ -4719,6 +4754,40 @@
               "Value": 1
             }
           }
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsContainModifier",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "CasterSummoner"
+            },
+            "ModifierName": {
+              "Value": "MAvatar_ClearAvatarArea_BySkill"
+            }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.RemoveModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "CasterSummoner"
+              },
+              "ModifierName": {
+                "Value": "MAvatar_ClearAvatarArea_BySkill"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.ForceKill",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "MuteHpChange": true,
+              "MuteAllTriggerDeath": true
+            }
+          ]
         },
         {
           "$type": "RPG.GameCore.SetDieImmediately",
@@ -5767,6 +5836,10 @@
                   }
                 },
                 {
+                  "$type": "RPG.GameCore.SetModifierValue",
+                  "ModifyFunction": "Add"
+                },
+                {
                   "$type": "RPG.GameCore.SetSummonerEnergyBarState",
                   "TargetType": {
                     "$type": "RPG.GameCore.TargetAlias",
@@ -5785,10 +5858,6 @@
                     }
                   },
                   "SkipInCharmAction": false
-                },
-                {
-                  "$type": "RPG.GameCore.SetModifierValue",
-                  "ModifyFunction": "Add"
                 }
               ]
             },
@@ -5956,6 +6025,64 @@
                       }
                     }
                   }
+                }
+              ]
+            },
+            {
+              "Event": "OnListenModifierOnStack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByCheckModifierCallBackName",
+                        "ModifierName": "MAvatar_ClearAvatarArea_BySkill"
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCompareTarget",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "CompareType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "CasterSummoner"
+                        }
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TurnInsertAbility",
+                      "AbilityName": {
+                        "Value": "Servant_CastoriceServant_PassiveInsertAbility_Phase01"
+                      },
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "Caster"
+                      },
+                      "AbilityTarget": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "Caster"
+                      },
+                      "InsertAbilityPriority": "AvatarInsertAttackSelf",
+                      "OwnerAliveState": "Mask_AliveOrLimbo",
+                      "TargetAliveState": "Mask_AliveOrLimbo",
+                      "ShowInActionBar": true,
+                      "PreCheck": {
+                        "$type": "RPG.GameCore.TurnInsertAbilityCondition",
+                        "Type": "AbilityOwnerInsertUnusedCount",
+                        "Count": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 1
+                          }
+                        }
+                      }
+                    }
+                  ]
                 }
               ]
             }
@@ -6576,7 +6703,7 @@
             "Name": "MServant_CastoriceServant_HitDamageSplit",
             "TargetType": {
               "$type": "RPG.GameCore.TargetAlias",
-              "Alias": "AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent.RemoveServant"
+              "Alias": "AllLightTeamWithAllLightTeamUnselectable.RemoveBattleEvent.RemoveServant"
             },
             "IsHaloStatus": true
           }

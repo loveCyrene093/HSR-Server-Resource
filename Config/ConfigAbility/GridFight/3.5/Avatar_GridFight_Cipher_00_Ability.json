@@ -1,0 +1,584 @@
+{
+  "AbilityList": [
+    {
+      "Modifiers": {
+        "MAvatar_GridFight_Cipher_00_PassiveSkill": {
+          "_CallbackList": [
+            {
+              "Event": "OnListenAfterBeingHitAll",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByIsContainModifier",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "ModifierName": {
+                          "Value": "MAvatar_Cipher_BpKuoSan"
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByTargetTeam",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "Team": "TeamDark"
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCompareGridFightProperty",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity2.GetActualOwner"
+                        },
+                        "PropertyType": "PresetTag",
+                        "CompareType": "Equal",
+                        "CompareValue": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 1
+                          }
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByAttackType",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity2.GetActualOwner"
+                        },
+                        "AttackTypes": [
+                          "TrueDamage"
+                        ],
+                        "Inverse": true
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValueByDamageDataProperty",
+                      "DynamicKey": "_TMP_Damage",
+                      "ReadTargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity2.GetActualOwner"
+                      },
+                      "Property": "Result_FinalDamageBase"
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValueByDamageDataProperty",
+                      "DynamicKey": "_TMP_OverflowDamage",
+                      "ReadTargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity2.GetActualOwner"
+                      },
+                      "Property": "Result_OverflowHPDamage"
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQABAQMR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            -1023856840,
+                            -1947235314
+                          ]
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "_TMP_Damage"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            -995228437
+                          ]
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "_TMP_Rate"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "DynamicKey": {
+                          "Value": "_TMP_Damage"
+                        },
+                        "CompareType": "Greater",
+                        "CompareValue": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 0
+                          }
+                        }
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.SetDynamicValue",
+                          "Value": {
+                            "IsDynamic": true,
+                            "PostfixExpr": {
+                              "OpCodes": "AAABAAMR",
+                              "FixedValues": [
+                                {
+                                  "Value": 0
+                                }
+                              ],
+                              "DynamicHashes": [
+                                -1023856840
+                              ]
+                            }
+                          },
+                          "DynamicKey": {
+                            "Value": "SkillP01_CurrentDamge"
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.SetDynamicValue",
+                          "Value": {
+                            "IsDynamic": true,
+                            "PostfixExpr": {
+                              "OpCodes": "AQAOAQEEAQIFAQMCEQ==",
+                              "FixedValues": [],
+                              "DynamicHashes": [
+                                1417616978,
+                                -1374460657,
+                                -902625506,
+                                -1750365842
+                              ]
+                            }
+                          },
+                          "DynamicKey": {
+                            "Value": "SkillP01_TotalDamage"
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.PredicateTaskList",
+                          "Predicate": {
+                            "$type": "RPG.GameCore.ByAnd",
+                            "PredicateList": [
+                              {
+                                "$type": "RPG.GameCore.BySkillPointActivated",
+                                "PointTriggerKey": "PointB1"
+                              }
+                            ]
+                          },
+                          "SuccessTaskList": [
+                            {
+                              "$type": "RPG.GameCore.SetDynamicValueByProperty",
+                              "DynamicKey": "PointB1_Speed",
+                              "ReadTargetType": {
+                                "$type": "RPG.GameCore.TargetAlias",
+                                "Alias": "Caster"
+                              },
+                              "Value": "Speed"
+                            },
+                            {
+                              "$type": "RPG.GameCore.PredicateTaskList",
+                              "Predicate": {
+                                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                                "DynamicKey": {
+                                  "Value": "PointB1_Speed"
+                                },
+                                "CompareType": "GreaterEqual",
+                                "CompareValue": {
+                                  "IsDynamic": true,
+                                  "PostfixExpr": {
+                                    "OpCodes": "AQAR",
+                                    "FixedValues": [],
+                                    "DynamicHashes": [
+                                      1838235328
+                                    ]
+                                  }
+                                }
+                              },
+                              "SuccessTaskList": [
+                                {
+                                  "$type": "RPG.GameCore.SetDynamicValue",
+                                  "Value": {
+                                    "IsDynamic": true,
+                                    "PostfixExpr": {
+                                      "OpCodes": "AQAR",
+                                      "FixedValues": [],
+                                      "DynamicHashes": [
+                                        -1574212072
+                                      ]
+                                    }
+                                  },
+                                  "DynamicKey": {
+                                    "Value": "PointB1_Ratio"
+                                  }
+                                }
+                              ],
+                              "FailedTaskList": [
+                                {
+                                  "$type": "RPG.GameCore.PredicateTaskList",
+                                  "Predicate": {
+                                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                                    "DynamicKey": {
+                                      "Value": "PointB1_Speed"
+                                    },
+                                    "CompareType": "GreaterEqual",
+                                    "CompareValue": {
+                                      "IsDynamic": true,
+                                      "PostfixExpr": {
+                                        "OpCodes": "AQAR",
+                                        "FixedValues": [],
+                                        "DynamicHashes": [
+                                          1838235329
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "SuccessTaskList": [
+                                    {
+                                      "$type": "RPG.GameCore.SetDynamicValue",
+                                      "Value": {
+                                        "IsDynamic": true,
+                                        "PostfixExpr": {
+                                          "OpCodes": "AQAR",
+                                          "FixedValues": [],
+                                          "DynamicHashes": [
+                                            -1574212073
+                                          ]
+                                        }
+                                      },
+                                      "DynamicKey": {
+                                        "Value": "PointB1_Ratio"
+                                      }
+                                    }
+                                  ],
+                                  "FailedTaskList": [
+                                    {
+                                      "$type": "RPG.GameCore.SetDynamicValue",
+                                      "Value": {
+                                        "IsDynamic": false,
+                                        "FixedValue": {
+                                          "Value": 0
+                                        }
+                                      },
+                                      "DynamicKey": {
+                                        "Value": "PointB1_Ratio"
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "$type": "RPG.GameCore.SetDynamicValue",
+                              "Value": {
+                                "IsDynamic": true,
+                                "PostfixExpr": {
+                                  "OpCodes": "AQAOAQEEAQIFAQMEAQQCEQ==",
+                                  "FixedValues": [],
+                                  "DynamicHashes": [
+                                    1417616978,
+                                    -1374460657,
+                                    -902625506,
+                                    -1002933883,
+                                    -1750365842
+                                  ]
+                                }
+                              },
+                              "DynamicKey": {
+                                "Value": "SkillP01_TotalDamage"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQABAQQBAgQR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            -1750365842,
+                            -902625506,
+                            1044749585
+                          ]
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "SkillP01_FinalDamage"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetEnergyBarState",
+                      "Active": "True",
+                      "BarType": 4,
+                      "CurrentState": "Normal",
+                      "CD": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0
+                        }
+                      },
+                      "MaxCount": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AAAR",
+                          "FixedValues": [
+                            {
+                              "Value": 99999
+                            }
+                          ],
+                          "DynamicHashes": []
+                        }
+                      },
+                      "CurrentCount": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAAAAUR",
+                          "FixedValues": [
+                            {
+                              "Value": 1000
+                            }
+                          ],
+                          "DynamicHashes": [
+                            1290442884
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnStack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQABAQUBAgUBAwIR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        1789367299,
+                        1044749585,
+                        -902625506,
+                        -1750365842
+                      ]
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "SkillP01_TotalDamage"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQABAQQBAgQR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        -1750365842,
+                        -902625506,
+                        1044749585
+                      ]
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "SkillP01_FinalDamage"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.SetEnergyBarState",
+                  "Active": "True",
+                  "BarType": 4,
+                  "CurrentState": "Normal",
+                  "CD": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "MaxCount": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AAAR",
+                      "FixedValues": [
+                        {
+                          "Value": 99999
+                        }
+                      ],
+                      "DynamicHashes": []
+                    }
+                  },
+                  "CurrentCount": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAAAAUR",
+                      "FixedValues": [
+                        {
+                          "Value": 1000
+                        }
+                      ],
+                      "DynamicHashes": [
+                        1290442884
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "Event": "OnAfterAttack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByIsContainModifier",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "AttackTargetList"
+                    },
+                    "ModifierName": {
+                      "Value": "MAvatar_Cipher_BpKuoSan"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQABAQUBAgUBAwIR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            1056766443,
+                            1044749585,
+                            -902625506,
+                            -1750365842
+                          ]
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "SkillP01_TotalDamage"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQABAQQBAgQR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            -1750365842,
+                            -902625506,
+                            1044749585
+                          ]
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "SkillP01_FinalDamage"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetEnergyBarState",
+                      "Active": "True",
+                      "BarType": 4,
+                      "CurrentState": "Normal",
+                      "CD": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0
+                        }
+                      },
+                      "MaxCount": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AAAR",
+                          "FixedValues": [
+                            {
+                              "Value": 99999
+                            }
+                          ],
+                          "DynamicHashes": []
+                        }
+                      },
+                      "CurrentCount": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAAAAUR",
+                          "FixedValues": [
+                            {
+                              "Value": 1000
+                            }
+                          ],
+                          "DynamicHashes": [
+                            1290442884
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "DynamicValues": {
+            "Floats": {
+              "-1023856840": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-1947235314": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "-1374460657": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
+            }
+          }
+        }
+      },
+      "Name": "Avatar_GridFight_Cipher_00_PassiveSkill01",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MAvatar_GridFight_Cipher_00_PassiveSkill"
+          }
+        }
+      ]
+    }
+  ],
+  "GlobalModifiers": {}
+}

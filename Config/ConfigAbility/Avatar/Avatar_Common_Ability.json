@@ -544,7 +544,7 @@
           "$type": "RPG.GameCore.RemoveModifier",
           "TargetType": {
             "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent"
+            "Alias": "AllLightTeamWithAllLightTeamUnselectable.RemoveBattleEvent"
           },
           "ModifierName": {
             "Value": "MAvatar_GlobalSkill_Castorice_Listen"
@@ -924,7 +924,7 @@
           "$type": "RPG.GameCore.RemoveModifier",
           "TargetType": {
             "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent"
+            "Alias": "AllLightTeamWithAllLightTeamUnselectable.RemoveBattleEvent"
           },
           "ModifierName": {
             "Value": "MAvatar_GlobalSkill_Castorice_LimboWakeUpMark"
@@ -2576,7 +2576,7 @@
                   "$type": "RPG.GameCore.AddModifier",
                   "TargetType": {
                     "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent.RemoveServant"
+                    "Alias": "AllLightTeamWithAllLightTeamUnselectable.RemoveBattleEvent.RemoveServant"
                   },
                   "ModifierName": {
                     "Value": "MAvatar_GlobalSkill_Castorice_Listen"
@@ -2897,6 +2897,66 @@
           }
         }
       }
+    },
+    "MAvatar_ClearAvatarArea_BySkill": {
+      "Stacking": "Replace"
     }
-  }
+  },
+  "GlobalTemplates": [
+    {
+      "Name": "Avatar_GlobalTemplate_ClearAvatarArea_BySkill",
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllLightTeam"
+          },
+          "Predicate": {
+            "$type": "RPG.GameCore.ByAny",
+            "PredicateList": [
+              {
+                "$type": "RPG.GameCore.ByCompareCharacterID",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                },
+                "TargetCharacterID": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 1407
+                  }
+                }
+              },
+              {
+                "$type": "RPG.GameCore.ByCompareCharacterID",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                },
+                "TargetCharacterID": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 1408
+                  }
+                }
+              }
+            ]
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "ModifierName": {
+                "Value": "MAvatar_ClearAvatarArea_BySkill"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

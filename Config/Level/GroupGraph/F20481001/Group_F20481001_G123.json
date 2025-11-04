@@ -1,0 +1,104 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvDistrictSetupTrigger",
+          "DistrictID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 500001
+            }
+          },
+          "OnEnter": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByAnchorAngleDiffWithMainCameraOverThan",
+                "LevelAreaCameraKey": {
+                  "Custom": true,
+                  "Key": "Anchor"
+                },
+                "Angle": 90
+              },
+              "SuccessTaskList": [],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.ActiveVirtualCamera",
+                  "LevelAreaCameraKey": {
+                    "Custom": true,
+                    "Key": "Camera1"
+                  },
+                  "IsEntryPointCamera": true,
+                  "LookAtTargetAnchorName": "LocalPlayer",
+                  "BlendConfig": {
+                    "ExportToJson": true,
+                    "BlendType": "EaseInOut",
+                    "BlendTime": 2
+                  }
+                }
+              ]
+            }
+          ],
+          "OnExit": [
+            {
+              "$type": "RPG.GameCore.ActiveVirtualCamera",
+              "LevelAreaCameraKey": {
+                "Custom": true,
+                "Key": "Camera1"
+              },
+              "IsEntryPointCamera": true,
+              "IsActive": false,
+              "BlendConfig": {
+                "ExportToJson": true,
+                "BlendType": "Custom",
+                "CustomCurveName": "TownExitCommonCameraExitCurve",
+                "BlendTime": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvDistrictSetupTrigger",
+          "DistrictID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 500002
+            }
+          },
+          "OnEnter": [
+            {
+              "$type": "RPG.GameCore.ActiveVirtualCamera",
+              "LevelAreaCameraKey": {
+                "Custom": true,
+                "Key": "Camera1"
+              },
+              "IsEntryPointCamera": true,
+              "IsActive": false
+            }
+          ],
+          "OnExit": []
+        }
+      ]
+    }
+  ],
+  "ValueSource": {
+    "Values": [
+      {
+        "$type": "RPG.GameCore.SharedString",
+        "Key": "Camera1"
+      },
+      {
+        "$type": "RPG.GameCore.SharedString",
+        "Key": "Anchor"
+      }
+    ]
+  },
+  "Type": "Group",
+  "EntityEventList": []
+}

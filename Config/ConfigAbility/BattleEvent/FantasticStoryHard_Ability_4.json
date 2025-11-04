@@ -1227,7 +1227,7 @@
                       "$type": "RPG.GameCore.AddModifier",
                       "TargetType": {
                         "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent - AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent.GetServant"
+                        "Alias": "AllLightTeamWithAllLightTeamUnselectable.RemoveBattleEvent.RemoveServant"
                       },
                       "ModifierName": {
                         "Value": "Modifier_FantasticStory_BaseAbility_2110_Plus3AddOn"
@@ -2009,7 +2009,7 @@
                 "Name": "Modifier_FantasticStory_BaseAbility_2110_BaseAddOn_ForShow",
                 "TargetType": {
                   "$type": "RPG.GameCore.TargetAlias",
-                  "Alias": "AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent"
+                  "Alias": "AllLightTeamWithAllLightTeamUnselectable.RemoveBattleEvent"
                 },
                 "DynamicValues": {
                   "DV_Ratio": {
@@ -3417,7 +3417,7 @@
           "$type": "RPG.GameCore.AddModifier",
           "TargetType": {
             "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent - AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent.GetServant"
+            "Alias": "AllLightTeamWithAllLightTeamUnselectable.RemoveBattleEvent.RemoveServant"
           },
           "ModifierName": {
             "Value": "Modifier_FantasticStory_BaseAbility_2110_AddSP"
@@ -3440,7 +3440,7 @@
           "$type": "RPG.GameCore.AddModifier",
           "TargetType": {
             "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent - AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent.GetServant"
+            "Alias": "AllLightTeamWithAllLightTeamUnselectable.RemoveBattleEvent.RemoveServant"
           },
           "ModifierName": {
             "Value": "Modifier_FantasticStory_BaseAbility_2110_ReturnSP"
@@ -4462,7 +4462,7 @@
             "Name": "Modifier_FantasticStory_BaseAbility_2110_plus3_sub",
             "TargetType": {
               "$type": "RPG.GameCore.TargetAlias",
-              "Alias": "AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent - AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent.GetServant"
+              "Alias": "AllLightTeamWithAllLightTeamUnselectable.RemoveBattleEvent.RemoveServant"
             },
             "Predicate": {
               "$type": "RPG.GameCore.ByCompareDynamicValue",
@@ -5202,7 +5202,7 @@
             "Name": "Modifier_FantasticStory_BaseAbility_2110_Plus1AddOn_ForShow",
             "TargetType": {
               "$type": "RPG.GameCore.TargetAlias",
-              "Alias": "AllLightTeamWithAllUnselectableLightTeamWithoutBattleEvent"
+              "Alias": "AllLightTeamWithAllLightTeamUnselectable.RemoveBattleEvent"
             },
             "IsHaloStatus": true
           }
@@ -5231,6 +5231,55 @@
     },
     "Modifier_FantasticStory_BaseAbility_2110_Plus2AddOn": {
       "_CallbackList": [
+        {
+          "Event": "OnListenBeforeAttack",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByAttackType",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "AttackTypes": [
+                      "Maze"
+                    ],
+                    "Inverse": true
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByTargetListIntersects",
+                    "FirstTargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "AllLightTeam"
+                    },
+                    "SecondTargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    }
+                  }
+                ]
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "DV_TargetCount"
+                  }
+                }
+              ]
+            }
+          ]
+        },
         {
           "Event": "OnListenAfterAttack",
           "CallbackConfig": [
@@ -5408,19 +5457,54 @@
           "Event": "OnListenBreak",
           "CallbackConfig": [
             {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByTargetListIntersects",
+                "FirstTargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "AllDarkTeam"
+                },
+                "FirstTargetAliveOnly": false,
+                "SecondTargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                },
+                "SecondTargetAliveOnly": false
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAAAAIR",
+                      "FixedValues": [
+                        {
+                          "Value": 1
+                        }
+                      ],
+                      "DynamicHashes": [
+                        544251559
+                      ]
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "DV_TargetCount"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Event": "OnWaveMonster",
+          "CallbackConfig": [
+            {
               "$type": "RPG.GameCore.SetDynamicValue",
               "Value": {
-                "IsDynamic": true,
-                "PostfixExpr": {
-                  "OpCodes": "AQAAAAIR",
-                  "FixedValues": [
-                    {
-                      "Value": 1
-                    }
-                  ],
-                  "DynamicHashes": [
-                    544251559
-                  ]
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
                 }
               },
               "DynamicKey": {

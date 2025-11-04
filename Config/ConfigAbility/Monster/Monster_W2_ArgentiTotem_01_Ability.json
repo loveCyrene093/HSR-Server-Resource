@@ -155,61 +155,152 @@
                   "$type": "RPG.GameCore.SetDieImmediately"
                 },
                 {
-                  "$type": "RPG.GameCore.TurnInsertAbility",
-                  "AbilityName": {
-                    "Value": "Monster_W2_ArgentiTotem_01_SkillP01_Insert"
-                  },
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "Caster"
-                  },
-                  "AbilityTarget": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "ParamEntityActualOwner"
-                  },
-                  "AbortBehaviorFlags": [
-                    "CustomEvent_MonsterChangePhase"
-                  ],
-                  "InsertAbilityPriority": "MonsterDeathRattle",
-                  "InsertConditionPriority": {
-                    "OverridePriority": "MonsterForceKill",
-                    "Predicate": {
-                      "$type": "RPG.GameCore.ByCompareAbilityProperty",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetSequence",
-                        "Sequence": [
-                          {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "AllTeamMember"
-                          },
-                          {
-                            "$type": "RPG.GameCore.TargetFilter",
-                            "Predicate": {
-                              "$type": "RPG.GameCore.ByCheckCustomValueBool",
-                              "TargetType": {
-                                "$type": "RPG.GameCore.TargetAlias",
-                                "Alias": "ParamEntity"
-                              },
-                              "Key": {
-                                "Hash": 1955914817
-                              }
-                            }
-                          }
-                        ]
-                      },
-                      "Property": "CurrentHP",
-                      "CompareType": "LessEqual",
-                      "CompareValue": {
-                        "IsDynamic": false,
-                        "FixedValue": {
-                          "Value": 0
-                        }
-                      }
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByTargetListIntersects",
+                    "FirstTargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntityActualOwner"
+                    },
+                    "SecondTargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "GridFight_AllBackEnd"
                     }
                   },
-                  "OwnerAliveState": "Mask_AliveOrLimbo",
-                  "TargetAliveState": "Mask_AliveOrLimbo",
-                  "ShowInActionBar": true
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.Retarget",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "AllLightTeam"
+                      },
+                      "ByRandom": true,
+                      "MaxNumber": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      },
+                      "TaskList": [
+                        {
+                          "$type": "RPG.GameCore.TurnInsertAbility",
+                          "AbilityName": {
+                            "Value": "Monster_W2_ArgentiTotem_01_SkillP01_Insert"
+                          },
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "Caster"
+                          },
+                          "AbilityTarget": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ParamEntity"
+                          },
+                          "AbortBehaviorFlags": [
+                            "STAT_MonsterChangePhase"
+                          ],
+                          "InsertAbilityPriority": "MonsterDeathRattle",
+                          "InsertConditionPriority": {
+                            "OverridePriority": "MonsterForceKill",
+                            "Predicate": {
+                              "$type": "RPG.GameCore.ByCompareAbilityProperty",
+                              "TargetType": {
+                                "$type": "RPG.GameCore.TargetSequence",
+                                "Sequence": [
+                                  {
+                                    "$type": "RPG.GameCore.TargetAlias",
+                                    "Alias": "AllTeamMember"
+                                  },
+                                  {
+                                    "$type": "RPG.GameCore.TargetFilter",
+                                    "Predicate": {
+                                      "$type": "RPG.GameCore.ByCheckCustomValueBool",
+                                      "TargetType": {
+                                        "$type": "RPG.GameCore.TargetAlias",
+                                        "Alias": "ParamEntity"
+                                      },
+                                      "Key": {
+                                        "Hash": 1955914817
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              "Property": "CurrentHP",
+                              "CompareType": "LessEqual",
+                              "CompareValue": {
+                                "IsDynamic": false,
+                                "FixedValue": {
+                                  "Value": 0
+                                }
+                              }
+                            }
+                          },
+                          "OwnerAliveState": "Mask_AliveOrLimbo",
+                          "TargetAliveState": "Mask_AliveOrLimbo",
+                          "ShowInActionBar": true
+                        }
+                      ]
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TurnInsertAbility",
+                      "AbilityName": {
+                        "Value": "Monster_W2_ArgentiTotem_01_SkillP01_Insert"
+                      },
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "Caster"
+                      },
+                      "AbilityTarget": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntityActualOwner"
+                      },
+                      "AbortBehaviorFlags": [
+                        "STAT_MonsterChangePhase"
+                      ],
+                      "InsertAbilityPriority": "MonsterDeathRattle",
+                      "InsertConditionPriority": {
+                        "OverridePriority": "MonsterForceKill",
+                        "Predicate": {
+                          "$type": "RPG.GameCore.ByCompareAbilityProperty",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetSequence",
+                            "Sequence": [
+                              {
+                                "$type": "RPG.GameCore.TargetAlias",
+                                "Alias": "AllTeamMember"
+                              },
+                              {
+                                "$type": "RPG.GameCore.TargetFilter",
+                                "Predicate": {
+                                  "$type": "RPG.GameCore.ByCheckCustomValueBool",
+                                  "TargetType": {
+                                    "$type": "RPG.GameCore.TargetAlias",
+                                    "Alias": "ParamEntity"
+                                  },
+                                  "Key": {
+                                    "Hash": 1955914817
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "Property": "CurrentHP",
+                          "CompareType": "LessEqual",
+                          "CompareValue": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 0
+                            }
+                          }
+                        }
+                      },
+                      "OwnerAliveState": "Mask_AliveOrLimbo",
+                      "TargetAliveState": "Mask_AliveOrLimbo",
+                      "ShowInActionBar": true
+                    }
+                  ]
                 }
               ]
             },

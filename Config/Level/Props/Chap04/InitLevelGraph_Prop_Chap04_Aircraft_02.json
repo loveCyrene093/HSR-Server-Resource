@@ -1,0 +1,1060 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "IsLoop": true,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "Aircraft_Landing"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TravelShipHideUI"
+            },
+            {
+              "$type": "RPG.GameCore.PropClosePuzzle",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.AdvOverrideCameraModuleConfig",
+              "OverrideConfigs": [
+                {
+                  "OverrideType": "Freelook3rdModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/AdventureBase/Freelook3rdModuleConfig.asset"
+                },
+                {
+                  "OverrideType": "ZoomModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/AdventureBase/ZoomModuleConfig.asset"
+                }
+              ],
+              "IsReset": true
+            },
+            {
+              "$type": "RPG.GameCore.AdvRemoveEffectList",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "ConfigNameList": [
+                "EngineFire01",
+                "WingFlow01"
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.PlayScreenTransfer",
+              "CustomTime": 0.2
+            },
+            {
+              "$type": "RPG.GameCore.UnLockPlayerControl"
+            },
+            {
+              "$type": "RPG.GameCore.DebugLog",
+              "Level": "Warn",
+              "Message": "###降落完成_浮岛###"
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvSetupButtonListTrigger",
+          "TriggerName": "InteractTrigger",
+          "ButtonsByName": [
+            "Interact"
+          ],
+          "ButtonConfigs": [],
+          "ConsiderAngleLimit": true,
+          "IsOverrideValidGuestConfig": true,
+          "OverridedValidGuestConfig": {}
+        },
+        {
+          "$type": "RPG.GameCore.AdvEnableButtons",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          },
+          "TriggerName": "InteractTrigger",
+          "ButtonsByName": [
+            "Interact"
+          ],
+          "IsEnable": true
+        }
+      ]
+    },
+    {
+      "IsLoop": true,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvOnButtonPressed",
+          "ButtonName": "Interact",
+          "OnPressedCallback": [
+            {
+              "$type": "RPG.GameCore.PropInitPuzzle",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "BoardPath": {
+                "Custom": true,
+                "Key": "PuzzlePath"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PlayScreenTransfer",
+              "Reason": "Mission",
+              "Mode": "SwitchOut",
+              "CustomTime": 0.2
+            },
+            {
+              "$type": "RPG.GameCore.PropStartPuzzle",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "OnStart": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "GE_PuzzleStartFCV"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.AdvOverrideCameraModuleConfig",
+                  "OverrideConfigs": [
+                    {
+                      "OverrideType": "Freelook3rdModuleConfig",
+                      "OverrideConfigPath": "Camera/ModuleConfig/FakePlayerAdventureBase/Aircraft_00_Freelook3rdModuleConfig.asset"
+                    },
+                    {
+                      "OverrideType": "ZoomModuleConfig",
+                      "OverrideConfigPath": "Camera/ModuleConfig/FakePlayerAdventureBase/Hand_00_ZoomModuleConfig.asset"
+                    },
+                    {
+                      "OverrideType": "ProtectModuleConfig",
+                      "OverrideConfigPath": "Camera/ModuleConfig/FakePlayerAdventureBase/Hand_00_ProtectModuleConfig.asset"
+                    },
+                    {
+                      "OverrideType": "DitherModuleConfig",
+                      "OverrideConfigPath": "Camera/ModuleConfig/FakePlayerAdventureBase/Hand_00_DitherModuleConfig.asset"
+                    }
+                  ],
+                  "BlendTime": 0.01
+                },
+                {
+                  "$type": "RPG.GameCore.WaitSecond",
+                  "WaitTime": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0.1
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.PlayScreenTransfer",
+                  "Reason": "Mission",
+                  "CustomTime": 0.5
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.DebugLog",
+              "Message": "###启动巡航机###"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "SwitchHandTravel_DefaultState"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.SpeedLineEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "None"
+              },
+              "Active": false,
+              "SpeedlineSeedPath": "Effects/Eff_Texture/Special/Noise/Eff_Noise_30.png"
+            },
+            {
+              "$type": "RPG.GameCore.AdvOverrideCameraModuleConfig",
+              "OverrideConfigs": [
+                {
+                  "OverrideType": "Freelook3rdModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/FakePlayerAdventureBase/Aircraft_00_Freelook3rdModuleConfig.asset"
+                },
+                {
+                  "OverrideType": "ZoomModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/FakePlayerAdventureBase/Hand_00_ZoomModuleConfig.asset"
+                },
+                {
+                  "OverrideType": "ProtectModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/FakePlayerAdventureBase/Hand_00_ProtectModuleConfig.asset"
+                },
+                {
+                  "OverrideType": "DitherModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/FakePlayerAdventureBase/Hand_00_DitherModuleConfig.asset"
+                }
+              ],
+              "BlendTime": 3,
+              "BlendCurve": "Camera/BlendCurve/BlendCut_SwitchHand_RPunch_Aim.asset"
+            },
+            {
+              "$type": "RPG.GameCore.DebugLog",
+              "Message": "###回到默认状态###"
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchOwnerEntity"
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "SwitchHandTravel_PowerSprintState"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerEntityEventV2",
+              "EventName": {
+                "Value": "Self_RobotAudio"
+              },
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              }
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchOwnerEntity"
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "SwitchHandTravel_SprintState"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.SpeedLineEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "None"
+              },
+              "Mode": "Radial",
+              "Brightness": 0.5,
+              "SpeedlineSeedPath": "Effects/Eff_Texture/Special/Noise/Eff_Noise_30.png"
+            },
+            {
+              "$type": "RPG.GameCore.AdvOverrideCameraModuleConfig",
+              "OverrideConfigs": [
+                {
+                  "OverrideType": "Freelook3rdModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/FakePlayerAdventureBase/Aircraft_00_DashModuleConfig.asset"
+                },
+                {
+                  "OverrideType": "ZoomModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/FakePlayerAdventureBase/Hand_00_AimZoomModuleConfig.asset"
+                },
+                {
+                  "OverrideType": "ProtectModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/FakePlayerAdventureBase/Hand_00_ProtectModuleConfig.asset"
+                },
+                {
+                  "OverrideType": "DitherModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/FakePlayerAdventureBase/Hand_00_DitherModuleConfig.asset"
+                }
+              ],
+              "BlendTime": 2,
+              "BlendCurve": "Camera/BlendCurve/BlendCut_SwitchHand_RPunch_Aim.asset"
+            },
+            {
+              "$type": "RPG.GameCore.RadialBlurCurveEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "None"
+              },
+              "BlurStart": 0.5,
+              "Duration": 3,
+              "CurveName": "HandRadialBlurCurve"
+            },
+            {
+              "$type": "RPG.GameCore.DebugLog",
+              "Message": "###进入技能环加速###"
+            },
+            {
+              "$type": "RPG.GameCore.VCameraConfigChange",
+              "CharacterCameraTargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvLocalPlayer"
+              },
+              "CameraConfig": {
+                "ConfigType": "ShakeConfig",
+                "ShakeTemplateName": "Aircraft_Dash",
+                "NoiseConfig": {},
+                "Priority": 10
+              }
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchOwnerEntity"
+          }
+        }
+      ]
+    },
+    {
+      "IsLoop": true,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "SwitchHandTravel_Exit"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TravelShipResetState",
+              "ShowToast": false
+            },
+            {
+              "$type": "RPG.GameCore.PlayScreenTransfer",
+              "Reason": "Mission",
+              "Mode": "SwitchOut",
+              "CustomTime": 0.2
+            },
+            {
+              "$type": "RPG.GameCore.SpeedLineEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "None"
+              },
+              "Active": false,
+              "SpeedlineSeedPath": "Effects/Eff_Texture/Special/Noise/Eff_Noise_30.png"
+            },
+            {
+              "$type": "RPG.GameCore.PropClosePuzzle",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.AdvOverrideCameraModuleConfig",
+              "OverrideConfigs": [
+                {
+                  "OverrideType": "Freelook3rdModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/AdventureBase/Freelook3rdModuleConfig.asset"
+                },
+                {
+                  "OverrideType": "ZoomModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/AdventureBase/ZoomModuleConfig.asset"
+                }
+              ],
+              "IsReset": true
+            },
+            {
+              "$type": "RPG.GameCore.SetForceStreamingThisFrame"
+            },
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.1
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.WaitStreamingJobFinished"
+            },
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "GE_ExitTravelShip"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PlayScreenTransfer",
+              "Reason": "Mission",
+              "CustomTime": 0.2
+            },
+            {
+              "$type": "RPG.GameCore.DebugLog",
+              "Level": "Warn",
+              "Message": "###主动退出###"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "SwitchHandTravel_Navigation"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.SpeedLineEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "None"
+              },
+              "Active": false,
+              "SpeedlineSeedPath": "Effects/Eff_Texture/Special/Noise/Eff_Noise_30.png"
+            },
+            {
+              "$type": "RPG.GameCore.AdvOverrideCameraModuleConfig",
+              "OverrideConfigs": [
+                {
+                  "OverrideType": "Freelook3rdModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/FakePlayerAdventureBase/Aircraft_00_Freelook3rdModuleConfig.asset"
+                },
+                {
+                  "OverrideType": "ZoomModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/FakePlayerAdventureBase/Hand_00_ZoomModuleConfig.asset"
+                },
+                {
+                  "OverrideType": "ProtectModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/FakePlayerAdventureBase/Hand_00_ProtectModuleConfig.asset"
+                },
+                {
+                  "OverrideType": "DitherModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/FakePlayerAdventureBase/Hand_00_DitherModuleConfig.asset"
+                }
+              ],
+              "BlendTime": 3,
+              "BlendCurve": "Camera/BlendCurve/BlendCut_SwitchHand_RPunch_Aim.asset"
+            },
+            {
+              "$type": "RPG.GameCore.DebugLog",
+              "Message": "###进入自动巡航###"
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchOwnerEntity"
+          }
+        }
+      ]
+    },
+    {
+      "IsLoop": true,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "Aircraft_ForceStart"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PropInitPuzzle",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "BoardPath": {
+                "Custom": true,
+                "Key": "PuzzlePath"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PlayScreenTransfer",
+              "Reason": "Mission",
+              "Mode": "SwitchOut",
+              "CustomTime": 0.2
+            },
+            {
+              "$type": "RPG.GameCore.PropStartPuzzle",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "OnStart": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "GE_PuzzleStartFCV"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.AdvOverrideCameraModuleConfig",
+                  "OverrideConfigs": [
+                    {
+                      "OverrideType": "Freelook3rdModuleConfig",
+                      "OverrideConfigPath": "Camera/ModuleConfig/FakePlayerAdventureBase/Aircraft_00_Freelook3rdModuleConfig.asset"
+                    },
+                    {
+                      "OverrideType": "ZoomModuleConfig",
+                      "OverrideConfigPath": "Camera/ModuleConfig/FakePlayerAdventureBase/Hand_00_ZoomModuleConfig.asset"
+                    },
+                    {
+                      "OverrideType": "ProtectModuleConfig",
+                      "OverrideConfigPath": "Camera/ModuleConfig/FakePlayerAdventureBase/Hand_00_ProtectModuleConfig.asset"
+                    },
+                    {
+                      "OverrideType": "DitherModuleConfig",
+                      "OverrideConfigPath": "Camera/ModuleConfig/FakePlayerAdventureBase/Hand_00_DitherModuleConfig.asset"
+                    }
+                  ],
+                  "BlendTime": 0.01
+                },
+                {
+                  "$type": "RPG.GameCore.WaitSecond",
+                  "WaitTime": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0.1
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.PlayScreenTransfer",
+                  "Reason": "Mission",
+                  "CustomTime": 0.5
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.DebugLog",
+              "Message": "###启动巡航机###"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "MainLine_RiseSound"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerSound",
+              "SoundName": {
+                "Value": "Ev_sfx_amphoreus_screwshuttle_riseup"
+              },
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              }
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "SwitchHandTravel_NavigateFail"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "GE_CruiseReset"
+              }
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "Self_RobotAudio"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.GenericSwitchCase",
+              "SwitchRef": {
+                "$type": "RPG.GameCore.SwitchRefGraphDynamicFloat",
+                "Name": "_RobotAudio_Index"
+              },
+              "Cases": [
+                {
+                  "$type": "RPG.GameCore.NumberCaseContainer",
+                  "Case": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.TriggerSound",
+                      "SoundName": {
+                        "Value": "Ev_sfx_amphoreus_guide_01"
+                      },
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetGraphDynamicFloat",
+                      "Name": "_RobotAudio_Index",
+                      "TargetIDs": [],
+                      "Value": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAAAAIAAQYR",
+                          "FixedValues": [
+                            {
+                              "Value": 1
+                            },
+                            {
+                              "Value": 3
+                            }
+                          ],
+                          "DynamicHashes": [
+                            1856616114
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.NumberCaseContainer",
+                  "Case": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.TriggerSound",
+                      "SoundName": {
+                        "Value": "Ev_sfx_amphoreus_guide_02"
+                      },
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetGraphDynamicFloat",
+                      "Name": "_RobotAudio_Index",
+                      "TargetIDs": [],
+                      "Value": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAAAAIAAQYR",
+                          "FixedValues": [
+                            {
+                              "Value": 1
+                            },
+                            {
+                              "Value": 3
+                            }
+                          ],
+                          "DynamicHashes": [
+                            1856616114
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.NumberCaseContainer",
+                  "Case": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 2
+                    }
+                  },
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.TriggerSound",
+                      "SoundName": {
+                        "Value": "Ev_sfx_amphoreus_guide_03"
+                      },
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetGraphDynamicFloat",
+                      "Name": "_RobotAudio_Index",
+                      "TargetIDs": [],
+                      "Value": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAAAAIAAQYR",
+                          "FixedValues": [
+                            {
+                              "Value": 1
+                            },
+                            {
+                              "Value": 3
+                            }
+                          ],
+                          "DynamicHashes": [
+                            1856616114
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          }
+        }
+      ]
+    },
+    {
+      "IsLoop": true,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "Clt_DisableBtn"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.AdvEnableButtons",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "TriggerName": "InteractTrigger",
+              "ButtonsByName": [
+                "Interact"
+              ]
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          }
+        }
+      ]
+    },
+    {
+      "IsLoop": true,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "Clt_EnableBtn"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.AdvEnableButtons",
+              "TriggerName": "InteractTrigger",
+              "ButtonsByName": [
+                "Interact"
+              ],
+              "IsEnable": true
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          }
+        }
+      ]
+    },
+    {
+      "IsLoop": true,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "Aircraft_LandingMainline_1"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TravelShipHideUI"
+            },
+            {
+              "$type": "RPG.GameCore.PropClosePuzzle",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.AdvOverrideCameraModuleConfig",
+              "OverrideConfigs": [
+                {
+                  "OverrideType": "Freelook3rdModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/AdventureBase/Freelook3rdModuleConfig.asset"
+                },
+                {
+                  "OverrideType": "ZoomModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/AdventureBase/ZoomModuleConfig.asset"
+                }
+              ],
+              "IsReset": true
+            },
+            {
+              "$type": "RPG.GameCore.AdvRemoveEffectList",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "ConfigNameList": [
+                "EngineFire01",
+                "WingFlow01"
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "GE_LandingMainline_1"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.DebugLog",
+              "Level": "Warn",
+              "Message": "###降落完成_主线###"
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          }
+        }
+      ]
+    },
+    {
+      "IsLoop": true,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "Aircraft_LandingMainline_2"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TravelShipHideUI"
+            },
+            {
+              "$type": "RPG.GameCore.PropClosePuzzle",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.AdvOverrideCameraModuleConfig",
+              "OverrideConfigs": [
+                {
+                  "OverrideType": "Freelook3rdModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/AdventureBase/Freelook3rdModuleConfig.asset"
+                },
+                {
+                  "OverrideType": "ZoomModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/AdventureBase/ZoomModuleConfig.asset"
+                }
+              ],
+              "IsReset": true
+            },
+            {
+              "$type": "RPG.GameCore.AdvRemoveEffectList",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "ConfigNameList": [
+                "EngineFire01",
+                "WingFlow01"
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "GE_LandingMainline_2"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.DebugLog",
+              "Level": "Warn",
+              "Message": "###降落完成_主线###"
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "SwitchHandTravel_PlayerTeleport"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PropClosePuzzle",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.AdvOverrideCameraModuleConfig",
+              "OverrideConfigs": [
+                {
+                  "OverrideType": "Freelook3rdModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/AdventureBase/Freelook3rdModuleConfig.asset"
+                },
+                {
+                  "OverrideType": "ZoomModuleConfig",
+                  "OverrideConfigPath": "Camera/ModuleConfig/AdventureBase/ZoomModuleConfig.asset"
+                }
+              ],
+              "IsReset": true
+            },
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "GE_ExitTravelShip"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.DebugLog",
+              "Level": "Warn",
+              "Message": "###传送触发退出###"
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "SwitchHandTravel_TakeOff"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "GE_LiftFinish"
+              }
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          }
+        }
+      ]
+    }
+  ],
+  "ValueSource": {
+    "Values": [
+      {
+        "$type": "RPG.GameCore.SharedString",
+        "Value": "Props/Outputs/Chap04/SwitchHand/SwitchHand_Puzzle_Aircraft_1.prefab",
+        "Key": "PuzzlePath"
+      },
+      {
+        "$type": "RPG.GameCore.SharedFloat",
+        "Key": "_RobotAudio_Index"
+      }
+    ]
+  },
+  "Type": "Entity",
+  "EntityEventList": [
+    {
+      "Name": "Aircraft_Landing"
+    },
+    {
+      "Name": "Aircraft_Landing_3"
+    },
+    {
+      "Name": "Aircraft_Landing_7"
+    },
+    {
+      "Name": "SwitchHandTravel_PowerSprintState",
+      "Description": "加速环喷射"
+    },
+    {
+      "Name": "SwitchHandTravel_DefaultState",
+      "Description": "返回默认状态"
+    },
+    {
+      "Name": "SwitchHandTravel_SprintState",
+      "Description": "技能喷射"
+    },
+    {
+      "Name": "SwitchHandTravel_Exit",
+      "Description": "主动退出玩法"
+    },
+    {
+      "Name": "SwitchHandTravel_Navigation",
+      "Description": "进入自动巡航模式"
+    },
+    {
+      "Name": "SwitchHandTravel_AccRing",
+      "Description": "进入加速环"
+    },
+    {
+      "Name": "Aircraft_ForceStart",
+      "Description": "外部开启玩法"
+    },
+    {
+      "Name": "MainLine_RiseSound",
+      "Description": "出场音效"
+    },
+    {
+      "Name": "SwitchHandTravel_NavigateFail",
+      "Description": "导航失败"
+    },
+    {
+      "Name": "Self_RobotAudio",
+      "Description": "触发机载语音"
+    },
+    {
+      "Name": "Clt_EnableBtn",
+      "Description": "激活Btn"
+    },
+    {
+      "Name": "Clt_DisableBtn",
+      "Description": "隐藏Btn"
+    },
+    {
+      "Name": "Aircraft_LandingMainline_1",
+      "Description": "【主线】开炮瞬移降落_1"
+    },
+    {
+      "Name": "Aircraft_LandingMainline_2",
+      "Description": "【主线】开炮瞬移降落_2"
+    },
+    {
+      "Name": "SwitchHandTravel_PlayerTeleport",
+      "Description": "玩家使用传送"
+    },
+    {
+      "Name": "SwitchHandTravel_TakeOff",
+      "Description": "飞机抬升完成"
+    }
+  ]
+}

@@ -3030,7 +3030,7 @@
               "Value": 0.2
             }
           },
-          "OutlineWidthScale": 0.15,
+          "OutlineWidthScale": 0.33541,
           "Multiplier": {
             "0": 1,
             "2": 1,
@@ -3503,7 +3503,7 @@
               "Value": 0.2
             }
           },
-          "OutlineWidthScale": 0.15,
+          "OutlineWidthScale": 0.33541,
           "Multiplier": {
             "0": 1,
             "2": 1,
@@ -4016,7 +4016,7 @@
               "Value": 0.2
             }
           },
-          "OutlineWidthScale": 0.15,
+          "OutlineWidthScale": 0.33541,
           "Multiplier": {
             "0": 1,
             "2": 1,
@@ -4489,7 +4489,7 @@
               "ContextScope": "ContextAbility",
               "ReadTargetType": {
                 "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "AllAliveDarkTeam"
+                "Alias": "AllDarkTeam.GetAliveOnly"
               },
               "AliveOnly": true
             },
@@ -4497,7 +4497,7 @@
               "$type": "RPG.GameCore.DamageByAttackProperty",
               "TargetType": {
                 "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "AllAliveDarkTeam"
+                "Alias": "AllDarkTeam.GetAliveOnly"
               },
               "AttackProperty": {
                 "$type": "RPG.GameCore.AttackData",
@@ -5355,6 +5355,16 @@
                             "Value": 1
                           }
                         }
+                      },
+                      "ActivePredicate": {
+                        "$type": "RPG.GameCore.ByIsContainModifier",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "ModifierName": {
+                          "Value": "MAvatar_Phainon_00_Ultra"
+                        }
                       }
                     }
                   ],
@@ -5847,6 +5857,16 @@
                     "Value": 1
                   }
                 }
+              },
+              "ActivePredicate": {
+                "$type": "RPG.GameCore.ByIsContainModifier",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                },
+                "ModifierName": {
+                  "Value": "MAvatar_Phainon_00_Ultra"
+                }
               }
             }
           ]
@@ -6011,7 +6031,7 @@
               "Value": 0.0009999999
             }
           },
-          "OutlineWidthScale": 0.001,
+          "OutlineWidthScale": 0.03162,
           "SaveTargetToCaster": true
         },
         {
@@ -6176,20 +6196,55 @@
           ],
           "FailedTaskList": [
             {
-              "$type": "RPG.GameCore.SetTargetCustomAssetPreloadState",
-              "GroupName": "Phainon_10_Effect",
-              "Preload": false
-            },
-            {
-              "$type": "RPG.GameCore.AddModifier",
-              "TargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "Caster"
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByIsContainModifier",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Caster"
+                    },
+                    "ModifierName": {
+                      "Value": "MServant_CyreneServant_00_AmazingBuff_Phainon_Sub"
+                    }
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "ADF_BECount"
+                    },
+                    "ContextScope": "ContextAbility",
+                    "CompareType": "LessEqual",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 0
+                      }
+                    }
+                  }
+                ]
               },
-              "ModifierName": {
-                "Value": "M_Phainon_00_IsSkill31"
-              },
-              "ReferenceModifierName": "MReference_Empty"
+              "SuccessTaskList": [],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetTargetCustomAssetPreloadState",
+                  "GroupName": "Phainon_10_Effect",
+                  "Preload": false
+                },
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "ModifierName": {
+                    "Value": "M_Phainon_00_IsSkill31"
+                  },
+                  "ReferenceModifierName": "MReference_Empty"
+                }
+              ]
             }
           ]
         },
@@ -6229,7 +6284,7 @@
           "ContextScope": "ContextAbility",
           "ReadTargetType": {
             "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "AllAliveDarkTeam"
+            "Alias": "AllDarkTeam.GetAliveOnly"
           },
           "AliveOnly": true
         },
@@ -6308,13 +6363,6 @@
           "$type": "RPG.GameCore.DamagePerformFinish"
         },
         {
-          "$type": "RPG.GameCore.ForceKill",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "Phainon_UltraBE"
-          }
-        },
-        {
           "$type": "RPG.GameCore.WaitAnimState",
           "AnimStateName": "Skill31",
           "NormalizedTimeEnd": {
@@ -6323,6 +6371,14 @@
               "Value": 0.99
             }
           }
+        },
+        {
+          "$type": "RPG.GameCore.ForceKill",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Phainon_UltraBE"
+          },
+          "CanOverkill": false
         },
         {
           "$type": "RPG.GameCore.TriggerEffect",
@@ -6340,14 +6396,48 @@
         {
           "$type": "RPG.GameCore.PredicateTaskList",
           "Predicate": {
-            "$type": "RPG.GameCore.ByIsContainModifier",
-            "TargetType": {
-              "$type": "RPG.GameCore.TargetAlias",
-              "Alias": "Caster"
-            },
-            "ModifierName": {
-              "Value": "MStory_Main_Phainon_UltraNeverEnd"
-            }
+            "$type": "RPG.GameCore.ByAny",
+            "PredicateList": [
+              {
+                "$type": "RPG.GameCore.ByIsContainModifier",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "Caster"
+                },
+                "ModifierName": {
+                  "Value": "MStory_Main_Phainon_UltraNeverEnd"
+                }
+              },
+              {
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByIsContainModifier",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Caster"
+                    },
+                    "ModifierName": {
+                      "Value": "MServant_CyreneServant_00_AmazingBuff_Phainon_Sub"
+                    }
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "ADF_BECount"
+                    },
+                    "ContextScope": "ContextAbility",
+                    "CompareType": "LessEqual",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 0
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
           },
           "SuccessTaskList": [
             {
@@ -6408,17 +6498,96 @@
               "NotifyTypeName": "BattlePhainonPlayCountDownToNormal"
             },
             {
-              "$type": "RPG.GameCore.ShowUIPage",
-              "AssetPath": "UI/Common/Widget/BattleAlertHint.prefab",
-              "UITextNodes": [
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByIsContainModifier",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "Caster"
+                },
+                "ModifierName": {
+                  "Value": "MStory_Main_Phainon_UltraNeverEnd"
+                }
+              },
+              "SuccessTaskList": [
                 {
-                  "TextPath": "AreaInfoPanel/Title/Text",
-                  "TextContent": {
-                    "Hash": 7115889138674838907
-                  }
+                  "$type": "RPG.GameCore.ShowUIPage",
+                  "AssetPath": "UI/Common/Widget/BattleAlertHint.prefab",
+                  "UITextNodes": [
+                    {
+                      "TextPath": "AreaInfoPanel/Title/Text",
+                      "TextContent": {
+                        "Hash": 7115889138674838907
+                      }
+                    }
+                  ],
+                  "LifeTime": 2
                 }
               ],
-              "LifeTime": 2
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByIsContainModifier",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Caster"
+                    },
+                    "ModifierName": {
+                      "Value": "MServant_CyreneServant_00_AmazingBuff_Phainon_Sub"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.ShowUIPage",
+                      "AssetPath": "UI/Common/Widget/BattleSelfStatusHint.prefab",
+                      "UITextNodes": [
+                        {
+                          "TextPath": "AreaInfoPanel/Title/Text",
+                          "TextContent": {
+                            "Hash": 12995428634250771785
+                          }
+                        }
+                      ],
+                      "LifeTime": 2
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValueByCopying",
+                      "FromTargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "Caster"
+                      },
+                      "FromDynamicKey": {
+                        "Value": "MDF_ChargeEnergy"
+                      },
+                      "FromModifierName": {
+                        "Value": "MServant_CyreneServant_00_AmazingBuff_Phainon"
+                      },
+                      "ToDynamicKey": {
+                        "Value": "ADF_ExtraEnergy"
+                      }
+                    },
+                    {
+                      "$type": "DHBBIMIJOJC",
+                      "NIJAGOAJPEM": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "Caster"
+                      },
+                      "IGGBNAAMECI": "Skill22_Energy",
+                      "LLHDOILFELH": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            -499175306
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
             },
             {
               "$type": "RPG.GameCore.SetDynamicValue",
@@ -6872,6 +7041,12 @@
             }
           },
           "870819072": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-499175306": {
             "ReadInfo": {
               "Type": "None",
               "Index": 0
@@ -8500,7 +8675,7 @@
                         "$type": "RPG.GameCore.ByTargetListIntersects",
                         "FirstTargetType": {
                           "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "AllTeammateWithCreatedBattleEvent"
+                          "Alias": "AllTeammate.WithBattleEvent"
                         },
                         "FirstTargetAliveOnly": false,
                         "SecondTargetType": {
@@ -8580,7 +8755,7 @@
                     "$type": "RPG.GameCore.ByTargetListIntersects",
                     "FirstTargetType": {
                       "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "AllTeammateWithCreatedBattleEvent"
+                      "Alias": "AllTeammate.WithBattleEvent"
                     },
                     "FirstTargetAliveOnly": false,
                     "SecondTargetType": {
@@ -8632,7 +8807,7 @@
                         "$type": "RPG.GameCore.ByTargetListIntersects",
                         "FirstTargetType": {
                           "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "AllTeammateWithCreatedBattleEvent"
+                          "Alias": "AllTeammate.WithBattleEvent"
                         },
                         "FirstTargetAliveOnly": false,
                         "SecondTargetType": {
@@ -8747,7 +8922,7 @@
                         "$type": "RPG.GameCore.ByTargetListIntersects",
                         "FirstTargetType": {
                           "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "AllTeammateWithCreatedBattleEvent"
+                          "Alias": "AllTeammate.WithBattleEvent"
                         },
                         "FirstTargetAliveOnly": false,
                         "SecondTargetType": {
@@ -9521,7 +9696,8 @@
               "TargetType": {
                 "$type": "RPG.GameCore.TargetAlias",
                 "Alias": "Phainon_UltraBE"
-              }
+              },
+              "CanOverkill": false
             },
             {
               "$type": "RPG.GameCore.RemoveModifier",
@@ -9970,6 +10146,60 @@
           ]
         },
         {
+          "Event": "OnModifierAdd",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCheckModifierCallBackName",
+                "ModifierName": "MAvatar_ClearAvatarArea_BySkill"
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.TurnInsertAbility",
+                  "AbilityName": {
+                    "Value": "Avatar_Phainon_00_Skill31_SelectTarget"
+                  },
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "AbilityTarget": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "AllEnemy"
+                  },
+                  "AbortBehaviorFlags": [
+                    "STAT_CTRL",
+                    "DisableAction"
+                  ],
+                  "InsertAbilityPriority": "AvatarInsertAttackSelf",
+                  "ShowInActionBar": true,
+                  "PreCheck": {
+                    "$type": "RPG.GameCore.TurnInsertAbilityCondition",
+                    "Type": "AbilityOwnerInsertUnusedCount",
+                    "Count": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 1
+                      }
+                    }
+                  },
+                  "ActivePredicate": {
+                    "$type": "RPG.GameCore.ByIsContainModifier",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "ModifierName": {
+                      "Value": "MAvatar_Phainon_00_Ultra"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
           "Event": "OnWaveMonster",
           "CallbackConfig": [
             {
@@ -10226,6 +10456,16 @@
                         "Value": 1
                       }
                     }
+                  },
+                  "ActivePredicate": {
+                    "$type": "RPG.GameCore.ByIsContainModifier",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "ModifierName": {
+                      "Value": "MAvatar_Phainon_00_Ultra"
+                    }
                   }
                 }
               ]
@@ -10312,6 +10552,16 @@
               },
               "MultiActionIndexes": [
                 1
+              ],
+              "EffectPrefabs": [
+                {
+                  "Status": "Action",
+                  "Path": "UI/Battle/TimLineIconFx/TimeLineEffs_1408_Level1_NoIndex.prefab"
+                },
+                {
+                  "Status": "Action",
+                  "Path": "UI/Battle/TimLineIconFx/TimeLineEffs_1408_Level2_NoIndex.prefab"
+                }
               ]
             },
             {
@@ -10462,6 +10712,22 @@
                   "MultiActionIndexes": [
                     1
                   ],
+                  "EffectPrefabs": [
+                    {
+                      "Status": "Action",
+                      "Path": "UI/Battle/TimLineIconFx/TimeLineEffs_1408_Level1_NoIndex.prefab"
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.ShowActionBarEffect",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "MultiActionIndexes": [
+                    1
+                  ],
                   "IsShow": true,
                   "EffectPrefabs": [
                     {
@@ -10498,6 +10764,22 @@
                       ]
                     }
                   }
+                },
+                {
+                  "$type": "RPG.GameCore.ShowActionBarEffect",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "MultiActionIndexes": [
+                    1
+                  ],
+                  "EffectPrefabs": [
+                    {
+                      "Status": "Action",
+                      "Path": "UI/Battle/TimLineIconFx/TimeLineEffs_1408_Level2_NoIndex.prefab"
+                    }
+                  ]
                 },
                 {
                   "$type": "RPG.GameCore.ShowActionBarEffect",
@@ -11006,6 +11288,16 @@
                   },
                   "MultiActionIndexes": [
                     1
+                  ],
+                  "EffectPrefabs": [
+                    {
+                      "Status": "Action",
+                      "Path": "UI/Battle/TimLineIconFx/TimeLineEffs_1408_Level1_NoIndex.prefab"
+                    },
+                    {
+                      "Status": "Action",
+                      "Path": "UI/Battle/TimLineIconFx/TimeLineEffs_1408_Level2_NoIndex.prefab"
+                    }
                   ]
                 }
               ]
@@ -12103,7 +12395,7 @@
                             "$type": "RPG.GameCore.ByIsContainModifier",
                             "TargetType": {
                               "$type": "RPG.GameCore.TargetAlias",
-                              "Alias": "Caster"
+                              "Alias": "ParamEntity"
                             },
                             "ModifierName": {
                               "Value": "MAvatar_Phainon_00_Ultra"
@@ -12113,7 +12405,7 @@
                             "$type": "RPG.GameCore.ByIsContainModifier",
                             "TargetType": {
                               "$type": "RPG.GameCore.TargetAlias",
-                              "Alias": "Caster"
+                              "Alias": "ParamEntity"
                             },
                             "ModifierName": {
                               "Value": "MAvatar_Phainon_00_Ultra_LimboMark"

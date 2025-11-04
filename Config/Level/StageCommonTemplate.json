@@ -145,7 +145,8 @@
           "$type": "RPG.GameCore.AddMazeBuffBinding",
           "BindingTypes": [
             "StageAbility",
-            "StageAbilityBeforeCharacterBorn"
+            "StageAbilityBeforeCharacterBorn",
+            "StageAbilityBeforeCharacterBorn2"
           ]
         },
         {
@@ -476,22 +477,38 @@
         {
           "$type": "RPG.GameCore.PredicateTaskList",
           "Predicate": {
-            "$type": "RPG.GameCore.ByCompareDynamicValue",
-            "TargetType": {
-              "$type": "RPG.GameCore.TargetAlias",
-              "Alias": "LevelEntity"
-            },
-            "DynamicKey": {
-              "Value": "SkipBattleEnterInsertUltraWait"
-            },
-            "ContextScope": "TargetEntity",
-            "CompareType": "LessEqual",
-            "CompareValue": {
-              "IsDynamic": false,
-              "FixedValue": {
-                "Value": 0
+            "$type": "RPG.GameCore.ByAnd",
+            "PredicateList": [
+              {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "LevelEntity"
+                },
+                "DynamicKey": {
+                  "Value": "SkipBattleEnterInsertUltraWait"
+                },
+                "ContextScope": "TargetEntity",
+                "CompareType": "LessEqual",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
+              },
+              {
+                "$type": "RPG.GameCore.ByContainCustomString",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "LevelEntity"
+                },
+                "Key": {
+                  "Hash": -1298253513
+                },
+                "Inverse": true
               }
-            }
+            ]
           },
           "SuccessTaskList": [
             {
@@ -531,7 +548,7 @@
         {
           "$type": "RPG.GameCore.PredicateTaskList",
           "Predicate": {
-            "$type": "RPG.GameCore.ByAny",
+            "$type": "RPG.GameCore.ByAnd",
             "PredicateList": [
               {
                 "$type": "RPG.GameCore.ByCompareDynamicValue",
@@ -559,7 +576,8 @@
                 },
                 "Key": {
                   "Hash": -1298253513
-                }
+                },
+                "Inverse": true
               }
             ]
           },
@@ -997,6 +1015,10 @@
               {
                 "$type": "RPG.GameCore.ByCompareStageType",
                 "CurrentStageType": "ElationActivity"
+              },
+              {
+                "$type": "RPG.GameCore.ByCompareStageType",
+                "CurrentStageType": "GridFightActivity"
               }
             ]
           },

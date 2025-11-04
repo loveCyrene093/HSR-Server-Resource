@@ -1,0 +1,136 @@
+{
+  "GroupConfigName": "FollowField",
+  "ConfigEntityPath": "Config/ConfigEntity/SummonUnit/SummonUnit_Common_TeamField_Entity.json",
+  "ResidentEffects": [
+    {
+      "$type": "RPG.GameCore.TriggerEffect",
+      "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cyrene_00/Eff_Avatar_Cyrene_00_MazeSkill_11.prefab",
+      "ForceSimulateImmediately": false
+    },
+    {
+      "$type": "RPG.GameCore.TriggerEffect",
+      "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cyrene_00/Eff_Avatar_Cyrene_00_MazeSkill_18.prefab",
+      "ForceSimulateImmediately": false
+    },
+    {
+      "$type": "RPG.GameCore.TriggerEffect",
+      "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cyrene_00/Eff_Avatar_Cyrene_00_MazeSkill_09.prefab",
+      "ForceSimulateImmediately": false
+    }
+  ],
+  "AttachPoint": "Origin",
+  "OnCreate": [],
+  "OnDestroy": [],
+  "OnBeReplaced": [
+    {
+      "$type": "RPG.GameCore.RemoveMazeBuff",
+      "TargetType": {
+        "$type": "RPG.GameCore.TargetAlias",
+        "Alias": "CasterSummoner"
+      },
+      "ID": 141501
+    }
+  ],
+  "TriggerConfig": {
+    "CustomTriggers": [
+      {
+        "TriggerName": "HitNpcMonsterTrigger",
+        "Radius": {
+          "IsDynamic": false,
+          "FixedValue": {
+            "Value": 6
+          }
+        },
+        "CenterOffset": {
+          "X": 0,
+          "Y": 1,
+          "Z": 0
+        },
+        "UseVerticalBound": true,
+        "NeedRaycast": true,
+        "TargetTypes": [
+          "NPCMonster"
+        ],
+        "OnTriggerEnter": [
+          {
+            "$type": "RPG.GameCore.AddMazeBuff",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "TaskActionTarget"
+            },
+            "ID": 141502,
+            "LifeTime": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 500
+              }
+            }
+          },
+          {
+            "$type": "RPG.GameCore.TriggerEffect",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "TaskActionTarget"
+            },
+            "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Cyrene_00/Eff_Avatar_Cyrene_00_MazeSkill_Hit_02.prefab"
+          }
+        ],
+        "OnTriggerExit": [
+          {
+            "$type": "RPG.GameCore.RefreshMazeBuffTime",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "TaskActionTarget"
+            },
+            "ID": 141502,
+            "LifeTime": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 1
+              }
+            }
+          }
+        ]
+      },
+      {
+        "TriggerName": "CyreneFieldTrigger_Prop",
+        "Radius": {
+          "IsDynamic": false,
+          "FixedValue": {
+            "Value": 6
+          }
+        },
+        "CenterOffset": {
+          "X": 0,
+          "Y": 1,
+          "Z": 0
+        },
+        "TargetTypes": [
+          "Prop"
+        ],
+        "ColliderRelativePath": "Trigger",
+        "OnTriggerEnter": [
+          {
+            "$type": "RPG.GameCore.PauseTimeRewindTarget",
+            "Target": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "TaskActionTarget"
+            },
+            "IsSkill": true
+          }
+        ],
+        "OnTriggerExit": [
+          {
+            "$type": "RPG.GameCore.PauseTimeRewindTarget",
+            "IsPause": false,
+            "Target": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "TaskActionTarget"
+            },
+            "IsSkill": true
+          }
+        ]
+      }
+    ]
+  }
+}

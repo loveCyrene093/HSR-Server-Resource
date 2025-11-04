@@ -1,0 +1,955 @@
+{
+  "OnInitSequece": [
+    {
+      "TaskList": []
+    }
+  ],
+  "OnStartSequece": [
+    {
+      "Order": 900,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.ParallelConfig",
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.WaitGroupEvent",
+              "EventName": {
+                "Value": "FlashBack"
+              },
+              "OnEvent": [
+                {
+                  "$type": "RPG.GameCore.SetGraphDynamicFloat",
+                  "Name": "InFlip",
+                  "TargetIDs": [],
+                  "Value": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.PPFilterStackEffect",
+                  "PriorityGroup": "MazeGroupHigh",
+                  "Priority": "High",
+                  "StartRate": 0.5,
+                  "Duration": 0.5,
+                  "AssetPath": "EnviroSystem/PostProcessFilterAsset/EraFlipperFlash_Enhance.asset"
+                },
+                {
+                  "$type": "RPG.GameCore.SetFloorCustomBool",
+                  "Name": {
+                    "Value": "FCV_FlashPPOn"
+                  },
+                  "Value": {
+                    "Value": true
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.WaitSecond",
+                  "WaitTime": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0.15
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByRegionEraState"
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TriggerSound",
+                      "SoundName": {
+                        "Value": "Ev_GamePlay_EraFlipper_Global_NightToDay"
+                      },
+                      "EmitterType": "LocalPlayer"
+                    },
+                    {
+                      "$type": "RPG.GameCore.TriggerSound",
+                      "SoundName": {
+                        "Value": "Ev_sfx_amphoreus_eraflip_nighttoday"
+                      },
+                      "EmitterType": "LocalPlayer"
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TriggerSound",
+                      "SoundName": {
+                        "Value": "Ev_GamePlay_EraFlipper_Global_DayToNight"
+                      },
+                      "EmitterType": "LocalPlayer"
+                    },
+                    {
+                      "$type": "RPG.GameCore.TriggerSound",
+                      "SoundName": {
+                        "Value": "Ev_sfx_amphoreus_eraflip_daytonight"
+                      },
+                      "EmitterType": "LocalPlayer"
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.RemoveEffect",
+                  "EffectPath": "Effects/Eff_Prefab/Eff_Scene/InteractiveProp/Eff_Chap04_Prop_EraFlipperConsole_01_Switch_Lod0.prefab",
+                  "Flags": [],
+                  "ForceImmediateFadeOut": false
+                },
+                {
+                  "$type": "RPG.GameCore.TriggerEffect",
+                  "Flags": [],
+                  "EffectPath": "Effects/Eff_Prefab/Eff_Scene/InteractiveProp/Eff_Chap04_Prop_EraFlipperConsole_01_Switch_Lod0.prefab",
+                  "ForceSimulateImmediately": false,
+                  "SubObjectModifyDataList": []
+                },
+                {
+                  "$type": "RPG.GameCore.FlipEraRegion"
+                },
+                {
+                  "$type": "RPG.GameCore.WaitSecond",
+                  "WaitTime": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0.35
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.PPFilterStackEffect",
+                  "Active": false,
+                  "PriorityGroup": "MazeGroupHigh",
+                  "Priority": "High",
+                  "StartRate": 0,
+                  "Rate": 0,
+                  "RecoverDuration": 0,
+                  "AssetPath": "EnviroSystem/PostProcessFilterAsset/EraFlipperFlash_Enhance.asset"
+                },
+                {
+                  "$type": "RPG.GameCore.SetGraphDynamicFloat",
+                  "Name": "InFlip",
+                  "TargetIDs": [],
+                  "Value": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.WaitGroupEvent",
+              "EventName": {
+                "Value": "PreEnter"
+              },
+              "OnEvent": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareGraphDynamicFloat",
+                    "Name": "InFlip",
+                    "Value": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 0.5
+                      }
+                    },
+                    "CompareType": "Greater"
+                  },
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.PPFilterStackEffect",
+                      "PriorityGroup": "MazeGroupHigh",
+                      "Priority": "High",
+                      "StartRate": 0,
+                      "Rate": 0.25,
+                      "Duration": 0.3,
+                      "RecoverDuration": 0.3,
+                      "AssetPath": "EnviroSystem/PostProcessFilterAsset/EraFlipperFlash_Enhance.asset"
+                    },
+                    {
+                      "$type": "RPG.GameCore.TriggerSound",
+                      "SoundName": {
+                        "Value": "Ev_sfx_task_feedback_filterAsset_EraFlipperFlash_Enhance_fadeIn"
+                      },
+                      "EmitterType": "LocalPlayer"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.WaitGroupEvent",
+              "EventName": {
+                "Value": "PreExit"
+              },
+              "OnEvent": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareGraphDynamicFloat",
+                    "Name": "InFlip",
+                    "Value": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 0.5
+                      }
+                    },
+                    "CompareType": "Greater"
+                  },
+                  "SuccessTaskList": [],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.PPFilterStackEffect",
+                      "Active": false,
+                      "PriorityGroup": "MazeGroupHigh",
+                      "Priority": "High",
+                      "Rate": 0,
+                      "Duration": 0.3,
+                      "RecoverDuration": 0.3,
+                      "AssetPath": "EnviroSystem/PostProcessFilterAsset/EraFlipperFlash_Enhance.asset"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.WaitGroupEvent",
+              "EventName": {
+                "Value": "PreEnter2"
+              },
+              "OnEvent": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareGraphDynamicFloat",
+                    "Name": "InFlip",
+                    "Value": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 0.5
+                      }
+                    },
+                    "CompareType": "Greater"
+                  },
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.PPFilterStackEffect",
+                      "PriorityGroup": "MazeGroupHigh",
+                      "Priority": "High",
+                      "StartRate": 0.25,
+                      "Rate": 0.5,
+                      "Duration": 0.3,
+                      "RecoverDuration": 0.3,
+                      "AssetPath": "EnviroSystem/PostProcessFilterAsset/EraFlipperFlash_Enhance.asset"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.WaitGroupEvent",
+              "EventName": {
+                "Value": "PreExit2"
+              },
+              "OnEvent": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareGraphDynamicFloat",
+                    "Name": "InFlip",
+                    "Value": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 0.5
+                      }
+                    },
+                    "CompareType": "Greater"
+                  },
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.PPFilterStackEffect",
+                      "PriorityGroup": "MazeGroupHigh",
+                      "Priority": "High",
+                      "Rate": 0.25,
+                      "Duration": 0.3,
+                      "RecoverDuration": 0.3,
+                      "AssetPath": "EnviroSystem/PostProcessFilterAsset/EraFlipperFlash_Enhance.asset"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.WaitGroupEvent",
+              "EventName": {
+                "Value": "RequestSGPChange_4th"
+              },
+              "OnEvent": [
+                {
+                  "$type": "RPG.GameCore.RequestSetServerGroupPropertyV2",
+                  "DynamicName": {
+                    "Value": "SGP_4thTrigger"
+                  },
+                  "Value": 1
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.WaitGroupEvent",
+              "EventName": {
+                "Value": "RequestSGPChange_3rd"
+              },
+              "OnEvent": [
+                {
+                  "$type": "RPG.GameCore.RequestSetServerGroupPropertyV2",
+                  "DynamicName": {
+                    "Value": "SGP_3rdTrigger"
+                  },
+                  "Value": 1
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.WaitGroupEvent",
+              "EventName": {
+                "Value": "RequestSGPChange_2nd"
+              },
+              "OnEvent": [
+                {
+                  "$type": "RPG.GameCore.RequestSetServerGroupPropertyV2",
+                  "DynamicName": {
+                    "Value": "SGP_2ndTrigger"
+                  },
+                  "Value": 1
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.WaitGroupEvent",
+              "EventName": {
+                "Value": "RequestSGPChange_1st"
+              },
+              "OnEvent": [
+                {
+                  "$type": "RPG.GameCore.RequestSetServerGroupPropertyV2",
+                  "DynamicName": {
+                    "Value": "SGP_1stTrigger"
+                  },
+                  "Value": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Order": 500,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "SetupTrigger4"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300004
+                ]
+              },
+              "TriggerName": "InteractTrigger",
+              "OnEnter": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "FlashBack"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.PropEnableCollider",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                    "TargetType": "Prop",
+                    "Targets": [
+                      300004
+                    ]
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "RequestSGPChange_4th"
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300004
+                ]
+              },
+              "TriggerName": "EnterTrigger",
+              "OnEnter": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "PreEnter"
+                  }
+                }
+              ],
+              "OnExit": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "PreExit"
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300004
+                ]
+              },
+              "TriggerName": "EnterTrigger2",
+              "OnEnter": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "PreEnter2"
+                  }
+                }
+              ],
+              "OnExit": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "PreExit2"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Order": 500,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "SetupTrigger3"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300005
+                ]
+              },
+              "TriggerName": "InteractTrigger",
+              "OnEnter": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "FlashBack"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.PropEnableCollider",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                    "TargetType": "Prop",
+                    "Targets": [
+                      300005
+                    ]
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "RequestSGPChange_3rd"
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300005
+                ]
+              },
+              "TriggerName": "EnterTrigger",
+              "OnEnter": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "PreEnter"
+                  }
+                }
+              ],
+              "OnExit": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "PreExit"
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300005
+                ]
+              },
+              "TriggerName": "EnterTrigger2",
+              "OnEnter": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "PreEnter2"
+                  }
+                }
+              ],
+              "OnExit": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "PreExit2"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Order": 500,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "SetupTrigger2"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300006
+                ]
+              },
+              "TriggerName": "InteractTrigger",
+              "OnEnter": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "FlashBack"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.PropEnableCollider",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                    "TargetType": "Prop",
+                    "Targets": [
+                      300006
+                    ]
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "RequestSGPChange_2nd"
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300006
+                ]
+              },
+              "TriggerName": "EnterTrigger",
+              "OnEnter": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "PreEnter"
+                  }
+                }
+              ],
+              "OnExit": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "PreExit"
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300006
+                ]
+              },
+              "TriggerName": "EnterTrigger2",
+              "OnEnter": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "PreEnter2"
+                  }
+                }
+              ],
+              "OnExit": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "PreExit2"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Order": 500,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "SetupTrigger1"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300007
+                ]
+              },
+              "TriggerName": "InteractTrigger",
+              "OnEnter": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "FlashBack"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.PropEnableCollider",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                    "TargetType": "Prop",
+                    "Targets": [
+                      300007
+                    ]
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "RequestSGPChange_1st"
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300007
+                ]
+              },
+              "TriggerName": "EnterTrigger",
+              "OnEnter": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "PreEnter"
+                  }
+                }
+              ],
+              "OnExit": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "PreExit"
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300007
+                ]
+              },
+              "TriggerName": "EnterTrigger2",
+              "OnEnter": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "PreEnter2"
+                  }
+                }
+              ],
+              "OnExit": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "PreExit2"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareGroupProperty",
+            "DynamicName": {
+              "Value": "SGP_4thTrigger"
+            },
+            "CompareValue": 1
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByRegionEraState"
+              },
+              "SuccessTaskList": [],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.FlipEraRegion"
+                }
+              ]
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareGroupProperty",
+                "DynamicName": {
+                  "Value": "SGP_3rdTrigger"
+                },
+                "CompareValue": 1
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByRegionEraState"
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.FlipEraRegion"
+                    }
+                  ],
+                  "FailedTaskList": []
+                },
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "SetupTrigger4"
+                  }
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareGroupProperty",
+                    "DynamicName": {
+                      "Value": "SGP_2ndTrigger"
+                    },
+                    "CompareValue": 1
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByRegionEraState"
+                      },
+                      "FailedTaskList": [
+                        {
+                          "$type": "RPG.GameCore.FlipEraRegion"
+                        }
+                      ]
+                    },
+                    {
+                      "$type": "RPG.GameCore.TriggerGroupEvent",
+                      "EventName": {
+                        "Value": "SetupTrigger4"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.TriggerGroupEvent",
+                      "EventName": {
+                        "Value": "SetupTrigger3"
+                      }
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByCompareGroupProperty",
+                        "DynamicName": {
+                          "Value": "SGP_1stTrigger"
+                        },
+                        "CompareValue": 1
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.PredicateTaskList",
+                          "Predicate": {
+                            "$type": "RPG.GameCore.ByRegionEraState"
+                          },
+                          "SuccessTaskList": [
+                            {
+                              "$type": "RPG.GameCore.FlipEraRegion"
+                            }
+                          ],
+                          "FailedTaskList": []
+                        },
+                        {
+                          "$type": "RPG.GameCore.TriggerGroupEvent",
+                          "EventName": {
+                            "Value": "SetupTrigger4"
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.TriggerGroupEvent",
+                          "EventName": {
+                            "Value": "SetupTrigger3"
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.TriggerGroupEvent",
+                          "EventName": {
+                            "Value": "SetupTrigger2"
+                          }
+                        }
+                      ],
+                      "FailedTaskList": [
+                        {
+                          "$type": "RPG.GameCore.PredicateTaskList",
+                          "Predicate": {
+                            "$type": "RPG.GameCore.ByRegionEraState"
+                          },
+                          "FailedTaskList": [
+                            {
+                              "$type": "RPG.GameCore.FlipEraRegion"
+                            }
+                          ]
+                        },
+                        {
+                          "$type": "RPG.GameCore.TriggerGroupEvent",
+                          "EventName": {
+                            "Value": "SetupTrigger4"
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.TriggerGroupEvent",
+                          "EventName": {
+                            "Value": "SetupTrigger3"
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.TriggerGroupEvent",
+                          "EventName": {
+                            "Value": "SetupTrigger2"
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.TriggerGroupEvent",
+                          "EventName": {
+                            "Value": "SetupTrigger1"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "ValueSource": {
+    "Values": [
+      {
+        "$type": "RPG.GameCore.SharedFloat",
+        "Key": "InPre"
+      },
+      {
+        "$type": "RPG.GameCore.SharedFloat",
+        "Key": "InFlip"
+      },
+      {
+        "$type": "RPG.GameCore.SharedFloat",
+        "Key": "HasGo5"
+      }
+    ]
+  },
+  "Type": "Group",
+  "EntityEventList": []
+}

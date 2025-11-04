@@ -2304,37 +2304,55 @@
                 {
                   "$type": "RPG.GameCore.PredicateTaskList",
                   "Predicate": {
-                    "$type": "RPG.GameCore.ByAnd",
+                    "$type": "RPG.GameCore.ByAny",
                     "PredicateList": [
                       {
-                        "$type": "RPG.GameCore.ByCharacterSomatoWidthType",
+                        "$type": "RPG.GameCore.ByAnd",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByCharacterSomatoWidthType",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ModifierOwnerEntity"
+                            },
+                            "SomatoWidthType": "Thin"
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByCompareSomatoType",
+                            "Target": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ModifierOwnerEntity"
+                            },
+                            "SomatoTypes": [
+                              "LargeMonster",
+                              "LargeAvatar",
+                              "LargeFakeAvatar"
+                            ],
+                            "Inverse": true
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByCompareMonsterRank",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ModifierOwnerEntity"
+                            },
+                            "CompareType": "Less",
+                            "CompareValue": 5
+                          }
+                        ]
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCompareMonsterUniqueID",
                         "TargetType": {
                           "$type": "RPG.GameCore.TargetAlias",
                           "Alias": "ModifierOwnerEntity"
                         },
-                        "SomatoWidthType": "Thin"
-                      },
-                      {
-                        "$type": "RPG.GameCore.ByCompareSomatoType",
-                        "Target": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "ModifierOwnerEntity"
-                        },
-                        "SomatoTypes": [
-                          "LargeMonster",
-                          "LargeAvatar",
-                          "LargeFakeAvatar"
-                        ],
-                        "Inverse": true
-                      },
-                      {
-                        "$type": "RPG.GameCore.ByCompareMonsterRank",
-                        "TargetType": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "ModifierOwnerEntity"
-                        },
-                        "CompareType": "Less",
-                        "CompareValue": 5
+                        "TargetMonsterUniqueID": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 403501
+                          }
+                        }
                       }
                     ]
                   },
@@ -2457,6 +2475,20 @@
                         },
                         "CompareType": "GreaterEqual",
                         "CompareValue": 5
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCompareMonsterUniqueID",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "TargetMonsterUniqueID": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 403501
+                          }
+                        },
+                        "Inverse": true
                       }
                     ]
                   },
@@ -2564,6 +2596,347 @@
           ]
         }
       ]
+    },
+    "MCommon_Monster_Floating_DamageReduceController": {
+      "_CallbackList": [
+        {
+          "Event": "OnDestroy",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.RemoveModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllDarkTeam"
+              },
+              "ModifierName": {
+                "Value": "MCommon_Monster_Floating_DamageReduce"
+              }
+            }
+          ]
+        },
+        {
+          "Event": "OnPhase2",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.IncludeTaskListTemplate",
+              "Name": "MCommon_Monster_CheckDamageReduce_Cal"
+            },
+            {
+              "$type": "RPG.GameCore.IncludeTaskListTemplate",
+              "Name": "MCommon_Monster_RefreshDamageReduce"
+            }
+          ]
+        },
+        {
+          "Event": "OnStack",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.IncludeTaskListTemplate",
+              "Name": "MCommon_Monster_CheckDamageReduce_Cal"
+            },
+            {
+              "$type": "RPG.GameCore.IncludeTaskListTemplate",
+              "Name": "MCommon_Monster_RefreshDamageReduce"
+            }
+          ]
+        },
+        {
+          "Event": "OnHPChange",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.IncludeTaskListTemplate",
+              "Name": "MCommon_Monster_RefreshDamageReduce"
+            }
+          ]
+        },
+        {
+          "Event": "OnMonsterPhaseChanged",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "DynamicKey": {
+                "Value": "MDF_LastLockHpRatio"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.IncludeTaskListTemplate",
+              "Name": "MCommon_Monster_CheckDamageReduce_Cal"
+            },
+            {
+              "$type": "RPG.GameCore.IncludeTaskListTemplate",
+              "Name": "MCommon_Monster_RefreshDamageReduce"
+            }
+          ]
+        }
+      ],
+      "Stacking": "ReplaceByCaster",
+      "DynamicValues": {
+        "Floats": {
+          "95196877": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-476018382": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-1031795115": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-1525374988": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "907832512": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-665628070": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
+        }
+      },
+      "TaskListTemplate": [
+        {
+          "Name": "MCommon_Monster_CheckDamageReduce_Cal",
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByIsContainModifier",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ModifierOwnerEntity"
+                },
+                "ModifierName": {
+                  "Value": "MCommon_Monster_Floating_DamageReduceLock"
+                },
+                "Inverse": true
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQABAQMR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        -476018382,
+                        -1525374988
+                      ]
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "MDF_NextLockHpRatio"
+                  }
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        -476018382
+                      ]
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "MDF_NextLockHpRatio"
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "Value": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    -1031795115
+                  ]
+                }
+              },
+              "DynamicKey": {
+                "Value": "MDF_LastLockHpRatio"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "MCommon_Monster_RefreshDamageReduce",
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "DynamicKey": {
+                  "Value": "MDF_NextLockHpRatio"
+                },
+                "CompareType": "GreaterEqual",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValueByHPRatio",
+                  "DynamicKey": "MDF_HpRatio",
+                  "ReadTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareHPRatio",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "CompareType": "LessEqual",
+                    "CompareValue": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQABAQIR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          -1031795115,
+                          907832512
+                        ]
+                      }
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "AllDarkTeam"
+                      },
+                      "ModifierName": {
+                        "Value": "MCommon_Monster_Floating_DamageReduce"
+                      },
+                      "DynamicValues": {
+                        "MDF_DamageReduce": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AAABAAEBAwECBQMBAwQR",
+                            "FixedValues": [
+                              {
+                                "Value": 1
+                              }
+                            ],
+                            "DynamicHashes": [
+                              95196877,
+                              -1031795115,
+                              907832512,
+                              -665628070
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.RemoveModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "AllDarkTeam"
+                      },
+                      "ModifierName": {
+                        "Value": "MCommon_Monster_Floating_DamageReduce"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.RemoveModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "AllDarkTeam"
+                  },
+                  "ModifierName": {
+                    "Value": "MCommon_Monster_Floating_DamageReduce"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "MCommon_Monster_Floating_DamageReduceLock": {},
+    "MCommon_Monster_Floating_DamageReduce": {
+      "_CallbackList": [
+        {
+          "Event": "OnStack",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.StackProperty",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "Property": "AllDamageReduce",
+              "PropertyValue": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    321061947
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "Stacking": "Replace",
+      "DynamicValues": {
+        "Floats": {
+          "321061947": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
+        }
+      }
     }
   }
 }
