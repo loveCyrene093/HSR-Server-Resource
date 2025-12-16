@@ -5,6 +5,38 @@
         "Monster_W1_CocoliaP1_00_RL_LowHP": {
           "_CallbackList": [
             {
+              "Event": "OnBeforeDying",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.Retarget",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "BattleEventEntityList"
+                  },
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByHasSummonRelation",
+                    "SummonerType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "ServantType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    }
+                  },
+                  "TaskList": [
+                    {
+                      "$type": "RPG.GameCore.ForceKill",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
               "Event": "OnHPChange",
               "CallbackConfig": [
                 {
@@ -2501,14 +2533,30 @@
             {
               "$type": "RPG.GameCore.PredicateTaskList",
               "Predicate": {
-                "$type": "RPG.GameCore.ByIsContainModifier",
-                "TargetType": {
-                  "$type": "RPG.GameCore.TargetAlias",
-                  "Alias": "ParamEntity"
-                },
-                "ModifierName": {
-                  "Value": "MCommon_CTRL_Frozen"
-                }
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByIsContainModifier",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "ModifierName": {
+                      "Value": "MCommon_CTRL_Frozen"
+                    }
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByIsContainModifier",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "ModifierName": {
+                      "Value": "StageAbility_GridFight_MonsterTag_2007_Tag"
+                    },
+                    "Inverse": true
+                  }
+                ]
               },
               "SuccessTaskList": [
                 {
@@ -2530,6 +2578,7 @@
                     "STAT_CTRL"
                   ],
                   "InsertAbilityPriority": "MonsterInsertAttackSelf",
+                  "CanRunOnUnselectableTarget": true,
                   "ShowInActionBar": true
                 }
               ],
@@ -2814,6 +2863,7 @@
                     "STAT_CTRL"
                   ],
                   "InsertAbilityPriority": "MonsterInsertAttackSelf",
+                  "CanRunOnUnselectableTarget": true,
                   "ShowInActionBar": true
                 }
               ],
@@ -4713,6 +4763,7 @@
                           "InsertAbilityPriority": "MonsterChangePhase",
                           "OwnerAliveState": "Mask_AliveOrLimbo",
                           "TargetAliveState": "Mask_AliveOrLimbo",
+                          "CanRunOnUnselectableTarget": true,
                           "ShowInActionBar": true
                         }
                       ]
@@ -4809,6 +4860,7 @@
                           "InsertAbilityPriority": "MonsterChangePhase",
                           "OwnerAliveState": "Mask_AliveOrLimbo",
                           "TargetAliveState": "Mask_AliveOrLimbo",
+                          "CanRunOnUnselectableTarget": true,
                           "ShowInActionBar": true
                         }
                       ]
@@ -5649,7 +5701,8 @@
                 "$type": "RPG.GameCore.TargetAlias",
                 "Alias": "Caster"
               },
-              "InsertAbilityPriority": "MonsterInsertAttackSelf"
+              "InsertAbilityPriority": "MonsterInsertAttackSelf",
+              "CanRunOnUnselectableTarget": true
             }
           ]
         }

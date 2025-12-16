@@ -182,6 +182,7 @@
                   },
                   "OwnerAliveState": "Mask_AliveOrLimbo",
                   "TargetAliveState": "Mask_AliveOrLimbo",
+                  "CanRunOnUnselectableTarget": true,
                   "ShowInActionBar": true
                 }
               ]
@@ -310,6 +311,11 @@
             "Alias": "Caster"
           },
           "OnlyAlive": false,
+          "BehaviorFlags": [
+            "STAT_CTRL",
+            "DisableAction",
+            "Break"
+          ],
           "IsSilentDispel": true
         },
         {
@@ -647,6 +653,14 @@
           }
         },
         {
+          "$type": "RPG.GameCore.SetDynamicValueByCharacterCount",
+          "DynamicKey": "_TargetNum",
+          "ReadTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllLightTeam"
+          }
+        },
+        {
           "$type": "RPG.GameCore.PredicateTaskList",
           "Predicate": {
             "$type": "RPG.GameCore.ByAny",
@@ -696,9 +710,13 @@
             {
               "$type": "RPG.GameCore.LoopExecuteTaskListWithInterval",
               "MaxLoopCount": {
-                "IsDynamic": false,
-                "FixedValue": {
-                  "Value": 4
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    -777341546
+                  ]
                 }
               },
               "TaskList": [
@@ -966,9 +984,13 @@
             {
               "$type": "RPG.GameCore.LoopExecuteTaskListWithInterval",
               "MaxLoopCount": {
-                "IsDynamic": false,
-                "FixedValue": {
-                  "Value": 4
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    -777341546
+                  ]
                 }
               },
               "TaskList": [
@@ -1127,7 +1149,17 @@
         {
           "$type": "RPG.GameCore.SkillPerformFinish"
         }
-      ]
+      ],
+      "DynamicValues": {
+        "Floats": {
+          "-777341546": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
+        }
+      }
     },
     {
       "Name": "Monster_W2_ArgentiTotem_00_IF_SkillP01_Insert",
@@ -1942,6 +1974,7 @@
                   },
                   "OwnerAliveState": "Mask_AliveOrLimbo",
                   "TargetAliveState": "Mask_AliveOrLimbo",
+                  "CanRunOnUnselectableTarget": true,
                   "ShowInActionBar": true
                 }
               ]
@@ -2322,34 +2355,86 @@
           "Value": "MaxHP"
         },
         {
-          "$type": "RPG.GameCore.AddModifier",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "Caster"
-          },
-          "ModifierName": {
-            "Value": "Monster_W2_ArgentiTotem_02_IF_Shield_Modifier"
-          },
-          "LifeTime": {
-            "IsDynamic": false,
-            "FixedValue": {
-              "Value": -1
-            }
-          },
-          "DynamicValues": {
-            "MDF_ShowValue": {
-              "IsDynamic": true,
-              "PostfixExpr": {
-                "OpCodes": "AQABAQQR",
-                "FixedValues": [],
-                "DynamicHashes": [
-                  -186157883,
-                  -1309867853
-                ]
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByAny",
+            "PredicateList": [
+              {
+                "$type": "RPG.GameCore.ByIsContainModifier",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "Caster"
+                },
+                "ModifierName": {
+                  "Value": "MMonster_W2_Argenti_00_IF_Power"
+                }
               }
-            }
+            ]
           },
-          "InheritCaster": "TargetSelf"
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "ModifierName": {
+                "Value": "Monster_W2_ArgentiTotem_02_IF_Shield_Modifier"
+              },
+              "LifeTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": -1
+                }
+              },
+              "DynamicValues": {
+                "MDF_ShowValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQABAQQR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      -241622202,
+                      -1309867853
+                    ]
+                  }
+                }
+              },
+              "InheritCaster": "TargetSelf"
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "ModifierName": {
+                "Value": "Monster_W2_ArgentiTotem_02_IF_Shield_Modifier"
+              },
+              "LifeTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": -1
+                }
+              },
+              "DynamicValues": {
+                "MDF_ShowValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQABAQQR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      -186157883,
+                      -1309867853
+                    ]
+                  }
+                }
+              },
+              "InheritCaster": "TargetSelf"
+            }
+          ]
         }
       ],
       "DynamicValues": {
@@ -2552,34 +2637,86 @@
           "Value": "MaxHP"
         },
         {
-          "$type": "RPG.GameCore.AddModifier",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "Caster"
-          },
-          "ModifierName": {
-            "Value": "Monster_W2_ArgentiTotem_02_IF_Shield_Modifier"
-          },
-          "LifeTime": {
-            "IsDynamic": false,
-            "FixedValue": {
-              "Value": -1
-            }
-          },
-          "DynamicValues": {
-            "MDF_ShowValue": {
-              "IsDynamic": true,
-              "PostfixExpr": {
-                "OpCodes": "AQABAQQR",
-                "FixedValues": [],
-                "DynamicHashes": [
-                  -186157883,
-                  -1309867853
-                ]
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByAny",
+            "PredicateList": [
+              {
+                "$type": "RPG.GameCore.ByIsContainModifier",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "Caster"
+                },
+                "ModifierName": {
+                  "Value": "MMonster_W2_Argenti_00_IF_Power"
+                }
               }
-            }
+            ]
           },
-          "InheritCaster": "TargetSelf"
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "ModifierName": {
+                "Value": "Monster_W2_ArgentiTotem_02_IF_Shield_Modifier"
+              },
+              "LifeTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": -1
+                }
+              },
+              "DynamicValues": {
+                "MDF_ShowValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQABAQQR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      -241622202,
+                      -1309867853
+                    ]
+                  }
+                }
+              },
+              "InheritCaster": "TargetSelf"
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "ModifierName": {
+                "Value": "Monster_W2_ArgentiTotem_02_IF_Shield_Modifier"
+              },
+              "LifeTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": -1
+                }
+              },
+              "DynamicValues": {
+                "MDF_ShowValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQABAQQR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      -186157883,
+                      -1309867853
+                    ]
+                  }
+                }
+              },
+              "InheritCaster": "TargetSelf"
+            }
+          ]
         },
         {
           "$type": "RPG.GameCore.WaitSecond",
@@ -2928,21 +3065,21 @@
               "ForceSimulateImmediately": false
             },
             {
-              "$type": "RPG.GameCore.SetDynamicValueByProperty",
-              "DynamicKey": "_MaxHP",
-              "ReadTargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "Caster"
-              },
-              "Value": "MaxHP"
-            },
-            {
               "$type": "RPG.GameCore.Retarget",
               "TargetType": {
                 "$type": "RPG.GameCore.TargetAlias",
                 "Alias": "AllLightTeam"
               },
               "TaskList": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValueByProperty",
+                  "DynamicKey": "_MaxHP",
+                  "ReadTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "Value": "MaxHP"
+                },
                 {
                   "$type": "RPG.GameCore.PredicateTaskList",
                   "Predicate": {
@@ -3024,21 +3161,21 @@
           ],
           "FailedTaskList": [
             {
-              "$type": "RPG.GameCore.SetDynamicValueByProperty",
-              "DynamicKey": "_MaxHP",
-              "ReadTargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "Caster"
-              },
-              "Value": "MaxHP"
-            },
-            {
               "$type": "RPG.GameCore.Retarget",
               "TargetType": {
                 "$type": "RPG.GameCore.TargetAlias",
                 "Alias": "AllLightTeam"
               },
               "TaskList": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValueByProperty",
+                  "DynamicKey": "_MaxHP",
+                  "ReadTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "Value": "MaxHP"
+                },
                 {
                   "$type": "RPG.GameCore.PredicateTaskList",
                   "Predicate": {
@@ -3339,6 +3476,7 @@
                   },
                   "OwnerAliveState": "Mask_AliveOrLimbo",
                   "TargetAliveState": "Mask_AliveOrLimbo",
+                  "CanRunOnUnselectableTarget": true,
                   "ShowInActionBar": true
                 }
               ]

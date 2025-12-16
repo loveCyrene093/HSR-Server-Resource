@@ -226,38 +226,6 @@
               "Priority": -80,
               "CallbackConfig": [
                 {
-                  "$type": "RPG.GameCore.AddModifier",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "AllLightTeam"
-                  },
-                  "ModifierName": {
-                    "Value": "MAvatar_GridFight_FuXuan_00_Halo"
-                  },
-                  "DynamicValues": {
-                    "MDF_DamageReduce": {
-                      "IsDynamic": true,
-                      "PostfixExpr": {
-                        "OpCodes": "AQAR",
-                        "FixedValues": [],
-                        "DynamicHashes": [
-                          321061947
-                        ]
-                      }
-                    },
-                    "MDF_EnergyMax": {
-                      "IsDynamic": true,
-                      "PostfixExpr": {
-                        "OpCodes": "AQAR",
-                        "FixedValues": [],
-                        "DynamicHashes": [
-                          -2011638602
-                        ]
-                      }
-                    }
-                  }
-                },
-                {
                   "$type": "RPG.GameCore.PredicateTaskList",
                   "Predicate": {
                     "$type": "RPG.GameCore.ByRankActivated",
@@ -356,6 +324,36 @@
                 },
                 "IncludeBattleEvent": true,
                 "DynamicValues": {
+                  "MDF_EnergyMax": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        -2011638602
+                      ]
+                    }
+                  }
+                },
+                "IsHaloStatus": true
+              },
+              {
+                "Name": "MAvatar_GridFight_FuXuan_00_Halo",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "AllLightTeam.RemoveServant"
+                },
+                "DynamicValues": {
+                  "MDF_DamageReduce": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        321061947
+                      ]
+                    }
+                  },
                   "MDF_EnergyMax": {
                     "IsDynamic": true,
                     "PostfixExpr": {
@@ -866,6 +864,102 @@
         "MAvatar_GridFight_FuXuan_00_PassiveSkill02": {
           "_CallbackList": [
             {
+              "Event": "OnListenAfterBeingHitAll",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByTargetTeam",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "Team": "TeamLight"
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByTargetEntityType",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "EntityTypeMask": "Avatar"
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCompareHPRatio",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "CompareType": "LessEqual",
+                        "CompareValue": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AQAR",
+                            "FixedValues": [],
+                            "DynamicHashes": [
+                              361075230
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "DynamicKey": {
+                          "Value": "_BE_Switch"
+                        },
+                        "CompareType": "Equal",
+                        "CompareValue": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TurnInsertAbility",
+                      "AbilityName": {
+                        "Value": "Avatar_GridFight_FuXuan_00_BE_Insert"
+                      },
+                      "AbilityTarget": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "AllLightTeam"
+                      },
+                      "InsertAbilityPriority": "AvatarHealOthers",
+                      "DynamicValues": {
+                        "_HPRecover": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AQAR",
+                            "FixedValues": [],
+                            "DynamicHashes": [
+                              -2058086743
+                            ]
+                          }
+                        }
+                      },
+                      "CanRunOnUnselectableTarget": true,
+                      "PreCheck": {
+                        "$type": "RPG.GameCore.TurnInsertAbilityCondition",
+                        "Type": "AbilityOwnerInsertUnusedCount",
+                        "Count": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 1
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
               "Event": "OnListenHPChange",
               "CallbackConfig": [
                 {
@@ -955,6 +1049,7 @@
                           }
                         }
                       },
+                      "CanRunOnUnselectableTarget": true,
                       "PreCheck": {
                         "$type": "RPG.GameCore.TurnInsertAbilityCondition",
                         "Type": "AbilityOwnerInsertUnusedCount",
@@ -1087,6 +1182,7 @@
                           }
                         }
                       },
+                      "CanRunOnUnselectableTarget": true,
                       "PreCheck": {
                         "$type": "RPG.GameCore.TurnInsertAbilityCondition",
                         "Type": "AbilityOwnerInsertUnusedCount",
@@ -1342,6 +1438,7 @@
                                   }
                                 }
                               },
+                              "CanRunOnUnselectableTarget": true,
                               "PreCheck": {
                                 "$type": "RPG.GameCore.TurnInsertAbilityCondition",
                                 "Type": "AbilityOwnerInsertUnusedCount",
@@ -1737,7 +1834,7 @@
           "$type": "RPG.GameCore.HealHP",
           "TargetType": {
             "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "AllLightTeam"
+            "Alias": "AllLightTeam.RemoveServant"
           },
           "FormulaType": "HealByTargetLostHP",
           "HealPercentage": {

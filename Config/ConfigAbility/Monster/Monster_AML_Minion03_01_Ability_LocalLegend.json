@@ -1,0 +1,380 @@
+{
+  "AbilityList": [
+    {
+      "Modifiers": {
+        "Monster_AML_Minion03_01_LocalLegend_ListenPhase2": {
+          "_CallbackList": [
+            {
+              "Event": "OnPhase2",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.TurnInsertAbility",
+                  "AbilityName": {
+                    "Value": "Monster_AML_Minion03_01_LocalLegend_Skill01_Phase01"
+                  },
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "AbilityTarget": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "AbortBehaviorFlags": [
+                    "STAT_CTRL",
+                    "Break",
+                    "DisableAction"
+                  ],
+                  "InsertAbilityPriority": "MonsterBattleCry",
+                  "CanRunOnUnselectableTarget": true,
+                  "ShowInActionBar": true
+                },
+                {
+                  "$type": "RPG.GameCore.RemoveSelfModifier"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "Name": "Monster_AML_Minion03_01_LocalLegend_Skill01_PassiveSkillInitiate",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "CasterSummoner"
+          },
+          "ModifierName": {
+            "Value": "Monster_AML_Minion03_01_LocalLegend_ListenPhase2"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Monster_AML_Minion03_01_LocalLegend_Skill01_Phase01",
+      "TargetInfo": {
+        "TargetType": "InherentTargetEntity"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityInherentTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AbilityTargetEntity"
+          },
+          "AbilityName": {
+            "Value": "Monster_AML_Minion03_01_LocalLegend_Skill01_Phase02"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityInherentTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AbilityTargetEntity"
+          },
+          "AbilityName": {
+            "Value": "Monster_AML_Minion03_01_Skill01_Camera"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.LookAt",
+          "TargetType": "EnemyTeamCenter"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "AnimStateName": "Skill01",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "AnimLogicState": "Idle"
+        }
+      ]
+    },
+    {
+      "Name": "Monster_AML_Minion03_01_LocalLegend_Skill01_Phase02",
+      "TargetInfo": {
+        "TargetType": "InherentTargetEntity"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.ShowSkillTextDialog",
+          "SkillName": {
+            "Hash": 17226504892970619315
+          },
+          "IsDark": true
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill01",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.25
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.MakeCharacterHUDVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllDarkTeam"
+          },
+          "Visible": true
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill01",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.35
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetDynamicValueByAddValue",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllTeammate"
+          },
+          "Key": {
+            "Value": "_EntityScore"
+          },
+          "AddValue": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                -23233877
+              ]
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllTeammate"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_AML_Minion03_01/Eff_Monster_AML_Minion03_01_Skill01_Enhance.prefab",
+          "ForceSimulateImmediately": false
+        },
+        {
+          "$type": "RPG.GameCore.ShowUIPage",
+          "AssetPath": "UI/Common/Widget/ShowBattleHint.prefab",
+          "UITextNodes": [
+            {
+              "TextPath": "AreaInfoPanel/Title/Text",
+              "TextContent": {
+                "Hash": 5293500122912007771
+              }
+            }
+          ],
+          "LifeTime": 2,
+          "DisplayTarget": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill01",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.98
+            }
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Monster_AML_Minion03_01_LocalLegend_Skill02_Phase01",
+      "TargetInfo": {
+        "TargetType": "SkillTargetEntityList"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityName": {
+            "Value": "Monster_AML_Minion03_01_LocalLegend_Skill02_Phase02"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityName": {
+            "Value": "Monster_AML_Minion03_01_Skill03_Camera"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.LookAt",
+          "TargetType": "EnemyTeamCenter"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "AnimStateName": "Skill01",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "AnimLogicState": "Idle"
+        }
+      ]
+    },
+    {
+      "Name": "Monster_AML_Minion03_01_LocalLegend_Skill02_Phase02",
+      "TargetInfo": {
+        "TargetType": "SkillTargetEntityList"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill01",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.25
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.MakeCharacterHUDVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllDarkTeam"
+          },
+          "Visible": true
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill01",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.35
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetDynamicValueByAddValue",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AbilityTargetEntity"
+          },
+          "Key": {
+            "Value": "_EntityScore"
+          },
+          "AddValue": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                1761536634
+              ]
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AbilityTargetEntity"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_AML_Minion03_01/Eff_Monster_AML_Minion03_01_Skill01_Enhance.prefab",
+          "ForceSimulateImmediately": false
+        },
+        {
+          "$type": "RPG.GameCore.ShowUIPage",
+          "AssetPath": "UI/Common/Widget/ShowBattleHint.prefab",
+          "UITextNodes": [
+            {
+              "TextPath": "AreaInfoPanel/Title/Text",
+              "TextContent": {
+                "Hash": 12319538422139102708
+              }
+            }
+          ],
+          "LifeTime": 2,
+          "DisplayTarget": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AbilityTargetEntity"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill01",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.98
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SkillPerformFinish"
+        }
+      ]
+    }
+  ]
+}

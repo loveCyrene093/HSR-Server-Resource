@@ -230,41 +230,95 @@
           "Event": "OnCreate",
           "CallbackConfig": [
             {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByCharacterDamageType",
-                "TargetType": {
+              "$type": "RPG.GameCore.SwitchCaseByAttackDamageType",
+              "Source": {
+                "SourceType": "ReadTargetType",
+                "ReadTargetType": {
                   "$type": "RPG.GameCore.TargetAlias",
                   "Alias": "DamageAttackerEntity"
-                },
-                "DamageType": "Ice"
+                }
               },
-              "SuccessTaskList": [
+              "CaseTaskList": [
                 {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByIsContainModifier",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ModifierOwnerEntity"
-                    },
-                    "ModifierName": {
-                      "Value": "StageAbility_MazeCommon_EnterBattle_StanceBreakModifier"
-                    }
-                  },
-                  "SuccessTaskList": [
+                  "Case": "Physical",
+                  "TaskList": [
                     {
-                      "$type": "RPG.GameCore.RemoveModifier",
+                      "$type": "RPG.GameCore.ModifierAttachEffect",
                       "TargetType": {
                         "$type": "RPG.GameCore.TargetAlias",
                         "Alias": "ModifierOwnerEntity"
                       },
-                      "ModifierName": {
-                        "Value": "StageAbility_MazeCommon_EnterBattle_StanceBreakModifier"
-                      }
+                      "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_Monster_StanceBreak_PhysicalFollow.prefab",
+                      "MinMutexTime": -1,
+                      "MutexType": "Entity"
+                    },
+                    {
+                      "$type": "RPG.GameCore.TriggerEffect",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_StanceBreak_Common_Physical.prefab",
+                      "ForceSimulateImmediately": false
                     }
-                  ],
-                  "FailedTaskList": [
+                  ]
+                },
+                {
+                  "Case": "Fire",
+                  "TaskList": [
+                    {
+                      "$type": "RPG.GameCore.ModifierAttachEffect",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_Monster_StanceBreak_PhysicalFollow.prefab",
+                      "MinMutexTime": -1,
+                      "MutexType": "Entity"
+                    },
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByCompareCharacterID",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "DamageAttackerEntity"
+                        },
+                        "TargetCharacterID": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 1310
+                          }
+                        }
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.TriggerEffect",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ModifierOwnerEntity"
+                          },
+                          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Sam_00/Eff_Avatar_Sam_00_Common_Fire.prefab",
+                          "ForceSimulateImmediately": false
+                        }
+                      ],
+                      "FailedTaskList": [
+                        {
+                          "$type": "RPG.GameCore.TriggerEffect",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ModifierOwnerEntity"
+                          },
+                          "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_StanceBreak_Common_Fire.prefab",
+                          "ForceSimulateImmediately": false
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Case": "Ice",
+                  "TaskList": [
                     {
                       "$type": "RPG.GameCore.PredicateTaskList",
                       "Predicate": {
@@ -437,45 +491,10 @@
                       ]
                     }
                   ]
-                }
-              ]
-            },
-            {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByCharacterDamageType",
-                "TargetType": {
-                  "$type": "RPG.GameCore.TargetAlias",
-                  "Alias": "DamageAttackerEntity"
                 },
-                "DamageType": "Physical"
-              },
-              "SuccessTaskList": [
                 {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByIsContainModifier",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ModifierOwnerEntity"
-                    },
-                    "ModifierName": {
-                      "Value": "StageAbility_MazeCommon_EnterBattle_StanceBreakModifier"
-                    }
-                  },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.RemoveModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "ModifierName": {
-                        "Value": "StageAbility_MazeCommon_EnterBattle_StanceBreakModifier"
-                      }
-                    }
-                  ],
-                  "FailedTaskList": [
+                  "Case": "Thunder",
+                  "TaskList": [
                     {
                       "$type": "RPG.GameCore.ModifierAttachEffect",
                       "TargetType": {
@@ -492,137 +511,14 @@
                         "$type": "RPG.GameCore.TargetAlias",
                         "Alias": "ModifierOwnerEntity"
                       },
-                      "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_StanceBreak_Common_Physical.prefab",
+                      "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_StanceBreak_Common_Thunder.prefab",
                       "ForceSimulateImmediately": false
                     }
                   ]
-                }
-              ]
-            },
-            {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByCharacterDamageType",
-                "TargetType": {
-                  "$type": "RPG.GameCore.TargetAlias",
-                  "Alias": "DamageAttackerEntity"
                 },
-                "DamageType": "Fire"
-              },
-              "SuccessTaskList": [
                 {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByIsContainModifier",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ModifierOwnerEntity"
-                    },
-                    "ModifierName": {
-                      "Value": "StageAbility_MazeCommon_EnterBattle_StanceBreakModifier"
-                    }
-                  },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.RemoveModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "ModifierName": {
-                        "Value": "StageAbility_MazeCommon_EnterBattle_StanceBreakModifier"
-                      }
-                    }
-                  ],
-                  "FailedTaskList": [
-                    {
-                      "$type": "RPG.GameCore.ModifierAttachEffect",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_Monster_StanceBreak_PhysicalFollow.prefab",
-                      "MinMutexTime": -1,
-                      "MutexType": "Entity"
-                    },
-                    {
-                      "$type": "RPG.GameCore.PredicateTaskList",
-                      "Predicate": {
-                        "$type": "RPG.GameCore.ByCompareCharacterID",
-                        "TargetType": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "DamageAttackerEntity"
-                        },
-                        "TargetCharacterID": {
-                          "IsDynamic": false,
-                          "FixedValue": {
-                            "Value": 1310
-                          }
-                        }
-                      },
-                      "SuccessTaskList": [
-                        {
-                          "$type": "RPG.GameCore.TriggerEffect",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ModifierOwnerEntity"
-                          },
-                          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Sam_00/Eff_Avatar_Sam_00_Common_Fire.prefab",
-                          "ForceSimulateImmediately": false
-                        }
-                      ],
-                      "FailedTaskList": [
-                        {
-                          "$type": "RPG.GameCore.TriggerEffect",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ModifierOwnerEntity"
-                          },
-                          "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_StanceBreak_Common_Fire.prefab",
-                          "ForceSimulateImmediately": false
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByCharacterDamageType",
-                "TargetType": {
-                  "$type": "RPG.GameCore.TargetAlias",
-                  "Alias": "DamageAttackerEntity"
-                },
-                "DamageType": "Wind"
-              },
-              "SuccessTaskList": [
-                {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByIsContainModifier",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ModifierOwnerEntity"
-                    },
-                    "ModifierName": {
-                      "Value": "StageAbility_MazeCommon_EnterBattle_StanceBreakModifier"
-                    }
-                  },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.RemoveModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "ModifierName": {
-                        "Value": "StageAbility_MazeCommon_EnterBattle_StanceBreakModifier"
-                      }
-                    }
-                  ],
-                  "FailedTaskList": [
+                  "Case": "Wind",
+                  "TaskList": [
                     {
                       "$type": "RPG.GameCore.ModifierAttachEffect",
                       "TargetType": {
@@ -687,104 +583,10 @@
                       ]
                     }
                   ]
-                }
-              ]
-            },
-            {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByCharacterDamageType",
-                "TargetType": {
-                  "$type": "RPG.GameCore.TargetAlias",
-                  "Alias": "DamageAttackerEntity"
                 },
-                "DamageType": "Thunder"
-              },
-              "SuccessTaskList": [
                 {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByIsContainModifier",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ModifierOwnerEntity"
-                    },
-                    "ModifierName": {
-                      "Value": "StageAbility_MazeCommon_EnterBattle_StanceBreakModifier"
-                    }
-                  },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.RemoveModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "ModifierName": {
-                        "Value": "StageAbility_MazeCommon_EnterBattle_StanceBreakModifier"
-                      }
-                    }
-                  ],
-                  "FailedTaskList": [
-                    {
-                      "$type": "RPG.GameCore.ModifierAttachEffect",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_Monster_StanceBreak_PhysicalFollow.prefab",
-                      "MinMutexTime": -1,
-                      "MutexType": "Entity"
-                    },
-                    {
-                      "$type": "RPG.GameCore.TriggerEffect",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_StanceBreak_Common_Thunder.prefab",
-                      "ForceSimulateImmediately": false
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByCharacterDamageType",
-                "TargetType": {
-                  "$type": "RPG.GameCore.TargetAlias",
-                  "Alias": "DamageAttackerEntity"
-                },
-                "DamageType": "Quantum"
-              },
-              "SuccessTaskList": [
-                {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByIsContainModifier",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ModifierOwnerEntity"
-                    },
-                    "ModifierName": {
-                      "Value": "StageAbility_MazeCommon_EnterBattle_StanceBreakModifier"
-                    }
-                  },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.RemoveModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "ModifierName": {
-                        "Value": "StageAbility_MazeCommon_EnterBattle_StanceBreakModifier"
-                      }
-                    }
-                  ],
-                  "FailedTaskList": [
+                  "Case": "Quantum",
+                  "TaskList": [
                     {
                       "$type": "RPG.GameCore.TriggerEffect",
                       "TargetType": {
@@ -795,45 +597,10 @@
                       "ForceSimulateImmediately": false
                     }
                   ]
-                }
-              ]
-            },
-            {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByCharacterDamageType",
-                "TargetType": {
-                  "$type": "RPG.GameCore.TargetAlias",
-                  "Alias": "DamageAttackerEntity"
                 },
-                "DamageType": "Imaginary"
-              },
-              "SuccessTaskList": [
                 {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByIsContainModifier",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ModifierOwnerEntity"
-                    },
-                    "ModifierName": {
-                      "Value": "StageAbility_MazeCommon_EnterBattle_StanceBreakModifier"
-                    }
-                  },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.RemoveModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "ModifierName": {
-                        "Value": "StageAbility_MazeCommon_EnterBattle_StanceBreakModifier"
-                      }
-                    }
-                  ],
-                  "FailedTaskList": [
+                  "Case": "Imaginary",
+                  "TaskList": [
                     {
                       "$type": "RPG.GameCore.PredicateTaskList",
                       "Predicate": {
@@ -5816,7 +5583,8 @@
                   },
                   "InsertAbilityPriority": "MonsterForceKill",
                   "OwnerAliveState": "Mask_AliveOrRevivable",
-                  "TargetAliveState": "Mask_AliveOrRevivable"
+                  "TargetAliveState": "Mask_AliveOrRevivable",
+                  "CanRunOnUnselectableTarget": true
                 }
               ],
               "FailedTaskList": []
@@ -9203,6 +8971,7 @@
                     }
                   },
                   "OwnerAliveState": "Mask_AliveOrLimbo",
+                  "CanRunOnUnselectableTarget": true,
                   "ShowInActionBar": true
                 }
               ],
@@ -10008,10 +9777,7 @@
                         "$type": "RPG.GameCore.TargetAlias",
                         "Alias": "ModifierOwnerEntity"
                       },
-                      "Priority": {
-                        "EnumIndex": 8,
-                        "Value": 200
-                      },
+                      "InsertActionPriority": "Windfury",
                       "SkillIndex": {
                         "IsDynamic": true,
                         "PostfixExpr": {
@@ -10141,10 +9907,7 @@
                             "$type": "RPG.GameCore.TargetAlias",
                             "Alias": "ModifierOwnerEntity"
                           },
-                          "Priority": {
-                            "EnumIndex": 8,
-                            "Value": 200
-                          },
+                          "InsertActionPriority": "Windfury",
                           "AutoCast": true,
                           "AutoCastTargetType": {
                             "$type": "RPG.GameCore.TargetAlias",
@@ -10261,10 +10024,7 @@
                             "$type": "RPG.GameCore.TargetAlias",
                             "Alias": "ModifierOwnerEntity"
                           },
-                          "Priority": {
-                            "EnumIndex": 8,
-                            "Value": 200
-                          },
+                          "InsertActionPriority": "Windfury",
                           "SkillType": "ControlSkill02",
                           "AutoCast": true,
                           "AutoCastTargetType": {
@@ -10633,10 +10393,7 @@
                         "$type": "RPG.GameCore.TargetAlias",
                         "Alias": "ModifierOwnerEntity"
                       },
-                      "Priority": {
-                        "EnumIndex": 8,
-                        "Value": 200
-                      },
+                      "InsertActionPriority": "Windfury",
                       "SkillIndex": {
                         "IsDynamic": true,
                         "PostfixExpr": {
@@ -10789,10 +10546,7 @@
                                 "$type": "RPG.GameCore.TargetAlias",
                                 "Alias": "ModifierOwnerEntity"
                               },
-                              "Priority": {
-                                "EnumIndex": 8,
-                                "Value": 200
-                              },
+                              "InsertActionPriority": "Windfury",
                               "AutoCast": true,
                               "OnInsertAbort": [
                                 {
@@ -10918,10 +10672,7 @@
                                 "$type": "RPG.GameCore.TargetAlias",
                                 "Alias": "ModifierOwnerEntity"
                               },
-                              "Priority": {
-                                "EnumIndex": 8,
-                                "Value": 200
-                              },
+                              "InsertActionPriority": "Windfury",
                               "SkillType": "ControlSkill02",
                               "AutoCast": true,
                               "OnInsertAbort": [
@@ -11130,8 +10881,8 @@
               },
               "SuccessTaskList": [
                 {
-                  "$type": "PKACICFJLOF",
-                  "LNKJFJCNFMC": {
+                  "$type": "APKIGJHEBGF",
+                  "BBMLLEHDFLE": {
                     "IsDynamic": false,
                     "FixedValue": {
                       "Value": 0

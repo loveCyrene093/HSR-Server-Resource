@@ -18534,6 +18534,7 @@
                           },
                           "OwnerAliveState": "Mask_AliveOrLimbo",
                           "TargetAliveState": "Mask_AliveOrLimbo",
+                          "CanRunOnUnselectableTarget": true,
                           "ShowInActionBar": true
                         },
                         {
@@ -20372,7 +20373,8 @@
                         }
                       },
                       "OwnerAliveState": "Mask_AliveOrLimbo",
-                      "TargetAliveState": "Mask_AliveOrLimbo"
+                      "TargetAliveState": "Mask_AliveOrLimbo",
+                      "CanRunOnUnselectableTarget": true
                     }
                   ],
                   "FailedTaskList": [
@@ -20450,7 +20452,8 @@
                         }
                       },
                       "OwnerAliveState": "Anyone",
-                      "TargetAliveState": "Mask_AliveOrLimbo"
+                      "TargetAliveState": "Mask_AliveOrLimbo",
+                      "CanRunOnUnselectableTarget": true
                     }
                   ]
                 }
@@ -23207,6 +23210,7 @@
                   },
                   "OwnerAliveState": "Mask_AliveOrLimbo",
                   "TargetAliveState": "Mask_AliveOrLimbo",
+                  "CanRunOnUnselectableTarget": true,
                   "PreCheck": {
                     "$type": "RPG.GameCore.TurnInsertAbilityCondition",
                     "Type": "AbilityOwnerInsertUnusedCount",
@@ -24029,6 +24033,7 @@
         },
         {
           "Event": "OnAfterAttack",
+          "Priority": 100,
           "CallbackConfig": [
             {
               "$type": "RPG.GameCore.AddModifier",
@@ -24788,77 +24793,109 @@
                       }
                     },
                     {
-                      "$type": "RPG.GameCore.DamageByAttackProperty",
-                      "TargetType": {
+                      "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                      "Name": "DealSuperBreakDamage_DamagePerformance",
+                      "DynamicValues": {
+                        "DamagePercentage": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AQAR",
+                            "FixedValues": [],
+                            "DynamicHashes": [
+                              2128130574
+                            ]
+                          }
+                        }
+                      },
+                      "ParamTarget": {
                         "$type": "RPG.GameCore.TargetAlias",
                         "Alias": "ParamEntity"
                       },
-                      "AttackProperty": {
-                        "$type": "RPG.GameCore.AttackData",
-                        "DamageType": {
-                          "SourceType": "ReadTargetType",
-                          "DamageType": "Fire",
-                          "ReadTargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ModifierOwnerEntity"
-                          }
-                        },
-                        "FormulaType": "ByBreakDamage",
-                        "AttackType": "ElementDamage",
-                        "DamageTag": [
-                          {
-                            "EnumIndex": 3,
-                            "Value": 33
-                          }
-                        ],
-                        "BreakDamagePercentage": {
-                          "IsDynamic": true,
-                          "PostfixExpr": {
-                            "OpCodes": "AQABAQECBQQR",
-                            "FixedValues": [],
-                            "DynamicHashes": [
-                              2128130574,
-                              639597289,
-                              1843395898
-                            ]
-                          }
-                        },
-                        "FinalFormulaType": "ByPureDamage",
-                        "HitEffectHeight": 1.5
-                      },
-                      "CanTriggerLastKill": true,
-                      "DisplayData": {
-                        "DitherRangeX": 0,
-                        "DitherRangeY": 0,
-                        "AdditionalDisplay": {
-                          "UIMessageHeight": {
-                            "IsDynamic": false,
-                            "FixedValue": {
-                              "Value": 0.75
+                      "TemplateParamSequences": {
+                        "DamagePerformance": {
+                          "TaskList": [
+                            {
+                              "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                              "Name": "PursuedDamage_PerformanceDelay",
+                              "ParamTarget": {
+                                "$type": "RPG.GameCore.TargetAlias",
+                                "Alias": "ParamEntity"
+                              }
+                            },
+                            {
+                              "$type": "RPG.GameCore.DamageByAttackProperty",
+                              "TargetType": {
+                                "$type": "RPG.GameCore.TargetAlias",
+                                "Alias": "ParamEntity"
+                              },
+                              "AttackProperty": {
+                                "$type": "RPG.GameCore.AttackData",
+                                "DamageType": {
+                                  "SourceType": "ReadTargetType",
+                                  "DamageType": "Fire",
+                                  "ReadTargetType": {
+                                    "$type": "RPG.GameCore.TargetAlias",
+                                    "Alias": "ModifierOwnerEntity"
+                                  }
+                                },
+                                "FormulaType": "ByBreakDamage",
+                                "AttackType": "ElementDamage",
+                                "DamageTag": [
+                                  {
+                                    "EnumIndex": 3,
+                                    "Value": 33
+                                  }
+                                ],
+                                "BreakDamagePercentage": {
+                                  "IsDynamic": true,
+                                  "PostfixExpr": {
+                                    "OpCodes": "AQAR",
+                                    "FixedValues": [],
+                                    "DynamicHashes": [
+                                      -159517732
+                                    ]
+                                  }
+                                },
+                                "FinalFormulaType": "ByPureDamage",
+                                "HitEffectHeight": 1.5
+                              },
+                              "CanTriggerLastKill": true,
+                              "DisplayData": {
+                                "DitherRangeX": 0,
+                                "DitherRangeY": 0,
+                                "AdditionalDisplay": {
+                                  "UIMessageHeight": {
+                                    "IsDynamic": false,
+                                    "FixedValue": {
+                                      "Value": 0.75
+                                    }
+                                  },
+                                  "DitherRangeX": {
+                                    "IsDynamic": false,
+                                    "FixedValue": {
+                                      "Value": 0.05
+                                    }
+                                  },
+                                  "DitherRangeY": {
+                                    "IsDynamic": false,
+                                    "FixedValue": {
+                                      "Value": 0.1
+                                    }
+                                  }
+                                },
+                                "ElementDamageType": "Super"
+                              },
+                              "PerformanceDelay": {
+                                "IsDynamic": true,
+                                "PostfixExpr": {
+                                  "OpCodes": "AQAR",
+                                  "FixedValues": [],
+                                  "DynamicHashes": [
+                                    1854514093
+                                  ]
+                                }
+                              }
                             }
-                          },
-                          "DitherRangeX": {
-                            "IsDynamic": false,
-                            "FixedValue": {
-                              "Value": 0.05
-                            }
-                          },
-                          "DitherRangeY": {
-                            "IsDynamic": false,
-                            "FixedValue": {
-                              "Value": 0.1
-                            }
-                          }
-                        },
-                        "ElementDamageType": "Super"
-                      },
-                      "PerformanceDelay": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAR",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            1854514093
                           ]
                         }
                       }

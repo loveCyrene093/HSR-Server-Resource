@@ -147,37 +147,25 @@
               }
             },
             {
-              "$type": "RPG.GameCore.RogueTournCollectionFuncShowUI",
-              "BoothIDString": {
-                "Custom": true,
-                "Key": "BotthID_string"
+              "$type": "RPG.GameCore.RogueTournCollectionShowUI",
+              "BoothID": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    -1784215945
+                  ]
+                }
               },
-              "Offset": {
-                "X": 0,
-                "Y": 1.6,
-                "Z": 0
-              },
-              "CollectionScale": {
-                "X": 1.5,
-                "Y": 1.5,
-                "Z": 1.5
-              },
-              "TriggerEffect": {
-                "$type": "RPG.GameCore.TriggerEffect",
-                "Flags": [],
-                "EffectPath": "Effects/Eff_Prefab/Eff_Scene/Scene_Static/Eff_Chap03_Maz_Exhibition_01_Bubble_Lod0.prefab",
-                "AttachPoint": "EffectPoint",
-                "ForceSimulateImmediately": false,
-                "SubObjectModifyDataList": []
-              },
-              "TriggerChangeEffect": {
-                "$type": "RPG.GameCore.TriggerEffect",
-                "Flags": [],
-                "EffectPath": "Effects/Eff_Prefab/Eff_Scene/Scene_Static/Eff_Chap03_Maz_Exhibition_01_Switch_Lod0.prefab",
-                "AttachPoint": "SwitchEffectPoint",
-                "ForceSimulateImmediately": false,
-                "SubObjectModifyDataList": []
-              },
+              "OnEnterUI": [
+                {
+                  "$type": "RPG.GameCore.TriggerCustomString",
+                  "CustomString": {
+                    "Value": "RogueTournCollectionFuncShow"
+                  }
+                }
+              ],
               "OnExitUI": [
                 {
                   "$type": "RPG.GameCore.EndDialogueEntityInteract"
@@ -190,43 +178,6 @@
             "FixedValue": {
               "Value": 0
             }
-          }
-        }
-      ]
-    },
-    {
-      "TaskList": [
-        {
-          "$type": "RPG.GameCore.RogueTournCollectionLoadShow",
-          "BoothIDString": {
-            "Custom": true,
-            "Key": "BotthID_string"
-          },
-          "Offset": {
-            "X": 0,
-            "Y": 1.6,
-            "Z": 0
-          },
-          "CollectionScale": {
-            "X": 1.5,
-            "Y": 1.5,
-            "Z": 1.5
-          },
-          "TriggerEffect": {
-            "$type": "RPG.GameCore.TriggerEffect",
-            "Flags": [],
-            "EffectPath": "Effects/Eff_Prefab/Eff_Scene/Scene_Static/Eff_Chap03_Maz_Exhibition_01_Bubble_Lod0.prefab",
-            "AttachPoint": "EffectPoint",
-            "ForceSimulateImmediately": false,
-            "SubObjectModifyDataList": []
-          },
-          "TriggerChangeEffect": {
-            "$type": "RPG.GameCore.TriggerEffect",
-            "Flags": [],
-            "EffectPath": "Effects/Eff_Prefab/Eff_Scene/Scene_Static/Eff_Chap03_Maz_Exhibition_01_Switch_Lod0.prefab",
-            "AttachPoint": "SwitchEffectPoint",
-            "ForceSimulateImmediately": false,
-            "SubObjectModifyDataList": []
           }
         }
       ]
@@ -255,13 +206,196 @@
           }
         }
       ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitRogueTournCollectionBoothUpdate",
+          "BoothID": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                -1784215945
+              ]
+            }
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerEntityEventV2",
+              "EventName": {
+                "Value": "Clt_RefreshBooth"
+              },
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "Clt_RefreshBooth"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByIsRogueTournCollectionDisplayingCollection",
+                "BoothID": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      -1784215945
+                    ]
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareGraphDynamicFloat",
+                    "Name": "IsDisplayingEffectLoaded",
+                    "Value": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 0
+                      }
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TriggerEffect",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                      },
+                      "Flags": [],
+                      "EffectPath": "Effects/Eff_Prefab/Eff_Scene/Scene_Static/Eff_Chap03_Maz_Exhibition_01_Bubble_Lod0.prefab",
+                      "AttachPoint": "EffectPoint",
+                      "IsNeedFadeIn": false,
+                      "SubObjectModifyDataList": []
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetGraphDynamicFloat",
+                      "Name": "IsDisplayingEffectLoaded",
+                      "TargetIDs": [],
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.RemoveEffect",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  },
+                  "EffectPath": "Effects/Eff_Prefab/Eff_Scene/Scene_Static/Eff_Chap03_Maz_Exhibition_01_Bubble_Lod0.prefab",
+                  "AttachPointName": "EffectPoint",
+                  "Flags": [],
+                  "IsNeedFadeOut": false
+                },
+                {
+                  "$type": "RPG.GameCore.SetGraphDynamicFloat",
+                  "Name": "IsDisplayingEffectLoaded",
+                  "TargetIDs": [],
+                  "Value": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.TriggerEntityEventV2",
+          "EventName": {
+            "Value": "Clt_RefreshBooth"
+          },
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitRogueTournCollectionBoothPreviewUpdate",
+          "BoothID": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                -1784215945
+              ]
+            }
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByIsRogueTournCollectionDisplayingCollection",
+                "BoothID": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      -1784215945
+                    ]
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerEffect",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  },
+                  "Flags": [],
+                  "EffectPath": "Effects/Eff_Prefab/Eff_Scene/Scene_Static/Eff_Chap03_Maz_Exhibition_01_Switch_Lod0.prefab",
+                  "AttachPoint": "SwitchEffectPoint",
+                  "IsNeedFadeIn": false,
+                  "SubObjectModifyDataList": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "ValueSource": {
     "Values": [
       {
-        "$type": "RPG.GameCore.SharedString",
-        "Key": "BotthID_string"
+        "$type": "RPG.GameCore.SharedUint",
+        "Key": "BoothID"
+      },
+      {
+        "$type": "RPG.GameCore.SharedInt",
+        "Key": "IsDisplayingEffectLoaded"
       }
     ]
   },
@@ -273,6 +407,10 @@
     },
     {
       "Name": "Clt_OnUseStart"
+    },
+    {
+      "Name": "Clt_RefreshBooth",
+      "Description": "展台显示刷新"
     }
   ]
 }

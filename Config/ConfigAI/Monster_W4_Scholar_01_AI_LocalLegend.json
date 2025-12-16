@@ -1,0 +1,98 @@
+{
+  "AIName": "WMonster_Template_AI",
+  "VariableList": [
+    {
+      "$type": "RPG.GameCore.AIVariableBool",
+      "Value": true,
+      "Name": "ForbidClearSkillUseRecord"
+    }
+  ],
+  "DecisionList": [
+    {
+      "$type": "RPG.GameCore.AIDecisionConfig",
+      "DecisionName": "UseSkill03",
+      "RootTask": {
+        "$type": "RPG.GameCore.SequenceConfig",
+        "TaskList": [
+          {
+            "$type": "RPG.GameCore.PredicateTaskList",
+            "Predicate": {
+              "$type": "RPG.GameCore.ByIsContainModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "ModifierName": {
+                "Value": "MMonster_W4_Scholar_01_LocalLegend_Stealth"
+              }
+            },
+            "SuccessTaskList": [
+              {
+                "$type": "RPG.GameCore.SetDynamicValue",
+                "ContextScope": "TargetEntity",
+                "Value": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                },
+                "DynamicKey": {
+                  "Value": "AIFlag"
+                }
+              },
+              {
+                "$type": "RPG.GameCore.UseSkill",
+                "SkillName": "Skill03"
+              }
+            ],
+            "FailedTaskList": [
+              {
+                "$type": "RPG.GameCore.SetDynamicValue",
+                "ContextScope": "TargetEntity",
+                "Value": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                },
+                "DynamicKey": {
+                  "Value": "AIFlag"
+                }
+              },
+              {
+                "$type": "RPG.GameCore.UseSkill",
+                "SkillName": "Skill02"
+              }
+            ]
+          }
+        ]
+      },
+      "ScoreEvaluatorType": "DefaultDSE",
+      "Weight": {
+        "Value": 0.8
+      },
+      "ConsiderAxisList": [
+        {
+          "$type": "RPG.GameCore.CheckPredicateAxis",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareDynamicValue",
+            "DynamicKey": {
+              "Value": "AIFlag"
+            },
+            "ContextScope": "TargetEntity",
+            "CompareType": "Equal",
+            "CompareValue": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 1
+              }
+            }
+          },
+          "SuccessScore": {
+            "Value": 0.5
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -13,56 +13,33 @@
               },
               "Execute": [
                 {
-                  "$type": "RPG.GameCore.PropSetupUITrigger",
-                  "ColliderRelativePath": "Trigger",
-                  "DisableAfterTriggered": true,
-                  "ButtonText": {
-                    "Hash": 15916385105953553913
-                  },
-                  "ButtonCallback": [
-                    {
-                      "$type": "RPG.GameCore.RemoveTeamAllMazeSkillBuff"
-                    },
-                    {
-                      "$type": "RPG.GameCore.LockPlayerControl"
-                    },
-                    {
-                      "$type": "RPG.GameCore.BlockInputController",
-                      "Enable": true,
-                      "ActionNameList": []
-                    },
-                    {
-                      "$type": "RPG.Client.AdventureGameplayLock",
-                      "IsLock": true,
-                      "LockSource": "InstantKill"
-                    },
-                    {
-                      "$type": "RPG.GameCore.RogueDLC1Dot3AdventureRoomPrepare"
-                    },
-                    {
-                      "$type": "RPG.GameCore.TriggerEntityEventV2",
-                      "EventName": {
-                        "Value": "Clt_DoorHidden"
-                      }
-                    },
-                    {
-                      "$type": "RPG.GameCore.PropReqInteract",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetFetchAdvPropEx"
-                      },
-                      "InteractID": {
-                        "IsDynamic": false,
-                        "FixedValue": {
-                          "Value": 1010
-                        }
-                      },
-                      "OnUICancel": []
-                    }
-                  ],
-                  "OverrideTargetTypes": [],
+                  "$type": "RPG.GameCore.AdvSetupButtonListTrigger",
                   "TargetType": {
                     "$type": "RPG.GameCore.TargetFetchAdvPropEx"
-                  }
+                  },
+                  "TriggerName": "InteractTrigger",
+                  "ButtonsByName": [],
+                  "ButtonConfigs": [
+                    {
+                      "ID": "Interact",
+                      "ButtonText": {
+                        "Value": "UIText_RogueTourn_WolfGun_StartBtn"
+                      }
+                    }
+                  ],
+                  "DisableAfterTriggered": true,
+                  "ConsiderAngleLimit": true
+                },
+                {
+                  "$type": "RPG.GameCore.AdvEnableButtons",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  },
+                  "TriggerName": "InteractTrigger",
+                  "ButtonsByName": [
+                    "Interact"
+                  ],
+                  "IsEnable": true
                 }
               ]
             }
@@ -77,6 +54,54 @@
         },
         {
           "$type": "RPG.GameCore.ChangePropState"
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvOnButtonPressed",
+          "ButtonName": "Interact",
+          "OnPressedCallback": [
+            {
+              "$type": "RPG.GameCore.RemoveTeamAllMazeSkillBuff"
+            },
+            {
+              "$type": "RPG.GameCore.LockPlayerControl"
+            },
+            {
+              "$type": "RPG.GameCore.BlockInputController",
+              "Enable": true,
+              "ActionNameList": []
+            },
+            {
+              "$type": "RPG.Client.AdventureGameplayLock",
+              "IsLock": true,
+              "LockSource": "InstantKill"
+            },
+            {
+              "$type": "RPG.GameCore.RogueDLC1Dot3AdventureRoomPrepare"
+            },
+            {
+              "$type": "RPG.GameCore.TriggerEntityEventV2",
+              "EventName": {
+                "Value": "Clt_DoorHidden"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PropReqInteract",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "InteractID": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1010
+                }
+              },
+              "OnUICancel": []
+            }
+          ]
         }
       ]
     }
@@ -97,5 +122,10 @@
       }
     ]
   },
-  "Type": "Entity"
+  "Type": "Entity",
+  "EntityEventList": [
+    {
+      "Name": "Clt_DoorHidden"
+    }
+  ]
 }

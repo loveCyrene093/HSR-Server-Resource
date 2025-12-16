@@ -1,0 +1,932 @@
+{
+  "AbilityList": [
+    {
+      "Modifiers": {
+        "MMonster_W4_Shooter_01_LocalLegend_SkillP01": {
+          "BehaviorFlagList": [
+            "KeepOnDeathrattle"
+          ],
+          "OnDynamicValueChange": [
+            {
+              "Key": {
+                "Hash": 1179426341
+              },
+              "ContextScope": "ContextOwner",
+              "Ranges": [
+                {
+                  "Min": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "Max": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "MaxInclusive": true,
+                  "OnEnterRange": [
+                    {
+                      "$type": "RPG.GameCore.RemoveModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MMonster_AML_Minion02_01_LocalLegend_NegativeBlood"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "Min": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "Max": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "MaxInclusive": true,
+                  "OnEnterRange": [
+                    {
+                      "$type": "RPG.GameCore.TriggerAnimState",
+                      "AnimStateName": "Stun_Occur",
+                      "NormalizedTransitionDuration": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0.25
+                        }
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.CharacterChangePhase",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "Caster"
+                      },
+                      "PhaseName": "Phase2",
+                      "PhaseAnimConfig": {
+                        "StandBy": "Stun_Loop",
+                        "Hit": "Hit_Stun",
+                        "HitH": "Hit_H_Stun"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.TurnInsertAbility",
+                      "AbilityName": {
+                        "Value": "Monster_AML_Minion02_01_LocalLegend_NagetiveBlood_Enter"
+                      },
+                      "AbilityTarget": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "InsertAbilityPriority": "MonsterReviveSelf",
+                      "CanRunOnUnselectableTarget": true,
+                      "ShowInActionBar": true
+                    },
+                    {
+                      "$type": "RPG.GameCore.RemoveModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MMonster_XP_Elite01_02_LocalLegend_Skill03_Mark"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "_CallbackList": [
+            {
+              "Event": "OnStack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.DefineDynamicValue",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "DynamicKey": {
+                    "Value": "MDF_IsNegative"
+                  },
+                  "ContextScope": "TargetEntity"
+                },
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MMonster_AML_Minion02_01_LocalLegend_NegativeBlood_LockHP"
+                  }
+                }
+              ]
+            },
+            {
+              "Event": "OnHPChange",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValueByProperty",
+                  "DynamicKey": "MDF_NegativeHP",
+                  "ReadTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "Value": "NegativeHP"
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "MDF_NegativeHP"
+                    },
+                    "CompareType": "Greater",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 0
+                      }
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByAnd",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "Caster"
+                            },
+                            "Flag": "STAT_CTRL",
+                            "Inverse": true
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "Caster"
+                            },
+                            "Flag": "Break",
+                            "Inverse": true
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "Caster"
+                            },
+                            "Flag": "DisableAction",
+                            "Inverse": true
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByCompareDynamicValue",
+                            "DynamicKey": {
+                              "Value": "MDF_IsNegative"
+                            },
+                            "CompareType": "Equal",
+                            "CompareValue": {
+                              "IsDynamic": false,
+                              "FixedValue": {
+                                "Value": 0
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.TriggerAnimState",
+                          "AnimStateName": "Stagger",
+                          "NormalizedTransitionDuration": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 0.35
+                            }
+                          },
+                          "ForceStart": true
+                        }
+                      ]
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "MDF_IsNegative"
+                      }
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "MDF_IsNegative"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MMonster_XP_Elite01_02_LocalLegend_Skill03_Mark"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "DynamicValues": {
+            "Floats": {
+              "826403211": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
+            }
+          }
+        }
+      },
+      "Name": "Monster_W4_Shooter_01_LocalLegend_SkillP01",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MMonster_W4_Shooter_01_LocalLegend_SkillP01"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MMonster_W4_Shooter_01_ConfineHit_Controller"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetCharacterPartsVisibility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AttachPoint": "Weapon",
+          "ShowPartList": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MMonster_W4_Shooter_01_Effect"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Monster_W4_Shooter_01_LocalLegend_Skill01_Phase01",
+      "TargetInfo": {
+        "TargetType": "AllEnemy"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.SetTeamFormation",
+          "Team": "TeamLight",
+          "FormationType": "LightTeamNormal",
+          "CustomFormationIgnoreDying": false
+        },
+        {
+          "$type": "RPG.GameCore.SetSkillTargetFormationByPos",
+          "Team": "TeamDark",
+          "CustomTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "CustomCenterTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "LightTeamCenter"
+          },
+          "IgnoreHitBoxRadius": true,
+          "TargetFormation": {
+            "LocalDelta": {
+              "X": 0,
+              "Y": 0,
+              "Z": 8
+            }
+          },
+          "LeftSideFormations": [
+            {},
+            {}
+          ],
+          "RightSideFormations": [
+            {},
+            {}
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.LookAt",
+          "TargetType": "TeamFormation"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityName": {
+            "Value": "Monster_W4_Shooter_01_LocalLegend_Skill01_Phase02"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityName": {
+            "Value": "Monster_W4_Shooter_01_Skill01_Camera"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "AnimStateName": "Skill01",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          },
+          "NormalizedTimeWait": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.885
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "AnimLogicState": "Idle",
+          "NormalizedTransitionDuration": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.25
+            }
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Monster_W4_Shooter_01_LocalLegend_Skill01_Phase02",
+      "TargetInfo": {
+        "TargetType": "AllEnemy"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.SkillExecutionStart"
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill01",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.382
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetCharacterPartsVisibility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AttachPoint": "Weapon",
+          "ShowPartList": [
+            1
+          ],
+          "SyncEffect": true
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill01",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.421
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.DamageByAttackProperty",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllEnemy"
+          },
+          "AttackProperty": {
+            "$type": "RPG.GameCore.AttackData",
+            "DamageType": {
+              "DamageType": "Physical"
+            },
+            "DamagePercentage": {
+              "IsDynamic": true,
+              "PostfixExpr": {
+                "OpCodes": "AQAR",
+                "FixedValues": [],
+                "DynamicHashes": [
+                  -1126825319
+                ]
+              }
+            },
+            "SPHitRatio": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 1
+              }
+            },
+            "IsFaceToHitDir": true,
+            "HitAnimation": "Hit",
+            "HitEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Shooter_01/Eff_Monster_W4_Shooter_01_Skill01_Hit.prefab",
+            "HitTimeSlowType": "Puncture"
+          },
+          "TriggerHitSound": true,
+          "DisplayData": {
+            "DitherRangeX": 0.02,
+            "DitherRangeY": 0.02
+          }
+        },
+        {
+          "$type": "RPG.GameCore.DamagePerformFinish"
+        },
+        {
+          "$type": "RPG.GameCore.VCameraConfigChange",
+          "CameraConfig": {
+            "ShakeConfigV2": {
+              "ShakeRange": 0.5,
+              "ShakeTime": 0.15,
+              "ShakeDir": {
+                "X": -0.1,
+                "Y": -0.1,
+                "Z": -0.2
+              },
+              "BaseCycle": 0.2,
+              "CycleDamping": 0,
+              "RangeAttenuation": 0.55,
+              "PerlinNoiseAmplitude": {
+                "X": 0.1,
+                "Y": 0.1,
+                "Z": 0.1
+              },
+              "PerlinNoiseFreq": {
+                "X": 16,
+                "Y": 14,
+                "Z": 12
+              }
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill01",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.911
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetCharacterPartsVisibility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AttachPoint": "Weapon",
+          "ShowPartList": [
+            1,
+            2,
+            3
+          ],
+          "SyncEffect": true
+        },
+        {
+          "$type": "RPG.GameCore.SkillPerformFinish"
+        }
+      ]
+    },
+    {
+      "Name": "Monster_W4_Shooter_01_LocalLegend02_SkillP01",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MMonster_W4_Shooter_01_ConfineHit_Controller"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetCharacterPartsVisibility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AttachPoint": "Weapon",
+          "ShowPartList": [
+            1,
+            2,
+            3
+          ],
+          "SyncEffect": true
+        }
+      ]
+    },
+    {
+      "Name": "Monster_W4_Shooter_01_LocalLegend02_Skill01_Phase01",
+      "TargetInfo": {
+        "TargetType": "AllEnemy"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.SetTeamFormation",
+          "FormationTarget": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "MMonster_W4_Claymore_01_LocalLegend_BlackCurse_Target"
+          },
+          "CustomFormationName": "Monster_4033020_LL_Skill01",
+          "CustomCenterTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "LightTeamCenter"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetSkillTargetFormationByPos",
+          "Team": "TeamDark",
+          "CustomTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "CustomCenterTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "LightTeamCenter"
+          },
+          "IgnoreHitBoxRadius": true,
+          "TargetFormation": {
+            "LocalDelta": {
+              "X": 0,
+              "Y": 0,
+              "Z": 8
+            }
+          },
+          "LeftSideFormations": [
+            {},
+            {}
+          ],
+          "RightSideFormations": [
+            {},
+            {}
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.LookAt",
+          "TargetType": "TeamFormation"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityName": {
+            "Value": "Monster_W4_Shooter_01_LocalLegend02_Skill01_Phase02"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityName": {
+            "Value": "Monster_W4_Shooter_01_LocalLegend02_Skill01_Camera"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "AnimStateName": "Skill01",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          },
+          "NormalizedTimeWait": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.885
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "AnimLogicState": "Idle",
+          "NormalizedTransitionDuration": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.25
+            }
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Monster_W4_Shooter_01_LocalLegend02_Skill01_Phase02",
+      "TargetInfo": {
+        "TargetType": "AllEnemy"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "MMonster_W4_Claymore_01_LocalLegend_BlackCurse_Target"
+          },
+          "ModifierName": {
+            "Value": "MMonster_AML_Minion02_01_RallyHP_Controller_V2"
+          },
+          "DynamicValues": {
+            "MDF_RallyTransferRatio": {
+              "IsDynamic": true,
+              "PostfixExpr": {
+                "OpCodes": "AQAR",
+                "FixedValues": [],
+                "DynamicHashes": [
+                  -147244550
+                ]
+              }
+            },
+            "MDF_Rally_HealPercentage": {
+              "IsDynamic": true,
+              "PostfixExpr": {
+                "OpCodes": "AQAR",
+                "FixedValues": [],
+                "DynamicHashes": [
+                  1794976316
+                ]
+              }
+            },
+            "MDF_Rally_HealUpRatio": {
+              "IsDynamic": true,
+              "PostfixExpr": {
+                "OpCodes": "AQAR",
+                "FixedValues": [],
+                "DynamicHashes": [
+                  -2028083939
+                ]
+              }
+            },
+            "MDF_Rally_Strongth_AllDamageTypeAddedRatio": {
+              "IsDynamic": true,
+              "PostfixExpr": {
+                "OpCodes": "AQAR",
+                "FixedValues": [],
+                "DynamicHashes": [
+                  -1089063255
+                ]
+              }
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SkillExecutionStart"
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill01",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.382
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetCharacterPartsVisibility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AttachPoint": "Weapon",
+          "ShowPartList": [
+            1
+          ],
+          "SyncEffect": true
+        },
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Shooter_01/Eff_Monster_W4_Shooter_01_Weapon.prefab",
+          "IsNeedFadeOut": false,
+          "ForceImmediateFadeOut": false
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill01",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.421
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.DamageByAttackProperty",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "MMonster_W4_Claymore_01_LocalLegend_BlackCurse_Target"
+          },
+          "AttackProperty": {
+            "$type": "RPG.GameCore.AttackData",
+            "DamageType": {
+              "DamageType": "Physical"
+            },
+            "DamagePercentage": {
+              "IsDynamic": true,
+              "PostfixExpr": {
+                "OpCodes": "AQAR",
+                "FixedValues": [],
+                "DynamicHashes": [
+                  -1126825319
+                ]
+              }
+            },
+            "SPHitRatio": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 1
+              }
+            },
+            "IsFaceToHitDir": true,
+            "HitAnimation": "Hit",
+            "HitEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Shooter_01/Eff_Monster_W4_Shooter_01_Skill01_Hit.prefab",
+            "HitTimeSlowType": "Puncture"
+          },
+          "TriggerHitSound": true,
+          "DisplayData": {
+            "DitherRangeX": 0.02,
+            "DitherRangeY": 0.02
+          }
+        },
+        {
+          "$type": "RPG.GameCore.DamagePerformFinish"
+        },
+        {
+          "$type": "RPG.GameCore.VCameraConfigChange",
+          "CameraConfig": {
+            "ShakeConfigV2": {
+              "ShakeRange": 0.5,
+              "ShakeTime": 0.15,
+              "ShakeDir": {
+                "X": -0.1,
+                "Y": -0.1,
+                "Z": -0.2
+              },
+              "BaseCycle": 0.2,
+              "CycleDamping": 0,
+              "RangeAttenuation": 0.55,
+              "PerlinNoiseAmplitude": {
+                "X": 0.1,
+                "Y": 0.1,
+                "Z": 0.1
+              },
+              "PerlinNoiseFreq": {
+                "X": 16,
+                "Y": 14,
+                "Z": 12
+              }
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill01",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.857
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetCharacterPartsVisibility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AttachPoint": "Weapon",
+          "ShowPartList": [
+            1,
+            2,
+            3
+          ],
+          "SyncEffect": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "IsAttachToTargetEntity": true,
+          "Flags": [
+            "Resident"
+          ],
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Shooter_01/Eff_Monster_W4_Shooter_01_Weapon.prefab",
+          "ForceSimulateImmediately": false,
+          "MinMutexTime": -1,
+          "MinMutexType": "Entity"
+        },
+        {
+          "$type": "RPG.GameCore.SkillPerformFinish"
+        }
+      ]
+    }
+  ]
+}

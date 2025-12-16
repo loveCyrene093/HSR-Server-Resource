@@ -1,0 +1,1465 @@
+{
+  "AbilityList": [
+    {
+      "Modifiers": {
+        "MMonster_W4_Scholar_01_LocalLegend_SkillP01": {
+          "BehaviorFlagList": [
+            "KeepOnDeathrattle"
+          ],
+          "OnDynamicValueChange": [
+            {
+              "Key": {
+                "Hash": 1179426341
+              },
+              "ContextScope": "ContextOwner",
+              "Ranges": [
+                {
+                  "Min": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "Max": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "MaxInclusive": true,
+                  "OnEnterRange": [
+                    {
+                      "$type": "RPG.GameCore.RemoveModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MMonster_AML_Minion02_01_LocalLegend_NegativeBlood"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "Min": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "Max": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "MaxInclusive": true,
+                  "OnEnterRange": [
+                    {
+                      "$type": "RPG.GameCore.TurnInsertAbility",
+                      "AbilityName": {
+                        "Value": "Monster_W4_Scholar_01_LocalLegend_Skill01_Phase01"
+                      },
+                      "AbilityTarget": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "InsertAbilityPriority": "MonsterReviveSelf",
+                      "CanRunOnUnselectableTarget": true,
+                      "ShowInActionBar": true
+                    },
+                    {
+                      "$type": "RPG.GameCore.RemoveModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MMonster_XP_Elite01_02_LocalLegend_Skill03_Mark"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "_CallbackList": [
+            {
+              "Event": "OnStack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.DefineDynamicValue",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "DynamicKey": {
+                    "Value": "MDF_IsNegative"
+                  },
+                  "ContextScope": "TargetEntity"
+                },
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MMonster_AML_Minion02_01_LocalLegend_NegativeBlood_LockHP"
+                  }
+                }
+              ]
+            },
+            {
+              "Event": "OnHPChange",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValueByProperty",
+                  "DynamicKey": "MDF_NegativeHP",
+                  "ReadTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "Value": "NegativeHP"
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "MDF_NegativeHP"
+                    },
+                    "CompareType": "Greater",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 0
+                      }
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByAnd",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "Caster"
+                            },
+                            "Flag": "STAT_CTRL",
+                            "Inverse": true
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "Caster"
+                            },
+                            "Flag": "Break",
+                            "Inverse": true
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "Caster"
+                            },
+                            "Flag": "DisableAction",
+                            "Inverse": true
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByCompareDynamicValue",
+                            "DynamicKey": {
+                              "Value": "MDF_IsNegative"
+                            },
+                            "CompareType": "Equal",
+                            "CompareValue": {
+                              "IsDynamic": false,
+                              "FixedValue": {
+                                "Value": 0
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.TriggerAnimState",
+                          "AnimStateName": "Stagger",
+                          "NormalizedTransitionDuration": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 0.35
+                            }
+                          },
+                          "ForceStart": true
+                        }
+                      ]
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "MDF_IsNegative"
+                      }
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "MDF_IsNegative"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MMonster_XP_Elite01_02_LocalLegend_Skill03_Mark"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "DynamicValues": {
+            "Floats": {
+              "826403211": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
+            }
+          }
+        }
+      },
+      "Name": "Monster_W4_Scholar_01_LocalLegend_SkillP01",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MMonster_W4_Scholar_01_ConfineHit_Controller"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MMonster_W4_Scholar_01_LocalLegend_SkillP01"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Monster_W4_Scholar_01_LocalLegend_Skill01_Phase01",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.WaitSecond",
+          "WaitTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.5
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityName": {
+            "Value": "Monster_W4_Scholar_01_LocalLegend_Skill01_Phase02"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityName": {
+            "Value": "Monster_W4_Scholar_01_Skill01_Camera"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.LookAt",
+          "TargetType": "TeamFormation"
+        },
+        {
+          "$type": "RPG.GameCore.WaitSecond",
+          "WaitTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.75
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "AnimStateName": "Skill01",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.9
+            }
+          },
+          "NormalizedTransitionDuration": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.2
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "AnimLogicState": "Idle"
+        }
+      ]
+    },
+    {
+      "Name": "Monster_W4_Scholar_01_LocalLegend_Skill01_Phase02",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByAnd",
+            "PredicateList": [
+              {
+                "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "Caster"
+                },
+                "Flag": "STAT_CTRL",
+                "Inverse": true
+              },
+              {
+                "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "Caster"
+                },
+                "Flag": "Break",
+                "Inverse": true
+              },
+              {
+                "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "Caster"
+                },
+                "Flag": "DisableAction",
+                "Inverse": true
+              }
+            ]
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerAnimState",
+              "AnimStateName": "Stagger_Recover"
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.DispelStatus",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "OnlyAlive": false,
+          "IsSilentDispel": true
+        },
+        {
+          "$type": "RPG.GameCore.ExitBreakState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.ResetStance",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MMonster_AML_Minion02_01_LocalLegend_NegativeBlood"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill01",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.5
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MMonster_W4_Scholar_01_LocalLegend_Stealth"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Monster_W4_Scholar_01_LocalLegend_Skill03_Phase01",
+      "TargetInfo": {
+        "TargetType": "SkillTargetEntityList"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityName": {
+            "Value": "Monster_W4_Scholar_01_LocalLegend_Skill03_Phase02"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityName": {
+            "Value": "Monster_W4_Scholar_01_Skill03_Camera"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.LookAt",
+          "TargetType": "AbilityTargetEntity"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimStateWithMove",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          },
+          "MovingRangeList": [
+            {
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AbilityTargetEntity"
+              },
+              "IgnoreRadius": true,
+              "OffsetTargetDistance": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1.8
+                }
+              },
+              "NormalizedTimeStart": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.065
+                }
+              },
+              "NormalizedTimeEnd": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.185
+                }
+              }
+            },
+            {
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "TeamFormation"
+              },
+              "IgnoreRadius": true,
+              "OffsetTargetDistance": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              },
+              "NormalizedTimeStart": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.518
+                }
+              },
+              "NormalizedTimeEnd": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.762
+                }
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "AnimLogicState": "Idle"
+        }
+      ]
+    },
+    {
+      "Name": "Monster_W4_Scholar_01_LocalLegend_Skill03_Phase02",
+      "TargetInfo": {
+        "TargetType": "SkillTargetEntityList"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.167
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.GlobalMainIntensityEffect",
+          "TargetIntensity": 0.2,
+          "FadeDuration": 0.1
+        },
+        {
+          "$type": "RPG.GameCore.GlobalTimeSlow",
+          "TimeScale": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.02
+            }
+          },
+          "UnscaledDuration": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.4
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.204
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.DamageByAttackProperty",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AbilityTargetEntity"
+          },
+          "AttackProperty": {
+            "$type": "RPG.GameCore.AttackData",
+            "DamageType": {
+              "DamageType": "Physical"
+            },
+            "DamagePercentage": {
+              "IsDynamic": true,
+              "PostfixExpr": {
+                "OpCodes": "AQAR",
+                "FixedValues": [],
+                "DynamicHashes": [
+                  -56289053
+                ]
+              }
+            },
+            "HitSplitRatio": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 0.25
+              }
+            },
+            "SPHitRatio": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 1
+              }
+            },
+            "AttackType": "Normal",
+            "HitAnimation": "Hit",
+            "HitEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Scholar_00/Eff_Monster_W4_Scholar_00_Skill02_Hit.prefab"
+          },
+          "DisplayData": {
+            "DitherRangeX": 0.03,
+            "DitherRangeY": 0.03
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.234
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.DamageByAttackProperty",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AbilityTargetEntity"
+          },
+          "AttackProperty": {
+            "$type": "RPG.GameCore.AttackData",
+            "DamageType": {
+              "DamageType": "Physical"
+            },
+            "DamagePercentage": {
+              "IsDynamic": true,
+              "PostfixExpr": {
+                "OpCodes": "AQAR",
+                "FixedValues": [],
+                "DynamicHashes": [
+                  -56289053
+                ]
+              }
+            },
+            "HitSplitRatio": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 0.25
+              }
+            },
+            "SPHitRatio": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 1
+              }
+            },
+            "AttackType": "Normal",
+            "HitAnimation": "Hit",
+            "HitEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Scholar_00/Eff_Monster_W4_Scholar_00_Skill02_Hit.prefab"
+          },
+          "DisplayData": {
+            "DitherRangeX": 0.03,
+            "DitherRangeY": 0.03
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.264
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.DamageByAttackProperty",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AbilityTargetEntity"
+          },
+          "AttackProperty": {
+            "$type": "RPG.GameCore.AttackData",
+            "DamageType": {
+              "DamageType": "Physical"
+            },
+            "DamagePercentage": {
+              "IsDynamic": true,
+              "PostfixExpr": {
+                "OpCodes": "AQAR",
+                "FixedValues": [],
+                "DynamicHashes": [
+                  -56289053
+                ]
+              }
+            },
+            "HitSplitRatio": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 0.5
+              }
+            },
+            "SPHitRatio": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 1
+              }
+            },
+            "AttackType": "Normal",
+            "HitAnimation": "Hit_H",
+            "HitEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Scholar_00/Eff_Monster_W4_Scholar_00_Skill02_Hit.prefab"
+          },
+          "DisplayData": {
+            "DitherRangeX": 0.03,
+            "DitherRangeY": 0.03
+          }
+        },
+        {
+          "$type": "RPG.GameCore.DamagePerformFinish"
+        },
+        {
+          "$type": "RPG.GameCore.RemoveModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MMonster_W4_Scholar_01_LocalLegend_Stealth"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.5
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.GlobalMainIntensityEffect",
+          "IsRevert": true,
+          "FadeDuration": 1
+        },
+        {
+          "$type": "RPG.GameCore.SkillPerformFinish"
+        }
+      ]
+    },
+    {
+      "Name": "Monster_W4_Scholar_01_LocalLegend02_Skill02_Phase01",
+      "TargetInfo": {
+        "TargetType": "SkillTargetEntityList"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityName": {
+            "Value": "Monster_W4_Scholar_01_LocalLegend02_Skill02_Phase02"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityName": {
+            "Value": "Monster_W4_Scholar_01_LocalLegend02_Skill02_Camera"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.LookAt",
+          "TargetType": "AbilityTargetEntity"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimStateWithMove",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill02",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          },
+          "MovingRangeList": [
+            {
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AbilityTargetEntity"
+              },
+              "IgnoreRadius": true,
+              "OffsetTargetDistance": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1.8
+                }
+              },
+              "NormalizedTimeStart": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.065
+                }
+              },
+              "NormalizedTimeEnd": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.185
+                }
+              }
+            },
+            {
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "TeamFormation"
+              },
+              "IgnoreRadius": true,
+              "OffsetTargetDistance": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              },
+              "NormalizedTimeStart": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.518
+                }
+              },
+              "NormalizedTimeEnd": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.762
+                }
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "AnimLogicState": "Idle"
+        }
+      ]
+    },
+    {
+      "Name": "Monster_W4_Scholar_01_LocalLegend02_Skill02_Phase02",
+      "TargetInfo": {
+        "TargetType": "SkillTargetEntityList"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "AnimStateName": "Skill02",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.204
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.DamageByAttackProperty",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AbilityTargetEntity"
+          },
+          "AttackProperty": {
+            "$type": "RPG.GameCore.AttackData",
+            "DamageType": {
+              "DamageType": "Physical"
+            },
+            "DamagePercentage": {
+              "IsDynamic": true,
+              "PostfixExpr": {
+                "OpCodes": "AQAR",
+                "FixedValues": [],
+                "DynamicHashes": [
+                  -1847083384
+                ]
+              }
+            },
+            "SPHitRatio": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 1
+              }
+            },
+            "AttackType": "Normal",
+            "HitAnimation": "Hit",
+            "HitEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Scholar_01/Eff_Monster_W4_Scholar_01_Skill02_Hit.prefab"
+          },
+          "DisplayData": {
+            "DitherRangeX": 0.03,
+            "DitherRangeY": 0.03
+          }
+        },
+        {
+          "$type": "RPG.GameCore.DamagePerformFinish"
+        },
+        {
+          "$type": "RPG.GameCore.SkillPerformFinish"
+        }
+      ]
+    },
+    {
+      "Name": "Monster_W4_Scholar_01_LocalLegend02_Skill03_Phase01",
+      "TargetInfo": {
+        "TargetType": "SkillTargetEntityList"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityName": {
+            "Value": "Monster_W4_Scholar_01_LocalLegend02_Skill03_Phase02"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityName": {
+            "Value": "Monster_W4_Scholar_01_LocalLegend02_Skill03_Camera"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.LookAt",
+          "TargetType": "AbilityTargetEntity"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimStateWithMove",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          },
+          "MovingRangeList": [
+            {
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AbilityTargetEntity"
+              },
+              "IgnoreRadius": true,
+              "OffsetTargetDistance": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1.8
+                }
+              },
+              "NormalizedTimeStart": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.065
+                }
+              },
+              "NormalizedTimeEnd": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.185
+                }
+              }
+            },
+            {
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "TeamFormation"
+              },
+              "IgnoreRadius": true,
+              "OffsetTargetDistance": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              },
+              "NormalizedTimeStart": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.518
+                }
+              },
+              "NormalizedTimeEnd": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.762
+                }
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "AnimLogicState": "Idle"
+        }
+      ]
+    },
+    {
+      "Name": "Monster_W4_Scholar_01_LocalLegend02_Skill03_Phase02",
+      "TargetInfo": {
+        "TargetType": "SkillTargetEntityList"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.07
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.11
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TargetTimeSlow",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "TimeScale": 0.01,
+          "UnscaledDuration": 0.2
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.156
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "Visible": true
+        },
+        {
+          "$type": "RPG.GameCore.RemoveModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MMonster_W4_Scholar_01_Stealth_Effect"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.167
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TargetTimeSlow",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "TimeScale": 0.02,
+          "UnscaledDuration": 0.4
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.204
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.DamageByAttackProperty",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AbilityTargetEntity"
+          },
+          "AttackProperty": {
+            "$type": "RPG.GameCore.AttackData",
+            "DamageType": {
+              "DamageType": "Physical"
+            },
+            "DamagePercentage": {
+              "IsDynamic": true,
+              "PostfixExpr": {
+                "OpCodes": "AQAR",
+                "FixedValues": [],
+                "DynamicHashes": [
+                  -56289053
+                ]
+              }
+            },
+            "SPHitRatio": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 1
+              }
+            },
+            "AttackType": "Normal",
+            "HitAnimation": "Hit_H",
+            "HitEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W4_Scholar_01/Eff_Monster_W4_Scholar_01_Skill03_Hit.prefab"
+          },
+          "DisplayData": {
+            "DitherRangeX": 0.03,
+            "DitherRangeY": 0.03,
+            "Scale": 2
+          }
+        },
+        {
+          "$type": "RPG.GameCore.DamagePerformFinish"
+        },
+        {
+          "$type": "RPG.GameCore.RemoveModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MMonster_W4_Scholar_01_Stealth"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "AnimStateName": "Skill03",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.5
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SkillPerformFinish"
+        }
+      ]
+    }
+  ],
+  "GlobalModifiers": {
+    "MMonster_W4_Scholar_01_LocalLegend_Stealth": {
+      "BehaviorFlagList": [
+        "Stealth"
+      ],
+      "_CallbackList": [
+        {
+          "Event": "OnCreate",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "ModifierName": {
+                "Value": "MMonster_W4_Scholar_01_Stealth_Effect"
+              }
+            }
+          ]
+        },
+        {
+          "Event": "OnDestroy",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.RemoveModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "ModifierName": {
+                "Value": "MMonster_W4_Scholar_01_Stealth_Effect"
+              }
+            }
+          ]
+        },
+        {
+          "Event": "OnListenCharacterDie",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByTargetTeam",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                },
+                "Team": "TeamDark"
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                  "Name": "TaskList_W4_Scholar_01_OnDieOrEscape"
+                }
+              ],
+              "FailedTaskList": []
+            }
+          ]
+        },
+        {
+          "Event": "OnListenCharacterEscape",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByTargetTeam",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                },
+                "Team": "TeamDark"
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                  "Name": "TaskList_W4_Scholar_01_OnDieOrEscape"
+                }
+              ],
+              "FailedTaskList": []
+            }
+          ]
+        },
+        {
+          "Event": "OnBeingBreak",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "ModifierName": {
+                "Value": "MMonster_W4_Scholar_01_LocalLegend_StealthBreak"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.RemoveSelfModifier"
+            }
+          ]
+        },
+        {
+          "Event": "OnListenModifierAdd",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByTargetTeam",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "Team": "TeamDark"
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByCheckModifierCallBackBehaviorFlag",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "Flag": "Stealth"
+                  }
+                ]
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                  "Name": "TaskList_W4_Scholar_01_OnDieOrEscape"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Event": "OnUnselectableStart",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByTargetTeam",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                },
+                "Team": "TeamDark"
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                  "Name": "TaskList_W4_Scholar_01_OnDieOrEscape"
+                }
+              ],
+              "FailedTaskList": []
+            }
+          ]
+        }
+      ],
+      "TaskListTemplate": [
+        {
+          "Name": "TaskList_W4_Scholar_01_OnDieOrEscape",
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByCompareCharacterNumber",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "AllDarkTeam"
+                    },
+                    "Predicate": {
+                      "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "Flag": "Stealth",
+                      "Inverse": true
+                    },
+                    "CompareType": "Equal",
+                    "CompareNumber": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 0
+                      }
+                    }
+                  }
+                ]
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.RemoveModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MMonster_W4_Scholar_01_LocalLegend_Stealth"
+                  }
+                }
+              ],
+              "FailedTaskList": []
+            }
+          ]
+        }
+      ]
+    },
+    "MMonster_W4_Scholar_01_LocalLegend_StealthBreak": {
+      "LifeTime": 1,
+      "LifeStepMoment": "ModifierPhase1End",
+      "BehaviorFlagList": [
+        "ForceHitH"
+      ],
+      "_CallbackList": [
+        {
+          "Event": "OnCreate",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.TriggerEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_SuperArmor_Break.prefab",
+              "ForceSimulateImmediately": false
+            },
+            {
+              "$type": "RPG.GameCore.ModifierAttachEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Common/Eff_Common_SuperArmor_Break_Loop.prefab"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

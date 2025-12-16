@@ -1303,6 +1303,18 @@
             {
               "$type": "RPG.GameCore.SetDynamicValue",
               "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              },
+              "DynamicKey": {
+                "Value": "EnergyBar_UltraATKCount"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "Value": {
                 "IsDynamic": true,
                 "PostfixExpr": {
                   "OpCodes": "AQAR",
@@ -1319,14 +1331,30 @@
             {
               "$type": "RPG.GameCore.SetDynamicValue",
               "Value": {
-                "IsDynamic": false,
-                "FixedValue": {
-                  "Value": 0
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    1912601768
+                  ]
                 }
               },
               "DynamicKey": {
-                "Value": "EnergyBar_UltraATKCount"
+                "Value": "EnergyBar_ATKCountSum"
               }
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByModifierValue",
+              "ModifierName": "MAvatar_JingYuan_00_BattleEvent_ATKCount",
+              "ValueType": "Layer",
+              "Multiplier": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "DynamicKey": "AttackCount_LeftLayer"
             },
             {
               "$type": "RPG.GameCore.AddModifier",
@@ -1350,10 +1378,11 @@
               "LayerAddWhenStack": {
                 "IsDynamic": true,
                 "PostfixExpr": {
-                  "OpCodes": "AQAR",
+                  "OpCodes": "AQABAQMR",
                   "FixedValues": [],
                   "DynamicHashes": [
-                    1912601768
+                    1912601768,
+                    1338380780
                   ]
                 }
               }
@@ -1539,7 +1568,7 @@
               "Index": 0
             }
           },
-          "-969590014": {
+          "1338380780": {
             "ReadInfo": {
               "Type": "None",
               "Index": 0
@@ -3484,7 +3513,8 @@
                     "Value": 0
                   }
                 }
-              }
+              },
+              "CanRunOnUnselectableTarget": true
             }
           ]
         },
@@ -3572,7 +3602,8 @@
                     ]
                   }
                 }
-              }
+              },
+              "CanRunOnUnselectableTarget": true
             },
             {
               "$type": "RPG.GameCore.RemoveSelfModifier"
@@ -3787,36 +3818,21 @@
               },
               "SuccessTaskList": [
                 {
-                  "$type": "RPG.GameCore.LoopExecuteTaskList",
-                  "MaxLoopCount": {
+                  "$type": "RPG.GameCore.ModifySPNew",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "AddValue": {
                     "IsDynamic": true,
                     "PostfixExpr": {
                       "OpCodes": "AQAR",
                       "FixedValues": [],
                       "DynamicHashes": [
-                        -969590014
+                        178092554
                       ]
                     }
-                  },
-                  "TaskList": [
-                    {
-                      "$type": "RPG.GameCore.ModifySPNew",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "Caster"
-                      },
-                      "AddValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAR",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            178092554
-                          ]
-                        }
-                      }
-                    }
-                  ]
+                  }
                 }
               ]
             },
@@ -3830,51 +3846,36 @@
               },
               "SuccessTaskList": [
                 {
-                  "$type": "RPG.GameCore.LoopExecuteTaskList",
-                  "MaxLoopCount": {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MAvatar_JingYuan_00_Rank06_AllDamageTypeTakenRatio"
+                  },
+                  "MaxLayer": {
                     "IsDynamic": true,
                     "PostfixExpr": {
                       "OpCodes": "AQAR",
                       "FixedValues": [],
                       "DynamicHashes": [
-                        -969590014
+                        379544836
                       ]
                     }
                   },
-                  "TaskList": [
-                    {
-                      "$type": "RPG.GameCore.AddModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ParamEntity"
-                      },
-                      "ModifierName": {
-                        "Value": "MAvatar_JingYuan_00_Rank06_AllDamageTypeTakenRatio"
-                      },
-                      "MaxLayer": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAR",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            379544836
-                          ]
-                        }
-                      },
-                      "DynamicValues": {
-                        "MDF_PropertyValue": {
-                          "IsDynamic": true,
-                          "PostfixExpr": {
-                            "OpCodes": "AQAR",
-                            "FixedValues": [],
-                            "DynamicHashes": [
-                              -1452301688
-                            ]
-                          }
-                        }
+                  "DynamicValues": {
+                    "MDF_PropertyValue": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQAR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          -1452301688
+                        ]
                       }
                     }
-                  ]
+                  }
                 }
               ]
             },
@@ -4063,36 +4064,21 @@
               },
               "SuccessTaskList": [
                 {
-                  "$type": "RPG.GameCore.LoopExecuteTaskList",
-                  "MaxLoopCount": {
+                  "$type": "RPG.GameCore.ModifySPNew",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "AddValue": {
                     "IsDynamic": true,
                     "PostfixExpr": {
                       "OpCodes": "AQAR",
                       "FixedValues": [],
                       "DynamicHashes": [
-                        -969590014
+                        178092554
                       ]
                     }
-                  },
-                  "TaskList": [
-                    {
-                      "$type": "RPG.GameCore.ModifySPNew",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "Caster"
-                      },
-                      "AddValue": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAR",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            178092554
-                          ]
-                        }
-                      }
-                    }
-                  ]
+                  }
                 }
               ]
             },
@@ -4106,51 +4092,36 @@
               },
               "SuccessTaskList": [
                 {
-                  "$type": "RPG.GameCore.LoopExecuteTaskList",
-                  "MaxLoopCount": {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ParamEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MAvatar_JingYuan_00_Rank06_AllDamageTypeTakenRatio"
+                  },
+                  "MaxLayer": {
                     "IsDynamic": true,
                     "PostfixExpr": {
                       "OpCodes": "AQAR",
                       "FixedValues": [],
                       "DynamicHashes": [
-                        -969590014
+                        379544836
                       ]
                     }
                   },
-                  "TaskList": [
-                    {
-                      "$type": "RPG.GameCore.AddModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ParamEntity"
-                      },
-                      "ModifierName": {
-                        "Value": "MAvatar_JingYuan_00_Rank06_AllDamageTypeTakenRatio"
-                      },
-                      "MaxLayer": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAR",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            379544836
-                          ]
-                        }
-                      },
-                      "DynamicValues": {
-                        "MDF_PropertyValue": {
-                          "IsDynamic": true,
-                          "PostfixExpr": {
-                            "OpCodes": "AQAR",
-                            "FixedValues": [],
-                            "DynamicHashes": [
-                              -1452301688
-                            ]
-                          }
-                        }
+                  "DynamicValues": {
+                    "MDF_PropertyValue": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQAR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          -1452301688
+                        ]
                       }
                     }
-                  ]
+                  }
                 }
               ]
             }

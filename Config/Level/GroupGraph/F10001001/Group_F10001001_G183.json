@@ -4,6 +4,46 @@
     {
       "TaskList": [
         {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "EnterDistrict_G{GroupID}"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerPerformance",
+              "ValueSource": {},
+              "PerformanceType": "D",
+              "PerformanceID": 204370122,
+              "MaskConfig": {
+                "UseExcelData": false
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PerformanceEndSeq",
+              "Cases": [
+                {
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.AdvCreateGroupEntityV2",
+                      "InstanceIDList": [
+                        400002
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.ClientFinishMission",
+              "SubmissionID": 204370120
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
           "$type": "RPG.GameCore.CollectDataConditions",
           "TaskIDList": [
             204370120,
@@ -14,56 +54,6 @@
           "PerformanceIDDsList": [],
           "CustomValueMainMissionIDList": []
         },
-        {
-          "$type": "RPG.GameCore.WaitGroupEvent",
-          "EventName": {
-            "Value": "EnterDistrict_G{GroupID}"
-          },
-          "OnEvent": [
-            {
-              "$type": "RPG.GameCore.PredicateTaskList",
-              "Predicate": {
-                "$type": "RPG.GameCore.ByCompareSubMissionState",
-                "SubMissionID": 204370120,
-                "SubMissionState": "Started"
-              },
-              "SuccessTaskList": [
-                {
-                  "$type": "RPG.GameCore.TriggerPerformance",
-                  "ValueSource": {},
-                  "PerformanceType": "D",
-                  "PerformanceID": 204370122,
-                  "MaskConfig": {
-                    "UseExcelData": false
-                  }
-                },
-                {
-                  "$type": "RPG.GameCore.PerformanceEndSeq",
-                  "Cases": [
-                    {
-                      "OnSuccess": [
-                        {
-                          "$type": "RPG.GameCore.AdvCreateGroupEntityV2",
-                          "InstanceIDList": [
-                            400002
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "$type": "RPG.GameCore.ClientFinishMission",
-                  "SubmissionID": 204370120
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "TaskList": [
         {
           "$type": "RPG.GameCore.AdvDistrictSetupTrigger",
           "GroupID": {
@@ -82,10 +72,20 @@
           "TickInterval": 0.3,
           "OnEnter": [
             {
-              "$type": "RPG.GameCore.TriggerGroupEvent",
-              "EventName": {
-                "Value": "EnterDistrict_G{GroupID}"
-              }
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareSubMissionState",
+                "SubMissionID": 204370120,
+                "SubMissionState": "Started"
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "EnterDistrict_G{GroupID}"
+                  }
+                }
+              ]
             }
           ]
         }

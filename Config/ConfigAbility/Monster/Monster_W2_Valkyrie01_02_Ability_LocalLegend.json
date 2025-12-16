@@ -1,0 +1,507 @@
+{
+  "AbilityList": [
+    {
+      "Modifiers": {
+        "MMonster_W2_Valkyrie01_02_LocalLegend_SkillP01": {
+          "BehaviorFlagList": [
+            "KeepOnDeathrattle"
+          ],
+          "OnDynamicValueChange": [
+            {
+              "Key": {
+                "Hash": 1179426341
+              },
+              "ContextScope": "ContextOwner",
+              "Ranges": [
+                {
+                  "Min": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "Max": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "MaxInclusive": true,
+                  "OnEnterRange": [
+                    {
+                      "$type": "RPG.GameCore.RemoveModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MMonster_AML_Minion02_01_LocalLegend_NegativeBlood"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "Min": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "Max": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "MaxInclusive": true,
+                  "OnEnterRange": [
+                    {
+                      "$type": "RPG.GameCore.TriggerAnimState",
+                      "AnimStateName": "Stun_Occur",
+                      "NormalizedTransitionDuration": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0.25
+                        }
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.CharacterChangePhase",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "Caster"
+                      },
+                      "PhaseName": "Phase2",
+                      "PhaseAnimConfig": {
+                        "StandBy": "Stun_Loop",
+                        "Hit": "Hit_Stun",
+                        "HitH": "Hit_H_Stun"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.TurnInsertAbility",
+                      "AbilityName": {
+                        "Value": "Monster_AML_Minion02_01_LocalLegend_NagetiveBlood_Enter"
+                      },
+                      "AbilityTarget": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "InsertAbilityPriority": "MonsterReviveSelf",
+                      "CanRunOnUnselectableTarget": true,
+                      "ShowInActionBar": true
+                    },
+                    {
+                      "$type": "RPG.GameCore.RemoveModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MMonster_XP_Elite01_02_LocalLegend_Skill03_Mark"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "_CallbackList": [
+            {
+              "Event": "OnStack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.DefineDynamicValue",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "DynamicKey": {
+                    "Value": "MDF_IsNegative"
+                  },
+                  "ContextScope": "TargetEntity"
+                },
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MMonster_AML_Minion02_01_LocalLegend_NegativeBlood_LockHP"
+                  }
+                }
+              ]
+            },
+            {
+              "Event": "OnHPChange",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValueByProperty",
+                  "DynamicKey": "MDF_NegativeHP",
+                  "ReadTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "Value": "NegativeHP"
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "MDF_NegativeHP"
+                    },
+                    "CompareType": "Greater",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 0
+                      }
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByAnd",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "Caster"
+                            },
+                            "Flag": "STAT_CTRL",
+                            "Inverse": true
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "Caster"
+                            },
+                            "Flag": "Break",
+                            "Inverse": true
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "Caster"
+                            },
+                            "Flag": "DisableAction",
+                            "Inverse": true
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByCompareDynamicValue",
+                            "DynamicKey": {
+                              "Value": "MDF_IsNegative"
+                            },
+                            "CompareType": "Equal",
+                            "CompareValue": {
+                              "IsDynamic": false,
+                              "FixedValue": {
+                                "Value": 0
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.TriggerAnimState",
+                          "AnimStateName": "Stagger",
+                          "NormalizedTransitionDuration": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 0.35
+                            }
+                          },
+                          "ForceStart": true
+                        }
+                      ]
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "MDF_IsNegative"
+                      }
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "MDF_IsNegative"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MMonster_XP_Elite01_02_LocalLegend_Skill03_Mark"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "DynamicValues": {
+            "Floats": {
+              "826403211": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
+            }
+          }
+        }
+      },
+      "Name": "Monster_W2_Valkyrie01_02_LocalLegend_SkillP01",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MMonster_W2_Valkyrie01_02_LocalLegend_SkillP01"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Monster_W2_Valkyrie01_02_LocalLegend_Skill02_Phase01",
+      "TargetInfo": {
+        "TargetType": "AllEnemy"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.SetTeamFormation",
+          "Team": "TeamLight",
+          "FormationType": "LightTeamNormal",
+          "ServantState": "DefaultFollow",
+          "CustomFormationIgnoreDying": false
+        },
+        {
+          "$type": "RPG.GameCore.SetTeamFormation",
+          "Team": "TeamDark",
+          "CustomFormationName": "Monster_XP_Elite01_01_Skill03",
+          "CustomCenterTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "LightTeamCenter"
+          },
+          "CustomFormationIgnoreDying": false
+        },
+        {
+          "$type": "RPG.GameCore.LookAt",
+          "TargetType": "TeamFormation"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityName": {
+            "Value": "Monster_W2_Valkyrie01_02_LocalLegend_Skill02_Phase02"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityName": {
+            "Value": "Monster_W2_Valkyrie01_02_Skill02_Camera"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.MoveToTargetList",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill02",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          },
+          "MovingRangeList": [
+            {
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "EnemyTeamCenter"
+              },
+              "IgnoreRadius": true,
+              "OffsetTargetDistance": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 3
+                }
+              },
+              "NormalizedTimeStart": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.311
+                }
+              },
+              "NormalizedTimeEnd": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.404
+                }
+              }
+            },
+            {
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "FriendTeamCenter"
+              },
+              "IgnoreRadius": true,
+              "OffsetTargetDistance": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              },
+              "NormalizedTimeStart": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.721
+                }
+              },
+              "NormalizedTimeEnd": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.809
+                }
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAnimState",
+          "AnimLogicState": "Idle"
+        }
+      ]
+    },
+    {
+      "Name": "Monster_W2_Valkyrie01_02_LocalLegend_Skill02_Phase02",
+      "TargetInfo": {
+        "TargetType": "AllEnemy"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill02",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.1
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SkillExecutionStart"
+        },
+        {
+          "$type": "RPG.GameCore.WaitAnimState",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AnimStateName": "Skill02",
+          "NormalizedTimeEnd": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.48837206
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetDynamicValueByCharacterCount",
+          "DynamicKey": "TargetCount",
+          "ReadTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllEnemy"
+          },
+          "AliveOnly": true
+        },
+        {
+          "$type": "RPG.GameCore.DamageByAttackProperty",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllEnemy"
+          },
+          "AttackProperty": {
+            "$type": "RPG.GameCore.AttackData",
+            "DamageType": {
+              "DamageType": "Fire"
+            },
+            "DamagePercentage": {
+              "IsDynamic": true,
+              "PostfixExpr": {
+                "OpCodes": "AQABAQUR",
+                "FixedValues": [],
+                "DynamicHashes": [
+                  -1847083384,
+                  -955752910
+                ]
+              }
+            },
+            "SPHitRatio": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 1
+              }
+            },
+            "HitAnimation": "Hit_H",
+            "HitEffect": "Effects/Eff_Prefab/Eff_Monster/Eff_W2_Valkyrie01_02/Eff_Monster_W2_Valkyrie01_02_Skill02_Hit.prefab",
+            "HitEffectHeight": 0.88,
+            "HitTimeSlowType": "Slash"
+          },
+          "TriggerHitSound": true,
+          "DisplayData": {}
+        },
+        {
+          "$type": "RPG.GameCore.DamagePerformFinish"
+        },
+        {
+          "$type": "RPG.GameCore.SkillPerformFinish"
+        }
+      ]
+    }
+  ]
+}

@@ -1484,54 +1484,67 @@
               "Event": "OnTriggerDeath",
               "CallbackConfig": [
                 {
-                  "$type": "RPG.GameCore.SetDynamicValue",
-                  "Value": {
-                    "IsDynamic": true,
-                    "PostfixExpr": {
-                      "OpCodes": "AQAAAAIR",
-                      "FixedValues": [
-                        {
-                          "Value": 1
-                        }
-                      ],
-                      "DynamicHashes": [
-                        -1214538722
-                      ]
-                    }
-                  },
-                  "DynamicKey": {
-                    "Value": "_KillCount"
-                  }
-                },
-                {
                   "$type": "RPG.GameCore.PredicateTaskList",
                   "Predicate": {
-                    "$type": "RPG.GameCore.ByCompareDynamicValue",
-                    "DynamicKey": {
-                      "Value": "_KillCount"
+                    "$type": "RPG.GameCore.ByTargetTeam",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
                     },
-                    "CompareType": "GreaterEqual",
-                    "CompareValue": {
-                      "IsDynamic": true,
-                      "PostfixExpr": {
-                        "OpCodes": "AQAR",
-                        "FixedValues": [],
-                        "DynamicHashes": [
-                          1625755410
-                        ]
-                      }
-                    }
+                    "Team": "TeamDark"
                   },
                   "SuccessTaskList": [
                     {
-                      "$type": "RPG.GameCore.AddModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "Caster"
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAAAAIR",
+                          "FixedValues": [
+                            {
+                              "Value": 1
+                            }
+                          ],
+                          "DynamicHashes": [
+                            -1214538722
+                          ]
+                        }
                       },
-                      "ModifierName": {
-                        "Value": "MGridFight_Equipment_Normal_0205_Sub2"
+                      "DynamicKey": {
+                        "Value": "_KillCount"
                       }
+                    },
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "DynamicKey": {
+                          "Value": "_KillCount"
+                        },
+                        "CompareType": "GreaterEqual",
+                        "CompareValue": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AQAR",
+                            "FixedValues": [],
+                            "DynamicHashes": [
+                              1625755410
+                            ]
+                          }
+                        }
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.AddModifier",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "Caster"
+                          },
+                          "ModifierName": {
+                            "Value": "MGridFight_Equipment_Normal_0205_Sub2"
+                          }
+                        }
+                      ]
                     }
                   ]
                 }
@@ -4243,34 +4256,82 @@
                 {
                   "$type": "RPG.GameCore.PredicateTaskList",
                   "Predicate": {
-                    "$type": "RPG.GameCore.ByTargetListIntersects",
-                    "FirstTargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ParamEntity"
-                    },
-                    "SecondTargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "GridFight_AllBackEnd + AllLightTeamWithAllLightTeamUnselectable.RemoveBattleEvent"
-                    }
+                    "$type": "RPG.GameCore.ByAny",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByCompareCharacterID",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "TargetCharacterID": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 1208
+                          }
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCompareCharacterID",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "TargetCharacterID": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 1203
+                          }
+                        }
+                      }
+                    ]
                   },
                   "SuccessTaskList": [
                     {
-                      "$type": "RPG.GameCore.HealHP",
+                      "$type": "RPG.GameCore.AddModifier",
                       "TargetType": {
                         "$type": "RPG.GameCore.TargetAlias",
                         "Alias": "ParamEntity"
                       },
-                      "FormulaType": "HealByHealerMaxHP",
-                      "HealPercentage": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAR",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            1625755410
-                          ]
-                        }
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0508_DelayHeal"
                       }
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByTargetListIntersects",
+                        "FirstTargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "SecondTargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "GridFight_AllBackEnd + AllLightTeamWithAllLightTeamUnselectable.RemoveBattleEvent"
+                        }
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.HealHP",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ParamEntity"
+                          },
+                          "FormulaType": "HealByHealerMaxHP",
+                          "HealPercentage": {
+                            "IsDynamic": true,
+                            "PostfixExpr": {
+                              "OpCodes": "AQAR",
+                              "FixedValues": [],
+                              "DynamicHashes": [
+                                1625755410
+                              ]
+                            }
+                          }
+                        }
+                      ]
                     }
                   ]
                 }
@@ -4278,6 +4339,37 @@
             }
           ],
           "Stacking": "ReplaceByCasterAbility"
+        },
+        "MGridFight_Equipment_Normal_0508_DelayHeal": {
+          "_CallbackList": [
+            {
+              "Event": "OnInsertAbilityFinish",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.HealHP",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "FormulaType": "HealByHealerMaxHP",
+                  "HealPercentage": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        1625755410
+                      ]
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.RemoveSelfModifier"
+                }
+              ]
+            }
+          ],
+          "Stacking": "Replace"
         }
       },
       "Name": "GridFight_Equipment_Normal_0508",
@@ -4541,7 +4633,7 @@
                         "$type": "RPG.GameCore.TargetAlias",
                         "Alias": "Caster"
                       },
-                      "WhitelistChangeReason": "Mask_TurnBasedAdvance",
+                      "WhitelistChangeReason": 142,
                       "WhitelistChangeType": "Bit_Decrease",
                       "Preshow_UnlockOnBreak": true
                     }
@@ -8880,8 +8972,7 @@
     },
     "MGridFight_Equipment_Normal_0407_Sub3": {
       "BehaviorFlagList": [
-        "Endurance",
-        "EnduranceEnemyOnly"
+        "Endurance"
       ],
       "_CallbackList": [
         {

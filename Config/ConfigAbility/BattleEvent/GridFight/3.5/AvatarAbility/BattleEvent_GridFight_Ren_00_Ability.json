@@ -1159,10 +1159,7 @@
         {
           "$type": "RPG.GameCore.TurnInsertAction",
           "PrepareAbilityName": "StageAbility_GridFight_AdvancedRen_00_Bonus",
-          "Priority": {
-            "EnumIndex": 8,
-            "Value": 101
-          },
+          "InsertActionPriority": "Character_HighPriorityAction",
           "CanInsertUltraSkill": true
         },
         {
@@ -2019,6 +2016,7 @@
                       }
                     }
                   },
+                  "CanRunOnUnselectableTarget": true,
                   "ShowInActionBar": true,
                   "PreCheck": {
                     "$type": "RPG.GameCore.TurnInsertAbilityCondition",
@@ -2034,9 +2032,164 @@
                     "$type": "RPG.GameCore.ByHaveEnemyAlive",
                     "TargetType": {
                       "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "Caster"
-                    },
-                    "IncludeUnselectable": true
+                      "Alias": "ParamEntity"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Event": "OnListenAfterAction",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByModifierValue",
+              "ValueType": "Layer",
+              "Multiplier": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "DynamicKey": "_Layer"
+            },
+            {
+              "$type": "RPG.GameCore.SetEnergyBarState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "Active": "True",
+              "BarType": 2,
+              "CurrentState": "Normal",
+              "CD": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              },
+              "IconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1205Passive.png",
+              "MaxCount": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    343516422
+                  ]
+                }
+              },
+              "CurrentCount": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    1912601768
+                  ]
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareModifierValue",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ModifierOwnerEntity"
+                },
+                "ValueType": "Layer",
+                "CompareType": "GreaterEqual",
+                "CompareValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      343516422
+                    ]
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetEnergyBarState",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "Active": "True",
+                  "BarType": 2,
+                  "CurrentState": "Active",
+                  "CD": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "IconPath": "SpriteOutput/BuffIcon/Inlevel/Avatar/Icon1205Passive.png",
+                  "MaxCount": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        343516422
+                      ]
+                    }
+                  },
+                  "CurrentCount": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        1912601768
+                      ]
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.TurnInsertAbility",
+                  "AbilityName": {
+                    "Value": "StageAbility_GridFight_AdvancedRen_00_Passive1Atk_Ability"
+                  },
+                  "AbilityTarget": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "AllDarkTeam"
+                  },
+                  "InsertAbilityPriority": "AvatarInsertAttackSelf",
+                  "DynamicValues": {
+                    "MDF_MaxCharge": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQAR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          343516422
+                        ]
+                      }
+                    }
+                  },
+                  "CanRunOnUnselectableTarget": true,
+                  "ShowInActionBar": true,
+                  "PreCheck": {
+                    "$type": "RPG.GameCore.TurnInsertAbilityCondition",
+                    "Type": "AbilityOwnerInsertCount",
+                    "Count": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 1
+                      }
+                    }
+                  },
+                  "ActivePredicate": {
+                    "$type": "RPG.GameCore.ByHaveEnemyAlive",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    }
                   }
                 }
               ]
@@ -2175,6 +2328,7 @@
                       }
                     }
                   },
+                  "CanRunOnUnselectableTarget": true,
                   "ShowInActionBar": true,
                   "PreCheck": {
                     "$type": "RPG.GameCore.TurnInsertAbilityCondition",
@@ -2190,9 +2344,8 @@
                     "$type": "RPG.GameCore.ByHaveEnemyAlive",
                     "TargetType": {
                       "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "Caster"
-                    },
-                    "IncludeUnselectable": true
+                      "Alias": "ParamEntity"
+                    }
                   }
                 }
               ]
@@ -2331,6 +2484,7 @@
                       }
                     }
                   },
+                  "CanRunOnUnselectableTarget": true,
                   "ShowInActionBar": true,
                   "PreCheck": {
                     "$type": "RPG.GameCore.TurnInsertAbilityCondition",
@@ -2346,9 +2500,8 @@
                     "$type": "RPG.GameCore.ByHaveEnemyAlive",
                     "TargetType": {
                       "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "Caster"
-                    },
-                    "IncludeUnselectable": true
+                      "Alias": "ParamEntity"
+                    }
                   }
                 }
               ]
@@ -2487,6 +2640,7 @@
                       }
                     }
                   },
+                  "CanRunOnUnselectableTarget": true,
                   "ShowInActionBar": true,
                   "PreCheck": {
                     "$type": "RPG.GameCore.TurnInsertAbilityCondition",
@@ -2502,9 +2656,8 @@
                     "$type": "RPG.GameCore.ByHaveEnemyAlive",
                     "TargetType": {
                       "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "Caster"
-                    },
-                    "IncludeUnselectable": true
+                      "Alias": "ParamEntity"
+                    }
                   }
                 }
               ]

@@ -308,20 +308,29 @@
                           "$type": "RPG.GameCore.AddModifier",
                           "TargetType": {
                             "$type": "RPG.GameCore.TargetAlias",
-                            "Alias": "ParamEntity"
-                          },
-                          "ModifierName": {
-                            "Value": "MStageAbility_GridFight_Yunli_00_Blocking_ForTeammate"
-                          }
-                        },
-                        {
-                          "$type": "RPG.GameCore.AddModifier",
-                          "TargetType": {
-                            "$type": "RPG.GameCore.TargetAlias",
                             "Alias": "ModifierOwnerEntity"
                           },
                           "ModifierName": {
                             "Value": "MStageAbility_GridFight_Yunli_00_BlockingCD"
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.SetModifierDynamicValue",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ParamEntity"
+                          },
+                          "ModifierName": {
+                            "Value": "MStageAbility_GridFight_Yunli_00_Blocking_ForTeammate"
+                          },
+                          "DynamicKey": {
+                            "Value": "TeamMateBlock"
+                          },
+                          "NewValue": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 1
+                            }
                           }
                         },
                         {
@@ -627,6 +636,7 @@
                               }
                             }
                           },
+                          "CanRunOnUnselectableTarget": true,
                           "ShowInActionBar": true,
                           "PreCheck": {
                             "$type": "RPG.GameCore.TurnInsertAbilityCondition",
@@ -780,6 +790,16 @@
                         ]
                       }
                     }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "AllLightTeam"
+                  },
+                  "ModifierName": {
+                    "Value": "MStageAbility_GridFight_Yunli_00_Blocking_ForTeammate"
                   }
                 }
               ]
@@ -944,6 +964,54 @@
                       "ModifierName": {
                         "Value": "MStageAbility_GridFight_Yunli_00_BlockingCD"
                       }
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetModifierDynamicValue",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "AllLightTeam"
+                      },
+                      "ModifierName": {
+                        "Value": "MStageAbility_GridFight_Yunli_00_Blocking_ForTeammate"
+                      },
+                      "DynamicKey": {
+                        "Value": "TeamMateBlock"
+                      },
+                      "NewValue": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnListenBeforeAction",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareTarget",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "CompareType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "Inverse": true
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetEntityForceVisible",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      }
                     }
                   ]
                 }
@@ -1051,6 +1119,7 @@
                               }
                             }
                           },
+                          "CanRunOnUnselectableTarget": true,
                           "ShowInActionBar": true,
                           "PreCheck": {
                             "$type": "RPG.GameCore.TurnInsertAbilityCondition",
@@ -1183,6 +1252,7 @@
                               }
                             }
                           },
+                          "CanRunOnUnselectableTarget": true,
                           "ShowInActionBar": true,
                           "PreCheck": {
                             "$type": "RPG.GameCore.TurnInsertAbilityCondition",
@@ -1325,6 +1395,7 @@
                                   }
                                 }
                               },
+                              "CanRunOnUnselectableTarget": true,
                               "ShowInActionBar": true,
                               "PreCheck": {
                                 "$type": "RPG.GameCore.TurnInsertAbilityCondition",
@@ -2926,16 +2997,6 @@
           "Event": "OnDestroy",
           "CallbackConfig": [
             {
-              "$type": "RPG.GameCore.RemoveModifier",
-              "TargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "AllLightTeam"
-              },
-              "ModifierName": {
-                "Value": "MStageAbility_GridFight_Yunli_00_Blocking_ForTeammate"
-              }
-            },
-            {
               "$type": "RPG.GameCore.SetEnergyBarState",
               "TargetType": {
                 "$type": "RPG.GameCore.TargetAlias",
@@ -3059,49 +3120,52 @@
       ],
       "_CallbackList": [
         {
-          "Event": "OnDestroy",
-          "CallbackConfig": [
-            {
-              "$type": "RPG.GameCore.SetLocalOffsetAsMoveTarget",
-              "TargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "ModifierOwnerEntity"
-              }
-            }
-          ]
-        },
-        {
           "Event": "OnBeforeBeingHit",
           "CallbackConfig": [
             {
-              "$type": "RPG.GameCore.ModifyDamageData",
-              "AttackData_ConstFinalDamage": {
-                "IsDynamic": false,
-                "FixedValue": {
-                  "Value": 0
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ModifierOwnerEntity"
+                },
+                "DynamicKey": {
+                  "Value": "TeamMateBlock"
+                },
+                "CompareType": "Equal",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 1
+                  }
                 }
-              }
-            }
-          ]
-        },
-        {
-          "Event": "OnStack",
-          "CallbackConfig": [
-            {
-              "$type": "RPG.GameCore.SetLocalOffsetAsMoveTarget",
-              "TargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "ModifierOwnerEntity"
               },
-              "LocalOffset": {
-                "X": 0,
-                "Y": 0,
-                "Z": 1
-              }
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.ModifyDamageData",
+                  "AttackData_ConstFinalDamage": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  }
+                }
+              ]
             }
           ]
         }
-      ]
+      ],
+      "DynamicValues": {
+        "Floats": {
+          "363477005": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
+        }
+      }
     },
     "MStageAbility_GridFight_Yunli_00_BlockingCD": {
       "BehaviorFlagList": [
