@@ -2333,18 +2333,35 @@
                         {
                           "$type": "RPG.GameCore.PredicateTaskList",
                           "Predicate": {
-                            "$type": "RPG.GameCore.ByCompareTargetCount",
-                            "TargetType": {
-                              "$type": "RPG.GameCore.TargetAlias",
-                              "Alias": "ParamEntityAttackTargetList"
-                            },
-                            "Number": {
-                              "IsDynamic": false,
-                              "FixedValue": {
-                                "Value": 1
+                            "$type": "RPG.GameCore.ByAnd",
+                            "PredicateList": [
+                              {
+                                "$type": "RPG.GameCore.ByCompareTargetCount",
+                                "TargetType": {
+                                  "$type": "RPG.GameCore.TargetAlias",
+                                  "Alias": "ParamEntityAttackTargetList"
+                                },
+                                "Number": {
+                                  "IsDynamic": false,
+                                  "FixedValue": {
+                                    "Value": 1
+                                  }
+                                },
+                                "CompareType": "Equal"
+                              },
+                              {
+                                "$type": "RPG.GameCore.ByIsTargetUnselectable",
+                                "TargetType": {
+                                  "$type": "RPG.GameCore.TargetAlias",
+                                  "Alias": "ParamEntityAttackTargetList"
+                                },
+                                "SourceEntity": {
+                                  "$type": "RPG.GameCore.TargetAlias",
+                                  "Alias": "Caster"
+                                },
+                                "Inverse": true
                               }
-                            },
-                            "CompareType": "Equal"
+                            ]
                           },
                           "SuccessTaskList": [
                             {
@@ -2365,6 +2382,18 @@
                               "TargetType": {
                                 "$type": "RPG.GameCore.TargetAlias",
                                 "Alias": "ParamEntityAttackTargetList"
+                              },
+                              "Predicate": {
+                                "$type": "RPG.GameCore.ByIsTargetUnselectable",
+                                "TargetType": {
+                                  "$type": "RPG.GameCore.TargetAlias",
+                                  "Alias": "ParamEntity"
+                                },
+                                "SourceEntity": {
+                                  "$type": "RPG.GameCore.TargetAlias",
+                                  "Alias": "Caster"
+                                },
+                                "Inverse": true
                               },
                               "ByRandom": true,
                               "MaxNumber": {
@@ -2499,19 +2528,36 @@
                     {
                       "$type": "RPG.GameCore.PredicateTaskList",
                       "Predicate": {
-                        "$type": "RPG.GameCore.ByCompareTargetCount",
-                        "TargetType": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "ParamEntitySkillTargetEntityList"
-                        },
-                        "AliveOnly": true,
-                        "Number": {
-                          "IsDynamic": false,
-                          "FixedValue": {
-                            "Value": 1
+                        "$type": "RPG.GameCore.ByAnd",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByCompareTargetCount",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntitySkillTargetEntityList"
+                            },
+                            "AliveOnly": true,
+                            "Number": {
+                              "IsDynamic": false,
+                              "FixedValue": {
+                                "Value": 1
+                              }
+                            },
+                            "CompareType": "Equal"
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByIsTargetUnselectable",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntitySkillTargetEntityList"
+                            },
+                            "SourceEntity": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "Caster"
+                            },
+                            "Inverse": true
                           }
-                        },
-                        "CompareType": "Equal"
+                        ]
                       },
                       "SuccessTaskList": [
                         {
@@ -2541,6 +2587,18 @@
                           "TargetType": {
                             "$type": "RPG.GameCore.TargetAlias",
                             "Alias": "ParamEntitySkillTargetEntityList"
+                          },
+                          "Predicate": {
+                            "$type": "RPG.GameCore.ByIsTargetUnselectable",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntity"
+                            },
+                            "SourceEntity": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "Caster"
+                            },
+                            "Inverse": true
                           },
                           "ByRandom": true,
                           "MaxNumber": {
@@ -4251,46 +4309,6 @@
       ],
       "_CallbackList": [
         {
-          "Event": "OnCreate",
-          "CallbackConfig": [
-            {
-              "$type": "RPG.GameCore.Retarget",
-              "TargetType": {
-                "$type": "RPG.GameCore.TargetAlias",
-                "Alias": "AllEnemyWithUnSelectable - ModifierOwnerEntity"
-              },
-              "Predicate": {
-                "$type": "RPG.GameCore.ByIsContainModifier",
-                "TargetType": {
-                  "$type": "RPG.GameCore.TargetAlias",
-                  "Alias": "ParamEntity"
-                },
-                "ModifierName": {
-                  "Value": "MAvatar_Advanced_Kafka_00_Friend_Mark_Main"
-                }
-              },
-              "MaxNumber": {
-                "IsDynamic": false,
-                "FixedValue": {
-                  "Value": 99
-                }
-              },
-              "TaskList": [
-                {
-                  "$type": "RPG.GameCore.RemoveModifier",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "ParamEntity"
-                  },
-                  "ModifierName": {
-                    "Value": "MAvatar_Advanced_Kafka_00_Friend_Mark_Main"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        {
           "Event": "OnListenInsertAbilityStart",
           "CallbackConfig": [
             {
@@ -4307,7 +4325,7 @@
                     "FirstTargetAliveOnly": false,
                     "SecondTargetType": {
                       "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "Caster.GetAllTeamMember - Caster"
+                      "Alias": "Caster.GetAllTeamMember.WithDummyCharacter - Caster"
                     },
                     "SecondTargetAliveOnly": false
                   },
@@ -4332,7 +4350,8 @@
             }
           ]
         }
-      ]
+      ],
+      "Stacking": "RetainGlobalLatestUnique"
     },
     "MAvatar_Advanced_Kafka_PassiveDotDamage_Rank01": {
       "_CallbackList": [

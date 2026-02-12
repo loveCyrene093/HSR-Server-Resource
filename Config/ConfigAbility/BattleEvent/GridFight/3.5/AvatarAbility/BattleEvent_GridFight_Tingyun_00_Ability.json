@@ -331,6 +331,34 @@
     },
     {
       "Modifiers": {
+        "MStageAbility_GridFight_Stage_35500141_Buff": {
+          "_CallbackList": [
+            {
+              "Event": "OnStack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.StackProperty",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "Property": "ExtraFrontPowerConvert",
+                  "PropertyValue": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        2128130574
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "Stacking": "Replace"
+        },
         "MAvatar_TingYun_00_Skill03DamageUp": {
           "_CallbackList": [
             {
@@ -521,6 +549,89 @@
           "LifeStepImmediately": true
         },
         {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsContainModifier",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "LevelEntity"
+            },
+            "ModifierName": {
+              "Value": "MStageAbility_GridFight_Stage_35500141"
+            }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.RemoveModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllLightTeamWithAllLightTeamUnselectable"
+              },
+              "ModifierName": {
+                "Value": "MStageAbility_GridFight_Stage_35500141_Buff"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByProperty",
+              "DynamicKey": "MDF_Stage_35500141_Total",
+              "ReadTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "Value": "ExtraTotalBackPower"
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByProperty",
+              "DynamicKey": "MDF_Stage_35500141_Convert",
+              "ReadTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "Value": "ExtraBackPowerConvert"
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByCopying",
+              "FromTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "LevelEntity"
+              },
+              "FromDynamicKey": {
+                "Value": "MDF_Stage_35500141_PropertyRatio"
+              },
+              "FromModifierName": {
+                "Value": "MStageAbility_GridFight_Stage_35500141"
+              },
+              "ToDynamicKey": {
+                "Value": "MDF_Stage_35500141_PropertyRatio"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AbilityTargetEntity + AbilityTargetEntity.GetServant"
+              },
+              "ModifierName": {
+                "Value": "MStageAbility_GridFight_Stage_35500141_Buff"
+              },
+              "DynamicValues": {
+                "MDF_PropertyValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQABAQMBAgQR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      -1867145647,
+                      210064966,
+                      866367541
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
           "$type": "RPG.GameCore.ModifySPNew",
           "TargetType": {
             "$type": "RPG.GameCore.TargetAlias",
@@ -567,7 +678,29 @@
         {
           "$type": "RPG.GameCore.SkillPerformFinish"
         }
-      ]
+      ],
+      "DynamicValues": {
+        "Floats": {
+          "-1867145647": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "210064966": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "866367541": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
+        }
+      }
     },
     {
       "Name": "Avatar_GridFight_Tingyun_00_Skill03_Camera",

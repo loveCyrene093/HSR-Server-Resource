@@ -998,6 +998,93 @@
                   ]
                 }
               ]
+            },
+            {
+              "Event": "OnEnterBattle",
+              "Priority": -90,
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByIsContainModifier",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "LevelEntity"
+                    },
+                    "ModifierName": {
+                      "Value": "MStageAbility_GridFight_Augment_35402041"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.Retarget",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "BattleEventEntityList"
+                      },
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByCompareBattleEventID",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "TargetBattleEventID": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 62200
+                          }
+                        }
+                      },
+                      "MaxNumber": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      },
+                      "TaskList": [
+                        {
+                          "$type": "RPG.GameCore.SetDynamicValueByCopying",
+                          "FromTargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "LevelEntity"
+                          },
+                          "FromDynamicKey": {
+                            "Value": "MDF_AddLayer"
+                          },
+                          "FromModifierName": {
+                            "Value": "MStageAbility_GridFight_Augment_35402041"
+                          },
+                          "ToDynamicKey": {
+                            "Value": "_Augment_35402041_AddLayer"
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.AddModifier",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ParamEntity"
+                          },
+                          "ModifierName": {
+                            "Value": "MStageAbility_GridFight_Augment_35402041_ActionDelayController"
+                          },
+                          "DynamicValues": {
+                            "MDF_AddLayer": {
+                              "IsDynamic": true,
+                              "PostfixExpr": {
+                                "OpCodes": "AQAR",
+                                "FixedValues": [],
+                                "DynamicHashes": [
+                                  1314487425
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
           ],
           "AdditionConfig": {
@@ -1027,6 +1114,235 @@
           "DynamicValues": {
             "Floats": {
               "-5597844": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
+            }
+          }
+        },
+        "MStageAbility_GridFight_Augment_35402041_ActionDelayController": {
+          "_CallbackList": [
+            {
+              "Event": "OnPhase1",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.Retarget",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "BattleEventEntityList"
+                  },
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareBattleEventID",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "TargetBattleEventID": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 62200
+                      }
+                    }
+                  },
+                  "MaxNumber": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "TaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValueByCopying",
+                      "FromTargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "FromDynamicKey": {
+                        "Value": "CountDownTimer"
+                      },
+                      "FromModifierName": {
+                        "Value": "MGridFight_BE_Common_WaveTimer"
+                      },
+                      "ToDynamicKey": {
+                        "Value": "MDF_CountDownTimer"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "MDF_CountDownTimer"
+                    },
+                    "CompareType": "LessEqual",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 1
+                      }
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "DynamicKey": {
+                          "Value": "MDF_Created"
+                        },
+                        "CompareType": "Equal",
+                        "CompareValue": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 0
+                          }
+                        }
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.SetDynamicValue",
+                          "Value": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 1
+                            }
+                          },
+                          "DynamicKey": {
+                            "Value": "MDF_Created"
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.CreateBattleEvent",
+                          "EventID": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 62415
+                            }
+                          },
+                          "Team": "TeamNeutral",
+                          "IsDynamicPreload": true
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.Retarget",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "BattleEventEntityList"
+                  },
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareBattleEventID",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "TargetBattleEventID": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 62203
+                      }
+                    }
+                  },
+                  "MaxNumber": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "TaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValueByAddValue",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "Key": {
+                        "Value": "BEAttackNum_Curr"
+                      },
+                      "AddValue": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            1599939776
+                          ]
+                        }
+                      },
+                      "Min": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0
+                        }
+                      },
+                      "Max": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            37892016
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.ShowAttackTime",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "BaseAttackTime": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            37892016
+                          ]
+                        }
+                      },
+                      "EnhancedAttackTime": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0
+                        }
+                      },
+                      "IsShow": true
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetActionDelay",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 0
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "DynamicValues": {
+            "Floats": {
+              "504559076": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              },
+              "449110944": {
                 "ReadInfo": {
                   "Type": "None",
                   "Index": 0
@@ -1103,7 +1419,350 @@
         }
       ],
       "DynamicValues": {
-        "Floats": {}
+        "Floats": {
+          "1314487425": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "Modifiers": {
+        "MStageAbility_GridFight_Origin_1007_Augment_35402041_DelaySyncModifier": {
+          "_CallbackList": [
+            {
+              "Event": "OnActionDelayEffectAll",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.ForceSyncActionDelayLink",
+                  "LinkOwner": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "Follower": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "MStageAbility_GridFight_Origin_1007_Augment_35402041_AddSpeed": {
+          "_CallbackList": [
+            {
+              "Event": "OnStack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.StackProperty",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "Property": "SpeedDelta",
+                  "PropertyValue": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        -454960781
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "MStageAbility_GridFight_Origin_1007_Augment_35402041_StartAttack": {
+          "_CallbackList": [
+            {
+              "Event": "OnPhase1",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.Retarget",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "BattleEventEntityList"
+                  },
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByIsContainModifier",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "ModifierName": {
+                      "Value": "MGridFight_Origin_1007_BE_Basic"
+                    }
+                  },
+                  "MaxNumber": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "TaskList": [
+                    {
+                      "$type": "RPG.GameCore.TurnInsertAbility",
+                      "AbilityName": {
+                        "Value": "StageAbility_GridFight_Origin_1007_Augment_35402041_BE_Insert"
+                      },
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "AbilityTarget": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "CanRunOnUnselectableTarget": true
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.ForceKill",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "Name": "StageAbility_GridFight_Origin_1007_Augment_35402041_Basic",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MStageAbility_GridFight_Origin_1007_Augment_35402041_StartAttack"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "BattleEventEntityList"
+          },
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareBattleEventID",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ParamEntity"
+            },
+            "TargetBattleEventID": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 62200
+              }
+            }
+          },
+          "MaxNumber": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByProperty",
+              "DynamicKey": "MDF_Speed",
+              "ReadTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "Value": "Speed"
+            },
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "ModifierName": {
+                "Value": "MStageAbility_GridFight_Origin_1007_Augment_35402041_AddSpeed"
+              },
+              "DynamicValues": {
+                "MDF_Speed": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      -454960781
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.AddModifier",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "ModifierName": {
+                "Value": "MStageAbility_GridFight_Origin_1007_Augment_35402041_DelaySyncModifier"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.SetupActionDelayLink",
+              "LinkOwner": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "Follower": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "OrderInLink": -1,
+              "IsInit": true
+            }
+          ]
+        }
+      ],
+      "DynamicValues": {
+        "Floats": {
+          "-454960781": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "Name": "StageAbility_GridFight_Origin_1007_Augment_35402041_BE_Insert",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.SetDynamicValueByCopying",
+          "FromTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "LevelEntity"
+          },
+          "FromDynamicKey": {
+            "Value": "MDF_AddLayer"
+          },
+          "FromModifierName": {
+            "Value": "MStageAbility_GridFight_Augment_35402041"
+          },
+          "ToDynamicKey": {
+            "Value": "MDF_AddLayer"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetDynamicValueByAddValue",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "Key": {
+            "Value": "BEAttackNum_Curr"
+          },
+          "AddValue": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                1599939776
+              ]
+            }
+          },
+          "Min": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0
+            }
+          },
+          "Max": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                37892016
+              ]
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.ShowAttackTime",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "BaseAttackTime": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                37892016
+              ]
+            }
+          },
+          "EnhancedAttackTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0
+            }
+          },
+          "IsShow": true
+        },
+        {
+          "$type": "RPG.GameCore.TurnInsertAbility",
+          "AbilityName": {
+            "Value": "StageAbility_GridFight_Origin_1007_BE_Insert"
+          },
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityTarget": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllDarkTeam"
+          },
+          "DynamicValues": {
+            "_GridFightTraitLv": {
+              "IsDynamic": true,
+              "PostfixExpr": {
+                "OpCodes": "AQAR",
+                "FixedValues": [],
+                "DynamicHashes": [
+                  1332264807
+                ]
+              }
+            }
+          },
+          "CanRunOnUnselectableTarget": true
+        }
+      ],
+      "DynamicValues": {
+        "Floats": {
+          "1599939776": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
+        }
       }
     },
     {
@@ -1115,6 +1774,10 @@
         "TargetType": "AllDarkTeamMember"
       },
       "OnStart": [
+        {
+          "$type": "RPG.GameCore.IncludeTaskListTemplate",
+          "Name": "BE_SetExtraDMG_Ratio"
+        },
         {
           "$type": "RPG.GameCore.ShowBattleUI",
           "InteractableDelay": 0
@@ -2116,6 +2779,12 @@
               "Type": "None",
               "Index": 0
             }
+          },
+          "-551464145": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
           }
         }
       },
@@ -2301,6 +2970,10 @@
         "TargetType": "AllDarkTeamMember"
       },
       "OnStart": [
+        {
+          "$type": "RPG.GameCore.IncludeTaskListTemplate",
+          "Name": "BE_SetExtraDMG_Ratio"
+        },
         {
           "$type": "RPG.GameCore.HideLevelStage",
           "IsHide": true
@@ -2568,6 +3241,12 @@
               "Type": "None",
               "Index": 0
             }
+          },
+          "-551464145": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
           }
         }
       },
@@ -2613,6 +3292,10 @@
         "TargetType": "AllDarkTeamMember"
       },
       "OnStart": [
+        {
+          "$type": "RPG.GameCore.IncludeTaskListTemplate",
+          "Name": "BE_SetExtraDMG_Ratio"
+        },
         {
           "$type": "RPG.GameCore.HideLevelStage",
           "IsHide": true
@@ -2880,6 +3563,12 @@
               "Type": "None",
               "Index": 0
             }
+          },
+          "-551464145": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
           }
         }
       },
@@ -2925,6 +3614,10 @@
         "TargetType": "AllDarkTeamMember"
       },
       "OnStart": [
+        {
+          "$type": "RPG.GameCore.IncludeTaskListTemplate",
+          "Name": "BE_SetExtraDMG_Ratio"
+        },
         {
           "$type": "RPG.GameCore.HideLevelStage",
           "IsHide": true
@@ -3192,6 +3885,12 @@
               "Type": "None",
               "Index": 0
             }
+          },
+          "-551464145": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
           }
         }
       },
@@ -3442,6 +4141,88 @@
           }
         }
       }
+    },
+    "MGridFight_Origin_1007_BE_Basic_AddValue": {
+      "_CallbackList": [
+        {
+          "Event": "OnStack",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByAddValue",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "Key": {
+                "Value": "BEAttackNum_Curr"
+              },
+              "AddValue": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    1599939776
+                  ]
+                }
+              },
+              "Min": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              },
+              "Max": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    37892016
+                  ]
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.ShowAttackTime",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "BaseAttackTime": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    1682100194
+                  ]
+                }
+              },
+              "EnhancedAttackTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              },
+              "IsShow": true
+            },
+            {
+              "$type": "RPG.GameCore.RemoveSelfModifier"
+            }
+          ]
+        }
+      ],
+      "DynamicValues": {
+        "Floats": {
+          "1599939776": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
+        }
+      }
     }
   },
   "GlobalTemplates": [
@@ -3475,12 +4256,13 @@
             "DamageValue": {
               "IsDynamic": true,
               "PostfixExpr": {
-                "OpCodes": "AQABAQQBAgUR",
+                "OpCodes": "AQABAQQBAgUBAwQR",
                 "FixedValues": [],
                 "DynamicHashes": [
                   1189762890,
                   -236567099,
-                  30625218
+                  30625218,
+                  -551464145
                 ]
               }
             },
@@ -3536,11 +4318,12 @@
             "DamageValue": {
               "IsDynamic": true,
               "PostfixExpr": {
-                "OpCodes": "AQABAQQR",
+                "OpCodes": "AQABAQQBAgQR",
                 "FixedValues": [],
                 "DynamicHashes": [
                   1189762890,
-                  1035627540
+                  1035627540,
+                  -551464145
                 ]
               }
             },
@@ -3759,11 +4542,12 @@
                 "DamageValue": {
                   "IsDynamic": true,
                   "PostfixExpr": {
-                    "OpCodes": "AQABAQQR",
+                    "OpCodes": "AQABAQQBAgQR",
                     "FixedValues": [],
                     "DynamicHashes": [
                       1189762890,
-                      1035627540
+                      1035627540,
+                      -551464145
                     ]
                   }
                 },
@@ -3817,10 +4601,11 @@
             "DamagePercentage": {
               "IsDynamic": true,
               "PostfixExpr": {
-                "OpCodes": "AQAR",
+                "OpCodes": "AQABAQQR",
                 "FixedValues": [],
                 "DynamicHashes": [
-                  -1880214580
+                  -1880214580,
+                  -551464145
                 ]
               }
             },
@@ -3864,6 +4649,56 @@
           "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_JingYuan_00/Eff_Avatar_JingYuan_00_PassiveSkill_Hit_02.prefab",
           "MinMutexTime": 2,
           "MinMutexType": "Entity"
+        }
+      ]
+    },
+    {
+      "Name": "BE_SetExtraDMG_Ratio",
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsContainModifier",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "LevelEntity"
+            },
+            "ModifierName": {
+              "Value": "MStageAbility_GridFight_Augment_35402041"
+            }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByCopying",
+              "FromTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "LevelEntity"
+              },
+              "FromDynamicKey": {
+                "Value": "MDF_PropertyValue"
+              },
+              "FromModifierName": {
+                "Value": "MStageAbility_GridFight_Augment_35402041"
+              },
+              "ToDynamicKey": {
+                "Value": "_ExtraDamageRatio"
+              }
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "DynamicKey": {
+                "Value": "_ExtraDamageRatio"
+              }
+            }
+          ]
         }
       ]
     }

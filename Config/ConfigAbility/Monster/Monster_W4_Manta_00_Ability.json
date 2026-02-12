@@ -2449,6 +2449,19 @@
                       },
                       "SuccessTaskList": [
                         {
+                          "$type": "RPG.GameCore.SetActionDelay",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ParamEntity"
+                          },
+                          "Value": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 0
+                            }
+                          }
+                        },
+                        {
                           "$type": "RPG.GameCore.ModifyCurrentSkillDelayCost",
                           "NormalizedValue": {
                             "IsDynamic": false,
@@ -2639,6 +2652,19 @@
                         }
                       },
                       "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.SetActionDelay",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ParamEntity"
+                          },
+                          "Value": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 0
+                            }
+                          }
+                        },
                         {
                           "$type": "RPG.GameCore.ModifyCurrentSkillDelayCost",
                           "NormalizedValue": {
@@ -3284,16 +3310,23 @@
                     "Team": "TeamLight"
                   },
                   {
-                    "$type": "RPG.GameCore.ByAttackType",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ParamEntity"
-                    },
-                    "AttackTypes": [
-                      "Normal",
-                      "BPSkill",
-                      "Ultra",
-                      "Servant"
+                    "$type": "RPG.GameCore.ByAny",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByCurrentSkillType"
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCurrentSkillType",
+                        "SkillType": "Skill"
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCurrentSkillType",
+                        "SkillType": "Ultra"
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCurrentSkillType",
+                        "SkillType": "Servant"
+                      }
                     ]
                   },
                   {
@@ -3771,6 +3804,17 @@
                   "TargetType": {
                     "$type": "RPG.GameCore.TargetAlias",
                     "Alias": "AllDarkTeamWithAllDarkTeamUnselectable"
+                  },
+                  "PredicateFilter": {
+                    "$type": "RPG.GameCore.ByCompareModifierCallBackDynamicValue",
+                    "DynamicKey": "MDF_Trigger",
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 1
+                      }
+                    }
                   },
                   "ModifierName": "MMonster_W4_Manta_00_Passive",
                   "FailedTaskList": [

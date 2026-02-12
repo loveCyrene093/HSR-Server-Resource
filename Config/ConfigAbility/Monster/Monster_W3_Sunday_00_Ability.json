@@ -6011,11 +6011,13 @@
                       }
                     },
                     {
-                      "$type": "RPG.GameCore.IncludeTaskListTemplate",
-                      "Name": "AddMuteSpeedAndLockActionDelayChange",
-                      "ParamTarget": {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
                         "$type": "RPG.GameCore.TargetAlias",
                         "Alias": "Caster"
+                      },
+                      "ModifierName": {
+                        "Value": "MCommon_MuteSpeed"
                       }
                     },
                     {
@@ -9850,7 +9852,7 @@
               ]
             },
             {
-              "$type": "AMHHJFJKDPK"
+              "$type": "PJJBLMPKBPD"
             }
           ]
         }
@@ -18416,13 +18418,27 @@
               ],
               "FailedTaskList": [
                 {
-                  "$type": "RPG.GameCore.TriggerAnimState",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "ModifierOwnerEntity"
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "Flag": "MuteHitH",
+                    "Inverse": true
                   },
-                  "AnimLogicState": "OnHit",
-                  "AnimStateName": "Hit_H"
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TriggerAnimState",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "AnimLogicState": "OnHit",
+                      "AnimStateName": "Hit_H"
+                    }
+                  ]
                 },
                 {
                   "$type": "RPG.GameCore.RemoveSelfModifier"
@@ -18532,16 +18548,42 @@
               ],
               "FailedTaskList": [
                 {
-                  "$type": "RPG.GameCore.RemoveModifier",
-                  "TargetType": {
-                    "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "ModifierOwnerEntity"
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "Flag": "MuteHitH"
                   },
-                  "ModifierName": {
-                    "Value": "MCommon_CTRL_Sleep"
-                  },
-                  "RemoveAllInstance": true,
-                  "MuteVisualStateRecover": true
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.RemoveModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MCommon_CTRL_Sleep"
+                      },
+                      "RemoveAllInstance": true
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.RemoveModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MCommon_CTRL_Sleep"
+                      },
+                      "RemoveAllInstance": true,
+                      "MuteVisualStateRecover": true
+                    }
+                  ]
                 }
               ]
             },

@@ -673,9 +673,36 @@
               ]
             }
           ],
+          "AdditionConfig": {
+            "SubModifierList": [
+              {
+                "Name": "MAvatar_GridFight_Gepard_00_PassiveSkill01_OverShieldEffect",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "AllLightTeamWithAllDarkTeamWithAllUnSelectable"
+                },
+                "IsHaloStatus": true
+              }
+            ]
+          },
           "DynamicValues": {
             "Floats": {}
           }
+        },
+        "MAvatar_GridFight_Gepard_00_PassiveSkill01_OverShieldEffect": {
+          "_CallbackList": [
+            {
+              "Event": "OnStack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.OverrideModifierName",
+                  "ModifierName": "MAvatar_Gepard_00_Ultra_Shield",
+                  "OverrideName": "MAvatar_GridFight_Gepard_00_Ultra_Shield",
+                  "IsFullRedirect": true
+                }
+              ]
+            }
+          ]
         }
       },
       "Name": "Avatar_GridFight_Gepard_00_PassiveSkill01",
@@ -1708,5 +1735,83 @@
       }
     }
   ],
-  "GlobalModifiers": {}
+  "GlobalModifiers": {
+    "MAvatar_GridFight_Gepard_00_Ultra_Shield": {
+      "BehaviorFlagList": [
+        "Shield"
+      ],
+      "_CallbackList": [
+        {
+          "Event": "OnCreate",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.SetResilience"
+            },
+            {
+              "$type": "RPG.GameCore.ModifierOverrideOnHitEffect",
+              "EffectPath": "Effects/Eff_Prefab/Eff_GridFight/Eff_Avatar/Eff_Gepard_00/Eff_GridFight_Avatar_Gepard_00_Common_Shield.prefab",
+              "SheildBreakEffectPath": "Effects/Eff_Prefab/Eff_GridFight/Eff_Avatar/Eff_Gepard_00/Eff_GridFight_Avatar_Gepard_00_Common_Shield.prefab",
+              "ModifierOverrideOnHitEffectPriority": "ModifyOthers",
+              "HitEffectStacking": "Multiple",
+              "OverrideOffset": true,
+              "Offset": {
+                "X": 0,
+                "Y": 1,
+                "Z": 0.6
+              }
+            }
+          ]
+        },
+        {
+          "Event": "OnDestroy",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.RemoveShield",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.SetResilience",
+              "DoReset": true
+            }
+          ]
+        },
+        {
+          "Event": "OnStack",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.InitShield",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "ShieldValue": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    -295141034
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "Stacking": "Replace",
+      "DynamicValues": {
+        "Floats": {
+          "-295141034": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
+        }
+      }
+    }
+  }
 }

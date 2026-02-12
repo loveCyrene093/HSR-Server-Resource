@@ -678,6 +678,41 @@
           "$type": "RPG.GameCore.UnLockCamera"
         }
       ]
+    },
+    "ComicPortal": {
+      "TasksConfig": [
+        {
+          "$type": "RPG.GameCore.AdventurePauseTeamDataRefresh"
+        },
+        {
+          "$type": "RPG.GameCore.LockPlayerControl",
+          "LockCameraControl": false
+        },
+        {
+          "$type": "RPG.GameCore.LockCamera"
+        },
+        {
+          "$type": "RPG.GameCore.PlayScreenTransfer",
+          "Reason": "MapSwitchOrTeleport",
+          "Type": "White",
+          "Mode": "SwitchOut"
+        },
+        {
+          "$type": "RPG.GameCore.WaitStreamingJobFinished",
+          "StopLoadingTick": true
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AdvLocalPlayer"
+          },
+          "MuteColliderWhenInvisible": false
+        },
+        {
+          "$type": "RPG.GameCore.UnLockCamera"
+        }
+      ]
     }
   },
   "AfterEnterMapPerformConfig": {
@@ -1223,6 +1258,99 @@
             "Alias": "AdvLocalPlayer"
           },
           "EffectPath": "Stages/OriginalResPos/InteractiveProp/Chapter00/Chap00_GameplayProp_TransparentWall/_dependencies/Prefab/PerspectiveAirwall_Cameras_End.prefab",
+          "ForceSimulateImmediately": false
+        },
+        {
+          "$type": "RPG.GameCore.PlayScreenTransfer",
+          "Reason": "MapSwitchOrTeleport",
+          "Type": "White",
+          "CustomTime": 0.5,
+          "SwitchInEndTaskAfterUIClose": false
+        },
+        {
+          "$type": "RPG.GameCore.SetEntityVisible",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AdvLocalPlayer"
+          },
+          "Visible": true,
+          "MuteColliderWhenInvisible": false
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByAny",
+            "PredicateList": [
+              {
+                "$type": "RPG.GameCore.ByIsInStoryMode"
+              },
+              {
+                "$type": "RPG.GameCore.BySkipNextTeleportEffect"
+              }
+            ]
+          },
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AdvLocalPlayer"
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Scene/Interactive Object/Eff_Common_MAZ_Prop_AvatarTeleport.prefab",
+              "ForceSimulateImmediately": false
+            },
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.3
+                }
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.UnLockPlayerControl",
+          "UnLockCameraControl": false
+        },
+        {
+          "$type": "RPG.GameCore.UnLockCamera"
+        },
+        {
+          "$type": "RPG.GameCore.AdventureResumeTeamDataRefresh"
+        }
+      ]
+    },
+    "ComicPortal": {
+      "TasksConfig": [
+        {
+          "$type": "RPG.GameCore.LockCamera"
+        },
+        {
+          "$type": "RPG.GameCore.AdventureTriggerAnimStateWithMove",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AdvLocalPlayer"
+          },
+          "AnimLogicState": "Idle",
+          "AnimStateName": "StandBy"
+        },
+        {
+          "$type": "RPG.GameCore.SetForceStreamingThisFrame",
+          "StartLoadingTick": true
+        },
+        {
+          "$type": "RPG.GameCore.WaitStreamingJobFinished",
+          "StopLoadingTick": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AdvLocalPlayer"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Scene/InteractiveProp/Eff_Chap05_Prop_ComicPortal_01_End_Lod0.prefab",
           "ForceSimulateImmediately": false
         },
         {

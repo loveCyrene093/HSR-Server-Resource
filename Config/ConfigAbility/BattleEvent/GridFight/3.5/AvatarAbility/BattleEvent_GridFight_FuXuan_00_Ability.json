@@ -320,7 +320,7 @@
                 "Name": "MBattleEvent_GridFight_Fuxuan_00_TriggerDeathListener",
                 "TargetType": {
                   "$type": "RPG.GameCore.TargetAlias",
-                  "Alias": "AllLightTeamWithAllLightTeamUnselectable + GridFight_AllBackEnd"
+                  "Alias": "Caster"
                 },
                 "IncludeBattleEvent": true,
                 "DynamicValues": {
@@ -373,46 +373,30 @@
         "MBattleEvent_GridFight_Fuxuan_00_TriggerDeathListener": {
           "_CallbackList": [
             {
-              "Event": "OnTriggerDeath",
+              "Event": "OnListenCharacterDie",
               "CallbackConfig": [
-                {
-                  "$type": "RPG.GameCore.SetDynamicValue",
-                  "Value": {
-                    "IsDynamic": true,
-                    "PostfixExpr": {
-                      "OpCodes": "AQAAAAIR",
-                      "FixedValues": [
-                        {
-                          "Value": 1
-                        }
-                      ],
-                      "DynamicHashes": [
-                        -2003980780
-                      ]
-                    }
-                  },
-                  "DynamicKey": {
-                    "Value": "_CurrentKill"
-                  }
-                },
                 {
                   "$type": "RPG.GameCore.PredicateTaskList",
                   "Predicate": {
-                    "$type": "RPG.GameCore.ByCompareDynamicValue",
-                    "DynamicKey": {
-                      "Value": "_CurrentKill"
-                    },
-                    "CompareType": "GreaterEqual",
-                    "CompareValue": {
-                      "IsDynamic": true,
-                      "PostfixExpr": {
-                        "OpCodes": "AQAR",
-                        "FixedValues": [],
-                        "DynamicHashes": [
-                          1735212188
-                        ]
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByTargetTeam",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "Team": "TeamDark"
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByIsBattleEventEntity",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "Inverse": true
                       }
-                    }
+                    ]
                   },
                   "SuccessTaskList": [
                     {
@@ -420,11 +404,14 @@
                       "Value": {
                         "IsDynamic": true,
                         "PostfixExpr": {
-                          "OpCodes": "AQABAQMR",
-                          "FixedValues": [],
+                          "OpCodes": "AQAAAAIR",
+                          "FixedValues": [
+                            {
+                              "Value": 1
+                            }
+                          ],
                           "DynamicHashes": [
-                            -2003980780,
-                            1735212188
+                            -2003980780
                           ]
                         }
                       },
@@ -433,30 +420,69 @@
                       }
                     },
                     {
-                      "$type": "RPG.GameCore.AddModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "FuXuanBE"
-                      },
-                      "ModifierName": {
-                        "Value": "MAvatar_GridFight_FuXuan_00_Energy"
-                      },
-                      "MaxLayer": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQAR",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            -544622338
-                          ]
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "DynamicKey": {
+                          "Value": "_CurrentKill"
+                        },
+                        "CompareType": "GreaterEqual",
+                        "CompareValue": {
+                          "IsDynamic": true,
+                          "PostfixExpr": {
+                            "OpCodes": "AQAR",
+                            "FixedValues": [],
+                            "DynamicHashes": [
+                              1735212188
+                            ]
+                          }
                         }
                       },
-                      "LayerAddWhenStack": {
-                        "IsDynamic": false,
-                        "FixedValue": {
-                          "Value": 1
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.SetDynamicValue",
+                          "Value": {
+                            "IsDynamic": true,
+                            "PostfixExpr": {
+                              "OpCodes": "AQABAQMR",
+                              "FixedValues": [],
+                              "DynamicHashes": [
+                                -2003980780,
+                                1735212188
+                              ]
+                            }
+                          },
+                          "DynamicKey": {
+                            "Value": "_CurrentKill"
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.AddModifier",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "FuXuanBE"
+                          },
+                          "ModifierName": {
+                            "Value": "MAvatar_GridFight_FuXuan_00_Energy"
+                          },
+                          "MaxLayer": {
+                            "IsDynamic": true,
+                            "PostfixExpr": {
+                              "OpCodes": "AQAR",
+                              "FixedValues": [],
+                              "DynamicHashes": [
+                                -544622338
+                              ]
+                            }
+                          },
+                          "LayerAddWhenStack": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 1
+                            }
+                          }
                         }
-                      }
+                      ]
                     }
                   ]
                 }

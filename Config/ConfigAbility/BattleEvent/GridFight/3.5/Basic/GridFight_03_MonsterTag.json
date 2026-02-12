@@ -2083,27 +2083,17 @@
                   },
                   "SuccessTaskList": [
                     {
-                      "$type": "RPG.GameCore.SetDynamicValueByProperty",
-                      "DynamicKey": "_MaxHP",
-                      "ReadTargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "Value": "MaxHP"
-                    },
-                    {
                       "$type": "RPG.GameCore.SetHP",
                       "TargetType": {
                         "$type": "RPG.GameCore.TargetAlias",
                         "Alias": "ModifierOwnerEntity"
                       },
-                      "ModifyValue": {
+                      "ModifyRatio": {
                         "IsDynamic": true,
                         "PostfixExpr": {
-                          "OpCodes": "AQABAQQR",
+                          "OpCodes": "AQAR",
                           "FixedValues": [],
                           "DynamicHashes": [
-                            -1309867853,
                             59671469
                           ]
                         }
@@ -2120,10 +2110,9 @@
                       "Threshold": {
                         "IsDynamic": true,
                         "PostfixExpr": {
-                          "OpCodes": "AQABAQQR",
+                          "OpCodes": "AQAR",
                           "FixedValues": [],
                           "DynamicHashes": [
-                            -1309867853,
                             59671469
                           ]
                         }
@@ -3176,7 +3165,7 @@
                   "$type": "RPG.GameCore.AddModifier",
                   "TargetType": {
                     "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "AttackTargetList"
+                    "Alias": "AttackTargetList - AllDarkTeam"
                   },
                   "ModifierName": {
                     "Value": "MGridFight_MonsterTag_3006_Debuff"
@@ -4632,23 +4621,36 @@
     {
       "Modifiers": {
         "MGridFight_MonsterTag_3016_Basic": {
-          "AdditionConfig": {
-            "SubModifierList": [
-              {
-                "Name": "MGridFight_MonsterTag_3016_Buff",
-                "TargetType": {
-                  "$type": "RPG.GameCore.TargetSequence",
-                  "Sequence": [
-                    {
+          "_CallbackList": [
+            {
+              "Event": "OnListenCharacterCreate",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByTargetTeam",
+                    "TargetType": {
                       "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "AllDarkTeam"
+                      "Alias": "ParamEntity"
+                    },
+                    "Team": "TeamDark"
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_MonsterTag_3016_Buff"
+                      }
                     }
                   ]
-                },
-                "IsHaloStatus": true
-              }
-            ]
-          }
+                }
+              ]
+            }
+          ]
         },
         "MGridFight_MonsterTag_3016_Buff": {
           "_CallbackList": [
@@ -5005,15 +5007,25 @@
                       },
                       "SuccessTaskList": [
                         {
+                          "$type": "RPG.GameCore.SetDynamicValueByProperty",
+                          "DynamicKey": "_MaxHP",
+                          "ReadTargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ModifierOwnerEntity"
+                          },
+                          "Value": "MaxHP"
+                        },
+                        {
                           "$type": "RPG.GameCore.SetDynamicValue",
                           "Value": {
                             "IsDynamic": true,
                             "PostfixExpr": {
-                              "OpCodes": "AQABAQ4BAgQCEQ==",
+                              "OpCodes": "AQABAQECBQEDBAMR",
                               "FixedValues": [],
                               "DynamicHashes": [
                                 1659239601,
                                 -860072463,
+                                -1309867853,
                                 462955996
                               ]
                             }
@@ -5023,32 +5035,6 @@
                           }
                         }
                       ]
-                    },
-                    {
-                      "$type": "RPG.GameCore.SetDynamicValueByProperty",
-                      "DynamicKey": "_MaxHP",
-                      "ReadTargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "Value": "MaxHP"
-                    },
-                    {
-                      "$type": "RPG.GameCore.SetDynamicValue",
-                      "Value": {
-                        "IsDynamic": true,
-                        "PostfixExpr": {
-                          "OpCodes": "AQABAQQR",
-                          "FixedValues": [],
-                          "DynamicHashes": [
-                            -1309867853,
-                            59671469
-                          ]
-                        }
-                      },
-                      "DynamicKey": {
-                        "Value": "_MaxHP"
-                      }
                     },
                     {
                       "$type": "RPG.GameCore.PredicateTaskList",
@@ -5064,7 +5050,7 @@
                             "OpCodes": "AQAR",
                             "FixedValues": [],
                             "DynamicHashes": [
-                              -1309867853
+                              59671469
                             ]
                           }
                         }
@@ -5078,7 +5064,7 @@
                               "OpCodes": "AQAR",
                               "FixedValues": [],
                               "DynamicHashes": [
-                                -1309867853
+                                59671469
                               ]
                             }
                           },
@@ -5174,7 +5160,7 @@
                     "$type": "RPG.GameCore.TargetAlias",
                     "Alias": "ModifierOwnerEntity"
                   },
-                  "Property": "DirtyHPDelta",
+                  "Property": "DirtyHPRatio",
                   "PropertyValue": {
                     "IsDynamic": true,
                     "PostfixExpr": {

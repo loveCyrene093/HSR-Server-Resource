@@ -4329,14 +4329,12 @@
                   },
                   "SuccessTaskList": [
                     {
-                      "$type": "RPG.GameCore.AddModifier",
+                      "$type": "RPG.GameCore.ResetActionDelay",
                       "TargetType": {
                         "$type": "RPG.GameCore.TargetAlias",
                         "Alias": "ModifierOwnerEntity"
                       },
-                      "ModifierName": {
-                        "Value": "MCommon_MindControl_DisableAction"
-                      }
+                      "SkipTargetTurn": true
                     }
                   ]
                 }
@@ -9587,7 +9585,101 @@
         },
         {
           "Event": "OnBeforeSkillUse",
-          "CallbackConfig": []
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByCompareCharacterID",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "TargetCharacterID": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 1501
+                      }
+                    }
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByCurrentSkillName",
+                    "SkillName": "Skill11"
+                  }
+                ]
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValueByCopying",
+                  "FromTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "FromDynamicKey": {
+                    "Value": "_SkillUseCount"
+                  },
+                  "ToTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "ToDynamicKey": {
+                    "Value": "_1501_SkillUseCount"
+                  },
+                  "TargetContextScope": "ContextModifier"
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByCompareCharacterID",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "TargetCharacterID": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 1501
+                      }
+                    }
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByCurrentSkillName",
+                    "SkillName": "Skill12"
+                  }
+                ]
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "ContextScope": "TargetEntity",
+                  "Value": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        -1601874534
+                      ]
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "_SkillUseCount"
+                  }
+                }
+              ]
+            }
+          ]
         },
         {
           "Event": "OnAfterSkillUse",
@@ -9731,23 +9823,89 @@
                 {
                   "$type": "RPG.GameCore.PredicateTaskList",
                   "Predicate": {
-                    "$type": "RPG.GameCore.ByCompareCharacterID",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ModifierOwnerEntity"
-                    },
-                    "TargetCharacterID": {
-                      "IsDynamic": false,
-                      "FixedValue": {
-                        "Value": 1213
+                    "$type": "RPG.GameCore.ByAny",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByCompareCharacterID",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "TargetCharacterID": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 1213
+                          }
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCompareCharacterID",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "TargetCharacterID": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 1501
+                          }
+                        }
                       }
-                    }
+                    ]
                   },
                   "SuccessTaskList": [
                     {
-                      "$type": "RPG.GameCore.SetDynamicValueByVariateType",
-                      "DynamicKey": "_CurrnetSkillIndex",
-                      "VariateType": "CurrentActionSkillIndex"
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByCompareCharacterID",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "TargetCharacterID": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 1213
+                          }
+                        }
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.SetDynamicValueByVariateType",
+                          "DynamicKey": "_CurrnetSkillIndex",
+                          "VariateType": "CurrentActionSkillIndex"
+                        }
+                      ],
+                      "FailedTaskList": [
+                        {
+                          "$type": "RPG.GameCore.PredicateTaskList",
+                          "Predicate": {
+                            "$type": "RPG.GameCore.ByCurrentSkillName",
+                            "SkillName": "Skill11"
+                          },
+                          "SuccessTaskList": [
+                            {
+                              "$type": "RPG.GameCore.SetDynamicValue",
+                              "Value": {
+                                "IsDynamic": false,
+                                "FixedValue": {
+                                  "Value": 9
+                                }
+                              },
+                              "DynamicKey": {
+                                "Value": "_CurrnetSkillIndex"
+                              }
+                            }
+                          ],
+                          "FailedTaskList": [
+                            {
+                              "$type": "RPG.GameCore.SetDynamicValueByVariateType",
+                              "DynamicKey": "_CurrnetSkillIndex",
+                              "VariateType": "CurrentActionSkillIndex"
+                            }
+                          ]
+                        }
+                      ]
                     },
                     {
                       "$type": "RPG.GameCore.AddModifier",
@@ -9869,7 +10027,9 @@
                           ]
                         }
                       ],
-                      "CustomTag": "ActionTag_Windfury"
+                      "CustomTag": {
+                        "Value": "ActionTag_Windfury"
+                      }
                     }
                   ],
                   "FailedTaskList": [
@@ -9985,7 +10145,9 @@
                               ]
                             }
                           ],
-                          "CustomTag": "ActionTag_Windfury"
+                          "CustomTag": {
+                            "Value": "ActionTag_Windfury"
+                          }
                         }
                       ]
                     },
@@ -10103,7 +10265,9 @@
                               ]
                             }
                           ],
-                          "CustomTag": "ActionTag_Windfury"
+                          "CustomTag": {
+                            "Value": "ActionTag_Windfury"
+                          }
                         }
                       ]
                     }
@@ -10178,7 +10342,6 @@
               "$type": "RPG.GameCore.PredicateTaskList",
               "Predicate": {
                 "$type": "RPG.GameCore.ByCompareParamString",
-                "CompareType": "Equal",
                 "CompareValue": {
                   "Value": "ActionTag_Windfury"
                 }
@@ -10207,7 +10370,6 @@
               "$type": "RPG.GameCore.PredicateTaskList",
               "Predicate": {
                 "$type": "RPG.GameCore.ByCompareParamString",
-                "CompareType": "Equal",
                 "CompareValue": {
                   "Value": "ActionTag_Windfury"
                 }
@@ -10344,7 +10506,7 @@
                 "CompareValue": {
                   "IsDynamic": false,
                   "FixedValue": {
-                    "Value": 0
+                    "Value": -1
                   }
                 }
               },
@@ -10352,17 +10514,35 @@
                 {
                   "$type": "RPG.GameCore.PredicateTaskList",
                   "Predicate": {
-                    "$type": "RPG.GameCore.ByCompareCharacterID",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ModifierOwnerEntity"
-                    },
-                    "TargetCharacterID": {
-                      "IsDynamic": false,
-                      "FixedValue": {
-                        "Value": 1213
+                    "$type": "RPG.GameCore.ByAny",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByCompareCharacterID",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "TargetCharacterID": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 1213
+                          }
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCompareCharacterID",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "TargetCharacterID": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 1501
+                          }
+                        }
                       }
-                    }
+                    ]
                   },
                   "SuccessTaskList": [
                     {
@@ -10483,7 +10663,7 @@
                               "Value": {
                                 "IsDynamic": false,
                                 "FixedValue": {
-                                  "Value": 0
+                                  "Value": -1
                                 }
                               },
                               "DynamicKey": {
@@ -10493,7 +10673,9 @@
                           ]
                         }
                       ],
-                      "CustomTag": "ActionTag_Windfury"
+                      "CustomTag": {
+                        "Value": "ActionTag_Windfury"
+                      }
                     }
                   ],
                   "FailedTaskList": [
@@ -10622,7 +10804,7 @@
                                       "Value": {
                                         "IsDynamic": false,
                                         "FixedValue": {
-                                          "Value": 0
+                                          "Value": -1
                                         }
                                       },
                                       "DynamicKey": {
@@ -10632,7 +10814,9 @@
                                   ]
                                 }
                               ],
-                              "CustomTag": "ActionTag_Windfury"
+                              "CustomTag": {
+                                "Value": "ActionTag_Windfury"
+                              }
                             }
                           ]
                         },
@@ -10749,7 +10933,7 @@
                                       "Value": {
                                         "IsDynamic": false,
                                         "FixedValue": {
-                                          "Value": 0
+                                          "Value": -1
                                         }
                                       },
                                       "DynamicKey": {
@@ -10759,7 +10943,9 @@
                                   ]
                                 }
                               ],
-                              "CustomTag": "ActionTag_Windfury"
+                              "CustomTag": {
+                                "Value": "ActionTag_Windfury"
+                              }
                             }
                           ]
                         }
@@ -10881,8 +11067,8 @@
               },
               "SuccessTaskList": [
                 {
-                  "$type": "APKIGJHEBGF",
-                  "BBMLLEHDFLE": {
+                  "$type": "HNBAANBNOJL",
+                  "JDHIKDKLFJP": {
                     "IsDynamic": false,
                     "FixedValue": {
                       "Value": 0
@@ -10946,6 +11132,12 @@
             }
           },
           "-684097688": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-1601874534": {
             "ReadInfo": {
               "Type": "None",
               "Index": 0

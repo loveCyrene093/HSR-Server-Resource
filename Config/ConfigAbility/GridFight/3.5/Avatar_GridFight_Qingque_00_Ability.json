@@ -9,96 +9,21 @@
               "Priority": -80,
               "CallbackConfig": [
                 {
-                  "$type": "RPG.GameCore.SetDynamicValueByMaxBP",
-                  "DynamicKey": "MDF_MaxBP"
-                },
-                {
                   "$type": "RPG.GameCore.PredicateTaskList",
                   "Predicate": {
-                    "$type": "RPG.GameCore.ByAnd",
-                    "PredicateList": [
-                      {
-                        "$type": "RPG.GameCore.ByCompareTarget",
-                        "TargetType": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "ModifierOwnerEntity"
-                        },
-                        "CompareType": {
-                          "$type": "RPG.GameCore.TargetSequence",
-                          "Sequence": [
-                            {
-                              "$type": "RPG.GameCore.TargetAlias",
-                              "Alias": "AllLightTeam"
-                            },
-                            {
-                              "$type": "RPG.GameCore.TargetSortByGridFightPower",
-                              "HighestFirst": true
-                            },
-                            {
-                              "$type": "RPG.GameCore.TargetTake",
-                              "Count": {
-                                "IsDynamic": false,
-                                "FixedValue": {
-                                  "Value": 1
-                                }
-                              }
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "$type": "RPG.GameCore.ByCompareDynamicValue",
-                        "DynamicKey": {
-                          "Value": "MDF_MaxBP"
-                        },
-                        "CompareType": "GreaterEqual",
-                        "CompareValue": {
-                          "IsDynamic": false,
-                          "FixedValue": {
-                            "Value": 7
-                          }
-                        }
+                    "$type": "RPG.GameCore.ByCompareWaveCount",
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 1
                       }
-                    ]
+                    }
                   },
                   "SuccessTaskList": [
                     {
-                      "$type": "RPG.GameCore.SetDynamicValue",
-                      "ContextScope": "AITag",
-                      "Value": {
-                        "IsDynamic": false,
-                        "FixedValue": {
-                          "Value": 1
-                        }
-                      },
-                      "DynamicKey": {
-                        "Value": "AdvancedBPReserve"
-                      }
-                    },
-                    {
-                      "$type": "RPG.GameCore.AddModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
-                      },
-                      "ModifierName": {
-                        "Value": "MAvatar_GridFight_2011_BPTeam_HighestPower_Tag"
-                      }
-                    }
-                  ],
-                  "FailedTaskList": [
-                    {
-                      "$type": "RPG.GameCore.SetDynamicValue",
-                      "ContextScope": "AITag",
-                      "Value": {
-                        "IsDynamic": false,
-                        "FixedValue": {
-                          "Value": 0
-                        }
-                      },
-                      "DynamicKey": {
-                        "Value": "AdvancedBPReserve"
-                      }
+                      "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                      "Name": "T_GridFight_2011_SetBPAITag"
                     }
                   ]
                 }

@@ -5,7 +5,9 @@
       "TaskList": [
         {
           "$type": "RPG.GameCore.CollectDataConditions",
-          "TaskIDList": [],
+          "TaskIDList": [
+            802711102
+          ],
           "MainMissionIDList": [],
           "PerformanceIDList": [
             503114001
@@ -14,33 +16,62 @@
           "CustomValueMainMissionIDList": []
         },
         {
-          "$type": "RPG.GameCore.PredicateTaskList",
-          "Predicate": {
-            "$type": "RPG.GameCore.ByComparePerformance",
-            "PerformanceID": 503114001
-          },
-          "SuccessTaskList": [
+          "$type": "RPG.GameCore.SwitchCase",
+          "TaskList": [
             {
-              "$type": "RPG.GameCore.TriggerPerformance",
-              "ValueSource": {},
-              "PerformanceType": "E",
-              "PerformanceID": 503114001,
-              "MaskConfig": {}
-            },
-            {
-              "$type": "RPG.GameCore.ShowMenu"
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareSubMissionState",
+                "SubMissionID": 802711102,
+                "SubMissionState": "Started"
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerPerformance",
+                  "PerformanceType": "D",
+                  "PerformanceID": 802711102,
+                  "MaskConfig": {
+                    "UseExcelData": false
+                  },
+                  "ValueSource": {}
+                },
+                {
+                  "$type": "RPG.GameCore.ClientFinishMission",
+                  "SubmissionID": 802711102
+                }
+              ]
             }
           ],
-          "FailedTaskList": [
+          "DefaultTask": [
             {
-              "$type": "RPG.GameCore.TriggerPerformance",
-              "ValueSource": {},
-              "PerformanceType": "E",
-              "PerformanceID": 503114002,
-              "MaskConfig": {}
-            },
-            {
-              "$type": "RPG.GameCore.ShowMenu"
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByComparePerformance",
+                "PerformanceID": 503114001
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerPerformance",
+                  "PerformanceType": "E",
+                  "PerformanceID": 503114001,
+                  "MaskConfig": {},
+                  "ValueSource": {}
+                },
+                {
+                  "$type": "RPG.GameCore.ShowMenu"
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerPerformance",
+                  "PerformanceType": "E",
+                  "PerformanceID": 503114002,
+                  "MaskConfig": {},
+                  "ValueSource": {}
+                },
+                {
+                  "$type": "RPG.GameCore.ShowMenu"
+                }
+              ]
             }
           ]
         }

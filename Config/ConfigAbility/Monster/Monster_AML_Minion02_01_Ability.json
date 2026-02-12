@@ -1101,14 +1101,12 @@
           "Event": "OnBeforeBeingHitAll",
           "CallbackConfig": [
             {
-              "$type": "RPG.GameCore.SetDynamicValueByProperty",
-              "DynamicKey": "MDF_DefenderCurrentHP_Before",
-              "ContextScope": "ContextModifier",
+              "$type": "RPG.GameCore.SetDynamicValueByHPRatio",
+              "DynamicKey": "MDF_DefenderCurrentHPRatio_Before",
               "ReadTargetType": {
                 "$type": "RPG.GameCore.TargetAlias",
                 "Alias": "ModifierOwnerEntity"
-              },
-              "Value": "CurrentHP"
+              }
             }
           ]
         },
@@ -1116,24 +1114,24 @@
           "Event": "OnAfterBeingHitAll",
           "CallbackConfig": [
             {
-              "$type": "RPG.GameCore.SetDynamicValueByProperty",
-              "DynamicKey": "MDF_DefenderCurrentHP_After",
-              "ContextScope": "ContextModifier",
+              "$type": "RPG.GameCore.SetDynamicValueByHPRatio",
+              "DynamicKey": "MDF_DefenderCurrentHPRatio_After",
               "ReadTargetType": {
                 "$type": "RPG.GameCore.TargetAlias",
                 "Alias": "ModifierOwnerEntity"
-              },
-              "Value": "CurrentHP"
+              }
             },
             {
               "$type": "RPG.GameCore.PredicateTaskList",
               "Predicate": {
-                "$type": "RPG.GameCore.ByCompareAbilityProperty",
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
                 "TargetType": {
                   "$type": "RPG.GameCore.TargetAlias",
                   "Alias": "ModifierOwnerEntity"
                 },
-                "Property": "CurrentHP",
+                "DynamicKey": {
+                  "Value": "MDF_DefenderCurrentHPRatio_After"
+                },
                 "CompareType": "Less",
                 "CompareValue": {
                   "IsDynamic": true,
@@ -1141,7 +1139,7 @@
                     "OpCodes": "AQAR",
                     "FixedValues": [],
                     "DynamicHashes": [
-                      -52189442
+                      -1414076291
                     ]
                   }
                 }
@@ -1191,8 +1189,8 @@
                             ],
                             "DynamicHashes": [
                               -412821690,
-                              236769657,
-                              -52189442,
+                              515784006,
+                              -1414076291,
                               -736687823
                             ]
                           }
@@ -1252,8 +1250,8 @@
                             ],
                             "DynamicHashes": [
                               -412821690,
-                              236769657,
-                              -52189442
+                              515784006,
+                              -1414076291
                             ]
                           }
                         },
@@ -1394,6 +1392,42 @@
               "Type": "None",
               "Index": 0
             }
+          },
+          "-1177472819": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-1334243424": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-750859580": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "690268471": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-1414076291": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "515784006": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
           }
         }
       },
@@ -1402,22 +1436,29 @@
           "Name": "TaskList_Common_RallyHP_ListenDirtyHPChange",
           "TaskList": [
             {
-              "$type": "RPG.GameCore.SetDynamicValueByProperty",
-              "DynamicKey": "MDF_CurrentHP",
-              "ReadTargetType": {
+              "$type": "FJKPCLBGAAC",
+              "AFKCGELECCA": "MDF_MaxHP_DownScale",
+              "BJGHPIODCGH": {
                 "$type": "RPG.GameCore.TargetAlias",
                 "Alias": "ModifierOwnerEntity"
-              },
-              "Value": "CurrentHP"
+              }
             },
             {
-              "$type": "RPG.GameCore.SetDynamicValueByProperty",
-              "DynamicKey": "MDF_MaxHP",
-              "ReadTargetType": {
+              "$type": "FJKPCLBGAAC",
+              "AFKCGELECCA": "MDF_CurrentHP_DownScale",
+              "BJGHPIODCGH": {
                 "$type": "RPG.GameCore.TargetAlias",
                 "Alias": "ModifierOwnerEntity"
               },
-              "Value": "MaxHP"
+              "POKEJIBIMLN": "CurrentHP"
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByHPRatio",
+              "DynamicKey": "MDF_CurrentHPRatio",
+              "ReadTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              }
             },
             {
               "$type": "RPG.GameCore.SetDynamicValueByProperty",
@@ -1442,21 +1483,21 @@
               "Value": {
                 "IsDynamic": true,
                 "PostfixExpr": {
-                  "OpCodes": "AQAAAAEBAwQBAgMR",
+                  "OpCodes": "AAABAAMBAQECBQAABQMR",
                   "FixedValues": [
                     {
                       "Value": 1
                     }
                   ],
                   "DynamicHashes": [
-                    -1610876898,
                     292499387,
-                    872512481
+                    872512481,
+                    -1177472819
                   ]
                 }
               },
               "DynamicKey": {
-                "Value": "MDF_MaxHP_Dirty"
+                "Value": "MDF_MaxHP_Dirty_Ratio"
               }
             },
             {
@@ -1475,7 +1516,7 @@
                     "OpCodes": "AQAR",
                     "FixedValues": [],
                     "DynamicHashes": [
-                      -686582227
+                      690268471
                     ]
                   }
                 }
@@ -1484,12 +1525,14 @@
                 {
                   "$type": "RPG.GameCore.PredicateTaskList",
                   "Predicate": {
-                    "$type": "RPG.GameCore.ByCompareAbilityProperty",
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
                     "TargetType": {
                       "$type": "RPG.GameCore.TargetAlias",
                       "Alias": "ModifierOwnerEntity"
                     },
-                    "Property": "CurrentHP",
+                    "DynamicKey": {
+                      "Value": "MDF_CurrentHPRatio"
+                    },
                     "CompareType": "Less",
                     "CompareValue": {
                       "IsDynamic": true,
@@ -1497,7 +1540,7 @@
                         "OpCodes": "AQAR",
                         "FixedValues": [],
                         "DynamicHashes": [
-                          -686582227
+                          690268471
                         ]
                       }
                     }
@@ -1519,7 +1562,7 @@
                             "OpCodes": "AQAR",
                             "FixedValues": [],
                             "DynamicHashes": [
-                              -686582227
+                              690268471
                             ]
                           }
                         },
@@ -1581,22 +1624,29 @@
           "Name": "TaskList_Common_RallyHP_ListenMaxHPChange",
           "TaskList": [
             {
-              "$type": "RPG.GameCore.SetDynamicValueByProperty",
-              "DynamicKey": "MDF_CurrentHP",
-              "ReadTargetType": {
+              "$type": "FJKPCLBGAAC",
+              "AFKCGELECCA": "MDF_MaxHP_DownScale",
+              "BJGHPIODCGH": {
                 "$type": "RPG.GameCore.TargetAlias",
                 "Alias": "ModifierOwnerEntity"
-              },
-              "Value": "CurrentHP"
+              }
             },
             {
-              "$type": "RPG.GameCore.SetDynamicValueByProperty",
-              "DynamicKey": "MDF_MaxHP",
-              "ReadTargetType": {
+              "$type": "FJKPCLBGAAC",
+              "AFKCGELECCA": "MDF_CurrentHP_DownScale",
+              "BJGHPIODCGH": {
                 "$type": "RPG.GameCore.TargetAlias",
                 "Alias": "ModifierOwnerEntity"
               },
-              "Value": "MaxHP"
+              "POKEJIBIMLN": "CurrentHP"
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByHPRatio",
+              "DynamicKey": "MDF_CurrentHPRatio",
+              "ReadTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              }
             },
             {
               "$type": "RPG.GameCore.PredicateTaskList",
@@ -1609,13 +1659,9 @@
                 "Property": "RallyHP",
                 "CompareType": "Greater",
                 "CompareValue": {
-                  "IsDynamic": true,
-                  "PostfixExpr": {
-                    "OpCodes": "AQAR",
-                    "FixedValues": [],
-                    "DynamicHashes": [
-                      -1610876898
-                    ]
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 1
                   }
                 }
               },
@@ -1623,21 +1669,19 @@
                 {
                   "$type": "RPG.GameCore.PredicateTaskList",
                   "Predicate": {
-                    "$type": "RPG.GameCore.ByCompareAbilityProperty",
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
                     "TargetType": {
                       "$type": "RPG.GameCore.TargetAlias",
                       "Alias": "ModifierOwnerEntity"
                     },
-                    "Property": "CurrentHP",
+                    "DynamicKey": {
+                      "Value": "MDF_CurrentHPRatio"
+                    },
                     "CompareType": "Less",
                     "CompareValue": {
-                      "IsDynamic": true,
-                      "PostfixExpr": {
-                        "OpCodes": "AQAR",
-                        "FixedValues": [],
-                        "DynamicHashes": [
-                          -1610876898
-                        ]
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 1
                       }
                     }
                   },
@@ -1653,13 +1697,9 @@
                       },
                       "DynamicValues": {
                         "MDF_RallyHP": {
-                          "IsDynamic": true,
-                          "PostfixExpr": {
-                            "OpCodes": "AQAR",
-                            "FixedValues": [],
-                            "DynamicHashes": [
-                              -1610876898
-                            ]
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 1
                           }
                         },
                         "MDF_HealPercentage": {
@@ -1803,14 +1843,33 @@
               },
               "SuccessTaskList": [
                 {
+                  "$type": "RPG.GameCore.SetDynamicValueByHPRatio",
+                  "DynamicKey": "MDF_CurrentHPRatio",
+                  "ReadTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.SetDynamicValueByProperty",
+                  "DynamicKey": "MDF_RallyHP",
+                  "ReadTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "Value": "RallyHP"
+                },
+                {
                   "$type": "RPG.GameCore.PredicateTaskList",
                   "Predicate": {
-                    "$type": "RPG.GameCore.ByCompareAbilityProperty",
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
                     "TargetType": {
                       "$type": "RPG.GameCore.TargetAlias",
                       "Alias": "ModifierOwnerEntity"
                     },
-                    "Property": "CurrentHP",
+                    "DynamicKey": {
+                      "Value": "MDF_CurrentHPRatio"
+                    },
                     "CompareType": "GreaterEqual",
                     "CompareValue": {
                       "IsDynamic": true,
@@ -1905,6 +1964,12 @@
               "Type": "None",
               "Index": 0
             }
+          },
+          "-750859580": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
           }
         }
       }
@@ -1930,14 +1995,33 @@
               },
               "OnChange": [
                 {
+                  "$type": "RPG.GameCore.SetDynamicValueByHPRatio",
+                  "DynamicKey": "MDF_CurrentHPRatio",
+                  "ReadTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.SetDynamicValueByProperty",
+                  "DynamicKey": "MDF_RallyHP",
+                  "ReadTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "Value": "RallyHP"
+                },
+                {
                   "$type": "RPG.GameCore.PredicateTaskList",
                   "Predicate": {
-                    "$type": "RPG.GameCore.ByCompareAbilityProperty",
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
                     "TargetType": {
                       "$type": "RPG.GameCore.TargetAlias",
                       "Alias": "ModifierOwnerEntity"
                     },
-                    "Property": "CurrentHP",
+                    "DynamicKey": {
+                      "Value": "MDF_CurrentHPRatio"
+                    },
                     "CompareType": "GreaterEqual",
                     "CompareValue": {
                       "IsDynamic": true,
@@ -2001,14 +2085,33 @@
               },
               "OnChange": [
                 {
+                  "$type": "RPG.GameCore.SetDynamicValueByHPRatio",
+                  "DynamicKey": "MDF_CurrentHPRatio",
+                  "ReadTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.SetDynamicValueByProperty",
+                  "DynamicKey": "MDF_RallyHP",
+                  "ReadTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "Value": "RallyHP"
+                },
+                {
                   "$type": "RPG.GameCore.PredicateTaskList",
                   "Predicate": {
-                    "$type": "RPG.GameCore.ByCompareAbilityProperty",
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
                     "TargetType": {
                       "$type": "RPG.GameCore.TargetAlias",
                       "Alias": "ModifierOwnerEntity"
                     },
-                    "Property": "CurrentHP",
+                    "DynamicKey": {
+                      "Value": "MDF_CurrentHPRatio"
+                    },
                     "CompareType": "GreaterEqual",
                     "CompareValue": {
                       "IsDynamic": true,
@@ -2072,14 +2175,33 @@
               },
               "OnChange": [
                 {
+                  "$type": "RPG.GameCore.SetDynamicValueByHPRatio",
+                  "DynamicKey": "MDF_CurrentHPRatio",
+                  "ReadTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.SetDynamicValueByProperty",
+                  "DynamicKey": "MDF_RallyHP",
+                  "ReadTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "Value": "RallyHP"
+                },
+                {
                   "$type": "RPG.GameCore.PredicateTaskList",
                   "Predicate": {
-                    "$type": "RPG.GameCore.ByCompareAbilityProperty",
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
                     "TargetType": {
                       "$type": "RPG.GameCore.TargetAlias",
                       "Alias": "ModifierOwnerEntity"
                     },
-                    "Property": "CurrentHP",
+                    "DynamicKey": {
+                      "Value": "MDF_CurrentHPRatio"
+                    },
                     "CompareType": "GreaterEqual",
                     "CompareValue": {
                       "IsDynamic": true,
@@ -2262,14 +2384,33 @@
               },
               "SuccessTaskList": [
                 {
+                  "$type": "RPG.GameCore.SetDynamicValueByHPRatio",
+                  "DynamicKey": "MDF_CurrentHPRatio",
+                  "ReadTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.SetDynamicValueByProperty",
+                  "DynamicKey": "MDF_RallyHP",
+                  "ReadTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "Value": "RallyHP"
+                },
+                {
                   "$type": "RPG.GameCore.PredicateTaskList",
                   "Predicate": {
-                    "$type": "RPG.GameCore.ByCompareAbilityProperty",
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
                     "TargetType": {
                       "$type": "RPG.GameCore.TargetAlias",
                       "Alias": "ModifierOwnerEntity"
                     },
-                    "Property": "CurrentHP",
+                    "DynamicKey": {
+                      "Value": "MDF_CurrentHPRatio"
+                    },
                     "CompareType": "GreaterEqual",
                     "CompareValue": {
                       "IsDynamic": true,
@@ -2340,13 +2481,20 @@
           "Event": "OnAfterAttack",
           "CallbackConfig": [
             {
-              "$type": "RPG.GameCore.SetDynamicValueByProperty",
-              "DynamicKey": "MDF_CurrentHP",
+              "$type": "FJKPCLBGAAC",
+              "AFKCGELECCA": "MDF_MaxHP_DownScale",
+              "BJGHPIODCGH": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByHPRatio",
+              "DynamicKey": "MDF_CurrentHPRatio",
               "ReadTargetType": {
                 "$type": "RPG.GameCore.TargetAlias",
                 "Alias": "ModifierOwnerEntity"
-              },
-              "Value": "CurrentHP"
+              }
             },
             {
               "$type": "RPG.GameCore.HealHP",
@@ -2361,13 +2509,18 @@
               "ModifyValue": {
                 "IsDynamic": true,
                 "PostfixExpr": {
-                  "OpCodes": "AQABAQQBAgEDAwQR",
-                  "FixedValues": [],
+                  "OpCodes": "AQABAQQBAgEDAwQBBAQAAAQR",
+                  "FixedValues": [
+                    {
+                      "Value": 1
+                    }
+                  ],
                   "DynamicHashes": [
                     269974959,
                     2054951994,
                     -872062464,
-                    1814067545
+                    -750859580,
+                    -1177472819
                   ]
                 }
               },
@@ -2445,6 +2598,18 @@
             }
           },
           "269974959": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-750859580": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-1177472819": {
             "ReadInfo": {
               "Type": "None",
               "Index": 0

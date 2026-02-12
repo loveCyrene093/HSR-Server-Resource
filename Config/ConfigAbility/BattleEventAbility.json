@@ -1716,7 +1716,7 @@
                         "$type": "RPG.GameCore.TargetAlias",
                         "Alias": "Caster"
                       },
-                      "InsertAbilityPriority": "PROG_MonsterLowest",
+                      "InsertAbilityPriority": "MonsterSummon",
                       "CanRunOnUnselectableTarget": true
                     }
                   ]
@@ -1988,23 +1988,49 @@
       },
       "OnStart": [
         {
-          "$type": "RPG.GameCore.WaitFor",
+          "$type": "RPG.GameCore.PredicateTaskList",
           "Predicate": {
-            "$type": "RPG.GameCore.ByDieAnimFinished",
-            "TeamTypeMask": "TeamDark",
-            "EntityTypeMask": "Mask_TeamCharacters"
-          }
-        },
-        {
-          "$type": "RPG.GameCore.TriggerAbility",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "Caster"
+            "$type": "RPG.GameCore.ByIsInElationTime"
           },
-          "AbilityName": {
-            "Value": "BattleEventAbility_SummonMonsterInfinite_Camera"
-          },
-          "IsSkillPerform": true
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetDieImmediately",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllDarkTeamDyingCharacter"
+              },
+              "MakeDyingEntityDeadImmediately": true
+            },
+            {
+              "$type": "RPG.GameCore.WaitFor",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByDieAnimFinished",
+                "TeamTypeMask": "TeamDark",
+                "EntityTypeMask": "Mask_TeamCharacters"
+              }
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.WaitFor",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByDieAnimFinished",
+                "TeamTypeMask": "TeamDark",
+                "EntityTypeMask": "Mask_TeamCharacters"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.TriggerAbility",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "AbilityName": {
+                "Value": "BattleEventAbility_SummonMonsterInfinite_Camera"
+              },
+              "IsSkillPerform": true
+            }
+          ]
         },
         {
           "$type": "RPG.GameCore.SummonMonster",
@@ -2034,13 +2060,21 @@
           }
         },
         {
-          "$type": "RPG.GameCore.WaitSecond",
-          "WaitTime": {
-            "IsDynamic": false,
-            "FixedValue": {
-              "Value": 1.5
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsInElationTime"
+          },
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1.5
+                }
+              }
             }
-          }
+          ]
         }
       ]
     },
@@ -14459,7 +14493,7 @@
                             "$type": "RPG.GameCore.TargetAlias",
                             "Alias": "ModifierOwnerEntity"
                           },
-                          "InsertAbilityPriority": "PROG_MonsterLowest",
+                          "InsertAbilityPriority": "MonsterSummon",
                           "CanRunOnUnselectableTarget": true
                         }
                       ]
@@ -14495,6 +14529,22 @@
       },
       "OnStart": [
         {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsInElationTime"
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetDieImmediately",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllDarkTeamDyingCharacter"
+              },
+              "MakeDyingEntityDeadImmediately": true
+            }
+          ]
+        },
+        {
           "$type": "RPG.GameCore.WaitFor",
           "Predicate": {
             "$type": "RPG.GameCore.ByDieAnimFinished",
@@ -14514,15 +14564,23 @@
           "ContextScope": "TargetEntity"
         },
         {
-          "$type": "RPG.GameCore.TriggerAbility",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "Caster"
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsInElationTime"
           },
-          "AbilityName": {
-            "Value": "BattleEventAbility_SummonMonsterInfinite_Camera"
-          },
-          "IsSkillPerform": true
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerAbility",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "AbilityName": {
+                "Value": "BattleEventAbility_SummonMonsterInfinite_Camera"
+              },
+              "IsSkillPerform": true
+            }
+          ]
         },
         {
           "$type": "RPG.GameCore.SetDynamicValue",
@@ -14595,13 +14653,21 @@
           "Team": "TeamDark"
         },
         {
-          "$type": "RPG.GameCore.WaitSecond",
-          "WaitTime": {
-            "IsDynamic": false,
-            "FixedValue": {
-              "Value": 1.5
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsInElationTime"
+          },
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1.5
+                }
+              }
             }
-          }
+          ]
         },
         {
           "$type": "RPG.GameCore.DefineDynamicValue",
@@ -14778,7 +14844,7 @@
                             "$type": "RPG.GameCore.TargetAlias",
                             "Alias": "ModifierOwnerEntity"
                           },
-                          "InsertAbilityPriority": "PROG_MonsterLowest",
+                          "InsertAbilityPriority": "MonsterSummon",
                           "CanRunOnUnselectableTarget": true
                         }
                       ]
@@ -14814,6 +14880,22 @@
       },
       "OnStart": [
         {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsInElationTime"
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetDieImmediately",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllDarkTeamDyingCharacter"
+              },
+              "MakeDyingEntityDeadImmediately": true
+            }
+          ]
+        },
+        {
           "$type": "RPG.GameCore.WaitFor",
           "Predicate": {
             "$type": "RPG.GameCore.ByDieAnimFinished",
@@ -14833,15 +14915,23 @@
           "ContextScope": "TargetEntity"
         },
         {
-          "$type": "RPG.GameCore.TriggerAbility",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "Caster"
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsInElationTime"
           },
-          "AbilityName": {
-            "Value": "BattleEventAbility_SummonMonsterInfinite_Camera"
-          },
-          "IsSkillPerform": true
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerAbility",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "AbilityName": {
+                "Value": "BattleEventAbility_SummonMonsterInfinite_Camera"
+              },
+              "IsSkillPerform": true
+            }
+          ]
         },
         {
           "$type": "RPG.GameCore.SetDynamicValue",
@@ -14951,13 +15041,21 @@
           "Team": "TeamDark"
         },
         {
-          "$type": "RPG.GameCore.WaitSecond",
-          "WaitTime": {
-            "IsDynamic": false,
-            "FixedValue": {
-              "Value": 1.5
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsInElationTime"
+          },
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1.5
+                }
+              }
             }
-          }
+          ]
         },
         {
           "$type": "RPG.GameCore.DefineDynamicValue",
@@ -15374,15 +15472,33 @@
       },
       "OnStart": [
         {
-          "$type": "RPG.GameCore.TriggerAbility",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "Caster"
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsInElationTime"
           },
-          "AbilityName": {
-            "Value": "BattleEventAbility_SummonMonsterInfinite_Fuyan_Camera"
-          },
-          "IsSkillPerform": true
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetDieImmediately",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllDarkTeamDyingCharacter"
+              },
+              "MakeDyingEntityDeadImmediately": true
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerAbility",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "AbilityName": {
+                "Value": "BattleEventAbility_SummonMonsterInfinite_Fuyan_Camera"
+              },
+              "IsSkillPerform": true
+            }
+          ]
         },
         {
           "$type": "RPG.GameCore.WaitFor",
@@ -15499,13 +15615,21 @@
           }
         },
         {
-          "$type": "RPG.GameCore.WaitSecond",
-          "WaitTime": {
-            "IsDynamic": false,
-            "FixedValue": {
-              "Value": 1.5
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsInElationTime"
+          },
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1.5
+                }
+              }
             }
-          }
+          ]
         }
       ],
       "DynamicValues": {
@@ -15545,15 +15669,33 @@
       },
       "OnStart": [
         {
-          "$type": "RPG.GameCore.TriggerAbility",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "Caster"
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsInElationTime"
           },
-          "AbilityName": {
-            "Value": "BattleEventAbility_SummonMonsterInfinite_Camera"
-          },
-          "IsSkillPerform": true
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetDieImmediately",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllDarkTeamDyingCharacter"
+              },
+              "MakeDyingEntityDeadImmediately": true
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerAbility",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "AbilityName": {
+                "Value": "BattleEventAbility_SummonMonsterInfinite_Camera"
+              },
+              "IsSkillPerform": true
+            }
+          ]
         },
         {
           "$type": "RPG.GameCore.WaitFor",
@@ -15669,13 +15811,21 @@
           }
         },
         {
-          "$type": "RPG.GameCore.WaitSecond",
-          "WaitTime": {
-            "IsDynamic": false,
-            "FixedValue": {
-              "Value": 1.5
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsInElationTime"
+          },
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1.5
+                }
+              }
             }
-          }
+          ]
         }
       ],
       "DynamicValues": {
@@ -15715,6 +15865,22 @@
       },
       "OnStart": [
         {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsInElationTime"
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetDieImmediately",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllDarkTeamDyingCharacter"
+              },
+              "MakeDyingEntityDeadImmediately": true
+            }
+          ]
+        },
+        {
           "$type": "RPG.GameCore.WaitFor",
           "Predicate": {
             "$type": "RPG.GameCore.ByDieAnimFinished",
@@ -15734,15 +15900,23 @@
           "ContextScope": "TargetEntity"
         },
         {
-          "$type": "RPG.GameCore.TriggerAbility",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "Caster"
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsInElationTime"
           },
-          "AbilityName": {
-            "Value": "BattleEventAbility_SummonMonsterInfinite_Camera"
-          },
-          "IsSkillPerform": true
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerAbility",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "AbilityName": {
+                "Value": "BattleEventAbility_SummonMonsterInfinite_Camera"
+              },
+              "IsSkillPerform": true
+            }
+          ]
         },
         {
           "$type": "RPG.GameCore.ConditionLoopExecuteTaskList",
@@ -15838,13 +16012,21 @@
           }
         },
         {
-          "$type": "RPG.GameCore.WaitSecond",
-          "WaitTime": {
-            "IsDynamic": false,
-            "FixedValue": {
-              "Value": 1.5
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsInElationTime"
+          },
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1.5
+                }
+              }
             }
-          }
+          ]
         }
       ],
       "DynamicValues": {

@@ -383,6 +383,14 @@
         }
       ]
     },
+    "NextSkillCaster": {
+      "$type": "RPG.GameCore.TargetSequence",
+      "Sequence": [
+        {
+          "$type": "RPG.GameCore.TargetFetchNextSkillCaster"
+        }
+      ]
+    },
     "SkillPointEntity": {
       "$type": "RPG.GameCore.TargetSequence",
       "Sequence": [
@@ -1575,6 +1583,34 @@
         }
       ]
     },
+    "LightTeamAliveLeftWithoutServant": {
+      "$type": "RPG.GameCore.TargetSequence",
+      "Sequence": [
+        {
+          "$type": "RPG.GameCore.TargetAlias",
+          "Alias": "AllLightTeam.RemoveServant"
+        },
+        {
+          "$type": "RPG.GameCore.TargetFilter",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByTargetAliveState",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ParamEntity"
+            },
+            "AliveStateMask": "Mask_AliveOnly"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TargetSortByFormation",
+          "HighestFirst": true
+        },
+        {
+          "$type": "RPG.GameCore.TargetIndex",
+          "IndexType": "First"
+        }
+      ]
+    },
     "DarkTeamLeft": {
       "$type": "RPG.GameCore.TargetSequence",
       "Sequence": [
@@ -1887,6 +1923,39 @@
               "$type": "RPG.GameCore.TargetAlias",
               "Alias": "Caster"
             }
+          }
+        ]
+      }
+    },
+    "ChessLockTarget": {
+      "$type": "RPG.GameCore.TargetFetchChessLockTarget"
+    },
+    "ChessSkillTarget": {
+      "$type": "RPG.GameCore.TargetFetchChessSkillTarget"
+    },
+    "ChessMoveTarget": {
+      "$type": "RPG.GameCore.TargetFetchChessMoveTarget"
+    },
+    "ChessEnemyInAttackRange": {
+      "$type": "RPG.GameCore.TargetFetchEnemyInAttackRange"
+    },
+    "ChessEnemyInAlertRange": {
+      "$type": "RPG.GameCore.TargetFetchEnemyInAlertRange"
+    },
+    "ChessSlefBase": {
+      "$type": "RPG.GameCore.TargetFetchChessBase"
+    },
+    "ChessEnemyBase": {
+      "$type": "RPG.GameCore.TargetFetchChessBase",
+      "Target": {
+        "$type": "RPG.GameCore.TargetSequence",
+        "Sequence": [
+          {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          {
+            "$type": "RPG.GameCore.TargetMapEnemyTeamEntity"
           }
         ]
       }
