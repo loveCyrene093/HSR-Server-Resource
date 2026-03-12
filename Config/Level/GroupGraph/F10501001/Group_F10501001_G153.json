@@ -1,0 +1,163 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitCustomString",
+          "CustomString": {
+            "Value": "TriggerBattle_LocalGroup"
+          },
+          "GoNextImmediately": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerBattle",
+          "EventID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 20501054
+            }
+          },
+          "GroupID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0
+            }
+          },
+          "BattleAreaID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          },
+          "BattleAreaConfigID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "FinishFiveDim_G153"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerPerformance",
+              "PerformanceType": "D",
+              "PerformanceID": 105400245,
+              "MaskConfig": {
+                "UseExcelData": false,
+                "EndCrack": true,
+                "StartCustomSrcTrf": "FiveDim"
+              },
+              "ValueSource": {}
+            },
+            {
+              "$type": "RPG.GameCore.PerformanceEndSeq",
+              "BeforeCases": [
+                {
+                  "$type": "RPG.GameCore.ClientFinishMission",
+                  "SubmissionID": 105400344
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.TriggerCustomString",
+              "CustomString": {
+                "Value": "TriggerBattle_LocalGroup"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "EnterArea_G153"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerPerformance",
+              "PerformanceType": "D",
+              "PerformanceID": 105400245,
+              "MaskConfig": {
+                "UseExcelData": false,
+                "EndCrack": true
+              },
+              "ValueSource": {}
+            },
+            {
+              "$type": "RPG.GameCore.TriggerCustomString",
+              "CustomString": {
+                "Value": "TriggerBattle_LocalGroup"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.CollectDataConditions",
+          "TaskIDList": [
+            105400344
+          ],
+          "MainMissionIDList": [],
+          "PerformanceIDList": [],
+          "PerformanceIDDsList": [],
+          "CustomValueMainMissionIDList": []
+        },
+        {
+          "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+          "TargetType": {
+            "$type": "RPG.GameCore.GroupFetchLocalTarget",
+            "TargetType": "Prop",
+            "Targets": [
+              300001
+            ]
+          },
+          "TriggerName": "MissionTrigger",
+          "OnEnter": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareSubMissionState",
+                "SubMissionID": 105400344,
+                "SubMissionState": "Finish",
+                "Inverse": true
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "FinishFiveDim_G153"
+                  }
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "EnterArea_G153"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Type": "Group",
+  "EntityEventList": []
+}

@@ -1,0 +1,76 @@
+{
+  "OnInitSequece": [
+    {
+      "TaskList": []
+    }
+  ],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvDistrictSetupTrigger",
+          "DistrictID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 500001
+            }
+          },
+          "OnEnter": [
+            {
+              "$type": "RPG.GameCore.RequestSetServerGroupPropertyV2",
+              "DynamicName": {
+                "Value": "ChangeMap-"
+              },
+              "Value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.LoopWaitServerGroupPropertyChangeV2"
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitFloorSavedValueChangeV2",
+          "Name": {
+            "Value": "FSV_ChangeMap"
+          },
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.SetAdvAchievement",
+              "AchievementID": 4055001
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+            "DynamicName": {
+              "Value": "FSV_ChangeMap"
+            },
+            "CompareValue": 1
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetAdvAchievement",
+              "AchievementID": 4055001
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Type": "Group",
+  "EntityEventList": []
+}

@@ -1,0 +1,119 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "ShowDiceCombat_G147"
+          },
+          "OnEvent": [
+            {
+              "$type": "CLGAOABPPCL",
+              "KLNEDCGDNKC": 1001
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.CollectDataConditions",
+          "TaskIDList": [
+            105400320
+          ],
+          "MainMissionIDList": [],
+          "PerformanceIDList": [],
+          "PerformanceIDDsList": [],
+          "CustomValueMainMissionIDList": []
+        },
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "EnterArea_G147"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareSubMissionState",
+                "SubMissionID": 105400320,
+                "SubMissionState": "Finish",
+                "Inverse": true
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerPerformance",
+                  "PerformanceType": "D",
+                  "PerformanceID": 105400227,
+                  "MaskConfig": {
+                    "UseExcelData": false
+                  },
+                  "ValueSource": {}
+                },
+                {
+                  "$type": "RPG.GameCore.PerformanceEndSeq",
+                  "Cases": [
+                    {
+                      "Case": 1,
+                      "OnSuccess": [
+                        {
+                          "$type": "RPG.GameCore.TriggerGroupEvent",
+                          "EventName": {
+                            "Value": "ShowDiceCombat_G147"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "BeforeCases": [
+                    {
+                      "$type": "RPG.GameCore.ClientFinishMission",
+                      "SubmissionID": 105400320
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+          "TargetType": {
+            "$type": "RPG.GameCore.GroupFetchLocalTarget",
+            "TargetType": "Prop",
+            "Targets": [
+              300001
+            ]
+          },
+          "TriggerName": "MissionTrigger",
+          "OnEnter": [
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "EnterArea_G147"
+              }
+            }
+          ],
+          "DisableAfterTriggered": true
+        }
+      ]
+    }
+  ],
+  "ValueSource": {
+    "Values": [
+      {
+        "$type": "RPG.GameCore.SharedFloat",
+        "Key": "ShowDiceCombat"
+      }
+    ]
+  },
+  "Type": "Group",
+  "EntityEventList": []
+}

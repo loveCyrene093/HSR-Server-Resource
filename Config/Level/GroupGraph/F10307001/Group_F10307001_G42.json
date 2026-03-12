@@ -1,0 +1,156 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitCustomString",
+          "CustomString": {
+            "Value": "TriggerBattle_LocalGroup"
+          },
+          "GoNextImmediately": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerBattle",
+          "EventID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 10307030
+            }
+          },
+          "GroupID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0
+            }
+          },
+          "BattleAreaID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0
+            }
+          },
+          "BattleAreaConfigID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1030701
+            }
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "TriggerBossFight_G42"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerPerformance",
+              "PerformanceType": "C",
+              "PerformanceID": 103380720,
+              "MaskConfig": {
+                "UseExcelData": false,
+                "StartBlack": "NoPre",
+                "EndBlack": "NoPost"
+              },
+              "ValueSource": {}
+            },
+            {
+              "$type": "RPG.GameCore.PerformanceEndSeq",
+              "BeforeCases": [
+                {
+                  "$type": "RPG.GameCore.SwitchCharacterAnchorV2",
+                  "SwitchCharacterAnchorConfig": {
+                    "IsLocalPlayer": true,
+                    "CharacterUniqueName": "LocalPlayer",
+                    "AreaName": {
+                      "Value": "LevelArea_P10307_F10307001_G42"
+                    },
+                    "AnchorName": {
+                      "Value": "Anchor1"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.TriggerPerformance",
+              "PerformanceType": "PlayVideo",
+              "PerformanceID": 103380723,
+              "MaskConfig": {
+                "UseExcelData": false,
+                "StartBlack": "NoPre",
+                "EndBlack": "NoPost",
+                "EndCrack": true
+              },
+              "ValueSource": {}
+            },
+            {
+              "$type": "RPG.GameCore.TriggerCustomString",
+              "CustomString": {
+                "Value": "TriggerBattle_LocalGroup"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareGroupProperty",
+            "GroupID": 42,
+            "DynamicName": {
+              "Value": "FirstEncounter"
+            }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "TriggerBossFight_G42"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.RequestSetServerGroupPropertyV2",
+              "GroupID": 42,
+              "DynamicName": {
+                "Value": "FirstEncounter"
+              },
+              "Value": 1
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300001
+                ]
+              },
+              "TriggerName": "MissionTrigger",
+              "OnEnter": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "TriggerBossFight_G42"
+                  }
+                }
+              ],
+              "DisableAfterTriggered": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Type": "Group",
+  "EntityEventList": []
+}

@@ -1,0 +1,585 @@
+{
+  "AnimatorStateEvents": [
+    {
+      "AnimatorStateName": "Appear",
+      "EventList": [
+        {
+          "$type": "RPG.GameCore.AnimTriggerRandomPlay",
+          "AnimList": [
+            {
+              "StateName": "Appear",
+              "Weight": 0.2
+            },
+            {
+              "StateName": "Appear",
+              "Weight": 0.2,
+              "NormalizedOffset": 0.03
+            },
+            {
+              "StateName": "Appear",
+              "Weight": 0.2,
+              "NormalizedOffset": 0.06
+            },
+            {
+              "StateName": "Appear",
+              "Weight": 0.2,
+              "NormalizedOffset": 0.09
+            },
+            {
+              "StateName": "Appear",
+              "Weight": 0.2,
+              "NormalizedOffset": 0.12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "AnimatorStateName": "StandBy",
+      "NormalizedTime": 0.83,
+      "EventList": [
+        {
+          "$type": "RPG.GameCore.AnimTriggerRandomPlay",
+          "AnimList": [
+            {
+              "Weight": 0.25,
+              "NormalizedTransitionDuration": 0.01
+            },
+            {
+              "StateName": "StandBy",
+              "Weight": 0.75,
+              "NormalizedTransitionDuration": 0.01
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "AnimatorStateName": "StandBy",
+      "NormalizedTime": 0.89,
+      "EventList": [
+        {
+          "$type": "RPG.GameCore.AnimTriggerRandomPlay",
+          "AnimList": [
+            {
+              "Weight": 0.25,
+              "NormalizedTransitionDuration": 0.01
+            },
+            {
+              "StateName": "StandBy",
+              "Weight": 0.5,
+              "NormalizedTransitionDuration": 0.01
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "AnimatorStateName": "StandBy",
+      "NormalizedTime": 0.95,
+      "EventList": [
+        {
+          "$type": "RPG.GameCore.AnimTriggerRandomPlay",
+          "AnimList": [
+            {
+              "Weight": 0.25,
+              "NormalizedTransitionDuration": 0.01
+            },
+            {
+              "StateName": "StandBy",
+              "Weight": 0.25,
+              "NormalizedTransitionDuration": 0.01
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "AnimatorStateName": "Die",
+      "NormalizedTime": 0.8,
+      "EventList": [
+        {
+          "$type": "RPG.GameCore.TriggerDeadHandler"
+        }
+      ]
+    },
+    {
+      "AnimatorStateName": "Die_Fly",
+      "NormalizedTime": 0.8,
+      "EventList": [
+        {
+          "$type": "RPG.GameCore.TriggerDeadHandler"
+        }
+      ]
+    },
+    {
+      "AnimatorStateName": "Die_Hit",
+      "NormalizedTime": 0.8,
+      "EventList": [
+        {
+          "$type": "RPG.GameCore.TriggerDeadHandler"
+        }
+      ]
+    }
+  ],
+  "AnimatorStateGroupEvents": [
+    {
+      "States": [
+        {
+          "Name": "Hit"
+        },
+        {
+          "Name": "Confine_Hit"
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.SetBaseHitStateSpeed",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          }
+        }
+      ],
+      "OnExit": [
+        {
+          "$type": "RPG.GameCore.SetBaseHitStateSpeed",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "Appear",
+          "ExitNormalizedTime": 0.546
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.SetCharacterAtlasFaceEmotion",
+          "MeshName": "Eye",
+          "EmotionIndex": 12
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "Appear",
+          "NormalizedTime": 0.454,
+          "ExitNormalizedTime": 0.696
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.SetCharacterAtlasFaceEmotion",
+          "MeshName": "Eye",
+          "EmotionIndex": 8
+        }
+      ],
+      "OnExit": [
+        {
+          "$type": "RPG.GameCore.SetCharacterAtlasFaceEmotion",
+          "MeshName": "Eye",
+          "EmotionIndex": 12
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "StandBy"
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByContainBehaviorFlag",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "Caster"
+            },
+            "Flag": "STAT_Confine",
+            "Inverse": true
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetCharacterAtlasFaceEmotion",
+              "MeshName": "Eye",
+              "EmotionIndex": 12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "StandBy",
+          "NormalizedTime": 0.25,
+          "ExitInTransition": true,
+          "ResetOnSameStateEnter": true,
+          "ResetOnSameStateChange": true
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.SetCharacterAtlasFaceEmotion",
+          "MeshName": "Eye",
+          "EmotionIndex": 8
+        }
+      ],
+      "OnExit": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByContainBehaviorFlag",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "Caster"
+            },
+            "Flag": "STAT_Confine",
+            "Inverse": true
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetCharacterAtlasFaceEmotion",
+              "MeshName": "Eye",
+              "EmotionIndex": 12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "StandBy",
+          "NormalizedTime": 0.303,
+          "ExitInTransition": true,
+          "ResetOnSameStateEnter": true,
+          "ResetOnSameStateChange": true
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByContainBehaviorFlag",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "Caster"
+            },
+            "Flag": "STAT_Confine",
+            "Inverse": true
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetCharacterAtlasFaceEmotion",
+              "MeshName": "Eye",
+              "EmotionIndex": 12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "Skill01",
+          "NormalizedTime": 0.176,
+          "ExitNormalizedTime": 0.526
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.SetCharacterAtlasFaceEmotion",
+          "MeshName": "Eye",
+          "EmotionIndex": 13
+        }
+      ],
+      "OnExit": [
+        {
+          "$type": "RPG.GameCore.SetCharacterAtlasFaceEmotion",
+          "MeshName": "Eye",
+          "EmotionIndex": 15
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "Skill01"
+        }
+      ],
+      "OnExit": [
+        {
+          "$type": "RPG.GameCore.SetCharacterAtlasFaceEmotion",
+          "MeshName": "Eye",
+          "EmotionIndex": 12
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "Skill02",
+          "NormalizedTime": 0.163
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.SetCharacterAtlasFaceEmotion",
+          "MeshName": "Eye",
+          "EmotionIndex": 12
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "Hit_H",
+          "NormalizedTime": 0.016,
+          "ResetOnSameStateChange": true
+        },
+        {
+          "Name": "Hit",
+          "NormalizedTime": 0.016,
+          "ResetOnSameStateChange": true
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByContainBehaviorFlag",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "Caster"
+            },
+            "Flag": "STAT_Confine",
+            "Inverse": true
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByAddValue",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "Key": {
+                "Value": "#CL_EmotionHit"
+              },
+              "AddValue": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "Min": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              },
+              "Max": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 2
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.SetCharacterAtlasFaceEmotion",
+              "MeshName": "Eye",
+              "EmotionIndex": 14
+            }
+          ]
+        }
+      ],
+      "OnExit": [
+        {
+          "$type": "RPG.GameCore.SetDynamicValueByAddValue",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "Key": {
+            "Value": "#CL_EmotionHit"
+          },
+          "AddValue": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": -1
+            }
+          },
+          "Min": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0
+            }
+          },
+          "Max": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "Hit_H",
+          "NormalizedTime": 0.566
+        },
+        {
+          "Name": "Hit",
+          "NormalizedTime": 0.566
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByContainBehaviorFlag",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "Caster"
+            },
+            "Flag": "STAT_Confine",
+            "Inverse": true
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetDynamicValueByAddValue",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "Caster"
+              },
+              "Key": {
+                "Value": "#CL_EmotionHit"
+              },
+              "AddValue": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": -1
+                }
+              },
+              "Min": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              },
+              "Max": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 2
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "DynamicKey": {
+                  "Value": "#CL_EmotionHit"
+                },
+                "CompareType": "Equal",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.SetCharacterAtlasFaceEmotion",
+                  "MeshName": "Eye",
+                  "EmotionIndex": 12
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "Stun_Occur",
+          "NormalizedTime": 0.016
+        },
+        {
+          "Name": "Stagger",
+          "NormalizedTime": 0.016
+        },
+        {
+          "Name": "Confine",
+          "NormalizedTime": 0.016
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.SetCharacterAtlasFaceEmotion",
+          "MeshName": "Eye",
+          "EmotionIndex": 14
+        }
+      ]
+    },
+    {
+      "States": [
+        {
+          "Name": "Stun_Recover",
+          "NormalizedTime": 0.089
+        },
+        {
+          "Name": "Stagger_Recover",
+          "NormalizedTime": 0.089
+        },
+        {
+          "Name": "Hit_Fly_Recover",
+          "NormalizedTime": 0.089
+        },
+        {
+          "Name": "Hit_Fly_Recover_Stun",
+          "NormalizedTime": 0.089
+        },
+        {
+          "Name": "Hit_Fly_Recover_Break",
+          "NormalizedTime": 0.089
+        }
+      ],
+      "OnEnter": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByContainBehaviorFlag",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "Caster"
+            },
+            "Flag": "STAT_Confine",
+            "Inverse": true
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetCharacterAtlasFaceEmotion",
+              "MeshName": "Eye",
+              "EmotionIndex": 12
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

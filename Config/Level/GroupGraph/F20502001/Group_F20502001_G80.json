@@ -1,0 +1,619 @@
+{
+  "OnInitSequece": [
+    {
+      "TaskList": []
+    }
+  ],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitFloorSavedValueChangeV2",
+          "Name": {
+            "Value": "FSV_StellaJade"
+          },
+          "Condition": {
+            "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+            "DynamicName": {
+              "Value": "FSV_StellaJade"
+            },
+            "CompareValue": 1
+          },
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.PropSetupHitBox",
+              "OnBeHit": [
+                {
+                  "$type": "RPG.GameCore.TriggerEntityEvent",
+                  "EventName": {
+                    "Value": "Self_BeHit"
+                  },
+                  "InstanceID": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 300001
+                    }
+                  }
+                }
+              ],
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300001
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.LoopWaitServerPropStateChange"
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+            "DynamicName": {
+              "Value": "FSV_StellaJade"
+            }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.PropUnloadHitBox",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300001
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitFloorSavedValueChangeV2",
+          "Name": {
+            "Value": "FSV_StellaJade"
+          },
+          "Condition": {
+            "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+            "DynamicName": {
+              "Value": "FSV_StellaJade"
+            },
+            "CompareValue": 2
+          },
+          "OnChange": [
+            {
+              "$type": "RPG.Client.AdventureGameplayLock",
+              "IsLock": true,
+              "LockSource": "PropInteract"
+            },
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 2
+                }
+              }
+            },
+            {
+              "$type": "RPG.Client.AdventureGameplayLock",
+              "LockSource": "PropInteract"
+            },
+            {
+              "$type": "RPG.GameCore.RequestSetServerGroupPropertyV2",
+              "DynamicName": {
+                "Value": "StellaJadeBeHit"
+              },
+              "Value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.LoopWaitServerGroupPropertyChangeV2"
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvDistrictSetupTrigger",
+          "GroupID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 80
+            }
+          },
+          "DistrictID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 500001
+            }
+          },
+          "OnEnter": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+                "DynamicName": {
+                  "Value": "FSV_StellaJade"
+                },
+                "CompareValue": 2
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.RequestSetServerGroupPropertyV2",
+                  "DynamicName": {
+                    "Value": "StellaJadeBeHit"
+                  },
+                  "Value": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "Clt_OnExplodeAgain"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+                "DynamicName": {
+                  "Value": "FSV_StellaJade"
+                },
+                "CompareValue": 3
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.PlayFullScreenTransfer",
+                  "Action": [
+                    {
+                      "$type": "RPG.GameCore.ScrTrfActPerformance",
+                      "CreateNpc": {
+                        "TaskEnabled": false
+                      },
+                      "DestroyNpc": {
+                        "Hide": true,
+                        "TaskEnabled": false
+                      },
+                      "CreateProp": {
+                        "TaskEnabled": false
+                      },
+                      "DestroyProp": {
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                        },
+                        "TaskEnabled": false
+                      },
+                      "CaptureNpc": [],
+                      "SwitchCharacterAnchor": {
+                        "IsLocalPlayer": true,
+                        "CharacterUniqueName": "LocalPlayer",
+                        "AreaName": {
+                          "Value": "LevelArea_P20502_F20502001_G80"
+                        },
+                        "AnchorName": {
+                          "Value": "Anchor4"
+                        }
+                      },
+                      "ActiveVirtualCamera": {
+                        "AreaName": "LevelArea_P20502_F20502001_G80",
+                        "AnchorName": "Anchor1"
+                      },
+                      "ActiveTemplateVirtualCamera": {
+                        "IsActive": false,
+                        "TaskEnabled": false
+                      },
+                      "AdvNpcFaceToPlayer": {
+                        "SteerImmediately": true,
+                        "FinishImmadiate": true,
+                        "TaskEnabled": false
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.ScrTrfActTaskList",
+                      "TaskList": [
+                        {
+                          "$type": "RPG.Client.AdventureGameplayLock",
+                          "IsLock": true,
+                          "LockSource": "LevelPerformance"
+                        },
+                        {
+                          "$type": "RPG.GameCore.SetHudTemplate",
+                          "TemplateID": 1021,
+                          "EnableTemplate": true
+                        },
+                        {
+                          "$type": "RPG.GameCore.LockPlayerControl"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.WaitSecond",
+                  "WaitTime": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.SetGraphDynamicFloat",
+                  "Name": "TempValue",
+                  "TargetIDs": [],
+                  "Value": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAAAAIR",
+                      "FixedValues": [
+                        {
+                          "Value": 1
+                        }
+                      ],
+                      "DynamicHashes": [
+                        -1410115017
+                      ]
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.AdvPassByValueClientOnly",
+                  "SourceType": "DynamicValue",
+                  "SourceKey": {
+                    "Value": "TempValue"
+                  },
+                  "TargetKey": {
+                    "Value": "FCV_ComicShelfDoors"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.WaitSecond",
+                  "WaitTime": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 3
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.PlayFullScreenTransfer",
+                  "KeepDuration": 1,
+                  "TextInfo": {
+                    "TextList": [
+                      {
+                        "TalkSentenceID": 408000452
+                      }
+                    ]
+                  },
+                  "Action": [
+                    {
+                      "$type": "RPG.GameCore.ScrTrfActPerformance",
+                      "CreateNpc": {
+                        "TaskEnabled": false
+                      },
+                      "DestroyNpc": {
+                        "Hide": true,
+                        "TaskEnabled": false
+                      },
+                      "CreateProp": {
+                        "TaskEnabled": false
+                      },
+                      "DestroyProp": {
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                        },
+                        "TaskEnabled": false
+                      },
+                      "CaptureNpc": [],
+                      "SwitchCharacterAnchor": {
+                        "IsLocalPlayer": true,
+                        "CharacterUniqueName": "LocalPlayer",
+                        "AreaName": {
+                          "Value": "LevelArea_P20502_F20502001_G80"
+                        },
+                        "AnchorName": {
+                          "Value": "Anchor4"
+                        }
+                      },
+                      "ActiveVirtualCamera": {
+                        "AreaName": "LevelArea_P20502_F20502001_G80",
+                        "AnchorName": "Anchor1",
+                        "IsActive": false
+                      },
+                      "ActiveTemplateVirtualCamera": {
+                        "IsActive": false,
+                        "TaskEnabled": false
+                      },
+                      "AdvNpcFaceToPlayer": {
+                        "SteerImmediately": true,
+                        "FinishImmadiate": true,
+                        "TaskEnabled": false
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.ScrTrfActTaskList",
+                      "TaskList": [
+                        {
+                          "$type": "RPG.Client.AdventureGameplayLock",
+                          "LockSource": "LevelPerformance"
+                        },
+                        {
+                          "$type": "RPG.GameCore.SetHudTemplate",
+                          "TemplateID": 1021
+                        },
+                        {
+                          "$type": "RPG.GameCore.UnLockPlayerControl"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.GroupFetchLocalTarget",
+            "TargetType": "Prop",
+            "Targets": [
+              300001
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "Clt_OnExplodeAgain"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+                "DynamicName": {
+                  "Value": "SceneStateByMainMission"
+                },
+                "CompareValue": 1
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.PlayFullScreenTransfer",
+                  "Action": [
+                    {
+                      "$type": "RPG.GameCore.ScrTrfActPerformance",
+                      "CreateNpc": {
+                        "TaskEnabled": false
+                      },
+                      "DestroyNpc": {
+                        "Hide": true,
+                        "TaskEnabled": false
+                      },
+                      "CreateProp": {
+                        "TaskEnabled": false
+                      },
+                      "DestroyProp": {
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                        },
+                        "TaskEnabled": false
+                      },
+                      "CaptureNpc": [],
+                      "SwitchCharacterAnchor": {
+                        "IsLocalPlayer": true,
+                        "CharacterUniqueName": "LocalPlayer",
+                        "AreaName": {
+                          "Value": "LevelArea_P20502_F20502001_G80"
+                        },
+                        "AnchorName": {
+                          "Value": "Anchor4"
+                        }
+                      },
+                      "ActiveVirtualCamera": {
+                        "AreaName": "LevelArea_P20502_F20502001_G80",
+                        "AnchorName": "Anchor2"
+                      },
+                      "ActiveTemplateVirtualCamera": {
+                        "IsActive": false,
+                        "TaskEnabled": false
+                      },
+                      "AdvNpcFaceToPlayer": {
+                        "SteerImmediately": true,
+                        "FinishImmadiate": true,
+                        "TaskEnabled": false
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.ScrTrfActTaskList",
+                      "TaskList": [
+                        {
+                          "$type": "RPG.Client.AdventureGameplayLock",
+                          "IsLock": true,
+                          "LockSource": "LevelPerformance"
+                        },
+                        {
+                          "$type": "RPG.GameCore.SetHudTemplate",
+                          "TemplateID": 1021,
+                          "EnableTemplate": true
+                        },
+                        {
+                          "$type": "RPG.GameCore.LockPlayerControl"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.WaitSecond",
+                  "WaitTime": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.SetGraphDynamicFloat",
+                  "Name": "TempValue",
+                  "TargetIDs": [],
+                  "Value": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAAAAIR",
+                      "FixedValues": [
+                        {
+                          "Value": 1
+                        }
+                      ],
+                      "DynamicHashes": [
+                        -1410115017
+                      ]
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.AdvPassByValueClientOnly",
+                  "SourceType": "DynamicValue",
+                  "SourceKey": {
+                    "Value": "TempValue"
+                  },
+                  "TargetKey": {
+                    "Value": "FCV_ComicShelfDoors"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.WaitSecond",
+                  "WaitTime": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 3
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.PlayFullScreenTransfer",
+                  "KeepDuration": 1,
+                  "TextInfo": {
+                    "TextList": [
+                      {
+                        "TalkSentenceID": 408000452
+                      }
+                    ]
+                  },
+                  "Action": [
+                    {
+                      "$type": "RPG.GameCore.ScrTrfActPerformance",
+                      "CreateNpc": {
+                        "TaskEnabled": false
+                      },
+                      "DestroyNpc": {
+                        "Hide": true,
+                        "TaskEnabled": false
+                      },
+                      "CreateProp": {
+                        "TaskEnabled": false
+                      },
+                      "DestroyProp": {
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                        },
+                        "TaskEnabled": false
+                      },
+                      "CaptureNpc": [],
+                      "SwitchCharacterAnchor": {
+                        "IsLocalPlayer": true,
+                        "CharacterUniqueName": "LocalPlayer",
+                        "AreaName": {
+                          "Value": "LevelArea_P20502_F20502001_G80"
+                        },
+                        "AnchorName": {
+                          "Value": "Anchor3"
+                        }
+                      },
+                      "ActiveVirtualCamera": {
+                        "AreaName": "LevelArea_P20502_F20502001_G80",
+                        "AnchorName": "Anchor2",
+                        "IsActive": false
+                      },
+                      "ActiveTemplateVirtualCamera": {
+                        "IsActive": false,
+                        "TaskEnabled": false
+                      },
+                      "AdvNpcFaceToPlayer": {
+                        "SteerImmediately": true,
+                        "FinishImmadiate": true,
+                        "TaskEnabled": false
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.ScrTrfActTaskList",
+                      "TaskList": [
+                        {
+                          "$type": "RPG.Client.AdventureGameplayLock",
+                          "LockSource": "LevelPerformance"
+                        },
+                        {
+                          "$type": "RPG.GameCore.SetHudTemplate",
+                          "TemplateID": 1021
+                        },
+                        {
+                          "$type": "RPG.GameCore.UnLockPlayerControl"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.GroupFetchLocalTarget",
+            "TargetType": "Prop",
+            "Targets": [
+              300002
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "ValueSource": {
+    "Values": [
+      {
+        "$type": "RPG.GameCore.SharedFloat",
+        "Key": "TempValue"
+      }
+    ]
+  },
+  "Type": "Group",
+  "EntityEventList": []
+}

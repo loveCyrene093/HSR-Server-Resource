@@ -1,0 +1,238 @@
+{
+  "OnInitSequece": [
+    {
+      "TaskList": []
+    }
+  ],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitCustomString",
+          "CustomString": {
+            "Value": "CandyCrash0102"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.RogueAdvRoomCandyCrashGroupProcess",
+          "GroupKey": {
+            "Value": "F80409008_G13"
+          },
+          "OnSuccess": [
+            {
+              "$type": "RPG.GameCore.ParallelConfig",
+              "TaskList": [
+                {
+                  "$type": "RPG.GameCore.AdvClientChangePropState",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx",
+                    "FetchType": "SinglePropByPropID",
+                    "SinglePropID": {
+                      "GroupID": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 15
+                        }
+                      },
+                      "ID": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 300002
+                        }
+                      }
+                    }
+                  },
+                  "ToState": "Open",
+                  "CanChangeServerProp": true
+                },
+                {
+                  "$type": "RPG.GameCore.AdventureCameraLookAtTemplate",
+                  "LookAtTarget": {
+                    "$type": "RPG.GameCore.TargetFetchAnchorByName",
+                    "AnchorName": {
+                      "Custom": true,
+                      "Key": "TargetAnchorName"
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "TriggerLookat"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.TriggerCustomString",
+                  "CustomString": {
+                    "Value": "CandyCrash0103"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "TriggerLookat"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareGraphDynamicFloat",
+                "Name": "Duration",
+                "Value": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                },
+                "CompareType": "Greater"
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.WaitSecond",
+                  "WaitTime": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        1233610838
+                      ]
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.AdventureCameraLookAtTemplate",
+                  "Reset": true
+                },
+                {
+                  "$type": "RPG.GameCore.UnLockPlayerControl"
+                },
+                {
+                  "$type": "RPG.GameCore.PlayerForceWalk"
+                }
+              ]
+            }
+          ],
+          "IsLoop": false
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "TriggerLookat"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    1233610838
+                  ]
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.AnimSetParameter",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx",
+                "FetchType": "SinglePropByPropID",
+                "SinglePropID": {
+                  "GroupID": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 3
+                    }
+                  },
+                  "ID": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 300003
+                    }
+                  }
+                }
+              },
+              "ParameterName": "IsShow",
+              "ParameterType": "Bool"
+            },
+            {
+              "$type": "RPG.GameCore.PropEnableCollider",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx",
+                "FetchType": "SinglePropByPropID",
+                "SinglePropID": {
+                  "GroupID": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 3
+                    }
+                  },
+                  "ID": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 300003
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.SetNavMeshState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx",
+                "FetchType": "SinglePropByPropID",
+                "SinglePropID": {
+                  "GroupID": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 3
+                    }
+                  },
+                  "ID": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 300003
+                    }
+                  }
+                }
+              },
+              "Name": {
+                "Value": "Open"
+              }
+            }
+          ],
+          "IsLoop": false
+        }
+      ]
+    }
+  ],
+  "ValueSource": {
+    "Values": [
+      {
+        "$type": "RPG.GameCore.SharedString",
+        "Key": "TargetAnchorName"
+      },
+      {
+        "$type": "RPG.GameCore.SharedFloat",
+        "Value": 2,
+        "Key": "Duration"
+      }
+    ]
+  },
+  "Type": "Group",
+  "EntityEventList": []
+}

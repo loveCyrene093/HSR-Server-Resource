@@ -1,0 +1,115 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitCustomString",
+          "CustomString": {
+            "Value": "TriggerBattle_LocalGroup"
+          },
+          "GoNextImmediately": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerBattle",
+          "EventID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 20501204
+            }
+          },
+          "GroupID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0
+            }
+          },
+          "BattleAreaID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0
+            }
+          },
+          "BattleAreaConfigID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 2050301
+            }
+          }
+        }
+      ]
+    },
+    {
+      "IsLoop": true,
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "EnterArea_LocalGroup"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerPerformance",
+              "PerformanceType": "D",
+              "PerformanceID": 305003002,
+              "MaskConfig": {
+                "UseExcelData": false
+              },
+              "ValueSource": {}
+            },
+            {
+              "$type": "RPG.GameCore.PerformanceEndSeq",
+              "Cases": [
+                {
+                  "Case": 1,
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.TriggerCustomString",
+                      "CustomString": {
+                        "Value": "TriggerBattle_LocalGroup"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "Case": 2,
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.ClientFinishMission",
+                      "SubmissionID": 305003006
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+          "TargetType": {
+            "$type": "RPG.GameCore.GroupFetchLocalTarget",
+            "TargetType": "Prop",
+            "Targets": [
+              300001
+            ]
+          },
+          "TriggerName": "MissionTrigger",
+          "OnEnter": [
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "EnterArea_LocalGroup"
+              }
+            }
+          ],
+          "DisableAfterTriggered": true
+        }
+      ]
+    }
+  ],
+  "Type": "Group"
+}
