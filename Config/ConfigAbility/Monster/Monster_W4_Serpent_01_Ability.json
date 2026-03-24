@@ -681,18 +681,37 @@
             {
               "$type": "RPG.GameCore.PredicateTaskList",
               "Predicate": {
-                "$type": "RPG.GameCore.ByCompareMonsterTemplateID",
-                "TargetType": {
-                  "$type": "RPG.GameCore.TargetAlias",
-                  "Alias": "Caster"
-                },
-                "TargetMonsterTemplateID": {
-                  "IsDynamic": false,
-                  "FixedValue": {
-                    "Value": 4064013
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByCompareMonsterTemplateID",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Caster"
+                    },
+                    "TargetMonsterTemplateID": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 4064013
+                      }
+                    },
+                    "Inverse": true
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByCompareMonsterTemplateID",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Caster"
+                    },
+                    "TargetMonsterTemplateID": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 4064014
+                      }
+                    },
+                    "Inverse": true
                   }
-                },
-                "Inverse": true
+                ]
               },
               "SuccessTaskList": [
                 {
@@ -3421,14 +3440,6 @@
         },
         {
           "$type": "RPG.GameCore.FireProjectile",
-          "TargetType": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "Caster"
-          },
-          "CustomAnchorTarget": {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "AbilityTargetEntity"
-          },
           "Projectile": {
             "Behavior": "Parabola",
             "FlySpeed": 25,
@@ -3444,6 +3455,14 @@
             "FlyEffectFadeOut": true,
             "AlignHitEffect": true,
             "ParabolaHeightRatio": 0.55
+          },
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "CustomAnchorTarget": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AbilityTargetEntity"
           },
           "OnProjectileHit": [
             {
@@ -4635,15 +4654,56 @@
               },
               "TaskList": [
                 {
-                  "$type": "RPG.GameCore.AddModifier",
+                  "$type": "RPG.GameCore.Retarget",
                   "TargetType": {
                     "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "AbilityTargetEntity"
+                    "Alias": "AllDarkTeam"
                   },
-                  "ModifierName": {
-                    "Value": "MMonster_W4_Serpent_01_Charge02_Target"
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareMonsterTemplateID",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "TargetMonsterTemplateID": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 4064012
+                      }
+                    }
                   },
-                  "InheritCaster": "TargetSelf"
+                  "MaxNumber": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "TaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "AbilityTargetEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MMonster_W4_Serpent_01_IF_Charge02_Target"
+                      },
+                      "InheritCaster": "TargetSelf"
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "AbilityTargetEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MMonster_W4_Serpent_01_Charge02_Target"
+                      },
+                      "InheritCaster": "TargetSelf"
+                    }
+                  ]
                 },
                 {
                   "$type": "RPG.GameCore.PredicateTaskList",
@@ -4671,47 +4731,122 @@
                   ]
                 },
                 {
-                  "$type": "RPG.GameCore.RetargetList",
+                  "$type": "RPG.GameCore.Retarget",
                   "TargetType": {
                     "$type": "RPG.GameCore.TargetAlias",
-                    "Alias": "AllLightTeamWithAllLightTeamUnselectable.RemoveServant"
+                    "Alias": "AllDarkTeam"
                   },
                   "Predicate": {
-                    "$type": "RPG.GameCore.ByAnd",
-                    "PredicateList": [
-                      {
-                        "$type": "RPG.GameCore.ByIsContainModifier",
-                        "TargetType": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "ParamEntity"
-                        },
-                        "ModifierName": {
-                          "Value": "MMonster_W4_Serpent_01_Charge02_Target"
-                        },
-                        "Inverse": true
-                      },
-                      {
-                        "$type": "RPG.GameCore.ByTargetEntityType",
-                        "TargetType": {
-                          "$type": "RPG.GameCore.TargetAlias",
-                          "Alias": "ParamEntity"
-                        },
-                        "EntityTypeMask": "Avatar"
+                    "$type": "RPG.GameCore.ByCompareMonsterTemplateID",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ParamEntity"
+                    },
+                    "TargetMonsterTemplateID": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 4064012
                       }
-                    ]
+                    }
                   },
-                  "IncludeLimbo": true,
+                  "MaxNumber": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
                   "TaskList": [
                     {
-                      "$type": "RPG.GameCore.AddModifier",
+                      "$type": "RPG.GameCore.RetargetList",
                       "TargetType": {
                         "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ParamEntityList"
+                        "Alias": "AllLightTeamWithAllLightTeamUnselectable.RemoveServant"
                       },
-                      "ModifierName": {
-                        "Value": "MMonster_W4_Serpent_01_Charge02_Target_Sub"
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByAnd",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByIsContainModifier",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntity"
+                            },
+                            "ModifierName": {
+                              "Value": "MMonster_W4_Serpent_01_IF_Charge02_Target"
+                            },
+                            "Inverse": true
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByTargetEntityType",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntity"
+                            },
+                            "EntityTypeMask": "Avatar"
+                          }
+                        ]
                       },
-                      "InheritCaster": "TargetSelf"
+                      "IncludeLimbo": true,
+                      "TaskList": [
+                        {
+                          "$type": "RPG.GameCore.AddModifier",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ParamEntityList"
+                          },
+                          "ModifierName": {
+                            "Value": "MMonster_W4_Serpent_01_IF_Charge02_Target_Sub"
+                          },
+                          "InheritCaster": "TargetSelf"
+                        }
+                      ]
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.RetargetList",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "AllLightTeamWithAllLightTeamUnselectable.RemoveServant"
+                      },
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByAnd",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByIsContainModifier",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntity"
+                            },
+                            "ModifierName": {
+                              "Value": "MMonster_W4_Serpent_01_Charge02_Target"
+                            },
+                            "Inverse": true
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByTargetEntityType",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntity"
+                            },
+                            "EntityTypeMask": "Avatar"
+                          }
+                        ]
+                      },
+                      "IncludeLimbo": true,
+                      "TaskList": [
+                        {
+                          "$type": "RPG.GameCore.AddModifier",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ParamEntityList"
+                          },
+                          "ModifierName": {
+                            "Value": "MMonster_W4_Serpent_01_Charge02_Target_Sub"
+                          },
+                          "InheritCaster": "TargetSelf"
+                        }
+                      ]
                     }
                   ]
                 },

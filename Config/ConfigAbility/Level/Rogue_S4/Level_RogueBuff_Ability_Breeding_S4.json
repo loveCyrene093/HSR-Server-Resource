@@ -4104,13 +4104,34 @@
               },
               "SuccessTaskList": [
                 {
+                  "$type": "RPG.GameCore.SetDynamicValueByCopying",
+                  "FromTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "LevelEntity"
+                  },
+                  "FromDynamicKey": {
+                    "Value": "StageAbility_673710_ActionDelay"
+                  },
+                  "ToTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "ToDynamicKey": {
+                    "Value": "_ActionDelay"
+                  }
+                },
+                {
                   "$type": "RPG.GameCore.IncludeTaskListTemplate",
                   "Name": "ReduceActionDelay",
                   "DynamicValues": {
                     "Arg0_NormalizedValue": {
-                      "IsDynamic": false,
-                      "FixedValue": {
-                        "Value": 1
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQAR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          -1250116384
+                        ]
                       }
                     }
                   },
@@ -4254,6 +4275,17 @@
                             "ModifierName": {
                               "Value": "Modifier_StageAbility_674710_Sub"
                             }
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByIsContainModifier",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "LevelEntity"
+                            },
+                            "ModifierName": {
+                              "Value": "StageAbility_676170_Modifier_Level"
+                            },
+                            "Inverse": true
                           }
                         ]
                       }
@@ -4379,6 +4411,12 @@
             }
           },
           "-1576924003": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "-1250116384": {
             "ReadInfo": {
               "Type": "None",
               "Index": 0
@@ -4749,6 +4787,17 @@
                         "ModifierName": {
                           "Value": "Modifier_StageAbility_674710_Sub"
                         }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByIsContainModifier",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "LevelEntity"
+                        },
+                        "ModifierName": {
+                          "Value": "StageAbility_676170_Modifier_Level"
+                        },
+                        "Inverse": true
                       }
                     ]
                   }
@@ -4999,6 +5048,277 @@
                       "DynamicKey": {
                         "Value": "_TargetDamageTotal"
                       }
+                    }
+                  ]
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByTargetEntityType",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "EntityTypeMask": "Servant"
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByIsContainModifier",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "LevelEntity"
+                        },
+                        "ModifierName": {
+                          "Value": "StageAbility_676170_Modifier_Level"
+                        }
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.Retarget",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "AttackTargetList"
+                      },
+                      "TaskList": [
+                        {
+                          "$type": "RPG.GameCore.IncludeTaskListTemplate",
+                          "Name": "PursuedDamage_PerformanceDelay",
+                          "ParamTarget": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ParamEntity"
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.SetDynamicValueByCopying",
+                          "FromTargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ParamEntity"
+                          },
+                          "FromDynamicKey": {
+                            "Value": "_TargetDamageTotal"
+                          },
+                          "ToTargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ModifierOwnerEntity"
+                          },
+                          "ToDynamicKey": {
+                            "Value": "_DamageTotal"
+                          }
+                        },
+                        {
+                          "$type": "RPG.GameCore.DebugLog",
+                          "Message": "==============1029 _DamageTotal {_DamageTotal}======================"
+                        },
+                        {
+                          "$type": "RPG.GameCore.PredicateTaskList",
+                          "Predicate": {
+                            "$type": "RPG.GameCore.ByCompareDynamicValue",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ModifierOwnerEntity"
+                            },
+                            "DynamicKey": {
+                              "Value": "_DamageTotal"
+                            },
+                            "CompareType": "Greater",
+                            "CompareValue": {
+                              "IsDynamic": false,
+                              "FixedValue": {
+                                "Value": 0
+                              }
+                            }
+                          },
+                          "SuccessTaskList": [
+                            {
+                              "$type": "RPG.GameCore.DamageByAttackProperty",
+                              "TargetType": {
+                                "$type": "RPG.GameCore.TargetAlias",
+                                "Alias": "ParamEntity"
+                              },
+                              "AttackProperty": {
+                                "$type": "RPG.GameCore.AttackData",
+                                "DamageType": {
+                                  "SourceType": "ReadTargetType",
+                                  "ReadTargetType": {
+                                    "$type": "RPG.GameCore.TargetAlias",
+                                    "Alias": "ModifierOwnerEntity"
+                                  }
+                                },
+                                "DamageValue": {
+                                  "IsDynamic": true,
+                                  "PostfixExpr": {
+                                    "OpCodes": "AQABAQQAAAECAgQR",
+                                    "FixedValues": [
+                                      {
+                                        "Value": 1
+                                      }
+                                    ],
+                                    "DynamicHashes": [
+                                      -915583820,
+                                      1042669966,
+                                      1094815513
+                                    ]
+                                  }
+                                },
+                                "AttackType": "TrueDamage",
+                                "DamageTag": [
+                                  {
+                                    "EnumIndex": 3,
+                                    "Value": 38
+                                  }
+                                ],
+                                "CustomName": {
+                                  "Value": "ButterFlyDamage"
+                                },
+                                "FinalFormulaType": "ByBaseDamage",
+                                "HitEffectHeight": 1.1
+                              },
+                              "IsConvert": true,
+                              "PerformanceDelay": {
+                                "IsDynamic": false,
+                                "FixedValue": {
+                                  "Value": 0.2
+                                }
+                              }
+                            },
+                            {
+                              "$type": "RPG.GameCore.TriggerEffect",
+                              "TargetType": {
+                                "$type": "RPG.GameCore.TargetAlias",
+                                "Alias": "ParamEntity"
+                              },
+                              "EffectPath": "Effects/Eff_Prefab/Eff_ActivityProp/Eff_Buff_Rogue/Eff_Buff_Rogue_Breeding_01.prefab",
+                              "Delay": 0.2,
+                              "ForceSimulateImmediately": false,
+                              "MinMutexTime": 0.5,
+                              "MinMutexType": "Entity"
+                            }
+                          ]
+                        },
+                        {
+                          "$type": "RPG.GameCore.PredicateTaskList",
+                          "Predicate": {
+                            "$type": "RPG.GameCore.ByAnd",
+                            "PredicateList": [
+                              {
+                                "$type": "RPG.GameCore.ByContainCustomString",
+                                "TargetType": {
+                                  "$type": "RPG.GameCore.TargetAlias",
+                                  "Alias": "LevelEntity"
+                                },
+                                "Key": {
+                                  "Hash": -54515149
+                                }
+                              },
+                              {
+                                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                                "TargetType": {
+                                  "$type": "RPG.GameCore.TargetAlias",
+                                  "Alias": "ModifierOwnerEntity"
+                                },
+                                "DynamicKey": {
+                                  "Value": "_DamageTotal"
+                                },
+                                "CompareType": "Greater",
+                                "CompareValue": {
+                                  "IsDynamic": false,
+                                  "FixedValue": {
+                                    "Value": 0
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "SuccessTaskList": [
+                            {
+                              "$type": "RPG.GameCore.SetDynamicValueByCopying",
+                              "FromTargetType": {
+                                "$type": "RPG.GameCore.TargetAlias",
+                                "Alias": "LevelEntity"
+                              },
+                              "FromDynamicKey": {
+                                "Value": "StageAbility_616731_ExtraDamagePercentage"
+                              },
+                              "ToTargetType": {
+                                "$type": "RPG.GameCore.TargetAlias",
+                                "Alias": "ModifierOwnerEntity"
+                              },
+                              "ToDynamicKey": {
+                                "Value": "_ExtraDamagePercentage"
+                              }
+                            },
+                            {
+                              "$type": "RPG.GameCore.DamageByAttackProperty",
+                              "TargetType": {
+                                "$type": "RPG.GameCore.TargetAlias",
+                                "Alias": "ParamEntity"
+                              },
+                              "AttackProperty": {
+                                "$type": "RPG.GameCore.AttackData",
+                                "DamageType": {},
+                                "DamageValue": {
+                                  "IsDynamic": true,
+                                  "PostfixExpr": {
+                                    "OpCodes": "AQABAQQAAAECAgQR",
+                                    "FixedValues": [
+                                      {
+                                        "Value": 1
+                                      }
+                                    ],
+                                    "DynamicHashes": [
+                                      -915583820,
+                                      -330883402,
+                                      1094815513
+                                    ]
+                                  }
+                                },
+                                "AttackType": "TrueDamage",
+                                "DamageTag": [
+                                  {
+                                    "EnumIndex": 3,
+                                    "Value": 38
+                                  }
+                                ],
+                                "CustomName": {
+                                  "Value": "ButterFlyDamage"
+                                },
+                                "FinalFormulaType": "ByBaseDamage",
+                                "HitEffectHeight": 1.1
+                              },
+                              "IsConvert": true,
+                              "PerformanceDelay": {
+                                "IsDynamic": false,
+                                "FixedValue": {
+                                  "Value": 0.2
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "$type": "RPG.GameCore.SetDynamicValue",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ParamEntity"
+                          },
+                          "ContextScope": "TargetEntity",
+                          "Value": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 0
+                            }
+                          },
+                          "DynamicKey": {
+                            "Value": "_TargetDamageTotal"
+                          }
+                        }
+                      ]
                     }
                   ]
                 }

@@ -1,0 +1,570 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.LoopWaitServerFloorSavedValueChange"
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitSecond",
+          "WaitTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.SetFiveDimEntityAttachTarget",
+          "LittleGame": {
+            "$type": "RPG.GameCore.GroupFetchLocalTarget",
+            "TargetType": "LittleGame",
+            "Targets": [
+              110001
+            ]
+          },
+          "AttachTarget": {
+            "$type": "RPG.GameCore.GroupFetchLocalTarget",
+            "TargetType": "Prop",
+            "Targets": [
+              300001
+            ]
+          },
+          "EntityID": {
+            "Value": "999"
+          },
+          "AttachPoint": "GameRoot"
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PropCurveReadMoveRatio",
+          "ReadTargetType": {
+            "$type": "RPG.GameCore.GroupFetchLocalTarget",
+            "TargetType": "Prop",
+            "Targets": [
+              300001
+            ]
+          },
+          "WriteTargetType": {
+            "$type": "RPG.GameCore.GroupFetchLocalTarget",
+            "TargetType": "LittleGame",
+            "Targets": [
+              110001
+            ]
+          },
+          "DynamicFloatName": {
+            "Value": "TrainMoveRatio"
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupPropertyChange",
+          "Name": {
+            "Value": "InTrain"
+          },
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareGroupProperty",
+                "DynamicName": {
+                  "Value": "InTrain"
+                },
+                "CompareType": "Less",
+                "CompareValue": 1
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "UnableAllArtProp"
+                  }
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareGroupProperty",
+                    "DynamicName": {
+                      "Value": "InTrain"
+                    },
+                    "CompareType": "Greater",
+                    "CompareValue": 1
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AnimSetParameter",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                        "TargetType": "Prop",
+                        "Targets": [
+                          300001
+                        ]
+                      },
+                      "ParameterName": "OnTrain",
+                      "ParameterType": "Bool",
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      }
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AnimSetParameter",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                        "TargetType": "Prop",
+                        "Targets": [
+                          300001
+                        ]
+                      },
+                      "ParameterName": "OnTrain",
+                      "ParameterType": "Bool"
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "AbleAllArtProp"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitSecond",
+          "WaitTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareGroupProperty",
+            "DynamicName": {
+              "Value": "InTrain"
+            }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "UnableAllArtProp"
+              }
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "AbleAllArtProp"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "InCar"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.SetClientGroupProperty",
+              "DynamicName": {
+                "Value": "InTrain"
+              },
+              "Value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "OutCar"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.SetClientGroupProperty",
+              "DynamicName": {
+                "Value": "InTrain"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "OnCar"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.SetClientGroupProperty",
+              "DynamicName": {
+                "Value": "InTrain"
+              },
+              "Value": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "UnableAllArtProp"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.SetEntityVisible",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300004
+                ]
+              },
+              "Visible": true,
+              "MuteTriggerWhenInvisible": true
+            },
+            {
+              "$type": "RPG.GameCore.SetEntityVisible",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300005
+                ]
+              },
+              "Visible": true,
+              "MuteTriggerWhenInvisible": true
+            },
+            {
+              "$type": "RPG.GameCore.SetEntityVisible",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300006
+                ]
+              },
+              "Visible": true,
+              "MuteTriggerWhenInvisible": true
+            },
+            {
+              "$type": "RPG.GameCore.PropEnableCollider",
+              "Enabled": true,
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300004
+                ]
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PropEnableCollider",
+              "Enabled": true,
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300005
+                ]
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PropEnableCollider",
+              "Enabled": true,
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300006
+                ]
+              }
+            },
+            {
+              "$type": "RPG.GameCore.SetEntityVisible",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300007
+                ]
+              },
+              "Visible": true,
+              "MuteTriggerWhenInvisible": true
+            },
+            {
+              "$type": "RPG.GameCore.SetEntityVisible",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300008
+                ]
+              },
+              "Visible": true,
+              "MuteTriggerWhenInvisible": true
+            },
+            {
+              "$type": "RPG.GameCore.SetEntityVisible",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300009
+                ]
+              },
+              "Visible": true,
+              "MuteTriggerWhenInvisible": true
+            },
+            {
+              "$type": "RPG.GameCore.PropEnableCollider",
+              "Enabled": true,
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300007
+                ]
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PropEnableCollider",
+              "Enabled": true,
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300008
+                ]
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PropEnableCollider",
+              "Enabled": true,
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300009
+                ]
+              }
+            },
+            {
+              "$type": "RPG.GameCore.SetEntityVisible",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300001
+                ]
+              },
+              "MuteTriggerWhenInvisible": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "AbleAllArtProp"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.SetEntityVisible",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300004
+                ]
+              },
+              "MuteTriggerWhenInvisible": true
+            },
+            {
+              "$type": "RPG.GameCore.SetEntityVisible",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300005
+                ]
+              },
+              "MuteTriggerWhenInvisible": true
+            },
+            {
+              "$type": "RPG.GameCore.SetEntityVisible",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300006
+                ]
+              },
+              "MuteTriggerWhenInvisible": true
+            },
+            {
+              "$type": "RPG.GameCore.PropEnableCollider",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300004
+                ]
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PropEnableCollider",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300005
+                ]
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PropEnableCollider",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300006
+                ]
+              }
+            },
+            {
+              "$type": "RPG.GameCore.SetEntityVisible",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300007
+                ]
+              },
+              "MuteTriggerWhenInvisible": true
+            },
+            {
+              "$type": "RPG.GameCore.SetEntityVisible",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300008
+                ]
+              },
+              "MuteTriggerWhenInvisible": true
+            },
+            {
+              "$type": "RPG.GameCore.SetEntityVisible",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300009
+                ]
+              },
+              "MuteTriggerWhenInvisible": true
+            },
+            {
+              "$type": "RPG.GameCore.PropEnableCollider",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300007
+                ]
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PropEnableCollider",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300008
+                ]
+              }
+            },
+            {
+              "$type": "RPG.GameCore.PropEnableCollider",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300009
+                ]
+              }
+            },
+            {
+              "$type": "RPG.GameCore.SetEntityVisible",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300001
+                ]
+              },
+              "Visible": true,
+              "MuteTriggerWhenInvisible": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Type": "Group",
+  "EntityEventList": [
+    {
+      "Name": "UnableAllArtProp",
+      "IsPrivate": true
+    },
+    {
+      "Name": "AbleAllArtProp",
+      "IsPrivate": true
+    }
+  ]
+}

@@ -1,0 +1,201 @@
+{
+  "OnInitSequece": [
+    {
+      "TaskList": []
+    }
+  ],
+  "OnStartSequece": [
+    {
+      "TaskList": []
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "UsePaint01"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.SetStageItemState",
+              "ItemList": [
+                {
+                  "BlockAlias": "Chap05_CloseView_MAZ_B103_07_BlockData",
+                  "PrefabAlias": "Painting_01"
+                }
+              ],
+              "EnableState": true
+            },
+            {
+              "$type": "RPG.GameCore.SetStageItemState",
+              "ItemList": [
+                {
+                  "BlockAlias": "Chap05_CloseView_MAZ_B103_07_BlockData",
+                  "PrefabAlias": "Painting_02"
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.SetStageItemState",
+              "ItemList": [
+                {
+                  "BlockAlias": "Chap05_CloseView_MAZ_B103_R08_LightProp_BlockData",
+                  "PrefabAlias": "WhitePainting_Light0"
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.SetStageItemState",
+              "ItemList": [
+                {
+                  "BlockAlias": "Chap05_CloseView_MAZ_B103_R08_LightProp_BlockData",
+                  "PrefabAlias": "Painting_Light0"
+                }
+              ],
+              "EnableState": true
+            },
+            {
+              "$type": "RPG.GameCore.AdvCreateGroupEntityV2",
+              "InstanceIDList": [
+                300001
+              ],
+              "SkipCreated": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "UsePaint02"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.SetStageItemState",
+              "ItemList": [
+                {
+                  "BlockAlias": "Chap05_CloseView_MAZ_B103_07_BlockData",
+                  "PrefabAlias": "Painting_01"
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.SetStageItemState",
+              "ItemList": [
+                {
+                  "BlockAlias": "Chap05_CloseView_MAZ_B103_07_BlockData",
+                  "PrefabAlias": "Painting_02"
+                }
+              ],
+              "EnableState": true
+            },
+            {
+              "$type": "RPG.GameCore.SetStageItemState",
+              "ItemList": [
+                {
+                  "BlockAlias": "Chap05_CloseView_MAZ_B103_R08_LightProp_BlockData",
+                  "PrefabAlias": "WhitePainting_Light0"
+                }
+              ],
+              "EnableState": true
+            },
+            {
+              "$type": "RPG.GameCore.SetStageItemState",
+              "ItemList": [
+                {
+                  "BlockAlias": "Chap05_CloseView_MAZ_B103_R08_LightProp_BlockData",
+                  "PrefabAlias": "Painting_Light0"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "UpdatePaint"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+                "DynamicName": {
+                  "Value": "FSV_PaintState"
+                },
+                "CompareValue": 1
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "UsePaint01"
+                  }
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "UsePaint02"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitFloorSavedValueChangeV2",
+          "Name": {
+            "Value": "FSV_PaintState"
+          },
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "UpdatePaint"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": []
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitSecond",
+          "WaitTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.5
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerGroupEvent",
+          "EventName": {
+            "Value": "UpdatePaint"
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": []
+    }
+  ],
+  "Type": "Group"
+}
