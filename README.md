@@ -1,17 +1,18 @@
-# StarRailData
-Repository containing the release data for Honkai: Star Rail.
+# 崩坏：星穹铁道服务器数据库
+包含 崩坏：星穹铁道 发布数据的存储库。
 
-## TextMap Hashing
-The new hashes for text map use xxhash. You can find various implementations:
+## 文本映射哈希
+文本映射的新哈希使用xxhash。您可以找到各种实现方式：
 
 * **JavaScript:** https://github.com/pierrec/js-xxhash
 * **Python:** https://github.com/ifduyue/python-xxhash
 
 
-## Support
+## 支持
 
-If you would like to support the work done to create and maintain the data repositories, you can do so here: [here](https://patreon.com/Dimbreath).
+如果你想支持创建和维护数据存储库的工作，你可以在这里这样做：[here](https://patreon.com/Dimbreath).
 
-It is not a requirement, this is only a tip jar which I had decided to add given that a lot of the content created with this repository is monetized via ads. It is heavily appreciated and would mean a lot as this is done in my spare time and the work is very time consuming, and sometimes difficult due to changes, in order to continue to provide (almost) complete dumps as you see on the repositories.
+这不是一个要求，这只是我决定添加的一个提示栏，因为用这个存储库创建的许多内容都是通过广告盈利的。我们非常感激，这意味着很多，因为这是在我的业余时间完成的，而且工作非常耗时，有时由于变化而很困难，以便继续提供（几乎）完整的转储，正如你在存储库上看到的那样。
 
-If you use the data for your site, tool, guide, etc. a thanks in some credits page would be heavily appreciated!
+如果您将这些数据用于您的网站、工具、指南等，我们将不胜感激！
+
