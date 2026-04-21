@@ -1,0 +1,830 @@
+{
+  "AbilityList": [
+    {
+      "Modifiers": {
+        "MAvatar_GlobalSkill_SilverWolf999_00_CreateBattleEvent": {
+          "_CallbackList": [
+            {
+              "Event": "OnEnterBattle",
+              "Priority": -93,
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.CreateBattleEvent",
+                  "EventID": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 11506
+                    }
+                  },
+                  "Team": "TeamLight"
+                },
+                {
+                  "$type": "RPG.GameCore.RemoveSelfModifier"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "Name": "Avatar_GlobalSkill_SilverWolf999_00_Main",
+      "OnAdd": [
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "LevelEntity"
+          },
+          "ModifierName": {
+            "Value": "MAvatar_GlobalSkill_SilverWolf999_00_CreateBattleEvent"
+          }
+        }
+      ]
+    },
+    {
+      "Modifiers": {
+        "MAvatar_GlobalSkill_SilverWolf999_00_BattleEvent": {
+          "BehaviorFlagList": [
+            "BlockDamage",
+            "Stealth"
+          ],
+          "_CallbackList": [
+            {
+              "Event": "OnCreate",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetAvatarGlobalBuffState",
+                  "BuffID": 150602,
+                  "IsActive": "True",
+                  "LeftCount": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "ModifierName": {
+                    "Value": "MAvatar_GlobalSkill_SilverWolf999_00_BattleEvent_Listener"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.SetEntityVisible",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.AttachEntityUnselectable"
+                },
+                {
+                  "$type": "RPG.GameCore.LockActionDelayChange",
+                  "LockTargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.SetEntityActionState",
+                  "UniqueName": "SilverWolf999_GlobalBuff",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "ActionState": false
+                }
+              ]
+            },
+            {
+              "Event": "OnEnterBattle",
+              "Priority": -93,
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetAvatarGlobalBuffState",
+                  "BuffID": 150602,
+                  "IsActive": "True",
+                  "LeftCount": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Caster"
+                  },
+                  "ModifierName": {
+                    "Value": "MAvatar_GlobalSkill_SilverWolf999_00_BattleEvent_Listener"
+                  }
+                }
+              ]
+            },
+            {
+              "Event": "OnModifierAdd",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.DispelStatus",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "BuffType": "Buff"
+                },
+                {
+                  "$type": "RPG.GameCore.DispelStatus",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.DispelStatus",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "BuffType": "Other"
+                }
+              ]
+            }
+          ]
+        },
+        "MAvatar_GlobalSkill_SilverWolf999_00_BattleEvent_Listener": {
+          "_CallbackList": [
+            {
+              "Event": "OnListenModifierOnStack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByAnd",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByCheckModifierCallBackBehaviorFlag",
+                            "Flag": "STAT_CTRL"
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByCheckModifierCallBackBehaviorFlag",
+                            "Flag": "STAT_ForceControl",
+                            "Inverse": true
+                          }
+                        ]
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByTargetTeam",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity2"
+                        },
+                        "Team": "TeamDark"
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByTargetTeam",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "Team": "TeamLight"
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TurnInsertAbility",
+                      "AbilityName": {
+                        "Value": "Avatar_GlobalSkill_SilverWolf999_00_Insert_Phase01"
+                      },
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "Caster"
+                      },
+                      "AbilityTarget": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "AllLightTeam"
+                      },
+                      "InsertAbilityPriority": "AvatarBuffOthers",
+                      "CanRunOnUnselectableTarget": true,
+                      "ShowInActionBar": true,
+                      "PreCheck": {
+                        "$type": "RPG.GameCore.TurnInsertAbilityCondition",
+                        "Type": "AbilityOwnerInsertUnusedCount",
+                        "Count": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 1
+                          }
+                        }
+                      },
+                      "ActivePredicate": {
+                        "$type": "RPG.GameCore.ByTargetListAny",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "AllLightTeam"
+                        },
+                        "Predicate": {
+                          "$type": "RPG.GameCore.ByAnd",
+                          "PredicateList": [
+                            {
+                              "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                              "TargetType": {
+                                "$type": "RPG.GameCore.TargetAlias",
+                                "Alias": "ParamEntity"
+                              },
+                              "Flag": "STAT_CTRL"
+                            },
+                            {
+                              "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                              "TargetType": {
+                                "$type": "RPG.GameCore.TargetAlias",
+                                "Alias": "ParamEntity"
+                              },
+                              "Flag": "STAT_ForceControl",
+                              "Inverse": true
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "Name": "Avatar_GlobalSkill_SilverWolf999_00_BattleEvent",
+      "OnAdd": [
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MAvatar_GlobalSkill_SilverWolf999_00_BattleEvent"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Avatar_GlobalSkill_SilverWolf999_00_Insert_Phase01",
+      "TargetInfo": {
+        "TargetType": "InherentTargetEntity"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.SetAvatarGlobalBuffState",
+          "BuffID": 150602,
+          "IsActive": "False",
+          "LeftCount": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsMatchTeammateCount",
+            "TeamType": "TeamLight",
+            "CountType": "Count1"
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetTeamFormation",
+              "Team": "TeamLight",
+              "CustomFormationName": "1506_GlobalBuff_Formation_1",
+              "CustomFormationIgnoreDying": false
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsMatchTeammateCount",
+            "TeamType": "TeamLight",
+            "CountType": "Count2"
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetTeamFormation",
+              "Team": "TeamLight",
+              "CustomFormationName": "1506_GlobalBuff_Formation_2",
+              "CustomFormationIgnoreDying": false
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsMatchTeammateCount",
+            "TeamType": "TeamLight",
+            "CountType": "Count3"
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetTeamFormation",
+              "Team": "TeamLight",
+              "CustomFormationName": "1506_GlobalBuff_Formation_3",
+              "CustomFormationIgnoreDying": false
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsMatchTeammateCount",
+            "TeamType": "TeamLight",
+            "CountType": "Count4"
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetTeamFormation",
+              "Team": "TeamLight",
+              "CustomFormationName": "1506_GlobalBuff_Formation_4",
+              "CustomFormationIgnoreDying": false
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.ShowBonusUIEffect",
+          "UIPrefabPath": "UI/Battle/SpecialAction/Avatar/SpecialAction_1506.prefab",
+          "TitleTextID": {
+            "Hash": 8740035078275380950
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityInherentTargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "LightTeamEntity"
+          },
+          "AbilityName": {
+            "Value": "Avatar_GlobalSkill_SilverWolf999_00_Insert_Camera"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerAbility",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "AbilityName": {
+            "Value": "Avatar_GlobalSkill_SilverWolf999_00_Insert_Phase02"
+          },
+          "IsSkillPerform": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "LightTeamCenter"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_SilverWolf999_00/GlobalSkill/Eff_Avatar_SilverWolf999_00_GlobalSkill01_Scene01.prefab"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "LightTeamCenter"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_SilverWolf999_00/GlobalSkill/Eff_Avatar_SilverWolf999_00_GlobalSkill01_Start01.prefab"
+        },
+        {
+          "$type": "RPG.GameCore.GlobalMainIntensityEffect",
+          "TargetIntensity": 0.3,
+          "FadeDuration": 1
+        },
+        {
+          "$type": "RPG.GameCore.WaitSecond",
+          "WaitTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1.25
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "LightTeamCenter"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_SilverWolf999_00/GlobalSkill/Eff_Avatar_SilverWolf999_00_GlobalSkill01_Scene02.prefab"
+        }
+      ]
+    },
+    {
+      "Name": "Avatar_GlobalSkill_SilverWolf999_00_Insert_Phase02",
+      "TargetInfo": {
+        "TargetType": "AllLightTeamMember"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.RemoveModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "Caster"
+          },
+          "ModifierName": {
+            "Value": "MAvatar_GlobalSkill_SilverWolf999_00_BattleEvent_Listener"
+          }
+        },
+        {
+          "$type": "RPG.GameCore.AddGlobalDynamicOffsetIgnoreEntity",
+          "IsIgnore": true
+        },
+        {
+          "$type": "RPG.GameCore.WaitSecond",
+          "WaitTime": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AAAAAQUR",
+              "FixedValues": [
+                {
+                  "Value": 77
+                },
+                {
+                  "Value": 60
+                }
+              ],
+              "DynamicHashes": []
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllLightTeam"
+          },
+          "Predicate": {
+            "$type": "RPG.GameCore.ByAnd",
+            "PredicateList": [
+              {
+                "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                },
+                "Flag": "STAT_CTRL"
+              },
+              {
+                "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                },
+                "Flag": "STAT_ForceControl",
+                "Inverse": true
+              }
+            ]
+          },
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_SilverWolf999_00/GlobalSkill/Eff_Avatar_SilverWolf999_00_GlobalSkill01_Buff_02.prefab"
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.WaitSecond",
+          "WaitTime": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AAAAAQUR",
+              "FixedValues": [
+                {
+                  "Value": 18
+                },
+                {
+                  "Value": 60
+                }
+              ],
+              "DynamicHashes": []
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.ShowUIPage",
+          "AssetPath": "UI/Battle/Widget/SpecialToast/BattleInfoHint_1506.prefab",
+          "UITextNodes": [
+            {
+              "TextPath": "AreaInfoPanel/Title/Text",
+              "TextContent": {
+                "Hash": 7339597463623545212
+              }
+            }
+          ],
+          "LifeTime": 2
+        },
+        {
+          "$type": "RPG.GameCore.AddModifier",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllLightTeam"
+          },
+          "ModifierName": {
+            "Value": "MAvatar_GlobalSkill_SilverWolf999_00_ImmuneCTRL"
+          },
+          "LifeTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.GlobalMainIntensityEffect",
+          "IsRevert": true,
+          "FadeDuration": 1.2
+        },
+        {
+          "$type": "RPG.GameCore.WaitSecond",
+          "WaitTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1.2
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.AddGlobalDynamicOffsetIgnoreEntity"
+        }
+      ]
+    },
+    {
+      "Name": "Avatar_GlobalSkill_SilverWolf999_00_Insert_Camera",
+      "TargetInfo": {
+        "TargetType": "InherentTargetEntity"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.VCameraConfigChange",
+          "CameraConfig": {
+            "NormalConfig": {
+              "CameraState": "CasterToTargetPerform",
+              "AnchorTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "DarkTeamCenter"
+              },
+              "IsLocalOffset": true,
+              "AnchorOffset": {
+                "X": 3.371904,
+                "Y": 7.372334,
+                "Z": -5.648905
+              },
+              "AnchorRatio": 0.99,
+              "AimTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "LightTeamCenter"
+              },
+              "AimOffset": {
+                "X": -1.210567,
+                "Y": 0.069092,
+                "Z": 0.001
+              },
+              "AimRatio": 1
+            },
+            "BlendConfig": {
+              "BlendType": "Cut"
+            },
+            "ShowEntityConfig": {
+              "ShowTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllLightTeam"
+              },
+              "IsAliveOnly": false
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitSecond",
+          "WaitTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0.0099990005
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.VCameraConfigChange",
+          "CameraConfig": {
+            "NormalConfig": {
+              "CameraState": "CasterToTargetPerform",
+              "AnchorTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "DarkTeamCenter"
+              },
+              "IsLocalOffset": true,
+              "AnchorOffset": {
+                "X": -1.960081,
+                "Y": 4.794075,
+                "Z": -5.182873
+              },
+              "AnchorRatio": 0.99,
+              "AimTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "LightTeamCenter"
+              },
+              "AimOffset": {
+                "X": 0.065157,
+                "Y": 0.286457,
+                "Z": 0.001
+              },
+              "AimRatio": 1,
+              "FollowDamp": 1,
+              "AimDamp": 0.001
+            },
+            "BlendConfig": {
+              "BlendType": "Custom",
+              "CustomCurveData": {
+                "Keys": [
+                  {
+                    "InTangent": 2,
+                    "OutTangent": 2
+                  },
+                  {
+                    "Time": 1,
+                    "Value": 1,
+                    "InTangent": 0.127202,
+                    "OutTangent": 0.127202,
+                    "InWeight": 0.055363
+                  }
+                ],
+                "PreWrapMode": "ClampForever",
+                "PostWrapMode": "ClampForever"
+              },
+              "BlendTime": 1.4
+            },
+            "ShowEntityConfig": {
+              "ShowTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllLightTeam"
+              },
+              "IsAliveOnly": false
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitSecond",
+          "WaitTime": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1.566666
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.VCameraConfigChange",
+          "CameraConfig": {
+            "NormalConfig": {
+              "CameraState": "CasterToTargetPerform",
+              "AnchorTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "DarkTeamCenter"
+              },
+              "IsLocalOffset": true,
+              "AnchorOffset": {
+                "X": -2.484179,
+                "Y": 6.155752,
+                "Z": -6.247507
+              },
+              "AnchorRatio": 0.99,
+              "AimTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "LightTeamCenter"
+              },
+              "AimOffset": {
+                "X": 0.038862,
+                "Y": 0.370222,
+                "Z": 0.001
+              },
+              "AimRatio": 1,
+              "FollowDamp": 1,
+              "AimDamp": 0.001
+            },
+            "BlendConfig": {
+              "BlendType": "Custom",
+              "CustomCurveData": {
+                "Keys": [
+                  {
+                    "InTangent": 6.105634,
+                    "OutTangent": 6.105634,
+                    "OutWeight": 0.087382
+                  },
+                  {
+                    "Time": 0.2,
+                    "Value": 0.75,
+                    "InTangent": 0.778392,
+                    "OutTangent": 0.778392,
+                    "InWeight": 0.333333,
+                    "OutWeight": 0.077278
+                  },
+                  {
+                    "Time": 1,
+                    "Value": 1
+                  }
+                ],
+                "PreWrapMode": "ClampForever",
+                "PostWrapMode": "ClampForever"
+              },
+              "BlendTime": 0.95
+            },
+            "ShowEntityConfig": {
+              "ShowTargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "AllLightTeam"
+              },
+              "IsAliveOnly": false
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "GlobalModifiers": {
+    "MAvatar_GlobalSkill_SilverWolf999_00_ImmuneCTRL": {
+      "BehaviorFlagList": [
+        "EnduranceEnemyLogicOnly",
+        501
+      ],
+      "_CallbackList": [
+        {
+          "Event": "OnStack",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.TriggerEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_SilverWolf999_00/GlobalSkill/Eff_Avatar_SilverWolf999_00_GlobalSkill01_Buff_01.prefab"
+            },
+            {
+              "$type": "RPG.GameCore.ShowAvatarHUDSpecialEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "EffectPrefabPath": "UI/Battle/Widget/TeamInfoStatusEff/Avatar/TeamInfoStatusHint_1506.prefab"
+            }
+          ]
+        },
+        {
+          "Event": "OnImmuneDebuff",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCheckModifierCallBackBehaviorFlag",
+                "Flag": "STAT_CTRL"
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.TriggerEffect",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_SilverWolf999_00/GlobalSkill/Eff_Avatar_SilverWolf999_00_GlobalSkill01_Buff_01.prefab",
+                  "ForceSimulateImmediately": false
+                },
+                {
+                  "$type": "RPG.GameCore.ShowAvatarHUDSpecialEffect",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "EffectPrefabPath": "UI/Battle/Widget/TeamInfoStatusEff/Avatar/TeamInfoStatusHint_1506.prefab"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "Stacking": "ReplaceByCaster"
+    }
+  }
+}

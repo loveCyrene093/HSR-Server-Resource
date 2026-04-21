@@ -1,0 +1,226 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitCustomString",
+          "CustomString": {
+            "Value": "Talk5D"
+          },
+          "GoNextImmediately": true,
+          "ResetWhenTaskBegin": true
+        },
+        {
+          "$type": "RPG.GameCore.SetFloorCustomFloatV2",
+          "Name": {
+            "Value": "EnterFiveDim"
+          },
+          "Value": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1
+            }
+          }
+        },
+        {
+          "$type": "RPG.GameCore.WaitFloorCustomValueChangeV2",
+          "Name": {
+            "Value": "EnterFiveDim"
+          },
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.HideAllEntity",
+              "IsHide": true,
+              "HideNPC": true,
+              "HideProp": true,
+              "NotHideEntity": []
+            },
+            {
+              "$type": "RPG.GameCore.ActiveVirtualCamera",
+              "AreaName": "LevelArea_P40524_F40524003_G3",
+              "AnchorName": "Anchor1",
+              "IsActive": false
+            },
+            {
+              "$type": "RPG.GameCore.UnLockPlayerControl"
+            },
+            {
+              "$type": "RPG.GameCore.PlayerForceWalk"
+            },
+            {
+              "$type": "RPG.GameCore.AdvHideMazeBtn",
+              "IsHide": false
+            },
+            {
+              "$type": "RPG.GameCore.AdvHideMazeBtn",
+              "SkillType": "MazeSkill",
+              "IsHide": false
+            }
+          ],
+          "Condition": {
+            "$type": "RPG.GameCore.ByCompareFloorCustomFloatV2",
+            "Name": {
+              "Value": "EnterFiveDim"
+            },
+            "CompareValue": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 2
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "EnterArea_G3"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.SetSpecialVisionOn",
+              "IsOn": true,
+              "VisionType": "Performance",
+              "VisionEffectType": "SWCyborgVision",
+              "CameraEffectType": "Empty",
+              "SmellProp": {}
+            },
+            {
+              "$type": "RPG.GameCore.PlayFullScreenTransfer",
+              "PrevDuration": 0,
+              "KeepDuration": 0.1,
+              "PostDuration": 0
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "JDHAMPHMIAI"
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.PlayFullScreenTransfer",
+                  "PrevDuration": 0,
+                  "KeepDuration": 0,
+                  "PostDuration": 0
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "JDHAMPHMIAI"
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.PlayFullScreenTransfer",
+                      "PrevDuration": 0,
+                      "KeepDuration": 0,
+                      "PostDuration": 0
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByCompareFloorCustomFloatV2",
+                        "Name": {
+                          "Value": "EnterFiveDim"
+                        },
+                        "CompareValue": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 0
+                          }
+                        }
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.ActiveVirtualCamera",
+                          "AreaName": "LevelArea_P40524_F40524003_G3",
+                          "AnchorName": "Anchor1"
+                        },
+                        {
+                          "$type": "RPG.GameCore.HideAllEntity",
+                          "HideNPC": true,
+                          "HideProp": true,
+                          "NotHideEntity": []
+                        },
+                        {
+                          "$type": "RPG.GameCore.AdvHideMazeBtn"
+                        },
+                        {
+                          "$type": "RPG.GameCore.AdvHideMazeBtn",
+                          "SkillType": "MazeSkill"
+                        },
+                        {
+                          "$type": "RPG.GameCore.PlayerForceWalk",
+                          "ForceWalk": true
+                        },
+                        {
+                          "$type": "RPG.GameCore.LockPlayerControl",
+                          "LockInteractSelect": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+          "TargetType": {
+            "$type": "RPG.GameCore.GroupFetchLocalTarget",
+            "TargetType": "Prop",
+            "Targets": [
+              300001
+            ]
+          },
+          "TriggerName": "MissionTrigger",
+          "OnEnter": [
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "EnterArea_G3"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.HideAllEntity",
+          "IsHide": true,
+          "HideNPC": true,
+          "HideProp": true,
+          "NotHideEntity": []
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.SetSpecialVisionOn",
+          "IsOn": true,
+          "VisionType": "Performance",
+          "VisionEffectType": "SWCyborgVision",
+          "CameraEffectType": "Empty",
+          "SmellProp": {}
+        }
+      ]
+    }
+  ],
+  "Type": "Group",
+  "EntityEventList": []
+}

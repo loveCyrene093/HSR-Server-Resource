@@ -1,0 +1,193 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareGraphDynamicString",
+            "Name": "NeedMissionChallenge",
+            "Value": {
+              "Value": "1"
+            }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.PropInitPuzzle",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "BoardPath": {
+                "Value": "Props/Outputs/PuzzleLogicPrefab/DummyPuzzleBoard.prefab"
+              },
+              "LocalPosition": {
+                "X": 0,
+                "Y": 0,
+                "Z": 0
+              },
+              "LOD": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "ChallengeHintShow"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareGraphDynamicString",
+                "Name": "NeedMissionChallenge",
+                "Value": {
+                  "Value": "1"
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.TakenMazePuzzleChallenge",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  },
+                  "MazePuzzleChallengeID": {
+                    "Value": "1066"
+                  },
+                  "AutoClosePuzzle": false,
+                  "PrepareTime": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "ChallengeHintFinish"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.Client.AdventureGameplayLock",
+              "LockSource": "PropInteract"
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareGraphDynamicString",
+                "Name": "NeedMissionChallenge",
+                "Value": {
+                  "Value": "1"
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.FinishMazePuzzleChallenge",
+                  "MazePuzzleChallengeID": {
+                    "Value": "1066"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+          "TriggerName": "EnterTrigger",
+          "OnEnter": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareGroupProperty",
+                "DynamicName": {
+                  "Value": "PuzzleState"
+                },
+                "CompareValue": 1
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareGraphDynamicString",
+                    "Name": "NeedMissionChallenge",
+                    "Value": {
+                      "Value": "1"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.TakenMazePuzzleChallenge",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                      },
+                      "MazePuzzleChallengeID": {
+                        "Value": "1066"
+                      },
+                      "AutoClosePuzzle": false,
+                      "PrepareTime": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "OnExit": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareGraphDynamicString",
+                "Name": "NeedMissionChallenge",
+                "Value": {
+                  "Value": "1"
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.CancelMazePuzzleChallenge",
+                  "MazePuzzleChallengeID": {
+                    "Value": "1066"
+                  }
+                }
+              ]
+            }
+          ],
+          "IsOverrideValidGuestConfig": true,
+          "OverridedValidGuestConfig": {
+            "FakePlayer": true
+          }
+        }
+      ]
+    }
+  ],
+  "ValueSource": {
+    "Values": [
+      {
+        "$type": "RPG.GameCore.SharedString",
+        "Value": "1",
+        "Key": "NeedMissionChallenge"
+      },
+      {
+        "$type": "RPG.GameCore.SharedFloat",
+        "Key": "InPuzzleActive"
+      }
+    ]
+  },
+  "Type": "Entity",
+  "EntityEventList": [
+    {
+      "Name": "InTriggerEvent"
+    }
+  ]
+}

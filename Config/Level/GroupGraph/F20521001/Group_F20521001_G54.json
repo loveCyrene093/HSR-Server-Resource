@@ -1,0 +1,144 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "EnterArea_G54"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerPerformance",
+              "PerformanceType": "D",
+              "PerformanceID": 105421023,
+              "MaskConfig": {
+                "UseExcelData": false,
+                "StartBlack": "NoPre",
+                "EndBlack": "None",
+                "StartCustomSrcTrf": "FiveDim"
+              },
+              "ValueSource": {}
+            },
+            {
+              "$type": "RPG.GameCore.PerformanceEndSeq",
+              "Cases": [
+                {
+                  "Case": 1,
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.ActiveVirtualCamera",
+                      "AreaName": "LevelArea_P20521_F20521001_G54",
+                      "AnchorName": "Anchor1"
+                    },
+                    {
+                      "$type": "RPG.GameCore.OpenTreasureChallenge",
+                      "RaidID": 40525,
+                      "OnCancel": [
+                        {
+                          "$type": "RPG.GameCore.ActiveVirtualCamera",
+                          "AreaName": "LevelArea_P20521_F20521001_G54",
+                          "AnchorName": "Anchor1",
+                          "IsActive": false
+                        },
+                        {
+                          "$type": "RPG.GameCore.SwitchCharacterAnchorV2",
+                          "SwitchCharacterAnchorConfig": {
+                            "IsLocalPlayer": true,
+                            "CharacterUniqueName": "LocalPlayer",
+                            "AreaName": {
+                              "Value": "LevelArea_P20521_F20521001_G54"
+                            },
+                            "AnchorName": {
+                              "Value": "Anchor2"
+                            }
+                          }
+                        }
+                      ],
+                      "OnEnter": [
+                        {
+                          "$type": "RPG.GameCore.ClientFinishMission",
+                          "SubmissionID": 105421017
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Case": 2,
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.SwitchCharacterAnchorV2",
+                      "SwitchCharacterAnchorConfig": {
+                        "IsLocalPlayer": true,
+                        "CharacterUniqueName": "LocalPlayer",
+                        "AreaName": {
+                          "Value": "LevelArea_P20521_F20521001_G54"
+                        },
+                        "AnchorName": {
+                          "Value": "Anchor2"
+                        }
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.ClientFinishMission",
+                      "SubmissionID": 105421017
+                    }
+                  ]
+                }
+              ],
+              "BeforeCases": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.CollectDataConditions",
+          "TaskIDList": [
+            105421017
+          ],
+          "MainMissionIDList": [],
+          "PerformanceIDList": [],
+          "PerformanceIDDsList": [],
+          "CustomValueMainMissionIDList": []
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareSubMissionState",
+            "SubMissionID": 105421017,
+            "SubMissionState": "Finish"
+          },
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300001
+                ]
+              },
+              "TriggerName": "MissionTrigger",
+              "OnEnter": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "EnterArea_G54"
+                  }
+                }
+              ],
+              "DisableAfterTriggered": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Type": "Group",
+  "EntityEventList": []
+}

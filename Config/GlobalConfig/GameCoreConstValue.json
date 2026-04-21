@@ -234,6 +234,11 @@
       "Hash": -9465014
     }
   },
+  "ElationConstKeys": {
+    "KeyHashElationEchoPoint": {
+      "Hash": -1552518779
+    }
+  },
   "ResilienceHitAdditiveWeights": [
     0.25,
     0.5,
@@ -338,6 +343,22 @@
     },
     {
       "Flag": "STAT_CTRL_Sleep",
+      "ModifierBehaviorVisualPriority": "AvatarStanceBreak",
+      "AnimOccur": "Stagger",
+      "AnimLoop": "Stagger_Loop",
+      "AnimRecover": "Stagger_Recover",
+      "AnimOccurTransition": 0,
+      "RepeatOccurAnimWhenBeHitNormalizedTime": 0.7,
+      "ReactionAnims": {
+        "$type": "RPG.GameCore.CharacterReactionAnimConfig",
+        "Hit": "Hit_Stun",
+        "HitFlyRecover": "Hit_Fly_Recover_Break"
+      },
+      "OnlyAffectPlayer": true,
+      "EmoAnimName": "Emo_Stun"
+    },
+    {
+      "Flag": 147,
       "ModifierBehaviorVisualPriority": "AvatarStanceBreak",
       "AnimOccur": "Stagger",
       "AnimLoop": "Stagger_Loop",
@@ -636,6 +657,11 @@
         "STAT_CTRL"
       ]
     },
+    "EnduranceEnemyLogicOnly": {
+      "BehaviorFlags": [
+        "STAT_CTRL"
+      ]
+    },
     "STAT_ForceActionable": {
       "BehaviorFlags": [
         "STAT_CTRL"
@@ -693,6 +719,84 @@
     "ServantInherit_ModifierContinuation",
     "MuteHitFly"
   ],
+  "ModifierBehaviorFlagEventMap": {
+    "500": {
+      "ModifierBehaviorFlagEventConfigs": [
+        {
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.DispelStatus",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "OnlyCanDispel": false,
+              "BehaviorFlags": [
+                "STAT_CTRL"
+              ],
+              "Condition": {
+                "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ModifierOwnerEntity"
+                },
+                "Flags": [
+                  "STAT_ForceControl"
+                ],
+                "Inverse": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "501": {
+      "ModifierBehaviorFlagEventConfigs": [
+        {
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.DispelStatus",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ModifierOwnerEntity"
+              },
+              "OnlyCanDispel": false,
+              "BehaviorFlags": [
+                "STAT_CTRL"
+              ],
+              "Condition": {
+                "$type": "RPG.GameCore.ByAnd",
+                "PredicateList": [
+                  {
+                    "$type": "RPG.GameCore.ByIsEnemy",
+                    "TargetTypeA": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "TargetTypeB": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "CallBackModifierCaster"
+                    }
+                  },
+                  {
+                    "$type": "RPG.GameCore.ByContainBehaviorFlag",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "Flags": [
+                      "STAT_ForceControl"
+                    ],
+                    "Inverse": true
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
   "StoryPlayerBoyID": "NPC_Avatar_Lad_PlayerBoy_00",
   "StoryPlayerGirlID": "NPC_Avatar_Miss_PlayerGirl_00",
   "StoryEndOpenUIDelayTime": 0.5,
@@ -896,7 +1000,7 @@
   "ProjectileCurveAsset": [
     "Projectile/ProjectileSpeedCurve.asset"
   ],
-  "GameCoreDesignDataVersion": 14519506,
+  "GameCoreDesignDataVersion": 14786806,
   "MainMonsterUniqueName": "CurMainMonster",
   "StanceBreakActionDelayChangeRatio": {
     "Value": 0.25
@@ -962,8 +1066,11 @@
     "HandleMaterialEffectRenderMaskConflict": true,
     "InsertUltraSkillWaitOrderApplyOpVerify": true,
     "GlobalClearAttackCache": true,
-    "SelectFriendSkillWhenNoEnemy": true
+    "SelectFriendSkillWhenNoEnemy": true,
+    "ModifierRestackPropertyReport": true,
+    "ByHaveEnemyAliveIncludeCustomUnselectableTarget": true
   },
+  "RangePropertyRecallLimit": 3,
   "ForbidRecallModifierEventList": [
     "OnModifierAdd",
     "OnAddModifierSuc",
