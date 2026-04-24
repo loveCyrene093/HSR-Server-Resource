@@ -5,18 +5,20 @@
         "MAvatar_GridFight_Kafka_00_PassiveSkill01": {
           "_CallbackList": [
             {
-              "Event": "OnEnterBattle",
-              "Priority": -80,
+              "Event": "OnListenTurnBegin",
               "CallbackConfig": [
                 {
                   "$type": "RPG.GameCore.PredicateTaskList",
                   "Predicate": {
-                    "$type": "RPG.GameCore.ByCompareWaveCount",
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "MDF_Counted"
+                    },
                     "CompareType": "Equal",
                     "CompareValue": {
                       "IsDynamic": false,
                       "FixedValue": {
-                        "Value": 1
+                        "Value": 0
                       }
                     }
                   },
@@ -39,12 +41,89 @@
                       "ModifierName": {
                         "Value": "MAvatar_GridFight_Kafka_00_DotRatioAdd"
                       }
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "MDF_Counted"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnEnterBattle",
+              "Priority": -80,
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "MDF_Counted"
+                    },
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 0
+                      }
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValueByGridFightProperty",
+                      "DynamicKey": "EquipCount",
+                      "ReadTargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "PropertyType": "AvatarEquip"
+                    },
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MAvatar_GridFight_Kafka_00_DotRatioAdd"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "MDF_Counted"
+                      }
                     }
                   ]
                 }
               ]
             }
-          ]
+          ],
+          "DynamicValues": {
+            "Floats": {
+              "-305479286": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
+            }
+          }
         },
         "MAvatar_GridFight_Kafka_00_DotRatioAdd": {
           "_CallbackList": [
@@ -247,6 +326,18 @@
         "TargetType": "SkillTargetEntityList"
       },
       "OnStart": [
+        {
+          "$type": "RPG.GameCore.SetDynamicValue",
+          "Value": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0
+            }
+          },
+          "DynamicKey": {
+            "Value": "_DamageFinished"
+          }
+        },
         {
           "$type": "RPG.GameCore.SetDynamicValue",
           "Value": {
@@ -796,6 +887,18 @@
           ],
           "FailedTaskList": [
             {
+              "$type": "RPG.GameCore.SetDynamicValue",
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              },
+              "DynamicKey": {
+                "Value": "_DamageFinished"
+              }
+            },
+            {
               "$type": "RPG.GameCore.DamagePerformFinish"
             }
           ]
@@ -815,7 +918,25 @@
           }
         },
         {
-          "$type": "RPG.GameCore.DamagePerformFinish"
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareDynamicValue",
+            "DynamicKey": {
+              "Value": "_DamageFinished"
+            },
+            "CompareType": "Equal",
+            "CompareValue": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 0
+              }
+            }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.DamagePerformFinish"
+            }
+          ]
         },
         {
           "$type": "RPG.GameCore.GlobalMainIntensityEffect",
@@ -829,6 +950,12 @@
       ],
       "DynamicValues": {
         "Floats": {
+          "-1784409508": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
           "-1754665696": {
             "ReadInfo": {
               "Type": "None",

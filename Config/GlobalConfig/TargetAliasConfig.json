@@ -1920,6 +1920,53 @@
         }
       ]
     },
+    "GridFight_AllBackEndActived": {
+      "$type": "RPG.GameCore.TargetAlias",
+      "Alias": "GridFight_AllBackEndActivedRoleOnly.WithBEServant"
+    },
+    "GridFight_AllBackEndActivedRoleOnly": {
+      "$type": "RPG.GameCore.TargetSequence",
+      "Sequence": [
+        {
+          "$type": "RPG.GameCore.TargetAlias",
+          "Alias": "BattleEventEntityList.GetAliveOrLimbo"
+        },
+        {
+          "$type": "RPG.GameCore.TargetFilter",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByAnd",
+            "PredicateList": [
+              {
+                "$type": "RPG.GameCore.ByCompareGridFightProperty",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                },
+                "PropertyType": "LocationIndex",
+                "CompareType": "Greater",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
+              },
+              {
+                "$type": "RPG.GameCore.ByIsContainModifier",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ParamEntity"
+                },
+                "ModifierName": {
+                  "Value": "MBattleEvent_GridFight_Common_FrontInBackEnd"
+                },
+                "Inverse": true
+              }
+            ]
+          }
+        }
+      ]
+    },
     "CasterBEServant": {
       "$type": "RPG.GameCore.TargetQuery",
       "EntityTypeMask": "BattleEvent",
@@ -1945,39 +1992,6 @@
               "$type": "RPG.GameCore.TargetAlias",
               "Alias": "Caster"
             }
-          }
-        ]
-      }
-    },
-    "ChessLockTarget": {
-      "$type": "RPG.GameCore.TargetFetchChessLockTarget"
-    },
-    "ChessSkillTarget": {
-      "$type": "RPG.GameCore.TargetFetchChessSkillTarget"
-    },
-    "ChessMoveTarget": {
-      "$type": "RPG.GameCore.TargetFetchChessMoveTarget"
-    },
-    "ChessEnemyInAttackRange": {
-      "$type": "RPG.GameCore.TargetFetchEnemyInAttackRange"
-    },
-    "ChessEnemyInAlertRange": {
-      "$type": "RPG.GameCore.TargetFetchEnemyInAlertRange"
-    },
-    "ChessSlefBase": {
-      "$type": "RPG.GameCore.TargetFetchChessBase"
-    },
-    "ChessEnemyBase": {
-      "$type": "RPG.GameCore.TargetFetchChessBase",
-      "Target": {
-        "$type": "RPG.GameCore.TargetSequence",
-        "Sequence": [
-          {
-            "$type": "RPG.GameCore.TargetAlias",
-            "Alias": "Caster"
-          },
-          {
-            "$type": "RPG.GameCore.TargetMapEnemyTeamEntity"
           }
         ]
       }

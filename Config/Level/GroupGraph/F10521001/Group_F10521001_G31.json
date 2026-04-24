@@ -1,0 +1,127 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "UIClose"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerPerformance",
+              "PerformanceType": "D",
+              "PerformanceID": 804220005,
+              "MaskConfig": {
+                "UseExcelData": false,
+                "StartBlack": "NoPre",
+                "EndBlack": "None"
+              },
+              "ValueSource": {}
+            },
+            {
+              "$type": "RPG.GameCore.PerformanceEndSeq",
+              "Cases": [
+                {
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.ClientFinishMission",
+                      "SubmissionID": 804220004,
+                      "IsWaitServer": true
+                    }
+                  ]
+                },
+                {
+                  "Case": 1,
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.ClientFinishMission",
+                      "SubmissionID": 804220004,
+                      "IsWaitServer": true,
+                      "OnComplete": [
+                        {
+                          "$type": "FEOBBGBILBP"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "EnterDistrict"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerPerformance",
+              "PerformanceType": "D",
+              "PerformanceID": 804220004,
+              "MaskConfig": {
+                "UseExcelData": false,
+                "StartBlack": "NoPre",
+                "EndBlack": "None",
+                "EndScrCut": true
+              },
+              "ValueSource": {}
+            },
+            {
+              "$type": "RPG.GameCore.ShowUI",
+              "Name": "Ui.DiceCombatV2.BrandRanking.DiceCombatV2BrandRankingDialog",
+              "WaitForExit": true,
+              "Param": {
+                "Value": "0"
+              },
+              "OnUIExitImmediately": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "UIClose"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvDistrictSetupTrigger",
+          "GroupID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 31
+            }
+          },
+          "DistrictID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 500001
+            }
+          },
+          "DisableAfterTrigger": true,
+          "TickInterval": 0.3,
+          "OnEnter": [
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "EnterDistrict"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Type": "Group"
+}

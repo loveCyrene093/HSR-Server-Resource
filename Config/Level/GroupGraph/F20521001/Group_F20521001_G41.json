@@ -1,0 +1,95 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "EnterArea_G41"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PlayVoice_Sequence",
+              "VoiceIDs": [
+                152101601,
+                152101602,
+                152101603,
+                152121077
+              ],
+              "EmitterTargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300001
+                ]
+              },
+              "IntervalTime": 1
+            },
+            {
+              "$type": "RPG.GameCore.SetFloorCustomFloatV2",
+              "Name": {
+                "Value": "FCV_MergeScreenAll"
+              },
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 5
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.ClientFinishMission",
+              "SubmissionID": 105421024
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.CollectDataConditions",
+          "TaskIDList": [
+            105421024
+          ],
+          "MainMissionIDList": [],
+          "PerformanceIDList": [],
+          "PerformanceIDDsList": [],
+          "CustomValueMainMissionIDList": []
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareSubMissionState",
+            "SubMissionID": 105421024,
+            "SubMissionState": "Finish"
+          },
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300001
+                ]
+              },
+              "TriggerName": "MissionTrigger",
+              "OnEnter": [
+                {
+                  "$type": "RPG.GameCore.TriggerGroupEvent",
+                  "EventName": {
+                    "Value": "EnterArea_G41"
+                  }
+                }
+              ],
+              "DisableAfterTriggered": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Type": "Group"
+}

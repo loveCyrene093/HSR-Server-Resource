@@ -12,7 +12,7 @@
             {
               "$type": "RPG.GameCore.PredicateTaskList",
               "Predicate": {
-                "$type": "OCALHBEHODF"
+                "$type": "JDHAMPHMIAI"
               },
               "FailedTaskList": [
                 {
@@ -400,7 +400,8 @@
         {
           "$type": "RPG.GameCore.CollectDataConditions",
           "TaskIDList": [
-            105400306
+            105400306,
+            105420203
           ],
           "MainMissionIDList": [],
           "PerformanceIDList": [],
@@ -462,6 +463,221 @@
           ]
         }
       ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEventV2",
+          "EventName": {
+            "Value": "UpdateBotState"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareGroupProperty",
+                "DynamicName": {
+                  "Value": "LG_110001_HubUnlocked"
+                },
+                "CompareValue": 1
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareGraphDynamicFloat",
+                    "Name": "BotMissionFinish",
+                    "Value": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 1
+                      }
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByCompareGroupProperty",
+                        "DynamicName": {
+                          "Value": "LG_110001_BotUnlocked"
+                        }
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.RequestSetServerGroupPropertyV2",
+                          "DynamicName": {
+                            "Value": "LG_110001_BotUnlocked"
+                          },
+                          "Value": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGraphDynamicValueChange",
+          "Name": "BotMissionFinish",
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.TriggerEntityEventV2",
+              "EventName": {
+                "Value": "UpdateBotState"
+              },
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitSubMissionStateChange",
+          "SubMissions": [
+            105420203
+          ],
+          "State": "Finish",
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.SetGraphDynamicFloat",
+              "Name": "BotMissionFinish",
+              "TargetIDs": [],
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              }
+            }
+          ],
+          "TriggerOnMissionInit": false
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupPropertyChange",
+          "Name": {
+            "Value": "LG_110001_HubUnlocked"
+          },
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.TriggerEntityEventV2",
+              "EventName": {
+                "Value": "UpdateBotState"
+              },
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.CollectDataConditions",
+          "TaskIDList": [
+            105400306,
+            105420203
+          ],
+          "MainMissionIDList": [],
+          "PerformanceIDList": [],
+          "PerformanceIDDsList": [],
+          "CustomValueMainMissionIDList": []
+        },
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareSubMissionState",
+            "SubMissionID": 105420203,
+            "SubMissionState": "Finish",
+            "AllStoryLine": true
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetGraphDynamicFloat",
+              "Name": "BotMissionFinish",
+              "TargetIDs": [],
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.TriggerEntityEventV2",
+          "EventName": {
+            "Value": "UpdateBotState"
+          },
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitFiveDimPlayerEnterOrExit",
+          "SpecifyContainer": true,
+          "ContainerID": {
+            "Custom": true,
+            "Key": "FDLevel_Bot"
+          },
+          "OnEnter": [
+            {
+              "$type": "RPG.GameCore.SetFloorCustomFloatV2",
+              "Name": {
+                "Value": "FCV_FD_InTrainingLevel"
+              },
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 2
+                }
+              }
+            }
+          ],
+          "OnExit": [
+            {
+              "$type": "RPG.GameCore.SetFloorCustomFloatV2",
+              "Name": {
+                "Value": "FCV_FD_InTrainingLevel"
+              },
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "ValueSource": {
@@ -491,8 +707,16 @@
         "Key": "FDLevel2"
       },
       {
+        "$type": "RPG.GameCore.SharedString",
+        "Key": "FDLevel_Bot"
+      },
+      {
         "$type": "RPG.GameCore.SharedInt",
         "Key": "ArrowMissionFinish"
+      },
+      {
+        "$type": "RPG.GameCore.SharedInt",
+        "Key": "BotMissionFinish"
       }
     ]
   },
@@ -500,6 +724,10 @@
   "EntityEventList": [
     {
       "Name": "UpdateArrowState",
+      "IsPrivate": true
+    },
+    {
+      "Name": "UpdateBotState",
       "IsPrivate": true
     }
   ]

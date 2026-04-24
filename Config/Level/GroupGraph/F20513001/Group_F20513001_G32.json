@@ -1,0 +1,78 @@
+{
+  "OnInitSequece": [
+    {
+      "TaskList": []
+    }
+  ],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.LoopWaitServerGroupPropertyChangeV2"
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareGroupProperty",
+            "GroupID": 32,
+            "DynamicName": {
+              "Value": "LG_110001__82_PressureSwitchState_Auto"
+            },
+            "CompareValue": 1
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetFloorSavedValue"
+            }
+          ],
+          "FailedTaskList": [
+            {
+              "$type": "RPG.GameCore.SetFloorSavedValue"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitFiveDimPlayerEnterOrExit",
+          "OnEnter": [
+            {
+              "$type": "RPG.GameCore.SetFloorCustomFloatV2",
+              "Name": {
+                "Value": "FCV_IsInTrack5D"
+              },
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              }
+            }
+          ],
+          "OnExit": [
+            {
+              "$type": "RPG.GameCore.SetFloorCustomFloatV2",
+              "Name": {
+                "Value": "FCV_IsInTrack5D"
+              },
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Type": "Group",
+  "EntityEventList": []
+}

@@ -15,7 +15,7 @@
               ]
             },
             {
-              "Event": "OnWaveMonster",
+              "Event": "OnBeforeWaveMonster",
               "CallbackConfig": [
                 {
                   "$type": "RPG.GameCore.SetDynamicValueByVariateType",
@@ -51,6 +51,9 @@
                       "ResetStateNames": [
                         "State_Planarcadia_Combat_Vtuber_01"
                       ]
+                    },
+                    {
+                      "$type": "RPG.GameCore.RemoveSelfModifier"
                     }
                   ]
                 }
@@ -100,6 +103,10 @@
               {
                 "$type": "RPG.GameCore.ByCompareStageType",
                 "CurrentStageType": "RogueRelic"
+              },
+              {
+                "$type": "RPG.GameCore.ByCompareStageType",
+                "CurrentStageType": "GridFightActivity"
               }
             ]
           },
@@ -3431,6 +3438,165 @@
       ]
     },
     {
+      "Name": "Monster_W5_Vtuber_00_AbortInsert",
+      "TargetInfo": {
+        "TargetType": "Caster"
+      },
+      "OnStart": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByIsContainModifier",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetFetchUniqueNameEntity",
+              "UniqueName": "W5_Vtuber_00"
+            },
+            "ModifierName": {
+              "Value": "MMonster_W5_Vtuber_00_SwitchField"
+            }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.SetModifierDynamicValue",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchUniqueNameEntity",
+                "UniqueName": "W5_Vtuber_00"
+              },
+              "ModifierName": {
+                "Value": "MMonster_W5_Vtuber_00_SwitchField"
+              },
+              "DynamicKey": {
+                "Value": "MDF_SwitchField"
+              },
+              "NewValue": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.ModifyDefaultTeamFormation",
+          "TeamCenter": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "DarkTeamCenter"
+          },
+          "ExtraConfig": [
+            {},
+            {},
+            {},
+            {},
+            {}
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.LevelAudioState",
+          "GroupName": "State_Battle_Monster_W5_Vtuber_00_Live",
+          "StateName": {
+            "Value": "Live_Out"
+          },
+          "SaveToCustomString": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerSound",
+          "SoundName": {
+            "Value": "Ev_WwiseMatrixReverb_VO_35_Live_stop"
+          },
+          "EmitterType": "DefaultEmitter"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerSound",
+          "SoundName": {
+            "Value": "Ev_sfx_amb_live_room_loop_stop"
+          },
+          "EmitterType": "DefaultEmitter"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerSound",
+          "SoundName": {
+            "Value": "Ev_sfx_monster_Skill03_W5_Vtuber_00_Out"
+          },
+          "EmitterType": "DefaultEmitter"
+        },
+        {
+          "$type": "RPG.GameCore.Retarget",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllDarkTeamWithAllDarkTeamUnselectable"
+          },
+          "Predicate": {
+            "$type": "RPG.GameCore.ByContainBehaviorFlag",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "ParamEntity"
+            },
+            "Flags": [
+              "Stealth"
+            ],
+            "Inverse": true
+          },
+          "IncludeLimbo": true,
+          "TaskList": [
+            {
+              "$type": "RPG.GameCore.AddEntityToTeamFormation",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.SetEntityVisible",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "ParamEntity"
+              },
+              "Visible": true
+            }
+          ]
+        },
+        {
+          "$type": "RPG.GameCore.SetTeamFormation",
+          "Team": "TeamLight",
+          "FormationType": "LightTeamNormal"
+        },
+        {
+          "$type": "RPG.GameCore.SetTeamFormation",
+          "Team": "TeamDark",
+          "FormationType": "DarkTeamNormal"
+        },
+        {
+          "$type": "RPG.GameCore.TriggerEffect",
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W5_Vtuber_00/Eff_Monster_W5_Vtuber_00_Insert_ScreenTransition_In.prefab"
+        },
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllTeamCenter"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W5_Vtuber_00/Eff_Monster_W5_Vtuber_00_BattleArea_Scene.prefab"
+        },
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllTeamCenter"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W5_Vtuber_00/Eff_Monster_W5_Vtuber_00_BattleArea_Scene_02.prefab"
+        },
+        {
+          "$type": "RPG.GameCore.RemoveEffect",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "AllLightTeamWithAllLightTeamUnselectable"
+          },
+          "EffectPath": "Effects/Eff_Prefab/Eff_Monster/Eff_W5_Vtuber_00/Eff_Monster_W5_Vtuber_00_VirtualAvatar_Loop.prefab"
+        }
+      ]
+    },
+    {
       "Name": "Monster_W5_Vtuber_00_Skill06_Phase01",
       "TargetInfo": {
         "TargetType": "Caster"
@@ -4185,7 +4351,12 @@
               "NewProjectile": {
                 "$type": "RPG.GameCore.ParabolaProjectileData",
                 "ParabolaHeightRatio": 0.15,
-                "FlyTime": 0.7,
+                "FlyTime": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0.7
+                  }
+                },
                 "ExtraRetainTime": 0.5,
                 "AttachPoint": "Screen",
                 "TargetAttachPoint": "Origin",
@@ -4625,7 +4796,12 @@
           "NewProjectile": {
             "$type": "RPG.GameCore.ParabolaProjectileData",
             "ParabolaHeightRatio": 0.15,
-            "FlyTime": 0.7,
+            "FlyTime": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 0.7
+              }
+            },
             "ExtraRetainTime": 0.5,
             "AttachPoint": "Screen",
             "TargetAttachPoint": "Origin",
@@ -4912,9 +5088,9 @@
               },
               "SuccessTaskList": [
                 {
-                  "$type": "JBIKPADNDIN",
-                  "OIOGMEEJMIE": false,
-                  "BJGKCGGGKEP": "W5_Vtuber_00_Screen01"
+                  "$type": "AMKFHFLMLED",
+                  "PFKJLLAOEHG": false,
+                  "FDIFCGLHOGC": "W5_Vtuber_00_Screen01"
                 },
                 {
                   "$type": "RPG.GameCore.RemoveEffect",
@@ -4937,9 +5113,9 @@
               },
               "SuccessTaskList": [
                 {
-                  "$type": "JBIKPADNDIN",
-                  "OIOGMEEJMIE": false,
-                  "BJGKCGGGKEP": "W5_Vtuber_00_Screen02"
+                  "$type": "AMKFHFLMLED",
+                  "PFKJLLAOEHG": false,
+                  "FDIFCGLHOGC": "W5_Vtuber_00_Screen02"
                 },
                 {
                   "$type": "RPG.GameCore.RemoveEffect",
@@ -8237,14 +8413,14 @@
                   },
                   "TaskList": [
                     {
-                      "$type": "FEBDPAMELDK",
-                      "OEFMDINBEMO": "MDF_HPRatio",
-                      "IGDAOLJFLHA": {
+                      "$type": "MOOOEDIGHCL",
+                      "PAPGFNOAGPD": "MDF_HPRatio",
+                      "LJMJGHEOBJN": {
                         "$type": "RPG.GameCore.TargetAlias",
                         "Alias": "ParamEntity"
                       },
-                      "JGKIFEMHBPI": "CurrentHP",
-                      "GJFEGKHPJCC": {
+                      "MNJEMJDIPFG": "CurrentHP",
+                      "JCKGHBJCDKF": {
                         "IsDynamic": false,
                         "FixedValue": {
                           "Value": 1000
@@ -8442,14 +8618,14 @@
                   },
                   "TaskList": [
                     {
-                      "$type": "FEBDPAMELDK",
-                      "OEFMDINBEMO": "MDF_HPRatio",
-                      "IGDAOLJFLHA": {
+                      "$type": "MOOOEDIGHCL",
+                      "PAPGFNOAGPD": "MDF_HPRatio",
+                      "LJMJGHEOBJN": {
                         "$type": "RPG.GameCore.TargetAlias",
                         "Alias": "ParamEntity"
                       },
-                      "JGKIFEMHBPI": "CurrentHP",
-                      "GJFEGKHPJCC": {
+                      "MNJEMJDIPFG": "CurrentHP",
+                      "JCKGHBJCDKF": {
                         "IsDynamic": false,
                         "FixedValue": {
                           "Value": 1000
@@ -9132,14 +9308,14 @@
               ]
             },
             {
-              "$type": "JBIKPADNDIN",
-              "OIOGMEEJMIE": false,
-              "BJGKCGGGKEP": "W5_Vtuber_00_Screen01"
+              "$type": "AMKFHFLMLED",
+              "PFKJLLAOEHG": false,
+              "FDIFCGLHOGC": "W5_Vtuber_00_Screen01"
             },
             {
-              "$type": "JBIKPADNDIN",
-              "OIOGMEEJMIE": false,
-              "BJGKCGGGKEP": "W5_Vtuber_00_Screen02"
+              "$type": "AMKFHFLMLED",
+              "PFKJLLAOEHG": false,
+              "FDIFCGLHOGC": "W5_Vtuber_00_Screen02"
             }
           ]
         },
@@ -9147,12 +9323,12 @@
           "Event": "OnDestroy",
           "CallbackConfig": [
             {
-              "$type": "JBIKPADNDIN",
-              "BJGKCGGGKEP": "W5_Vtuber_00_Screen01"
+              "$type": "AMKFHFLMLED",
+              "FDIFCGLHOGC": "W5_Vtuber_00_Screen01"
             },
             {
-              "$type": "JBIKPADNDIN",
-              "BJGKCGGGKEP": "W5_Vtuber_00_Screen02"
+              "$type": "AMKFHFLMLED",
+              "FDIFCGLHOGC": "W5_Vtuber_00_Screen02"
             }
           ]
         }
@@ -9195,25 +9371,25 @@
               "MinMutexType": "Entity"
             },
             {
-              "$type": "OHNPGAGPHPK",
-              "BJGKCGGGKEP": {
+              "$type": "GBMMAPPAJCE",
+              "FDIFCGLHOGC": {
                 "RawString": "W5_Vtuber_00_Screen01"
               },
-              "CIKFAOAPFJC": {
+              "IJHACEIOJCG": {
                 "$type": "RPG.GameCore.TargetAlias",
                 "Alias": "Monster_W5_VtuberPart01_00"
               },
-              "FAKOOPIAHOH": "Screen",
-              "IHDEHPENNJJ": {
+              "OAEJGPFAFDC": "Screen",
+              "DMOIGLIHMMD": {
                 "$type": "RPG.GameCore.TargetAlias",
                 "Alias": "ParamEntity"
               },
-              "HAFNCMNPFJG": {
+              "AGMDCLAKMGG": {
                 "X": 0,
                 "Y": -0.25,
                 "Z": 1.5
               },
-              "LFFNKOAFCKG": {
+              "GEIJKDCFFGG": {
                 "X": 0,
                 "Y": -0.15,
                 "Z": 0
@@ -9275,21 +9451,21 @@
               },
               "SuccessTaskList": [
                 {
-                  "$type": "OHNPGAGPHPK",
-                  "BJGKCGGGKEP": {
+                  "$type": "GBMMAPPAJCE",
+                  "FDIFCGLHOGC": {
                     "RawString": "W5_Vtuber_00_Screen02"
                   },
-                  "CIKFAOAPFJC": {
+                  "IJHACEIOJCG": {
                     "$type": "RPG.GameCore.TargetAlias",
                     "Alias": "Monster_W5_VtuberPart02_00"
                   },
-                  "FAKOOPIAHOH": "Screen",
-                  "IHDEHPENNJJ": {
+                  "OAEJGPFAFDC": "Screen",
+                  "DMOIGLIHMMD": {
                     "$type": "RPG.GameCore.TargetAlias",
                     "Alias": "ParamEntity"
                   },
-                  "BOGFOONBPAO": true,
-                  "HAFNCMNPFJG": {
+                  "KFPKFPGNMIO": true,
+                  "AGMDCLAKMGG": {
                     "X": 0,
                     "Y": 0,
                     "Z": -2.8
@@ -9298,26 +9474,26 @@
               ],
               "FailedTaskList": [
                 {
-                  "$type": "OHNPGAGPHPK",
-                  "BJGKCGGGKEP": {
+                  "$type": "GBMMAPPAJCE",
+                  "FDIFCGLHOGC": {
                     "RawString": "W5_Vtuber_00_Screen02"
                   },
-                  "CIKFAOAPFJC": {
+                  "IJHACEIOJCG": {
                     "$type": "RPG.GameCore.TargetAlias",
                     "Alias": "Monster_W5_VtuberPart02_00"
                   },
-                  "FAKOOPIAHOH": "Screen",
-                  "IHDEHPENNJJ": {
+                  "OAEJGPFAFDC": "Screen",
+                  "DMOIGLIHMMD": {
                     "$type": "RPG.GameCore.TargetAlias",
                     "Alias": "ParamEntity"
                   },
-                  "BOGFOONBPAO": true,
-                  "HAFNCMNPFJG": {
+                  "KFPKFPGNMIO": true,
+                  "AGMDCLAKMGG": {
                     "X": 0,
                     "Y": 0.2,
                     "Z": -3
                   },
-                  "LFFNKOAFCKG": {
+                  "GEIJKDCFFGG": {
                     "X": 0,
                     "Y": 0.2,
                     "Z": 0
@@ -9417,13 +9593,13 @@
               },
               "SuccessTaskList": [
                 {
-                  "$type": "FEBDPAMELDK",
-                  "OEFMDINBEMO": "MDF_MaxHP_DownScale",
-                  "IGDAOLJFLHA": {
+                  "$type": "MOOOEDIGHCL",
+                  "PAPGFNOAGPD": "MDF_MaxHP_DownScale",
+                  "LJMJGHEOBJN": {
                     "$type": "RPG.GameCore.TargetAlias",
                     "Alias": "ModifierOwnerEntity"
                   },
-                  "GJFEGKHPJCC": {
+                  "JCKGHBJCDKF": {
                     "IsDynamic": false,
                     "FixedValue": {
                       "Value": 1000
@@ -9536,14 +9712,32 @@
                   },
                   "SuccessTaskList": [
                     {
-                      "$type": "RPG.GameCore.AddModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ModifierOwnerEntity"
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByCompareMonsterTemplateID",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "TargetMonsterTemplateID": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 5012031
+                          }
+                        }
                       },
-                      "ModifierName": {
-                        "Value": "MMonster_W5_Vtuber_00_InField_Mask"
-                      }
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.AddModifier",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ModifierOwnerEntity"
+                          },
+                          "ModifierName": {
+                            "Value": "MMonster_W5_Vtuber_00_InField_Mask"
+                          }
+                        }
+                      ]
                     }
                   ],
                   "FailedTaskList": [
@@ -10171,6 +10365,44 @@
           ]
         },
         {
+          "Event": "OnLimboWaitHeal",
+          "Priority": -100,
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareDynamicValue",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "ModifierOwnerEntity"
+                },
+                "DynamicKey": {
+                  "Value": "MDF_SwitchField"
+                },
+                "CompareType": "Equal",
+                "CompareValue": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0
+                  }
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "LevelEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MMonster_W5_Vtuber_00_AbortInsert"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
           "Event": "OnListenBeforeAction",
           "CallbackConfig": [
             {
@@ -10413,7 +10645,7 @@
                         }
                       },
                       {
-                        "$type": "NEGALFOHELG"
+                        "$type": "HOKGIFMHONL"
                       }
                     ]
                   },
@@ -10478,7 +10710,7 @@
                         }
                       },
                       {
-                        "$type": "NEGALFOHELG",
+                        "$type": "HOKGIFMHONL",
                         "Inverse": true
                       }
                     ]
@@ -11327,12 +11559,12 @@
                       "IsRecoverAll": true
                     },
                     {
-                      "$type": "JBIKPADNDIN",
-                      "BJGKCGGGKEP": "W5_Vtuber_00_Screen01"
+                      "$type": "AMKFHFLMLED",
+                      "FDIFCGLHOGC": "W5_Vtuber_00_Screen01"
                     },
                     {
-                      "$type": "JBIKPADNDIN",
-                      "BJGKCGGGKEP": "W5_Vtuber_00_Screen02"
+                      "$type": "AMKFHFLMLED",
+                      "FDIFCGLHOGC": "W5_Vtuber_00_Screen02"
                     },
                     {
                       "$type": "RPG.GameCore.PredicateTaskList",
@@ -11491,9 +11723,9 @@
                   },
                   "TaskList": [
                     {
-                      "$type": "JBIKPADNDIN",
-                      "OIOGMEEJMIE": false,
-                      "BJGKCGGGKEP": "W5_Vtuber_00_Screen01"
+                      "$type": "AMKFHFLMLED",
+                      "PFKJLLAOEHG": false,
+                      "FDIFCGLHOGC": "W5_Vtuber_00_Screen01"
                     }
                   ]
                 },
@@ -11522,9 +11754,9 @@
                       }
                     },
                     {
-                      "$type": "JBIKPADNDIN",
-                      "OIOGMEEJMIE": false,
-                      "BJGKCGGGKEP": "W5_Vtuber_00_Screen02"
+                      "$type": "AMKFHFLMLED",
+                      "PFKJLLAOEHG": false,
+                      "FDIFCGLHOGC": "W5_Vtuber_00_Screen02"
                     },
                     {
                       "$type": "RPG.GameCore.PredicateTaskList",
@@ -12222,7 +12454,7 @@
             {
               "$type": "RPG.GameCore.PredicateTaskList",
               "Predicate": {
-                "$type": "NEGALFOHELG"
+                "$type": "HOKGIFMHONL"
               },
               "SuccessTaskList": [
                 {
@@ -12513,7 +12745,7 @@
             {
               "$type": "RPG.GameCore.PredicateTaskList",
               "Predicate": {
-                "$type": "NEGALFOHELG"
+                "$type": "HOKGIFMHONL"
               },
               "SuccessTaskList": [
                 {
@@ -12630,6 +12862,50 @@
           }
         }
       }
+    },
+    "MMonster_W5_Vtuber_00_AbortInsert": {
+      "_CallbackList": [
+        {
+          "Event": "OnCreate",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.OwnerEntityAddAbility",
+              "AbilityName": {
+                "Value": "Monster_W5_Vtuber_00_AbortInsert"
+              }
+            }
+          ]
+        },
+        {
+          "Event": "OnStack",
+          "CallbackConfig": [
+            {
+              "$type": "RPG.GameCore.TurnInsertAbility",
+              "AbilityName": {
+                "Value": "Monster_W5_Vtuber_00_AbortInsert"
+              },
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetAlias",
+                "Alias": "LevelEntity"
+              },
+              "InsertAbilityPriority": "MonsterForceKill",
+              "PreCheck": {
+                "$type": "RPG.GameCore.TurnInsertAbilityCondition",
+                "Type": "AbilityOwnerInsertUnusedCount",
+                "Count": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 1
+                  }
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.RemoveSelfModifier"
+            }
+          ]
+        }
+      ]
     }
   },
   "GlobalTemplates": [

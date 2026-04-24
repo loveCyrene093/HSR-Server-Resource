@@ -1,0 +1,309 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEvent",
+          "EventName": {
+            "Value": "Clt_TriggerOpen"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareEntityAuthoritySide"
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.AdvClientChangePropState",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  },
+                  "FromState": "CustomState01",
+                  "ToState": "CustomState04"
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.PropReqInteract",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  },
+                  "InteractID": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1010104
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEvent",
+          "EventName": {
+            "Value": "Clt_TriggerClose"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareEntityAuthoritySide"
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.AdvClientChangePropState",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  },
+                  "FromState": "CustomState04",
+                  "ToState": "CustomState01"
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.PropReqInteract",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  },
+                  "InteractID": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1040101
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.LoopWaitEntityServerEvent"
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.LoopWaitEntityServerEvent"
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvOnButtonPressed",
+          "ButtonName": "Interact",
+          "OnPressedCallback": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "PJCLFJIJGHM"
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.AnimSetParameter",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  },
+                  "ParameterName": "TriggerOpen",
+                  "ParameterType": "Trigger"
+                },
+                {
+                  "$type": "RPG.GameCore.AdvEnableButtons",
+                  "TriggerName": "InteractTrigger",
+                  "ButtonsByName": [
+                    "Interact"
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.LockPlayerControl"
+                },
+                {
+                  "$type": "RPG.GameCore.BlockInputController",
+                  "Enable": true,
+                  "ActionNameList": []
+                },
+                {
+                  "$type": "RPG.Client.AdventureGameplayLock",
+                  "IsLock": true,
+                  "LockSource": "FullScreenLock"
+                },
+                {
+                  "$type": "RPG.GameCore.WaitSecond",
+                  "WaitTime": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0.4
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.BlockInputController",
+                  "ActionNameList": []
+                },
+                {
+                  "$type": "RPG.Client.AdventureGameplayLock",
+                  "LockSource": "FullScreenLock"
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByIsRogueTournLastRoom"
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.RogueTournFinish"
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "DPCHOKPCBGN"
+                    }
+                  ]
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "HFGDIHJIGCC",
+                  "MJFCDFMBEHJ": {
+                    "Hash": 4006941866423846328
+                  },
+                  "BHGCMJIJECF": "SpriteOutput/AvatarShopIcon/NPC/RogueNpc1.png"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitPropStateChangeV2",
+          "FromAnyState": true,
+          "ToAnyState": true,
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.GenericSwitchCase",
+              "SwitchRef": {
+                "$type": "RPG.GameCore.SwitchRefPropState"
+              },
+              "Cases": [
+                {
+                  "$type": "RPG.GameCore.PropStateCaseContainer",
+                  "Case": "CustomState01",
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.AdvEnableButtons",
+                      "TriggerName": "InteractTrigger",
+                      "ButtonsByName": [
+                        "Interact"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.PropStateCaseContainer",
+                  "Case": "CustomState04",
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.AdvEnableButtons",
+                      "TriggerName": "InteractTrigger",
+                      "ButtonsByName": [
+                        "Interact"
+                      ],
+                      "IsEnable": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvSetupButtonListTrigger",
+          "TriggerName": "InteractTrigger",
+          "ButtonsByName": [
+            "Interact"
+          ],
+          "ButtonConfigs": [],
+          "ConsiderAngleLimit": true,
+          "ConsiderOwnerForwardAngleLimit": true
+        },
+        {
+          "$type": "RPG.GameCore.GenericSwitchCase",
+          "SwitchRef": {
+            "$type": "RPG.GameCore.SwitchRefPropState"
+          },
+          "Cases": [
+            {
+              "$type": "RPG.GameCore.PropStateCaseContainer",
+              "Case": "CustomState01",
+              "OnSuccess": [
+                {
+                  "$type": "RPG.GameCore.AdvEnableButtons",
+                  "TriggerName": "InteractTrigger",
+                  "ButtonsByName": [
+                    "Interact"
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.PropStateCaseContainer",
+              "Case": "CustomState04",
+              "OnSuccess": [
+                {
+                  "$type": "RPG.GameCore.AdvEnableButtons",
+                  "TriggerName": "InteractTrigger",
+                  "ButtonsByName": [
+                    "Interact"
+                  ],
+                  "IsEnable": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "ValueSource": {
+    "Values": []
+  },
+  "Type": "Entity",
+  "EntityEventList": [
+    {
+      "Name": "Clt_TriggerOpen"
+    },
+    {
+      "Name": "Clt_TriggerClose"
+    },
+    {
+      "Name": "Clt_TriggerOpenPerf"
+    },
+    {
+      "Name": "Srv_TriggerClose",
+      "IsClient": false
+    },
+    {
+      "Name": "Srv_TriggerOpen",
+      "IsClient": false
+    }
+  ]
+}

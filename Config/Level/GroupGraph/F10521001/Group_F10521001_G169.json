@@ -1,0 +1,129 @@
+{
+  "OnInitSequece": [
+    {
+      "TaskList": []
+    }
+  ],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PredicateTaskList",
+          "Predicate": {
+            "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+            "DynamicName": {
+              "Value": "FSV_UnlockRoad"
+            }
+          },
+          "SuccessTaskList": [
+            {
+              "$type": "RPG.GameCore.TriggerEffectList",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300001
+                ]
+              },
+              "EffectList": [
+                {
+                  "EffectPath": "Effects/Eff_Prefab/Eff_Scene/InteractiveProp/Eff_Chap05_Prop_B21SmokeBlue_01_Smoke_Lod0.prefab"
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.AdvCreateGroupEntityV2",
+              "InstanceIDList": [
+                300002
+              ],
+              "SkipCreated": true
+            }
+          ],
+          "FailedTaskList": []
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitFloorSavedValueChangeV2",
+          "Name": {
+            "Value": "FSV_UnlockRoad"
+          },
+          "Condition": {
+            "$type": "RPG.GameCore.ByCompareFloorSavedValue",
+            "DynamicName": {
+              "Value": "FSV_UnlockRoad"
+            },
+            "CompareValue": 1
+          },
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 2
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.ToastPile",
+              "DescTextID": {
+                "Hash": 17784991061142526626
+              }
+            },
+            {
+              "$type": "RPG.GameCore.RemoveEffect",
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300001
+                ]
+              },
+              "EffectPath": "Effects/Eff_Prefab/Eff_Scene/InteractiveProp/Eff_Chap05_Prop_B21SmokeBlue_01_Smoke_Lod0.prefab",
+              "Flags": []
+            },
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.AdvByEntityExist",
+                "TargetType": {
+                  "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                  "TargetType": "Prop",
+                  "Targets": [
+                    300002
+                  ]
+                }
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.AdvDestroyGroupEntity",
+                  "InstanceIDList": [
+                    300002
+                  ]
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.TriggerSound",
+              "SoundName": {
+                "Value": "Ev_sfx_planarcadia_FDFogDisappear"
+              },
+              "TargetType": {
+                "$type": "RPG.GameCore.GroupFetchLocalTarget",
+                "TargetType": "Prop",
+                "Targets": [
+                  300001
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Type": "Group",
+  "EntityEventList": []
+}

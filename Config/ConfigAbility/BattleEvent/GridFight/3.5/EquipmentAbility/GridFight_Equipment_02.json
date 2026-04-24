@@ -198,9 +198,175 @@
                   }
                 }
               ]
+            },
+            {
+              "Event": "OnListenAfterAttack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "DynamicKey": {
+                          "Value": "MDF_IsInElationTime"
+                        },
+                        "CompareType": "Equal",
+                        "CompareValue": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 0
+                          }
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByAny",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByGridFightHasTrait",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntity"
+                            },
+                            "TeamTrait": {
+                              "Value": "Origin_2012"
+                            },
+                            "IncludeInactiveTrait": false
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByGridFightHasTrait",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntity.GetSummoner"
+                            },
+                            "TeamTrait": {
+                              "Value": "Origin_2012"
+                            },
+                            "IncludeInactiveTrait": false
+                          }
+                        ]
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCompareTarget",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "CompareType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "Elation_BE"
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCurrentSkillType",
+                        "SkillType": "Elation"
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "Elation_BE"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0102_Sub"
+                      },
+                      "LayerAddWhenStack": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnListenElationTimeStart",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "MDF_IsInElationTime"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareTarget",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "CompareType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Elation_BE"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0102_Elation"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnListenElationTimeEnd",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "MDF_IsInElationTime"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.RemoveModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MGridFight_Equipment_Normal_0102_Elation"
+                  }
+                }
+              ]
             }
           ],
-          "Stacking": "ReplaceByCasterAbility"
+          "Stacking": "ReplaceByCasterAbility",
+          "DynamicValues": {
+            "Floats": {
+              "406853474": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
+            }
+          }
         },
         "MGridFight_Equipment_Normal_0102_Sub": {
           "_CallbackList": [
@@ -347,6 +513,64 @@
               }
             }
           }
+        },
+        "MGridFight_Equipment_Normal_0102_Elation": {
+          "_CallbackList": [
+            {
+              "Event": "OnListenAfterAttack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAny",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByGridFightHasTrait",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity"
+                        },
+                        "TeamTrait": {
+                          "Value": "Origin_2012"
+                        },
+                        "IncludeInactiveTrait": false
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByGridFightHasTrait",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ParamEntity.GetSummoner"
+                        },
+                        "TeamTrait": {
+                          "Value": "Origin_2012"
+                        },
+                        "IncludeInactiveTrait": false
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0102_Sub"
+                      },
+                      "LayerAddWhenStack": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Stacking": "ReplaceByCasterAbility"
         }
       },
       "Name": "GridFight_Equipment_Normal_0102",
@@ -384,6 +608,32 @@
                     "SecondTargetType": {
                       "$type": "RPG.GameCore.TargetAlias",
                       "Alias": "GridFight_AllBackEnd"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0103_Sub"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareTarget",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "CompareType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Elation_BE"
                     }
                   },
                   "SuccessTaskList": [
@@ -472,6 +722,158 @@
     {
       "Modifiers": {
         "MGridFight_Equipment_Normal_0104": {
+          "_CallbackList": [
+            {
+              "Event": "OnListenBeforeSkillUse",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "DynamicKey": {
+                          "Value": "MDF_IsInElationTime"
+                        },
+                        "CompareType": "Equal",
+                        "CompareValue": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 0
+                          }
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByAny",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByGridFightHasTrait",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntity"
+                            },
+                            "TeamTrait": {
+                              "Value": "Origin_2012"
+                            },
+                            "IncludeInactiveTrait": false
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByGridFightHasTrait",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntity.GetSummoner"
+                            },
+                            "TeamTrait": {
+                              "Value": "Origin_2012"
+                            },
+                            "IncludeInactiveTrait": false
+                          }
+                        ]
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCompareTarget",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "CompareType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "Elation_BE"
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCurrentSkillType",
+                        "SkillType": "Elation"
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0104_Sub_ForSingleElationSkill"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnListenElationTimeStart",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "MDF_IsInElationTime"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareTarget",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "CompareType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Elation_BE"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0104_Elation"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnListenElationTimeEnd",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "MDF_IsInElationTime"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.RemoveModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MGridFight_Equipment_Normal_0104_Elation"
+                  }
+                }
+              ]
+            }
+          ],
           "AdditionConfig": {
             "SubModifierList": [
               {
@@ -498,7 +900,17 @@
               }
             ]
           },
-          "Stacking": "ReplaceByCasterAbility"
+          "Stacking": "ReplaceByCasterAbility",
+          "DynamicValues": {
+            "Floats": {
+              "406853474": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
+            }
+          }
         },
         "MGridFight_Equipment_Normal_0104_Sub": {
           "_CallbackList": [
@@ -540,6 +952,72 @@
               ]
             }
           ],
+          "Stacking": "ReplaceByCasterAbility"
+        },
+        "MGridFight_Equipment_Normal_0104_Sub_ForSingleElationSkill": {
+          "_CallbackList": [
+            {
+              "Event": "OnAfterAttack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "AttackTargetList"
+                  },
+                  "ModifierName": {
+                    "Value": "MGridFight_Equipment_GlobalModifiers_Normal_Weak"
+                  },
+                  "DynamicValues": {
+                    "_LifeTime": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQAR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          866240523
+                        ]
+                      }
+                    },
+                    "_Weak": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQAR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          1625755410
+                        ]
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "Event": "OnAfterSkillUse",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.RemoveSelfModifier"
+                }
+              ]
+            }
+          ],
+          "Stacking": "ReplaceByCasterAbility"
+        },
+        "MGridFight_Equipment_Normal_0104_Elation": {
+          "AdditionConfig": {
+            "SubModifierList": [
+              {
+                "Name": "MGridFight_Equipment_Normal_0104_Sub",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "GridFight_AllElationTrait"
+                },
+                "IncludeBattleEvent": true,
+                "IsHaloStatus": true
+              }
+            ]
+          },
           "Stacking": "ReplaceByCasterAbility"
         }
       },
@@ -589,6 +1067,32 @@
                       },
                       "ModifierName": {
                         "Value": "MGridFight_Equipment_Normal_0105_2"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareTarget",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "CompareType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Elation_BE"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0105_Sub2"
                       }
                     }
                   ]
@@ -1475,6 +1979,32 @@
                       }
                     }
                   ]
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareTarget",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "CompareType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Elation_BE"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0204_Sub"
+                      }
+                    }
+                  ]
                 }
               ]
             }
@@ -1559,6 +2089,214 @@
     {
       "Modifiers": {
         "MGridFight_Equipment_Normal_0205": {
+          "_CallbackList": [
+            {
+              "Event": "OnListenBeforeSkillUse",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "DynamicKey": {
+                          "Value": "MDF_IsInElationTime"
+                        },
+                        "CompareType": "Equal",
+                        "CompareValue": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 0
+                          }
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByAny",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByGridFightHasTrait",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntity"
+                            },
+                            "TeamTrait": {
+                              "Value": "Origin_2012"
+                            },
+                            "IncludeInactiveTrait": false
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByGridFightHasTrait",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntity.GetSummoner"
+                            },
+                            "TeamTrait": {
+                              "Value": "Origin_2012"
+                            },
+                            "IncludeInactiveTrait": false
+                          }
+                        ]
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCompareTarget",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "CompareType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "Elation_BE"
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCurrentSkillType",
+                        "SkillType": "Elation"
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0205_Sub"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnListenAfterSkillUse",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "DynamicKey": {
+                          "Value": "MDF_IsInElationTime"
+                        },
+                        "CompareType": "Equal",
+                        "CompareValue": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 0
+                          }
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByAny",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByGridFightHasTrait",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntity"
+                            },
+                            "TeamTrait": {
+                              "Value": "Origin_2012"
+                            },
+                            "IncludeInactiveTrait": false
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByGridFightHasTrait",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntity.GetSummoner"
+                            },
+                            "TeamTrait": {
+                              "Value": "Origin_2012"
+                            },
+                            "IncludeInactiveTrait": false
+                          }
+                        ]
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCompareTarget",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "CompareType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "Elation_BE"
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCurrentSkillType",
+                        "SkillType": "Elation"
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.RemoveModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0205_Sub"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnListenElationTimeStart",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareTarget",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "CompareType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Elation_BE"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0205_Elation"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnListenElationTimeEnd",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.RemoveModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MGridFight_Equipment_Normal_0205_Elation"
+                  }
+                }
+              ]
+            }
+          ],
           "AdditionConfig": {
             "SubModifierList": [
               {
@@ -1718,6 +2456,22 @@
             }
           ],
           "Stacking": "ReplaceByCasterAbility"
+        },
+        "MGridFight_Equipment_Normal_0205_Elation": {
+          "AdditionConfig": {
+            "SubModifierList": [
+              {
+                "Name": "MGridFight_Equipment_Normal_0205_Sub",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "GridFight_AllElationTrait"
+                },
+                "IncludeBattleEvent": true,
+                "IsHaloStatus": true
+              }
+            ]
+          },
+          "Stacking": "ReplaceByCasterAbility"
         }
       },
       "Name": "GridFight_Equipment_Normal_0205",
@@ -1739,6 +2493,12 @@
       "DynamicValues": {
         "Floats": {
           "-1214538722": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "406853474": {
             "ReadInfo": {
               "Type": "None",
               "Index": 0
@@ -1803,6 +2563,47 @@
                       "TargetType": {
                         "$type": "RPG.GameCore.TargetAlias",
                         "Alias": "ParamEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0206_Sub2"
+                      },
+                      "LifeTime": {
+                        "IsDynamic": true,
+                        "PostfixExpr": {
+                          "OpCodes": "AQAR",
+                          "FixedValues": [],
+                          "DynamicHashes": [
+                            -1862642832
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnInsertAbilityStart",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareTarget",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "CompareType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Elation_BE"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "GridFight_AllElationTrait_Front"
                       },
                       "ModifierName": {
                         "Value": "MGridFight_Equipment_Normal_0206_Sub2"
@@ -2272,6 +3073,32 @@
                       }
                     }
                   ]
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareTarget",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "CompareType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Elation_BE"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0304_Sub2"
+                      }
+                    }
+                  ]
                 }
               ]
             }
@@ -2547,6 +3374,32 @@
                       }
                     }
                   ]
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareTarget",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "CompareType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Elation_BE"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0306_Sub5"
+                      }
+                    }
+                  ]
                 }
               ]
             }
@@ -2587,6 +3440,35 @@
             "SubModifierList": [
               {
                 "Name": "MGridFight_Equipment_Normal_0306_Sub4",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetConcat",
+                  "Targets": [
+                    {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Caster"
+                    },
+                    {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "CasterServant"
+                    },
+                    {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "CasterBEServant"
+                    }
+                  ]
+                },
+                "IncludeBattleEvent": true,
+                "IsHaloStatus": true
+              }
+            ]
+          },
+          "Stacking": "ReplaceByCasterAbility"
+        },
+        "MGridFight_Equipment_Normal_0306_Sub5": {
+          "AdditionConfig": {
+            "SubModifierList": [
+              {
+                "Name": "MGridFight_Equipment_Normal_0306_Sub6",
                 "TargetType": {
                   "$type": "RPG.GameCore.TargetConcat",
                   "Targets": [
@@ -2705,6 +3587,73 @@
             }
           ],
           "Stacking": "ReplaceByCasterAbility"
+        },
+        "MGridFight_Equipment_Normal_0306_Sub6": {
+          "BehaviorFlagList": [
+            "STAT_SpeedUp"
+          ],
+          "_CallbackList": [
+            {
+              "Event": "OnStack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.StackProperty",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "Property": "ExtraAllDamageReduce",
+                  "PropertyValue": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        1625755410
+                      ]
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.StackProperty",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "Property": "ExtraBackPowerAddedRatio1",
+                  "PropertyValue": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        -1862642832
+                      ]
+                    }
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.StackProperty",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "Property": "ExtraSpeedAddedRatio1",
+                  "PropertyValue": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        2029039937
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "Stacking": "ReplaceByCasterAbility"
         }
       },
       "Name": "GridFight_Equipment_Normal_0306",
@@ -2727,6 +3676,162 @@
     {
       "Modifiers": {
         "MGridFight_Equipment_Normal_0307": {
+          "_CallbackList": [
+            {
+              "Event": "OnListenModifierAdd",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "DynamicKey": {
+                          "Value": "MDF_IsInElationTime"
+                        },
+                        "CompareType": "Equal",
+                        "CompareValue": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 0
+                          }
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCheckModifierCallBackName",
+                        "ModifierName": "G_GridFight_Elation_GetAhaProperty_Tag"
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0307_Sub"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnListenModifierRemove",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "DynamicKey": {
+                          "Value": "MDF_IsInElationTime"
+                        },
+                        "CompareType": "Equal",
+                        "CompareValue": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 0
+                          }
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCheckModifierCallBackName",
+                        "ModifierName": "G_GridFight_Elation_GetAhaProperty_Tag"
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.RemoveModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0307_Sub"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnListenElationTimeStart",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "MDF_IsInElationTime"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareTarget",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "CompareType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Elation_BE"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0307_Elation"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnListenElationTimeEnd",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "MDF_IsInElationTime"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.RemoveModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MGridFight_Equipment_Normal_0307_Elation"
+                  }
+                }
+              ]
+            }
+          ],
           "AdditionConfig": {
             "SubModifierList": [
               {
@@ -2747,6 +3852,44 @@
                       "Alias": "CasterBEServant"
                     }
                   ]
+                },
+                "IncludeBattleEvent": true,
+                "Predicate": {
+                  "$type": "RPG.GameCore.ByCompareTarget",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "CompareType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "Elation_BE"
+                  },
+                  "Inverse": true
+                },
+                "IsHaloStatus": true
+              }
+            ]
+          },
+          "Stacking": "ReplaceByCasterAbility",
+          "DynamicValues": {
+            "Floats": {
+              "406853474": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
+            }
+          }
+        },
+        "MGridFight_Equipment_Normal_0307_Elation": {
+          "AdditionConfig": {
+            "SubModifierList": [
+              {
+                "Name": "MGridFight_Equipment_Normal_0307_Sub",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "GridFight_AllElationTrait"
                 },
                 "IncludeBattleEvent": true,
                 "IsHaloStatus": true
@@ -4569,6 +5712,161 @@
                   ]
                 }
               ]
+            },
+            {
+              "Event": "OnListenBeforeSkillUse",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "DynamicKey": {
+                          "Value": "MDF_IsInElationTime"
+                        },
+                        "CompareType": "Equal",
+                        "CompareValue": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 0
+                          }
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByAny",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByGridFightHasTrait",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntity"
+                            },
+                            "TeamTrait": {
+                              "Value": "Origin_2012"
+                            },
+                            "IncludeInactiveTrait": false
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByGridFightHasTrait",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntity.GetSummoner"
+                            },
+                            "TeamTrait": {
+                              "Value": "Origin_2012"
+                            },
+                            "IncludeInactiveTrait": false
+                          }
+                        ]
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCompareTarget",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "CompareType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "Elation_BE"
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCurrentSkillType",
+                        "SkillType": "Elation"
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0507_Elation_Sub"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnListenElationTimeStart",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "MDF_IsInElationTime"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByCompareTarget",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "CompareType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "Elation_BE"
+                        }
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0507_Elation"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnListenElationTimeEnd",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "MDF_IsInElationTime"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.RemoveModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MGridFight_Equipment_Normal_0507_Elation"
+                  }
+                }
+              ]
             }
           ],
           "Stacking": "ReplaceByCasterAbility",
@@ -4579,8 +5877,263 @@
                   "Type": "None",
                   "Index": 0
                 }
-              },
-              "-1612122267": {
+              }
+            }
+          }
+        },
+        "MGridFight_Equipment_Normal_0507_Elation": {
+          "AdditionConfig": {
+            "SubModifierList": [
+              {
+                "Name": "MGridFight_Equipment_Normal_0507_Elation_Sub",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "GridFight_AllElationTrait"
+                },
+                "IncludeBattleEvent": true,
+                "IsHaloStatus": true
+              }
+            ]
+          },
+          "Stacking": "ReplaceByCasterAbility"
+        },
+        "MGridFight_Equipment_Normal_0507_Elation_Sub": {
+          "_CallbackList": [
+            {
+              "Event": "OnAfterAttack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareDynamicValue",
+                    "DynamicKey": {
+                      "Value": "_TurnCount"
+                    },
+                    "CompareType": "Equal",
+                    "CompareValue": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 0
+                      }
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.Retarget",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "AttackTargetList"
+                      },
+                      "ByRandom": true,
+                      "MaxNumber": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      },
+                      "TaskList": [
+                        {
+                          "$type": "RPG.GameCore.DamageByAttackProperty",
+                          "TargetType": {
+                            "$type": "RPG.GameCore.TargetAlias",
+                            "Alias": "ParamEntity"
+                          },
+                          "AttackProperty": {
+                            "$type": "RPG.GameCore.AttackData",
+                            "DamageType": {
+                              "DamageType": "Physical"
+                            },
+                            "FormulaType": "ByDefenderMaxHP",
+                            "DamagePercentage": {
+                              "IsDynamic": true,
+                              "PostfixExpr": {
+                                "OpCodes": "AQAR",
+                                "FixedValues": [],
+                                "DynamicHashes": [
+                                  -1459358305
+                                ]
+                              }
+                            },
+                            "AttackType": "TrueDamage",
+                            "FinalFormulaType": "ByBaseDamage",
+                            "HitAnimation": "Hit_H"
+                          },
+                          "CanTriggerLastKill": true,
+                          "IsConvert": true,
+                          "DisplayData": {
+                            "UIMessageHeight": 0.75
+                          },
+                          "PerformanceDelay": {
+                            "IsDynamic": false,
+                            "FixedValue": {
+                              "Value": 0.05
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "$type": "RPG.GameCore.PredicateTaskList",
+                      "Predicate": {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "DynamicKey": {
+                          "Value": "#ADF_6"
+                        },
+                        "CompareType": "Greater",
+                        "CompareValue": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 0
+                          }
+                        }
+                      },
+                      "SuccessTaskList": [
+                        {
+                          "$type": "RPG.GameCore.LoopExecuteTaskList",
+                          "MaxLoopCount": {
+                            "IsDynamic": true,
+                            "PostfixExpr": {
+                              "OpCodes": "AQAR",
+                              "FixedValues": [],
+                              "DynamicHashes": [
+                                2029039937
+                              ]
+                            }
+                          },
+                          "TaskList": [
+                            {
+                              "$type": "RPG.GameCore.Retarget",
+                              "TargetType": {
+                                "$type": "RPG.GameCore.TargetAlias",
+                                "Alias": "AttackTargetList"
+                              },
+                              "ByRandom": true,
+                              "MaxNumber": {
+                                "IsDynamic": false,
+                                "FixedValue": {
+                                  "Value": 1
+                                }
+                              },
+                              "TaskList": [
+                                {
+                                  "$type": "RPG.GameCore.PredicateTaskList",
+                                  "Predicate": {
+                                    "$type": "RPG.GameCore.ByCompareMonsterRank",
+                                    "TargetType": {
+                                      "$type": "RPG.GameCore.TargetAlias",
+                                      "Alias": "ParamEntity"
+                                    },
+                                    "CompareType": "GreaterEqual",
+                                    "CompareValue": 3
+                                  },
+                                  "SuccessTaskList": [
+                                    {
+                                      "$type": "RPG.GameCore.DamageByAttackProperty",
+                                      "TargetType": {
+                                        "$type": "RPG.GameCore.TargetAlias",
+                                        "Alias": "ParamEntity"
+                                      },
+                                      "AttackProperty": {
+                                        "$type": "RPG.GameCore.AttackData",
+                                        "DamageType": {
+                                          "DamageType": "Physical"
+                                        },
+                                        "FormulaType": "ByDefenderMaxHP",
+                                        "DamagePercentage": {
+                                          "IsDynamic": true,
+                                          "PostfixExpr": {
+                                            "OpCodes": "AQAR",
+                                            "FixedValues": [],
+                                            "DynamicHashes": [
+                                              -1862642832
+                                            ]
+                                          }
+                                        },
+                                        "AttackType": "TrueDamage",
+                                        "FinalFormulaType": "ByBaseDamage",
+                                        "HitAnimation": "Hit_H"
+                                      },
+                                      "CanTriggerLastKill": true,
+                                      "IsConvert": true,
+                                      "DisplayData": {
+                                        "UIMessageHeight": 0.75
+                                      },
+                                      "PerformanceDelay": {
+                                        "IsDynamic": false,
+                                        "FixedValue": {
+                                          "Value": 0.05
+                                        }
+                                      }
+                                    }
+                                  ],
+                                  "FailedTaskList": [
+                                    {
+                                      "$type": "RPG.GameCore.DamageByAttackProperty",
+                                      "TargetType": {
+                                        "$type": "RPG.GameCore.TargetAlias",
+                                        "Alias": "ParamEntity"
+                                      },
+                                      "AttackProperty": {
+                                        "$type": "RPG.GameCore.AttackData",
+                                        "DamageType": {
+                                          "DamageType": "Physical"
+                                        },
+                                        "FormulaType": "ByDefenderMaxHP",
+                                        "DamagePercentage": {
+                                          "IsDynamic": true,
+                                          "PostfixExpr": {
+                                            "OpCodes": "AQAR",
+                                            "FixedValues": [],
+                                            "DynamicHashes": [
+                                              866240523
+                                            ]
+                                          }
+                                        },
+                                        "AttackType": "TrueDamage",
+                                        "FinalFormulaType": "ByBaseDamage",
+                                        "HitAnimation": "Hit_H"
+                                      },
+                                      "CanTriggerLastKill": true,
+                                      "IsConvert": true,
+                                      "DisplayData": {
+                                        "UIMessageHeight": 0.75
+                                      },
+                                      "PerformanceDelay": {
+                                        "IsDynamic": false,
+                                        "FixedValue": {
+                                          "Value": 0.05
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "$type": "RPG.GameCore.SetDynamicValue",
+                      "Value": {
+                        "IsDynamic": false,
+                        "FixedValue": {
+                          "Value": 1
+                        }
+                      },
+                      "DynamicKey": {
+                        "Value": "_TurnCount"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Stacking": "ReplaceByCasterAbility",
+          "DynamicValues": {
+            "Floats": {
+              "-1309867853": {
                 "ReadInfo": {
                   "Type": "None",
                   "Index": 0
@@ -4605,7 +6158,23 @@
             "Value": "MGridFight_Equipment_Normal_0507"
           }
         }
-      ]
+      ],
+      "DynamicValues": {
+        "Floats": {
+          "-1612122267": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          },
+          "406853474": {
+            "ReadInfo": {
+              "Type": "None",
+              "Index": 0
+            }
+          }
+        }
+      }
     },
     {
       "Modifiers": {
@@ -5053,36 +6622,18 @@
     {
       "Modifiers": {
         "MGridFight_Equipment_Normal_0607": {
-          "_CallbackList": [
-            {
-              "Event": "OnListenCharacterCreate",
-              "CallbackConfig": [
-                {
-                  "$type": "RPG.GameCore.PredicateTaskList",
-                  "Predicate": {
-                    "$type": "RPG.GameCore.ByTargetTeam",
-                    "TargetType": {
-                      "$type": "RPG.GameCore.TargetAlias",
-                      "Alias": "ParamEntity"
-                    },
-                    "Team": "TeamDark"
-                  },
-                  "SuccessTaskList": [
-                    {
-                      "$type": "RPG.GameCore.AddModifier",
-                      "TargetType": {
-                        "$type": "RPG.GameCore.TargetAlias",
-                        "Alias": "ParamEntity"
-                      },
-                      "ModifierName": {
-                        "Value": "MGridFight_Equipment_Normal_0607_Sub"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
+          "AdditionConfig": {
+            "SubModifierList": [
+              {
+                "Name": "MGridFight_Equipment_Normal_0607_Sub",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "AllDarkTeamWithAllDarkTeamUnselectable"
+                },
+                "IsHaloStatus": true
+              }
+            ]
+          },
           "Stacking": "ReplaceByCasterAbility"
         },
         "MGridFight_Equipment_Normal_0607_Sub": {
@@ -5570,6 +7121,158 @@
     {
       "Modifiers": {
         "MGridFight_Equipment_Normal_0708": {
+          "_CallbackList": [
+            {
+              "Event": "OnListenBeforeSkillUse",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByAnd",
+                    "PredicateList": [
+                      {
+                        "$type": "RPG.GameCore.ByCompareDynamicValue",
+                        "DynamicKey": {
+                          "Value": "MDF_IsInElationTime"
+                        },
+                        "CompareType": "Equal",
+                        "CompareValue": {
+                          "IsDynamic": false,
+                          "FixedValue": {
+                            "Value": 0
+                          }
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByAny",
+                        "PredicateList": [
+                          {
+                            "$type": "RPG.GameCore.ByGridFightHasTrait",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntity"
+                            },
+                            "TeamTrait": {
+                              "Value": "Origin_2012"
+                            },
+                            "IncludeInactiveTrait": false
+                          },
+                          {
+                            "$type": "RPG.GameCore.ByGridFightHasTrait",
+                            "TargetType": {
+                              "$type": "RPG.GameCore.TargetAlias",
+                              "Alias": "ParamEntity.GetSummoner"
+                            },
+                            "TeamTrait": {
+                              "Value": "Origin_2012"
+                            },
+                            "IncludeInactiveTrait": false
+                          }
+                        ]
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCompareTarget",
+                        "TargetType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "ModifierOwnerEntity"
+                        },
+                        "CompareType": {
+                          "$type": "RPG.GameCore.TargetAlias",
+                          "Alias": "Elation_BE"
+                        }
+                      },
+                      {
+                        "$type": "RPG.GameCore.ByCurrentSkillType",
+                        "SkillType": "Elation"
+                      }
+                    ]
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ParamEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0708_Sub_ForSingleElationSkill"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnListenElationTimeStart",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "MDF_IsInElationTime"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareTarget",
+                    "TargetType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "ModifierOwnerEntity"
+                    },
+                    "CompareType": {
+                      "$type": "RPG.GameCore.TargetAlias",
+                      "Alias": "Elation_BE"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.AddModifier",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetAlias",
+                        "Alias": "ModifierOwnerEntity"
+                      },
+                      "ModifierName": {
+                        "Value": "MGridFight_Equipment_Normal_0708_Elation"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Event": "OnListenElationTimeEnd",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.SetDynamicValue",
+                  "Value": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  },
+                  "DynamicKey": {
+                    "Value": "MDF_IsInElationTime"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.RemoveModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "ModifierOwnerEntity"
+                  },
+                  "ModifierName": {
+                    "Value": "MGridFight_Equipment_Normal_0708_Elation"
+                  }
+                }
+              ]
+            }
+          ],
           "AdditionConfig": {
             "SubModifierList": [
               {
@@ -5596,7 +7299,17 @@
               }
             ]
           },
-          "Stacking": "ReplaceByCasterAbility"
+          "Stacking": "ReplaceByCasterAbility",
+          "DynamicValues": {
+            "Floats": {
+              "406853474": {
+                "ReadInfo": {
+                  "Type": "None",
+                  "Index": 0
+                }
+              }
+            }
+          }
         },
         "MGridFight_Equipment_Normal_0708_Sub": {
           "_CallbackList": [
@@ -5638,6 +7351,72 @@
               ]
             }
           ],
+          "Stacking": "ReplaceByCasterAbility"
+        },
+        "MGridFight_Equipment_Normal_0708_Sub_ForSingleElationSkill": {
+          "_CallbackList": [
+            {
+              "Event": "OnAfterAttack",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.AddModifier",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetAlias",
+                    "Alias": "AttackTargetList"
+                  },
+                  "ModifierName": {
+                    "Value": "MGridFight_Equipment_GlobalModifiers_Normal_Weak"
+                  },
+                  "DynamicValues": {
+                    "_LifeTime": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQAR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          866240523
+                        ]
+                      }
+                    },
+                    "_Weak": {
+                      "IsDynamic": true,
+                      "PostfixExpr": {
+                        "OpCodes": "AQAR",
+                        "FixedValues": [],
+                        "DynamicHashes": [
+                          1625755410
+                        ]
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "Event": "OnAfterSkillUse",
+              "CallbackConfig": [
+                {
+                  "$type": "RPG.GameCore.RemoveSelfModifier"
+                }
+              ]
+            }
+          ],
+          "Stacking": "ReplaceByCasterAbility"
+        },
+        "MGridFight_Equipment_Normal_0708_Elation": {
+          "AdditionConfig": {
+            "SubModifierList": [
+              {
+                "Name": "MGridFight_Equipment_Normal_0708_Sub",
+                "TargetType": {
+                  "$type": "RPG.GameCore.TargetAlias",
+                  "Alias": "GridFight_AllElationTrait"
+                },
+                "IncludeBattleEvent": true,
+                "IsHaloStatus": true
+              }
+            ]
+          },
           "Stacking": "ReplaceByCasterAbility"
         }
       },

@@ -1,0 +1,189 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitCustomString",
+          "CustomString": {
+            "Value": "TriggerBattle_1054207"
+          },
+          "GoNextImmediately": true
+        },
+        {
+          "$type": "RPG.GameCore.TriggerBattle",
+          "EventID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 20521064
+            }
+          },
+          "GroupID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0
+            }
+          },
+          "BattleAreaID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0
+            }
+          },
+          "BattleAreaConfigID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 1050101
+            }
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "TriggerPerformance_G2"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerPerformance",
+              "PerformanceType": "PlayVideo",
+              "PerformanceID": 105420705,
+              "MaskConfig": {
+                "UseExcelData": false,
+                "StartBlack": "NoPre",
+                "EndBlack": "NoPost",
+                "EndCrack": true
+              },
+              "ValueSource": {}
+            },
+            {
+              "$type": "RPG.GameCore.TriggerCustomString",
+              "CustomString": {
+                "Value": "TriggerBattle_1054207"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGroupEvent",
+          "EventName": {
+            "Value": "ApproachMonster_G2"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PlayFullScreenTransfer",
+              "PostDuration": -1,
+              "Action": [
+                {
+                  "$type": "RPG.GameCore.ScrTrfActTaskList",
+                  "TaskList": [
+                    {
+                      "$type": "RPG.GameCore.SwitchCharacterAnchorV2",
+                      "SwitchCharacterAnchorConfig": {
+                        "IsLocalPlayer": true,
+                        "CharacterUniqueName": "LocalPlayer",
+                        "AreaName": {
+                          "Value": "LevelArea_P40523_F40523001_G2"
+                        },
+                        "AnchorName": {
+                          "Value": "Anchor1"
+                        }
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.TriggerGroupEvent",
+                      "EventName": {
+                        "Value": "TriggerPerformance_G2"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+          "TargetType": {
+            "$type": "RPG.GameCore.GroupFetchLocalTarget",
+            "TargetType": "Prop",
+            "Targets": [
+              300004
+            ]
+          },
+          "TriggerName": "MissionTrigger",
+          "OnEnter": [
+            {
+              "$type": "RPG.GameCore.TriggerGroupEvent",
+              "EventName": {
+                "Value": "ApproachMonster_G2"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.PlayFullScreenTransfer",
+          "PrevDuration": 0,
+          "KeepDuration": 0,
+          "PostDuration": -1,
+          "Action": [
+            {
+              "$type": "RPG.GameCore.ScrTrfActTaskList",
+              "TaskList": [
+                {
+                  "$type": "RPG.GameCore.PredicateTaskList",
+                  "Predicate": {
+                    "$type": "RPG.GameCore.ByCompareGroupProperty",
+                    "GroupID": 2,
+                    "DynamicName": {
+                      "Value": "FirstEncounter"
+                    }
+                  },
+                  "SuccessTaskList": [
+                    {
+                      "$type": "RPG.GameCore.RequestSetServerGroupPropertyV2",
+                      "GroupID": 2,
+                      "DynamicName": {
+                        "Value": "FirstEncounter"
+                      },
+                      "Value": 1
+                    },
+                    {
+                      "$type": "RPG.GameCore.TriggerGroupEvent",
+                      "EventName": {
+                        "Value": "TriggerPerformance_G2"
+                      }
+                    }
+                  ],
+                  "FailedTaskList": [
+                    {
+                      "$type": "RPG.GameCore.PlayFullScreenTransfer",
+                      "PrevDuration": 0,
+                      "KeepDuration": 0
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Type": "Group"
+}

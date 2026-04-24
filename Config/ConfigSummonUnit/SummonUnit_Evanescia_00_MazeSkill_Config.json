@@ -1,0 +1,175 @@
+{
+  "GroupConfigName": "Field",
+  "ConfigEntityPath": "Config/ConfigEntity/SummonUnit/SummonUnit_Common_TeamField_Entity.json",
+  "ResidentEffects": [
+    {
+      "$type": "RPG.GameCore.TriggerEffect",
+      "TargetType": {
+        "$type": "RPG.GameCore.TargetAlias",
+        "Alias": "Caster"
+      },
+      "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Evanescia_00/Eff_Avatar_Evanescia_00_MazeSkill01_Trail_04.prefab"
+    }
+  ],
+  "TriggerConfig": {
+    "CustomTriggers": [
+      {
+        "TriggerName": "HitNpcMonsterTrigger",
+        "Radius": {
+          "IsDynamic": false,
+          "FixedValue": {
+            "Value": 2
+          }
+        },
+        "UseVerticalBound": true,
+        "UpperBound": 3.5,
+        "LowerBound": -1,
+        "UseSummonerAsCheckSource": true,
+        "NeedRaycast": true,
+        "TargetTypes": [
+          "NPCMonster"
+        ],
+        "DontExitAfterEnter": true,
+        "ColliderRelativePath": "Trigger",
+        "OnTriggerEnter": [
+          {
+            "$type": "RPG.GameCore.AddMazeBuff",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "TaskActionTarget"
+            },
+            "ID": 140202,
+            "LifeTime": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 500
+              }
+            }
+          }
+        ]
+      },
+      {
+        "TriggerName": "HitNpcMonsterTriggerEffect",
+        "Radius": {
+          "IsDynamic": false,
+          "FixedValue": {
+            "Value": 2
+          }
+        },
+        "UseVerticalBound": true,
+        "UpperBound": 3.5,
+        "LowerBound": -1,
+        "UseSummonerAsCheckSource": true,
+        "NeedRaycast": true,
+        "TargetTypes": [
+          "NPCMonster"
+        ],
+        "ColliderRelativePath": "Trigger",
+        "OnTriggerEnter": [
+          {
+            "$type": "RPG.GameCore.AddAdventureModifier",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "TaskActionTarget"
+            },
+            "Caster": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "CasterSummoner"
+            },
+            "ModifierName": "ADV_StageAbility_Maze_Evanescia_00_HitVisual"
+          }
+        ]
+      },
+      {
+        "TriggerName": "HitPropTrigger",
+        "Radius": {
+          "IsDynamic": false,
+          "FixedValue": {
+            "Value": 2
+          }
+        },
+        "UseVerticalBound": true,
+        "UseSummonerAsCheckSource": true,
+        "NeedRaycast": true,
+        "TargetTypes": [
+          "Prop"
+        ],
+        "TargetFilter": {
+          "$type": "RPG.GameCore.ByIsPropLockable",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ParamEntity"
+          }
+        },
+        "DontExitAfterEnter": true,
+        "OnTriggerEnter": [
+          {
+            "$type": "RPG.GameCore.TriggerHitProp",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "TaskActionTarget"
+            },
+            "ClientMode": "PreShow"
+          },
+          {
+            "$type": "RPG.GameCore.TriggerEffect",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "TaskActionTarget"
+            },
+            "EffectPath": "Effects/Eff_Prefab/Eff_Avatar/Eff_Evanescia_00/Eff_Avatar_Evanescia_00_MazeSkill01_Hit_01.prefab",
+            "AttachPoint": "SelectRoot",
+            "ForceSimulateImmediately": false
+          }
+        ],
+        "OnTriggerExit": [],
+        "OnTriggerEnterRollback": [
+          {
+            "$type": "RPG.GameCore.PropDestructReset",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "TaskActionTarget"
+            }
+          }
+        ]
+      },
+      {
+        "TriggerName": "HitNPCTrigger",
+        "Radius": {
+          "IsDynamic": false,
+          "FixedValue": {
+            "Value": 2
+          }
+        },
+        "UseVerticalBound": true,
+        "UseSummonerAsCheckSource": true,
+        "NeedRaycast": true,
+        "TargetTypes": [
+          "NPC"
+        ],
+        "TargetFilter": {
+          "$type": "RPG.GameCore.ByTargetHitBoxActive",
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetAlias",
+            "Alias": "ParamEntity"
+          }
+        },
+        "OnTriggerEnter": [
+          {
+            "$type": "RPG.GameCore.TriggerHitTarget",
+            "TargetType": {
+              "$type": "RPG.GameCore.TargetAlias",
+              "Alias": "TaskActionTarget"
+            },
+            "HitConfig": {
+              "HitAnimation": "Hit",
+              "HitEffect": "Effects/Eff_Prefab/Eff_Avatar/Eff_Evanescia_00/Eff_Avatar_Evanescia_00_MazeSkill01_Hit_01.prefab",
+              "HitEffectHeight": 1
+            }
+          }
+        ],
+        "OnTriggerExit": []
+      }
+    ]
+  }
+}

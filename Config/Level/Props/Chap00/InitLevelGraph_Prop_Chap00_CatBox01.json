@@ -1,0 +1,170 @@
+{
+  "OnInitSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.GenericSwitchCase",
+          "SwitchRef": {
+            "$type": "RPG.GameCore.SwitchRefPropState"
+          },
+          "Cases": [
+            {
+              "$type": "RPG.GameCore.PropStateCaseContainer",
+              "OnSuccess": [
+                {
+                  "$type": "RPG.GameCore.SetNavMeshState",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  },
+                  "Name": {
+                    "Value": "Default"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.AdvSetColliderGroupState",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  },
+                  "GroupName": "Close01"
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.PropStateCaseContainer",
+              "Case": "Open",
+              "OnSuccess": [
+                {
+                  "$type": "RPG.GameCore.RemoveNavMeshState",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.AdvSetColliderGroupState",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  },
+                  "GroupName": "Open01"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEvent",
+          "EventName": {
+            "Value": "Clt_TriggerOpen"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.AdvClientChangePropState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "ToState": "Open",
+              "CanChangeServerProp": true,
+              "CanChangeFromAnyState": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEvent",
+          "EventName": {
+            "Value": "Clt_TriggerClose"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.AdvClientChangePropState",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "CanChangeServerProp": true,
+              "CanChangeFromAnyState": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitPropStateChangeV2",
+          "FromAnyState": true,
+          "ToAnyState": true,
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.GenericSwitchCase",
+              "SwitchRef": {
+                "$type": "RPG.GameCore.SwitchRefPropState"
+              },
+              "Cases": [
+                {
+                  "$type": "RPG.GameCore.PropStateCaseContainer",
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.SetNavMeshState",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                      },
+                      "Name": {
+                        "Value": "Default"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.AdvSetColliderGroupState",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                      },
+                      "GroupName": "Close01"
+                    }
+                  ]
+                },
+                {
+                  "$type": "RPG.GameCore.PropStateCaseContainer",
+                  "Case": "Open",
+                  "OnSuccess": [
+                    {
+                      "$type": "RPG.GameCore.RemoveNavMeshState",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                      }
+                    },
+                    {
+                      "$type": "RPG.GameCore.AdvSetColliderGroupState",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                      },
+                      "GroupName": "Open01"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "ValueSource": {
+    "Values": []
+  },
+  "Type": "Entity",
+  "EntityEventList": [
+    {
+      "Name": "Clt_TriggerOpen"
+    },
+    {
+      "Name": "Clt_TriggerClose"
+    }
+  ]
+}

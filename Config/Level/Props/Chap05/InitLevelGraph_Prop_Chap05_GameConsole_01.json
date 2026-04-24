@@ -1,0 +1,1375 @@
+{
+  "OnInitSequece": [],
+  "OnStartSequece": [
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvNpcRide",
+          "SourceType": {
+            "$type": "RPG.GameCore.TargetFetchAdvNpcEx",
+            "FetchType": "SingleNpcByNpcKey",
+            "SingleNpcKey": {
+              "Custom": true,
+              "Key": "NPCAttachedTarget"
+            },
+            "NpcIDInOwnerGroup": {
+              "IsDynamic": false,
+              "FixedValue": {
+                "Value": 400001
+              }
+            }
+          },
+          "TargetType": {
+            "$type": "RPG.GameCore.TargetFetchOwnerEntity"
+          },
+          "SourceAttachPoint": {
+            "Value": "StandRoot"
+          },
+          "AttachPoint": {
+            "Value": "ChenLingAttach"
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.LoopWaitEntityServerEvent"
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.LoopWaitEntityServerEvent"
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEvent",
+          "EventName": {
+            "Value": "Clt_TriggerOpen"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareEntityAuthoritySide"
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.AdvClientChangePropState",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  },
+                  "ToState": "Open"
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.PropReqInteract",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  },
+                  "InteractID": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1010
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "InstanceID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEvent",
+          "EventName": {
+            "Value": "Clt_TriggerClose"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.PredicateTaskList",
+              "Predicate": {
+                "$type": "RPG.GameCore.ByCompareEntityAuthoritySide"
+              },
+              "SuccessTaskList": [
+                {
+                  "$type": "RPG.GameCore.AdvClientChangePropState",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  },
+                  "FromState": "Open"
+                }
+              ],
+              "FailedTaskList": [
+                {
+                  "$type": "RPG.GameCore.PropReqInteract",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  },
+                  "InteractID": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 1100
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "InstanceID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEvent",
+          "EventName": {
+            "Value": "Self_TriggerUse"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.TriggerEntityEvent",
+              "EventName": {
+                "Value": "Clt_OnUseStart"
+              },
+              "InstanceID": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.StartPropInteractMode",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "Mode": "UsePose02"
+            },
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.2
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.TriggerEntityEvent",
+              "EventName": {
+                "Value": "Self_OnUseFinish"
+              },
+              "InstanceID": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.TriggerEntityEvent",
+              "EventName": {
+                "Value": "Clt_OnUseFinish"
+              },
+              "InstanceID": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.EndPropInteract"
+            }
+          ],
+          "InstanceID": {
+            "IsDynamic": false,
+            "FixedValue": {
+              "Value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvOnButtonPressed",
+          "ButtonName": "Interact",
+          "OnPressedCallback": [
+            {
+              "$type": "RPG.GameCore.TriggerEntityEvent",
+              "EventName": {
+                "Value": "Self_TriggerUse"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEvent",
+          "EventName": {
+            "Value": "Self_UpdateState"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.GenericSwitchCase",
+              "SwitchRef": {
+                "$type": "RPG.GameCore.SwitchRefPropState"
+              },
+              "Cases": [
+                {
+                  "$type": "RPG.GameCore.PropStateCaseContainer",
+                  "OnSuccess": []
+                },
+                {
+                  "$type": "RPG.GameCore.PropStateCaseContainer",
+                  "Case": "Open",
+                  "OnSuccess": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitPropStateChangeV2",
+          "FromAnyState": true,
+          "ToAnyState": true,
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.TriggerEntityEvent",
+              "EventName": {
+                "Value": "Self_UpdateState"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.GenericSwitchCase",
+              "SwitchRef": {
+                "$type": "RPG.GameCore.SwitchRefPropState"
+              },
+              "Cases": [
+                {
+                  "$type": "RPG.GameCore.PropStateCaseContainer",
+                  "OnSuccess": []
+                },
+                {
+                  "$type": "RPG.GameCore.PropStateCaseContainer",
+                  "Case": "Open",
+                  "OnSuccess": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": []
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitEntityEvent",
+          "EventName": {
+            "Value": "Clt_OnUseFinish"
+          },
+          "OnEvent": [
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.25
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.ActiveVirtualCamera",
+              "LevelAreaCameraKey": {
+                "Custom": true,
+                "Key": "LookatCam"
+              },
+              "BlendConfig": {
+                "ExportToJson": true,
+                "BlendType": "EaseInOut",
+                "CustomCurveData": {},
+                "BlendTime": 1
+              },
+              "KeepMainCameraRotation": true
+            },
+            {
+              "$type": "RPG.GameCore.StartPropInteractMode",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "Mode": "UsePose02"
+            },
+            {
+              "$type": "RPG.GameCore.SetCharacterVisible",
+              "CharacterUniqueName": "LocalPlayer"
+            },
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.AnimSetParameter",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "ParameterName": "IsOpen",
+              "ParameterType": "Bool",
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.WaitSecond",
+              "WaitTime": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0.75
+                }
+              }
+            },
+            {
+              "$type": "RPG.GameCore.EndPropInteract"
+            },
+            {
+              "$type": "MNJNDANOLGH",
+              "LHBANJOEFGO": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    -1882695677
+                  ]
+                }
+              },
+              "PNJIDPLFAOD": [
+                {
+                  "$type": "RPG.GameCore.ActiveVirtualCamera",
+                  "LevelAreaCameraKey": {
+                    "Custom": true,
+                    "Key": "LookatCam"
+                  },
+                  "IsActive": false,
+                  "KeepMainCameraRotation": true
+                },
+                {
+                  "$type": "RPG.GameCore.TriggerEntityEvent",
+                  "EventName": {
+                    "Value": "Clt_OnEnterFiveDim"
+                  },
+                  "InstanceID": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  }
+                }
+              ],
+              "DGHDGINHIJO": [
+                {
+                  "$type": "RPG.GameCore.ActiveVirtualCamera",
+                  "LevelAreaCameraKey": {
+                    "Custom": true,
+                    "Key": "LookatCam"
+                  },
+                  "KeepMainCameraRotation": true
+                },
+                {
+                  "$type": "RPG.GameCore.AdvNpcRide",
+                  "SourceType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvNpcEx",
+                    "FetchType": "SingleNpcByNpcKey",
+                    "SingleNpcKey": {
+                      "Custom": true,
+                      "Key": "NPCAttachedTarget"
+                    },
+                    "NpcIDInOwnerGroup": {
+                      "IsDynamic": false,
+                      "FixedValue": {
+                        "Value": 400001
+                      }
+                    }
+                  },
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchOwnerEntity"
+                  },
+                  "SourceAttachPoint": {
+                    "Value": "StandRoot"
+                  },
+                  "AttachPoint": {
+                    "Value": "ChenLingAttach"
+                  }
+                },
+                {
+                  "$type": "RPG.GameCore.TriggerEntityEvent",
+                  "EventName": {
+                    "Value": "Clt_OnExitFiveDim"
+                  },
+                  "InstanceID": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  }
+                }
+              ],
+              "IONIFBIPMNL": [
+                {
+                  "$type": "KBEJEDEGMHC",
+                  "LHBANJOEFGO": {
+                    "IsDynamic": true,
+                    "PostfixExpr": {
+                      "OpCodes": "AQAR",
+                      "FixedValues": [],
+                      "DynamicHashes": [
+                        -1882695677
+                      ]
+                    }
+                  }
+                }
+              ],
+              "KFBLOICPAHK": [
+                {
+                  "$type": "RPG.GameCore.SetCharacterVisible",
+                  "CharacterUniqueName": "LocalPlayer",
+                  "Visible": true
+                },
+                {
+                  "$type": "RPG.GameCore.ActiveVirtualCamera",
+                  "LevelAreaCameraKey": {
+                    "Custom": true,
+                    "Key": "LookatCam"
+                  },
+                  "IsActive": false,
+                  "BlendConfig": {
+                    "ExportToJson": true,
+                    "BlendType": "EaseInOut",
+                    "CustomCurveData": {},
+                    "BlendTime": 1
+                  },
+                  "KeepMainCameraRotation": true
+                },
+                {
+                  "$type": "RPG.GameCore.AnimSetParameter",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+                  },
+                  "ParameterName": "IsOpen",
+                  "ParameterType": "Bool"
+                },
+                {
+                  "$type": "RPG.GameCore.TriggerEntityEvent",
+                  "EventName": {
+                    "Value": "Clt_OnExitGame"
+                  },
+                  "InstanceID": {
+                    "IsDynamic": false,
+                    "FixedValue": {
+                      "Value": 0
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "RPG.GameCore.TutorialTaskUnlock",
+              "TriggerParam": {
+                "Value": "6609"
+              }
+            },
+            {
+              "$type": "RPG.GameCore.ClientFinishMission",
+              "SubmissionID": 402070201,
+              "OnComplete": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGraphDynamicValueChange",
+          "Name": "Loc_CurDPHor",
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.AnimSetParameter",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "ParameterName": "DPH",
+              "Value": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    262536122
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGraphDynamicValueChange",
+          "Name": "Loc_CurDPVer",
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.AnimSetParameter",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "ParameterName": "DPV",
+              "Value": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    1969782574
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGraphDynamicValueChange",
+          "Name": "Loc_CurAButton",
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.AnimSetParameter",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "ParameterName": "AButton",
+              "Value": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    -1223050872
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGraphDynamicValueChange",
+          "Name": "Loc_CurBButton",
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.AnimSetParameter",
+              "TargetType": {
+                "$type": "RPG.GameCore.TargetFetchAdvPropEx"
+              },
+              "ParameterName": "BButton",
+              "Value": {
+                "IsDynamic": true,
+                "PostfixExpr": {
+                  "OpCodes": "AQAR",
+                  "FixedValues": [],
+                  "DynamicHashes": [
+                    1140363139
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGraphDynamicValueChange",
+          "Name": "TargetDPHor",
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.AdvStartTickFloatValue",
+              "ConfigName": {
+                "Value": "Hor01"
+              },
+              "TickType": {
+                "$type": "RPG.GameCore.AdvFloatValueTickType_Normal",
+                "StartValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      262536122
+                    ]
+                  }
+                },
+                "GoalValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      -1769749696
+                    ]
+                  }
+                },
+                "Duration": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0.1
+                  }
+                }
+              },
+              "TargetDynamicValue": {
+                "Value": "Loc_CurDPHor"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGraphDynamicValueChange",
+          "Name": "TargetDPVer",
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.AdvStartTickFloatValue",
+              "ConfigName": {
+                "Value": "Ver01"
+              },
+              "TickType": {
+                "$type": "RPG.GameCore.AdvFloatValueTickType_Normal",
+                "StartValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      1969782574
+                    ]
+                  }
+                },
+                "GoalValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      1718648976
+                    ]
+                  }
+                },
+                "Duration": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0.1
+                  }
+                }
+              },
+              "TargetDynamicValue": {
+                "Value": "Loc_CurDPVer"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGraphDynamicValueChange",
+          "Name": "TargetAButton",
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.AdvStartTickFloatValue",
+              "ConfigName": {
+                "Value": "AButton01"
+              },
+              "TickType": {
+                "$type": "RPG.GameCore.AdvFloatValueTickType_Normal",
+                "StartValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      -1223050872
+                    ]
+                  }
+                },
+                "GoalValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      -690700946
+                    ]
+                  }
+                },
+                "Duration": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0.1
+                  }
+                }
+              },
+              "TargetDynamicValue": {
+                "Value": "Loc_CurAButton"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitGraphDynamicValueChange",
+          "Name": "TargetBButton",
+          "OnChange": [
+            {
+              "$type": "RPG.GameCore.AdvStartTickFloatValue",
+              "ConfigName": {
+                "Value": "BButton01"
+              },
+              "TickType": {
+                "$type": "RPG.GameCore.AdvFloatValueTickType_Normal",
+                "StartValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      1140363139
+                    ]
+                  }
+                },
+                "GoalValue": {
+                  "IsDynamic": true,
+                  "PostfixExpr": {
+                    "OpCodes": "AQAR",
+                    "FixedValues": [],
+                    "DynamicHashes": [
+                      -690880559
+                    ]
+                  }
+                },
+                "Duration": {
+                  "IsDynamic": false,
+                  "FixedValue": {
+                    "Value": 0.1
+                  }
+                }
+              },
+              "TargetDynamicValue": {
+                "Value": "Loc_CurBButton"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "NEODEEGNFOH",
+          "LHBANJOEFGO": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                -1882695677
+              ]
+            }
+          },
+          "DJLAONOOOFG": [
+            {
+              "$type": "RPG.GameCore.SetGraphDynamicFloat",
+              "Name": "TargetDPVer",
+              "TargetIDs": [],
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              }
+            }
+          ],
+          "HMLHFBFNFFL": "Up",
+          "FHIGEELFJMI": true
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "NEODEEGNFOH",
+          "LHBANJOEFGO": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                -1882695677
+              ]
+            }
+          },
+          "DJLAONOOOFG": [
+            {
+              "$type": "RPG.GameCore.SetGraphDynamicFloat",
+              "Name": "TargetDPVer",
+              "TargetIDs": [],
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              }
+            }
+          ],
+          "HMLHFBFNFFL": "Up"
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "NEODEEGNFOH",
+          "LHBANJOEFGO": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                -1882695677
+              ]
+            }
+          },
+          "DJLAONOOOFG": [
+            {
+              "$type": "RPG.GameCore.SetGraphDynamicFloat",
+              "Name": "TargetDPVer",
+              "TargetIDs": [],
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": -1
+                }
+              }
+            }
+          ],
+          "HMLHFBFNFFL": "Down",
+          "FHIGEELFJMI": true
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "NEODEEGNFOH",
+          "LHBANJOEFGO": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                -1882695677
+              ]
+            }
+          },
+          "DJLAONOOOFG": [
+            {
+              "$type": "RPG.GameCore.SetGraphDynamicFloat",
+              "Name": "TargetDPVer",
+              "TargetIDs": [],
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              }
+            }
+          ],
+          "HMLHFBFNFFL": "Down"
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "NEODEEGNFOH",
+          "LHBANJOEFGO": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                -1882695677
+              ]
+            }
+          },
+          "DJLAONOOOFG": [
+            {
+              "$type": "RPG.GameCore.SetGraphDynamicFloat",
+              "Name": "TargetDPHor",
+              "TargetIDs": [],
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": -1
+                }
+              }
+            }
+          ],
+          "HMLHFBFNFFL": "Left",
+          "FHIGEELFJMI": true
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "NEODEEGNFOH",
+          "LHBANJOEFGO": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                -1882695677
+              ]
+            }
+          },
+          "DJLAONOOOFG": [
+            {
+              "$type": "RPG.GameCore.SetGraphDynamicFloat",
+              "Name": "TargetDPHor",
+              "TargetIDs": [],
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              }
+            }
+          ],
+          "HMLHFBFNFFL": "Left"
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "NEODEEGNFOH",
+          "LHBANJOEFGO": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                -1882695677
+              ]
+            }
+          },
+          "DJLAONOOOFG": [
+            {
+              "$type": "RPG.GameCore.SetGraphDynamicFloat",
+              "Name": "TargetDPHor",
+              "TargetIDs": [],
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              }
+            }
+          ],
+          "HMLHFBFNFFL": "Right",
+          "FHIGEELFJMI": true
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "NEODEEGNFOH",
+          "LHBANJOEFGO": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                -1882695677
+              ]
+            }
+          },
+          "DJLAONOOOFG": [
+            {
+              "$type": "RPG.GameCore.SetGraphDynamicFloat",
+              "Name": "TargetDPHor",
+              "TargetIDs": [],
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              }
+            }
+          ],
+          "HMLHFBFNFFL": "Right"
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "NEODEEGNFOH",
+          "LHBANJOEFGO": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                -1882695677
+              ]
+            }
+          },
+          "DJLAONOOOFG": [
+            {
+              "$type": "RPG.GameCore.SetGraphDynamicFloat",
+              "Name": "TargetAButton",
+              "TargetIDs": [],
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              }
+            }
+          ],
+          "HMLHFBFNFFL": "Confirm",
+          "FHIGEELFJMI": true
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "NEODEEGNFOH",
+          "LHBANJOEFGO": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                -1882695677
+              ]
+            }
+          },
+          "DJLAONOOOFG": [
+            {
+              "$type": "RPG.GameCore.SetGraphDynamicFloat",
+              "Name": "TargetAButton",
+              "TargetIDs": [],
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              }
+            }
+          ],
+          "HMLHFBFNFFL": "Confirm"
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "NEODEEGNFOH",
+          "LHBANJOEFGO": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                -1882695677
+              ]
+            }
+          },
+          "DJLAONOOOFG": [
+            {
+              "$type": "RPG.GameCore.SetGraphDynamicFloat",
+              "Name": "TargetBButton",
+              "TargetIDs": [],
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 1
+                }
+              }
+            }
+          ],
+          "HMLHFBFNFFL": "Back",
+          "FHIGEELFJMI": true
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "NEODEEGNFOH",
+          "LHBANJOEFGO": {
+            "IsDynamic": true,
+            "PostfixExpr": {
+              "OpCodes": "AQAR",
+              "FixedValues": [],
+              "DynamicHashes": [
+                -1882695677
+              ]
+            }
+          },
+          "DJLAONOOOFG": [
+            {
+              "$type": "RPG.GameCore.SetGraphDynamicFloat",
+              "Name": "TargetBButton",
+              "TargetIDs": [],
+              "Value": {
+                "IsDynamic": false,
+                "FixedValue": {
+                  "Value": 0
+                }
+              }
+            }
+          ],
+          "HMLHFBFNFFL": "Back"
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.AdvSetupCustomTaskTrigger",
+          "TriggerName": "TutorialTrigger",
+          "OnEnter": [
+            {
+              "$type": "RPG.GameCore.TutorialTaskUnlock",
+              "TriggerParam": {
+                "Value": "6375"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitFiveDimPlayerEnterOrExit",
+          "SpecifyContainer": true,
+          "ContainerID": {
+            "Value": "110001"
+          },
+          "OnEnter": [
+            {
+              "$type": "RPG.GameCore.SetGameplayBGMEmotionState",
+              "StateName": "State_Gameplay_FiveDim_Challenge01"
+            }
+          ],
+          "OnExit": [
+            {
+              "$type": "RPG.GameCore.SetGameplayBGMEmotionState",
+              "StateName": "State_Gameplay_FiveDim_Challenge01",
+              "Reset": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "TaskList": [
+        {
+          "$type": "RPG.GameCore.WaitFiveDimPlayerEnterOrExit",
+          "SpecifyContainer": true,
+          "ContainerID": {
+            "Value": "110002"
+          },
+          "OnEnter": [
+            {
+              "$type": "RPG.GameCore.SetGameplayBGMEmotionState",
+              "StateName": "State_Gameplay_FiveDim_Challenge02"
+            }
+          ],
+          "OnExit": [
+            {
+              "$type": "RPG.GameCore.SetGameplayBGMEmotionState",
+              "StateName": "State_Gameplay_FiveDim_Challenge02",
+              "Reset": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "ValueSource": {
+    "Values": [
+      {
+        "$type": "RPG.GameCore.SharedString",
+        "Key": "LookatCam"
+      },
+      {
+        "$type": "RPG.GameCore.SharedString",
+        "Key": "NPCAttachedTarget"
+      },
+      {
+        "$type": "RPG.GameCore.SharedFloat",
+        "Key": "ChenLingGameID"
+      },
+      {
+        "$type": "RPG.GameCore.SharedFloat",
+        "Key": "TargetDPHor"
+      },
+      {
+        "$type": "RPG.GameCore.SharedFloat",
+        "Key": "TargetDPVer"
+      },
+      {
+        "$type": "RPG.GameCore.SharedFloat",
+        "Key": "TargetAButton"
+      },
+      {
+        "$type": "RPG.GameCore.SharedFloat",
+        "Key": "TargetBButton"
+      },
+      {
+        "$type": "RPG.GameCore.SharedFloat",
+        "Key": "Loc_CurDPHor"
+      },
+      {
+        "$type": "RPG.GameCore.SharedFloat",
+        "Key": "Loc_CurDPVer"
+      },
+      {
+        "$type": "RPG.GameCore.SharedFloat",
+        "Key": "Loc_CurAButton"
+      },
+      {
+        "$type": "RPG.GameCore.SharedFloat",
+        "Key": "Loc_CurBButton"
+      }
+    ]
+  },
+  "Type": "Entity",
+  "EntityEventList": [
+    {
+      "Name": "Srv_TriggerOpen",
+      "IsClient": false
+    },
+    {
+      "Name": "Srv_TriggerClose",
+      "IsClient": false
+    },
+    {
+      "Name": "Clt_TriggerOpen"
+    },
+    {
+      "Name": "Clt_TriggerClose"
+    },
+    {
+      "Name": "Self_UpdateState",
+      "IsPrivate": true
+    },
+    {
+      "Name": "Clt_OnClosed"
+    },
+    {
+      "Name": "Clt_OnOpen"
+    },
+    {
+      "Name": "Self_TriggerUse",
+      "IsPrivate": true
+    },
+    {
+      "Name": "Clt_OnUseStart"
+    },
+    {
+      "Name": "Self_OnUseFinish",
+      "IsPrivate": true
+    },
+    {
+      "Name": "Clt_OnUseFinish"
+    },
+    {
+      "Name": "Self_ExitGame",
+      "IsPrivate": true
+    },
+    {
+      "Name": "Clt_OnExitGame"
+    },
+    {
+      "Name": "Clt_OnEnterFiveDim"
+    },
+    {
+      "Name": "Clt_OnExitFiveDim"
+    }
+  ]
+}

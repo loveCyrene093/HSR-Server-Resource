@@ -1,0 +1,784 @@
+{
+  "AIName": "ST_SummonUnit_SilverWolf999",
+  "VariableList": [
+    {
+      "$type": "RPG.GameCore.AIVariableBool",
+      "Value": true,
+      "Name": "FirstEnter"
+    },
+    {
+      "$type": "RPG.GameCore.AIVariableBool",
+      "Name": "VariableOnFindNPCMonster"
+    },
+    {
+      "$type": "RPG.GameCore.AIVariableBool",
+      "Name": "DoFirstSkill"
+    },
+    {
+      "$type": "RPG.GameCore.AIVariableBool",
+      "Value": true,
+      "Name": "DoFirstTP"
+    },
+    {
+      "$type": "RPG.GameCore.AIVariableBool",
+      "Name": "VariableOnFindMoney"
+    },
+    {
+      "$type": "RPG.GameCore.AIVariableBool",
+      "Name": "IsBlock"
+    }
+  ],
+  "RootState": {
+    "Name": "Root",
+    "TaskList": [
+      {
+        "$type": "FCINFLCOEBG",
+        "EJEEHFCGKJL": true,
+        "LEMGLDCIIIP": "FirstEnter",
+        "NJCPIADMJDC": "FirstEnter"
+      }
+    ],
+    "TransitionList": [],
+    "SubStateList": [
+      {
+        "$type": "RPG.GameCore.StateTreeStateConfig",
+        "SelectState": {},
+        "EnterCondition": {
+          "$type": "RPG.GameCore.ST_ByAIHangUp"
+        },
+        "TaskList": [
+          {
+            "$type": "RPG.GameCore.ST_Main_HangUpByLevel"
+          }
+        ],
+        "TransitionList": [
+          {
+            "Trigger": "OnTick",
+            "TransitionToState": "SystemicState",
+            "Condition": {
+              "$type": "RPG.GameCore.ST_ByAIHangUp",
+              "Inverse": true
+            },
+            "BoolVariableList": [],
+            "FloatVariableList": []
+          }
+        ],
+        "Name": "HangUpState"
+      },
+      {
+        "$type": "RPG.GameCore.StateTreeStateConfig",
+        "SelectState": {},
+        "TransitionList": [
+          {
+            "Trigger": "OnTick",
+            "TransitionToState": "HangUpState",
+            "Condition": {
+              "$type": "RPG.GameCore.ST_ByAIHangUp"
+            },
+            "BoolVariableList": [],
+            "FloatVariableList": []
+          },
+          {
+            "Trigger": "OnTick",
+            "TransitionToState": "TP",
+            "Condition": {
+              "$type": "RPG.GameCore.ST_ByDistanceToTarget",
+              "CompareType": "Greater",
+              "CompareValue": 30
+            },
+            "BoolVariableList": [],
+            "FloatVariableList": []
+          },
+          {
+            "TransitionToState": "CheckOwnerTarget",
+            "Condition": {
+              "$type": "RPG.GameCore.ST_ByCompareVariableBool",
+              "StateName": "Root",
+              "VarName": "FirstEnter"
+            },
+            "BoolVariableList": [],
+            "FloatVariableList": []
+          }
+        ],
+        "SubStateList": [
+          {
+            "$type": "RPG.GameCore.StateTreeStateConfig",
+            "SelectState": {},
+            "TaskList": [
+              {
+                "$type": "MBNDFPPCNKP",
+                "HJBELBJGPEF": [
+                  {
+                    "PNIIBACHLOC": 15,
+                    "BCOCFLLJOAE": "CurrentPlayerLockTarget"
+                  }
+                ],
+                "CCGIINGGLMI": 0
+              },
+              {
+                "$type": "FCINFLCOEBG",
+                "EJEEHFCGKJL": true,
+                "LEMGLDCIIIP": "FirstEnter",
+                "NLCJDFPCLCF": true,
+                "NJCPIADMJDC": "FirstEnter",
+                "JLNCEJENIOO": true
+              },
+              {
+                "$type": "RPG.GameCore.ST_Main_Wait",
+                "Time": 0.1
+              }
+            ],
+            "TransitionList": [
+              {
+                "TransitionToState": "Follow",
+                "Condition": {
+                  "$type": "RPG.GameCore.ByAnd",
+                  "PredicateList": [
+                    {
+                      "$type": "FKCEEKICKCD",
+                      "LPPPFEMNMMP": "VariableOnFindNPCMonster",
+                      "Inverse": true
+                    },
+                    {
+                      "$type": "FKCEEKICKCD",
+                      "LPPPFEMNMMP": "FirstEnter"
+                    }
+                  ]
+                },
+                "BoolVariableList": [],
+                "FloatVariableList": []
+              },
+              {
+                "TransitionToState": "BeforeChase",
+                "Condition": {
+                  "$type": "FKCEEKICKCD",
+                  "LPPPFEMNMMP": "VariableOnFindNPCMonster"
+                },
+                "BoolVariableList": [],
+                "FloatVariableList": []
+              }
+            ],
+            "Name": "CheckOwnerTarget"
+          },
+          {
+            "$type": "RPG.GameCore.StateTreeStateConfig",
+            "SelectState": {},
+            "TaskList": [
+              {
+                "$type": "RPG.GameCore.ST_Side_TriggerInstantAbility",
+                "TriggerOnEnter": true,
+                "EnterAbilityName": "SummonUnit_SilverWolf999_00_MazeSkill_RemoveLockEffect",
+                "ExitAbilityName": "SummonUnit_SilverWolf999_00_MazeSkill_RemoveLockEffect"
+              },
+              {
+                "$type": "FCINFLCOEBG",
+                "EJEEHFCGKJL": true,
+                "LEMGLDCIIIP": "VariableOnFindNPCMonster"
+              },
+              {
+                "$type": "RPG.GameCore.ST_Main_FollowTarget",
+                "Mode": "PacMan",
+                "FollowTargetType": "SummonUnitOwner",
+                "WaitActionTask": {
+                  "$type": "RPG.GameCore.TaskConfig"
+                },
+                "FollowType": "PacMan",
+                "StartFollowDistance": 3,
+                "StartFollowThreshold": 13,
+                "ChooseSideInterval": 0.25,
+                "ChooseSlotInterval": 0.25,
+                "PreferSlotIDs": [
+                  4,
+                  3
+                ],
+                "PredictTime": 0.5,
+                "Halflife": 0.6,
+                "TeleportDistance": 35,
+                "NeedFaceToTarget": true,
+                "TeleportOnEnter": "IsBlock",
+                "PacManFollowConfig": {
+                  "PAALOLNKLIA": 140,
+                  "HOFKKILMKJE": 2,
+                  "FDEDEHHMLHJ": 4,
+                  "KGHNGAGIEDM": true,
+                  "FBILJOAGOGD": 0.8,
+                  "FLJHPHFPIEC": 1.2,
+                  "JFAFMLDJBLL": 6,
+                  "KFBKJGPPFMO": 1,
+                  "FGEMHKIDICN": [
+                    "Idle_Show_01",
+                    "Idle_Show_02"
+                  ]
+                }
+              },
+              {
+                "$type": "MBNDFPPCNKP",
+                "HJBELBJGPEF": [
+                  {
+                    "PNIIBACHLOC": 15,
+                    "BCOCFLLJOAE": "CurrentPlayerNearest"
+                  },
+                  {
+                    "PNIIBACHLOC": 8,
+                    "BCOCFLLJOAE": "OwnerNearest"
+                  }
+                ]
+              },
+              {
+                "$type": "RPG.GameCore.ST_Side_TriggerInstantAbility",
+                "TriggerOnEnter": true,
+                "EnterAbilityName": "SummonUnit_SilverWolf999_00_FindTargetFinish"
+              },
+              {
+                "$type": "DBGGJLBNLHB",
+                "HJBELBJGPEF": [
+                  {
+                    "PNIIBACHLOC": 25,
+                    "BCOCFLLJOAE": "OwnerNearest"
+                  },
+                  {
+                    "PNIIBACHLOC": 15,
+                    "BCOCFLLJOAE": "CurrentPlayerNearest"
+                  }
+                ]
+              },
+              {
+                "$type": "FCINFLCOEBG",
+                "EJEEHFCGKJL": true,
+                "LEMGLDCIIIP": "IsBlock"
+              }
+            ],
+            "TransitionList": [
+              {
+                "Trigger": "OnTick",
+                "TransitionToState": "BeforeChase",
+                "Condition": {
+                  "$type": "FKCEEKICKCD",
+                  "LPPPFEMNMMP": "VariableOnFindNPCMonster"
+                },
+                "BoolVariableList": [],
+                "FloatVariableList": []
+              },
+              {
+                "Trigger": "OnTick",
+                "TransitionToState": "ChaseMoney",
+                "Condition": {
+                  "$type": "FKCEEKICKCD",
+                  "LPPPFEMNMMP": "VariableOnFindMoney"
+                },
+                "BoolVariableList": [],
+                "FloatVariableList": []
+              }
+            ],
+            "Name": "Follow"
+          },
+          {
+            "$type": "RPG.GameCore.StateTreeStateConfig",
+            "SelectState": {},
+            "TaskList": [],
+            "TransitionList": [],
+            "SubStateList": [
+              {
+                "$type": "RPG.GameCore.StateTreeStateConfig",
+                "SelectState": {},
+                "EnterCondition": {
+                  "$type": "RPG.GameCore.ByAllowInstantKill",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchLastSearchEntity",
+                    "SearchType": "NPCMonster"
+                  }
+                },
+                "TaskList": [
+                  {
+                    "$type": "RPG.GameCore.ST_Side_TriggerInstantAbility",
+                    "TriggerOnEnter": true,
+                    "EnterAbilityName": "SummonUnit_SilverWolf999_00_FindTarget"
+                  },
+                  {
+                    "$type": "RPG.GameCore.ST_Main_MoveToTarget",
+                    "TargetType": "DetectedNPCMonster",
+                    "MoveStance": "Run",
+                    "Tolerance": 1.25,
+                    "FailOnBlock": true
+                  },
+                  {
+                    "$type": "RPG.GameCore.ST_Side_TriggerInstantAbility",
+                    "TriggerOnEnter": true,
+                    "EnterAbilityName": "SummonUnit_SilverWolf999_00_MazeSkill_TriggerLockEffect",
+                    "ExitAbilityName": "SummonUnit_SilverWolf999_00_MazeSkill_RemoveLockEffect"
+                  },
+                  {
+                    "$type": "RPG.GameCore.ST_Side_TriggerInstantAbility",
+                    "TriggerOnEnter": true,
+                    "EnterAbilityName": "SummonUnit_SilverWolf999_00_AddChaseTargetTimerAcc",
+                    "TriggerOnExit": true,
+                    "ExitAbilityName": "SummonUnit_SilverWolf999_00_RemoveChaseTargetTimerAcc"
+                  }
+                ],
+                "TransitionList": [
+                  {
+                    "Trigger": "OnStateSucceeded",
+                    "TransitionToState": "DoSkill",
+                    "BoolVariableList": [],
+                    "FloatVariableList": []
+                  },
+                  {
+                    "Trigger": "OnStateFailed",
+                    "TransitionToState": "Follow",
+                    "BoolVariableList": [
+                      {
+                        "VariableName": "IsBlock",
+                        "Value": true
+                      },
+                      {
+                        "VariableName": "VariableOnFindNPCMonster"
+                      }
+                    ],
+                    "FloatVariableList": []
+                  }
+                ],
+                "Name": "ChaseNormalMonster"
+              },
+              {
+                "$type": "RPG.GameCore.StateTreeStateConfig",
+                "SelectState": {},
+                "EnterCondition": {
+                  "$type": "RPG.GameCore.ByAllowInstantKill",
+                  "TargetType": {
+                    "$type": "RPG.GameCore.TargetFetchLastSearchEntity",
+                    "SearchType": "NPCMonster"
+                  },
+                  "Inverse": true
+                },
+                "TaskList": [
+                  {
+                    "$type": "RPG.GameCore.ST_Side_TriggerInstantAbility",
+                    "TriggerOnEnter": true,
+                    "EnterAbilityName": "SummonUnit_SilverWolf999_00_FindTarget",
+                    "TriggerOnExit": true,
+                    "ExitAbilityName": "SummonUnit_SilverWolf999_00_FindEliteTargetFinish"
+                  },
+                  {
+                    "$type": "DPAIKEAHNPD",
+                    "MPNMGIJPJCO": {
+                      "Value": "SummonUnit_LockTarget"
+                    },
+                    "DMOIGLIHMMD": {
+                      "$type": "RPG.GameCore.TargetFetchLastSearchEntity",
+                      "SearchType": "NPCMonster"
+                    }
+                  },
+                  {
+                    "$type": "RPG.GameCore.ST_Main_FollowTarget",
+                    "Mode": "PacMan",
+                    "FollowTargetType": "Custom",
+                    "CustomFollowTarget": {
+                      "$type": "RPG.GameCore.TargetFetchUniqueNameEntity",
+                      "UniqueName": "SummonUnit_LockTarget"
+                    },
+                    "WaitActionTask": {
+                      "$type": "RPG.GameCore.TaskConfig"
+                    },
+                    "FollowType": "PacMan",
+                    "StartFollowDistance": 2.5,
+                    "StartFollowThreshold": 4,
+                    "ChooseSideInterval": 0.25,
+                    "ChooseSlotInterval": 0.25,
+                    "PreferSlotIDs": [
+                      4,
+                      3
+                    ],
+                    "PredictTime": 0.5,
+                    "Halflife": 0.6,
+                    "TeleportDistance": 35,
+                    "NeedFaceToTarget": true,
+                    "PacManFollowConfig": {
+                      "PAALOLNKLIA": 150,
+                      "HOFKKILMKJE": 2,
+                      "FDEDEHHMLHJ": 2,
+                      "KGHNGAGIEDM": true,
+                      "FBILJOAGOGD": 0.8,
+                      "FLJHPHFPIEC": 1.2,
+                      "JFAFMLDJBLL": 2,
+                      "KFBKJGPPFMO": 4,
+                      "LOBANCCGJEF": true
+                    },
+                    "NeedAvoid": true
+                  },
+                  {
+                    "$type": "MBNDFPPCNKP",
+                    "HJBELBJGPEF": [
+                      {
+                        "PNIIBACHLOC": 15,
+                        "BCOCFLLJOAE": "CurrentPlayerNearest"
+                      },
+                      {
+                        "PNIIBACHLOC": 8,
+                        "BCOCFLLJOAE": "OwnerNearest"
+                      }
+                    ]
+                  }
+                ],
+                "TransitionList": [
+                  {
+                    "Trigger": "OnTick",
+                    "TransitionToState": "Follow",
+                    "Condition": {
+                      "$type": "FKCEEKICKCD",
+                      "LPPPFEMNMMP": "VariableOnFindNPCMonster",
+                      "Inverse": true
+                    },
+                    "BoolVariableList": [],
+                    "FloatVariableList": []
+                  },
+                  {
+                    "Trigger": "OnTick",
+                    "TransitionToState": "BeforeChase",
+                    "Condition": {
+                      "$type": "RPG.GameCore.ByAllowInstantKill",
+                      "TargetType": {
+                        "$type": "RPG.GameCore.TargetFetchLastSearchEntity",
+                        "SearchType": "NPCMonster"
+                      }
+                    },
+                    "BoolVariableList": [],
+                    "FloatVariableList": []
+                  }
+                ],
+                "Name": "FollowElite"
+              },
+              {
+                "$type": "RPG.GameCore.StateTreeStateConfig",
+                "SelectState": {},
+                "TaskList": [
+                  {
+                    "$type": "RPG.GameCore.ST_Side_TriggerInstantAbility",
+                    "TriggerOnEnter": true,
+                    "EnterAbilityName": "SummonUnit_SilverWolf999_00_FindTarget"
+                  },
+                  {
+                    "$type": "RPG.GameCore.ST_Main_MoveToPosition",
+                    "PositionType": "DetectedMoneyPos",
+                    "MoveStance": "Run",
+                    "SetBlockConfig": true,
+                    "BlockSampleCount": 4
+                  },
+                  {
+                    "$type": "DBGGJLBNLHB",
+                    "HJBELBJGPEF": [
+                      {
+                        "PNIIBACHLOC": 25,
+                        "BCOCFLLJOAE": "OwnerNearest"
+                      },
+                      {
+                        "PNIIBACHLOC": 15,
+                        "BCOCFLLJOAE": "CurrentPlayerNearest"
+                      }
+                    ],
+                    "CCGIINGGLMI": 0
+                  },
+                  {
+                    "$type": "MBNDFPPCNKP",
+                    "HJBELBJGPEF": [
+                      {
+                        "PNIIBACHLOC": 15,
+                        "BCOCFLLJOAE": "CurrentPlayerNearest"
+                      },
+                      {
+                        "PNIIBACHLOC": 8,
+                        "BCOCFLLJOAE": "OwnerNearest"
+                      }
+                    ]
+                  }
+                ],
+                "TransitionList": [
+                  {
+                    "Trigger": "OnTick",
+                    "TransitionToState": "Follow",
+                    "Condition": {
+                      "$type": "FKCEEKICKCD",
+                      "LPPPFEMNMMP": "VariableOnFindMoney",
+                      "Inverse": true
+                    },
+                    "ConditionMinDuration": 0.15,
+                    "BoolVariableList": [],
+                    "FloatVariableList": []
+                  },
+                  {
+                    "Trigger": "OnTick",
+                    "TransitionToState": "BeforeChase",
+                    "Condition": {
+                      "$type": "FKCEEKICKCD",
+                      "LPPPFEMNMMP": "VariableOnFindNPCMonster"
+                    },
+                    "BoolVariableList": [],
+                    "FloatVariableList": []
+                  },
+                  {
+                    "Trigger": "OnStateSucceeded",
+                    "TransitionToState": "ChaseMoney2",
+                    "ConditionMinDuration": 0.15,
+                    "BoolVariableList": [],
+                    "FloatVariableList": []
+                  },
+                  {
+                    "Trigger": "OnStateFailed",
+                    "TransitionToState": "Follow",
+                    "ConditionMinDuration": 0.15,
+                    "BoolVariableList": [
+                      {
+                        "VariableName": "IsBlock",
+                        "Value": true
+                      }
+                    ],
+                    "FloatVariableList": []
+                  }
+                ],
+                "Name": "ChaseMoney"
+              }
+            ],
+            "Name": "BeforeChase"
+          },
+          {
+            "$type": "RPG.GameCore.StateTreeStateConfig",
+            "SelectState": {},
+            "TaskList": [
+              {
+                "$type": "RPG.GameCore.ST_Main_DoSkill",
+                "Name": "MazeSkill"
+              },
+              {
+                "$type": "FCINFLCOEBG",
+                "EJEEHFCGKJL": true,
+                "LEMGLDCIIIP": "VariableOnFindNPCMonster",
+                "NJCPIADMJDC": "VariableOnFindNPCMonster",
+                "JLNCEJENIOO": true
+              },
+              {
+                "$type": "RPG.GameCore.ST_Side_TriggerInstantAbility",
+                "TriggerOnEnter": true,
+                "EnterAbilityName": "SummonUnit_SilverWolf999_00_MazeSkill_RemoveLockEffect",
+                "ExitAbilityName": "SummonUnit_SilverWolf999_00_MazeSkill_RemoveLockEffect"
+              }
+            ],
+            "TransitionList": [
+              {
+                "TransitionToState": "DoSearch",
+                "BoolVariableList": [],
+                "FloatVariableList": []
+              }
+            ],
+            "Name": "DoSkill"
+          },
+          {
+            "$type": "RPG.GameCore.StateTreeStateConfig",
+            "SelectState": {},
+            "TaskList": [
+              {
+                "$type": "MBNDFPPCNKP",
+                "HJBELBJGPEF": [
+                  {
+                    "PNIIBACHLOC": 15,
+                    "BCOCFLLJOAE": "CurrentPlayerNearest"
+                  },
+                  {
+                    "PNIIBACHLOC": 8,
+                    "BCOCFLLJOAE": "OwnerNearest"
+                  }
+                ]
+              }
+            ],
+            "TransitionList": [
+              {
+                "Trigger": "OnTick",
+                "TransitionToState": "Follow",
+                "Condition": {
+                  "$type": "FKCEEKICKCD",
+                  "LPPPFEMNMMP": "VariableOnFindNPCMonster",
+                  "Inverse": true
+                },
+                "BoolVariableList": [],
+                "FloatVariableList": []
+              },
+              {
+                "Trigger": "OnTick",
+                "TransitionToState": "BeforeChase",
+                "Condition": {
+                  "$type": "FKCEEKICKCD",
+                  "LPPPFEMNMMP": "VariableOnFindNPCMonster"
+                },
+                "BoolVariableList": [],
+                "FloatVariableList": []
+              }
+            ],
+            "Name": "DoSearch"
+          },
+          {
+            "$type": "RPG.GameCore.StateTreeStateConfig",
+            "SelectState": {},
+            "TaskList": [
+              {
+                "$type": "RPG.GameCore.ST_Side_TriggerInstantAbility",
+                "TriggerOnEnter": true,
+                "EnterAbilityName": "SummonUnit_SilverWolf999_00_MazeSkill_HideBeforeTP"
+              },
+              {
+                "$type": "RPG.GameCore.ST_Main_FollowTarget",
+                "Mode": "ZhangZhang",
+                "FollowTargetType": "SummonUnitOwner",
+                "WaitActionTask": {
+                  "$type": "RPG.GameCore.TaskConfig"
+                },
+                "FollowType": "Character",
+                "StartFollowDistance": 3,
+                "StartFollowThreshold": 13,
+                "ChooseSideInterval": 0.25,
+                "ChooseSlotInterval": 0.25,
+                "PreferSlotIDs": [
+                  2,
+                  3
+                ],
+                "PredictTime": 0.5,
+                "Halflife": 0.6,
+                "TeleportDistance": 7,
+                "NeedFaceToTarget": true,
+                "TeleportOnEnter": "DoFirstTP"
+              }
+            ],
+            "TransitionList": [
+              {
+                "Trigger": "OnTick",
+                "TransitionToState": "TPSkill",
+                "Condition": {
+                  "$type": "RPG.GameCore.ST_ByDistanceToTarget",
+                  "CompareType": "Less",
+                  "CompareValue": 7
+                },
+                "ConditionMinDuration": 0.1,
+                "BoolVariableList": [],
+                "FloatVariableList": []
+              }
+            ],
+            "Name": "TP"
+          },
+          {
+            "$type": "RPG.GameCore.StateTreeStateConfig",
+            "SelectState": {},
+            "TaskList": [
+              {
+                "$type": "RPG.GameCore.ST_Side_TriggerInstantAbility",
+                "TriggerOnEnter": true,
+                "EnterAbilityName": "SummonUnit_SilverWolf999_00_MazeSkill_ShowAfterTP",
+                "ExitAbilityName": "SummonUnit_SilverWolf999_00_MazeSkill_ShowAfterTP"
+              },
+              {
+                "$type": "RPG.GameCore.ST_Main_DoSkill",
+                "Name": "MazeSkill_TpAppear"
+              }
+            ],
+            "TransitionList": [
+              {
+                "TransitionToState": "Follow",
+                "ConditionMinDuration": 0.1,
+                "BoolVariableList": [],
+                "FloatVariableList": []
+              }
+            ],
+            "Name": "TPSkill"
+          },
+          {
+            "$type": "RPG.GameCore.StateTreeStateConfig",
+            "SelectState": {},
+            "TaskList": [
+              {
+                "$type": "DBGGJLBNLHB",
+                "HJBELBJGPEF": [
+                  {
+                    "PNIIBACHLOC": 25,
+                    "BCOCFLLJOAE": "OwnerNearest"
+                  },
+                  {
+                    "PNIIBACHLOC": 15,
+                    "BCOCFLLJOAE": "CurrentPlayerNearest"
+                  }
+                ],
+                "CCGIINGGLMI": 0
+              },
+              {
+                "$type": "RPG.GameCore.ST_Main_MoveToPosition",
+                "PositionType": "DetectedMoneyPos",
+                "MoveStance": "Run",
+                "SetBlockConfig": true,
+                "BlockSampleCount": 4
+              },
+              {
+                "$type": "MBNDFPPCNKP",
+                "HJBELBJGPEF": [
+                  {
+                    "PNIIBACHLOC": 15,
+                    "BCOCFLLJOAE": "CurrentPlayerNearest"
+                  },
+                  {
+                    "PNIIBACHLOC": 8,
+                    "BCOCFLLJOAE": "OwnerNearest"
+                  }
+                ]
+              }
+            ],
+            "TransitionList": [
+              {
+                "Trigger": "OnTick",
+                "TransitionToState": "Follow",
+                "Condition": {
+                  "$type": "FKCEEKICKCD",
+                  "LPPPFEMNMMP": "VariableOnFindMoney",
+                  "Inverse": true
+                },
+                "ConditionMinDuration": 0.15,
+                "BoolVariableList": [],
+                "FloatVariableList": []
+              },
+              {
+                "Trigger": "OnTick",
+                "TransitionToState": "BeforeChase",
+                "Condition": {
+                  "$type": "FKCEEKICKCD",
+                  "LPPPFEMNMMP": "VariableOnFindNPCMonster"
+                },
+                "BoolVariableList": [],
+                "FloatVariableList": []
+              },
+              {
+                "Trigger": "OnStateSucceeded",
+                "TransitionToState": "ChaseMoney",
+                "ConditionMinDuration": 0.15,
+                "BoolVariableList": [],
+                "FloatVariableList": []
+              },
+              {
+                "Trigger": "OnStateFailed",
+                "TransitionToState": "Follow",
+                "ConditionMinDuration": 0.15,
+                "BoolVariableList": [
+                  {
+                    "VariableName": "IsBlock",
+                    "Value": true
+                  }
+                ],
+                "FloatVariableList": []
+              }
+            ],
+            "Name": "ChaseMoney2"
+          }
+        ],
+        "Name": "SystemicState"
+      }
+    ]
+  },
+  "OnDisable": {
+    "$type": "RPG.GameCore.TaskConfig"
+  },
+  "OnInit": {
+    "$type": "RPG.GameCore.TaskConfig"
+  }
+}
